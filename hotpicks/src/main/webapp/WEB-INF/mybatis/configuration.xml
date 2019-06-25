@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+  <configuration>
+  
+  <!-- 패키지에 alias 추가 -->
+	<typeAliases>
+	
+      <typeAlias alias="contentsTypeDto" type="com.kitri.hotpicks.contents.model.ContentsTypeDto"/>
+      <typeAlias alias="sidoDto" type="com.kitri.hotpicks.contents.model.SidoDto"/>
+      <typeAlias alias="sigunguDto" type="com.kitri.hotpicks.contents.model.SigunguDto"/>
+      <typeAlias alias="contentsDto" type="com.kitri.hotpicks.contents.model.ContentsDto"/>
+    
+      <typeAlias alias="reviewDetailDto" type="com.kitri.hotpicks.contents.model.ReviewDetailDto"/>
+      <typeAlias alias="reviewDto" type="com.kitri.hotpicks.contents.model.ReviewDto"/>
+      <typeAlias alias="commentDto" type="com.kitri.hotpicks.contents.model.CommentDto"/>
+      <typeAlias alias="hashTagDto" type="com.kitri.hotpicks.contents.model.HashTagDto"/>
+
+      <typeAlias alias="reportDto" type="com.kitri.hotpicks.admin.model.ReportDto"/>
+      <typeAlias alias="memberDto" type="com.kitri.hotpicks.member.model.MemberDto"/>
+
+      <typeAlias alias="likeListDto" type="com.kitri.hotpicks.mypicks.model.PickListDto"/>
+      
+	</typeAliases>
+  
+
+  </configuration>
