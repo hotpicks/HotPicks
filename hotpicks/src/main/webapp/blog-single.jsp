@@ -8,6 +8,7 @@
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="resources/style/css/ie7.css" media="all" />
 <![endif]-->
+
 <script type="text/javascript" src="resources/style/js/jquery-1.5.min.js"></script>
 <script type="text/javascript" src="resources/style/js/ddsmoothmenu.js"></script>
 <script type="text/javascript" src="resources/style/js/scripts.js"></script>
