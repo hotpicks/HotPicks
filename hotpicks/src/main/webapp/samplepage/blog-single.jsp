@@ -1,79 +1,10 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Delphic | Creative Portfolio Template</title>
-<link rel="stylesheet" type="text/css" href="resources/style.css" media="all" />
-<link rel="stylesheet" media="all" href="resources/style/type/folks.css" />
-<!--[if IE 7]>
-<link rel="stylesheet" type="text/css" href="resources/style/css/ie7.css" media="all" />
-<![endif]-->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file = "/template/header.jsp" %>
 
-<script type="text/javascript" src="resources/style/js/jquery-1.5.min.js"></script>
-<script type="text/javascript" src="resources/style/js/ddsmoothmenu.js"></script>
-<script type="text/javascript" src="resources/style/js/scripts.js"></script>
-<script type="text/javascript" src="resources/style/js/jquery.infieldlabel.min.js"></script>
 <script type="text/javascript">
 	$(function(){ $("label").inFieldLabels(); });
 </script>
-</head>
-<body>
-<div id="container"> 
-  <!-- Begin Header Wrapper -->
-  <div id="page-top">
-    <div id="header-wrapper"> 
-      <!-- Begin Header -->
-      <div id="header">
-        <div id="logo"><a href="index.jsp"><img src="resources/style/images/logo.png" alt="Delphic" /></a></div>
-        <!-- Logo --> 
-        <!-- Begin Menu -->
-        <div id="menu-wrapper">
-          <div id="smoothmenu1" class="ddsmoothmenu">
-            <ul>
-              <li><a href="index.jsp">Home</a>
-                <ul>
-                  <li><a href="index.jsp">Home with Cycle</a></li>
-                  <li><a href="index-2.jsp">Home with Columns</a></li>
-                  <li><a href="index-3.jsp">Home with Services</a></li>
-                  <li><a href="index-4.jsp">Home with Piecemaker</a></li>
-                </ul>
-              </li>
-              <li><a href="blog-1.jsp" class="selected">Blog</a>
-                <ul>
-                  <li><a href="blog-1.jsp">Blog</a></li>
-                  <li><a href="blog-2.jsp">News</a></li>
-                  <li><a href="blog-single.jsp">Single Blog Post</a></li>
-                </ul>
-              </li>
-              <li><a href="portfolio-1.jsp">Portfolio</a>
-                <ul>
-                  <li><a href="portfolio-1.jsp">Portfolio with Lightbox</a></li>
-                  <li><a href="portfolio-2.jsp">Portfolio with Details</a></li>
-                  <li><a href="portfolio-single.jsp">Single Portfolio Post</a></li>
-                </ul>
-              </li>
-              <li><a href="services.jsp">Services</a></li>
-              <li><a href="page-tabs-toggle.jsp">Features</a>
-                <ul>
-                  <li><a href="page-tabs-toggle.jsp">Tabs &amp; Toggle</a></li>
-                  <li><a href="page-carousel.jsp">Carousel</a></li>
-                  <li><a href="blog-2.jsp">News</a></li>
-                  <li><a href="services.jsp">Services</a></li>
-                  <li><a href="page-custom.jsp">Custom Page</a></li>
-                  <li><a href="page-buttons.jsp">Buttons</a></li>
-                  <li><a href="styles.jsp">Columns &amp; Tables</a></li>
-                </ul>
-              </li>
-              <li><a href="contact.jsp">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-        <!-- End Menu --> 
-      </div>
-      <!-- End Header --> 
-    </div>
-  </div>
-  <!-- End Header Wrapper --> 
   
   <!-- Begin Wrapper -->
   <div id="wrapper">
@@ -85,7 +16,7 @@
           Posted on
           <div class="date">12 Jan 2011</div>
           by <a href="#" title="">admin</a> under <a href="#" title="">Web Design</a> | <a href="#" title="">21 Comments</a> </div>
-        <img src="resources/style/images/art/blog4.jpg" alt="" />
+        <img src="${root}/resources/style/images/art/blog4.jpg" alt="" />
         <p>Morbi sagittis dictum fringilla. Aliquam id mi nisi. Aenean sed nisl erat, eu consequat urna. Pellentesque suscipit congue libero a hendrerit. Maecenas ut erat consequat eros aliquam lobortis id sit amet purus. Sed et nisl nibh, et tincidunt est. Vivamus aliquet adipiscing turpis. Nullam pharetra vestibulum nunc, nec vestibulum nibh porttitor eget. Morbi a lacinia urna. Pellentesque sed est in eros pellentesque iaculis in et dolor vestibulum sed arcu.</p>
         <div class="top-border"></div>
         <div class="tags"> Tags: <a href="#" title="">Web</a>, <a href="#" title="">Journal</a>, <a href="#" title="">Illustration</a>, <a href="#" title="">Inspiration</a>, <a href="#" title="">Video</a> </div>
@@ -100,7 +31,7 @@
         <div id="comments">
           <ol id="singlecomments" class="commentlist">
             <li class= "clearfix">
-              <div class="user"><a href="#"><img alt="" src="resources/style/images/art/blog-th1.jpg" height="60" width="60" class="avatar" /></a> <a class="reply-link" href="#">Reply</a></div>
+              <div class="user"><a href="#"><img alt="" src="${root}/resources/style/images/art/blog-th1.jpg" height="60" width="60" class="avatar" /></a> <a class="reply-link" href="#">Reply</a></div>
               <div class="message">
                 <div class="info">
                   <h3><a href="#">Isabel</a></h3>
@@ -110,7 +41,7 @@
               <div class="clear"></div>
             </li>
             <li class= "clearfix">
-              <div class="user"><a href="#"><img alt="" src="resources/style/images/art/blog-th1.jpg" height="60" width="60" class="avatar" /></a> <a class="reply-link" href="#">Reply</a></div>
+              <div class="user"><a href="#"><img alt="" src="${root}/resources/style/images/art/blog-th1.jpg" height="60" width="60" class="avatar" /></a> <a class="reply-link" href="#">Reply</a></div>
               <div class="message">
                 <div class="info">
                   <h3><a href="#">Jacqueline</a></h3>
@@ -120,7 +51,7 @@
               <div class="clear"></div>
               <ul class="children">
                 <li class= "clearfix">
-                  <div class="user"><a href="#"><img alt="" src="resources/style/images/art/blog-th1.jpg" height="60" width="60" class="avatar" /></a> <a class="reply-link" href="#">Reply</a></div>
+                  <div class="user"><a href="#"><img alt="" src="${root}/resources/style/images/art/blog-th1.jpg" height="60" width="60" class="avatar" /></a> <a class="reply-link" href="#">Reply</a></div>
                   <div class="message">
                     <div class="info">
                       <h3><a href="#">Mathieu</a></h3>
@@ -130,7 +61,7 @@
                   <div class="clear"></div>
                   <ul class="children">
                     <li class= "clearfix">
-                      <div class="user"><a href="#"><img alt="" src="resources/style/images/art/blog-th1.jpg" height="60" width="60" class="avatar" /></a> <a class="reply-link" href="#">Reply</a></div>
+                      <div class="user"><a href="#"><img alt="" src="${root}/resources/style/images/art/blog-th1.jpg" height="60" width="60" class="avatar" /></a> <a class="reply-link" href="#">Reply</a></div>
                       <div class="message">
                         <div class="info">
                           <h3><a href="#">Charlene</a></h3>
@@ -192,13 +123,13 @@
       <div class="sidebox">
         <h3>Popular Posts</h3>
         <ul class="post-list">
-          <li><a href="#" title=""><img src="resources/style/images/art/blog-th1.jpg" alt="" /></a>
+          <li><a href="#" title=""><img src="${root}/resources/style/images/art/blog-th1.jpg" alt="" /></a>
             <h4><a href="#" title="">Maecenas malesuada felis vel quam tincidunt</a></h4>
             <span class="info">12 Jan 2011 | <a href="#" title="">23 Comments</a></span></li>
-          <li><a href="#" title=""><img src="resources/style/images/art/blog-th2.jpg" alt="" /></a>
+          <li><a href="#" title=""><img src="${root}/resources/style/images/art/blog-th2.jpg" alt="" /></a>
             <h4><a href="#" title="">Maecenas malesuada felis vel quam tincidunt</a></h4>
             <span class="info">12 Jan 2011 | <a href="#" title="">23 Comments</a></span></li>
-          <li><a href="#" title=""><img src="resources/style/images/art/blog-th3.jpg" alt="" /></a>
+          <li><a href="#" title=""><img src="${root}/resources/style/images/art/blog-th3.jpg" alt="" /></a>
             <h4><a href="#" title="">Maecenas malesuada felis vel quam tincidunt</a></h4>
             <span class="info">12 Jan 2011 | <a href="#" title="">23 Comments</a></span></li>
         </ul>
@@ -228,58 +159,25 @@
       <div class="sidebox">
         <h3>Flickr</h3>
         <ul class="flickr">
-          <li><a href="#"><img src="resources/style/images/art/flickr-1.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/art/flickr-2.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/art/flickr-3.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/art/flickr-4.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/art/flickr-5.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/art/flickr-6.jpg" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-1.jpg" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-2.jpg" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-3.jpg" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-4.jpg" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-5.jpg" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-6.jpg" alt="" /></a></li>
         </ul>
       </div>
       <div class="sidebox">
         <h3>Sponsors</h3>
         <ul class="ads">
-          <li><a href="#"><img src="resources/style/images/art/ad-1.gif" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/art/ad-2.gif" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/art/ad-3.gif" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/art/ad-4.gif" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/ad-1.gif" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/ad-2.gif" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/ad-3.gif" alt="" /></a></li>
+          <li><a href="#"><img src="${root}/resources/style/images/art/ad-4.gif" alt="" /></a></li>
         </ul>
       </div>
     </div>
   </div>
   <!-- End Wrapper -->
   
-  <div class="clearfix"></div>
-  <div class="push"></div>
-</div>
-
-<!-- Begin Footer -->
-<div id="footer-wrapper">
-  <div id="footer">
-    <div id="footer-content"> 
-      
-      <!-- Begin Copyright -->
-      <div id="copyright">
-        <p>© Copyright 2011 Delphic | Creative Portfolio Template</p>
-      </div>
-      <!-- End Copyright --> 
-      
-      <!-- Begin Social Icons -->
-      <div id="socials">
-        <ul>
-          <li><a href="#"><img src="resources/style/images/icon-rss.png" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/icon-twitter.png" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/icon-dribble.png" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/icon-tumblr.png" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/icon-flickr.png" alt="" /></a></li>
-          <li><a href="#"><img src="resources/style/images/icon-facebook.png" alt="" /></a></li>
-        </ul>
-      </div>
-      <!-- End Social Icons --> 
-      
-    </div>
-  </div>
-</div>
-<!-- End Footer -->
-</body>
-</html>
+<%@ include file = "/template/footer.jsp" %>
