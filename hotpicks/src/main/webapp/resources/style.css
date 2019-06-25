@@ -100,25 +100,63 @@ table {
 /*	1.	FONT-FACE
 /*-----------------------------------------------------------------------------------*/
 
- @font-face {
- font-family: 'Puritan20Italic';
- src: url('style/type/puritan/puritan_italic-webfont.eot?') format('eot'),  url('style/type/puritan/puritan_italic-webfont.woff') format('woff'),  url('style/type/puritan/puritan_italic-webfont.ttf') format('truetype'),  url('style/type/puritan/puritan_italic-webfont.svg#webfontZMWmRIPG') format('svg');
- font-weight: normal;
- font-style: normal;
+/* Noto Sans KR (korean) http://www.google.com/fonts/earlyaccess */
+ 
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 100;
+  src: url(/fonts/NotoSansKr/NotoSansKR-Thin.woff2) format('woff2'),
+       url(/fonts/NotoSansKr/NotoSansKR-Thin.woff) format('woff'),
+       url(/fonts/NotoSansKr/NotoSansKR-Thin.otf) format('opentype');
 }
- @font-face {
- font-family: 'Puritan20Normal';
- src: url('style/type/puritan/puritan_regular-webfont.eot?') format('eot'),  url('style/type/puritan/puritan_regular-webfont.woff') format('woff'),  url('style/type/puritan/puritan_regular-webfont.ttf') format('truetype'),  url('style/type/puritan/puritan_regular-webfont.svg#webfontJ25dHiGv') format('svg');
- font-weight: normal;
- font-style: normal;
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 300;
+  src: url(/fonts/NotoSansKr/NotoSansKR-Light.woff2) format('woff2'),
+       url(/fonts/NotoSansKr/NotoSansKR-Light.woff) format('woff'),
+       url(/fonts/NotoSansKr/NotoSansKR-Light.otf) format('opentype');
 }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 400;
+   src: url(/fonts/NotoSansKr/NotoSansKR-Regular.woff2) format('woff2'),
+        url(/fonts/NotoSansKr/NotoSansKR-Regular.woff) format('woff'),
+        url(/fonts/NotoSansKr/NotoSansKR-Regular.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 500;
+   src: url(/fonts/NotoSansKr/NotoSansKR-Medium.woff2) format('woff2'),
+        url(/fonts/NotoSansKr/NotoSansKR-Medium.woff) format('woff'),
+        url(/fonts/NotoSansKr/NotoSansKR-Medium.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 700;
+   src: url(/fonts/NotoSansKr/NotoSansKR-Bold.woff2) format('woff2'),
+        url(/fonts/NotoSansKr/NotoSansKR-Bold.woff) format('woff'),
+        url(/fonts/NotoSansKr/NotoSansKR-Bold.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 900;
+   src: url(/fonts/NotoSansKr/NotoSansKR-Black.woff2) format('woff2'),
+        url(/fonts/NotoSansKr/NotoSansKR-Black.woff) format('woff'),
+        url(/fonts/NotoSansKr/NotoSansKR-Black.otf) format('opentype');
+ }
 
 /*-----------------------------------------------------------------------------------*/
 /*	2.	GENERAL
 /*-----------------------------------------------------------------------------------*/
 
 body {
-	font-family:"Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-family: 'Noto Sans KR';
 	background-color: #f0f0f0;
 	color: #565656;
 	font-size: 13px;
@@ -188,7 +226,7 @@ pre {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Puritan20Normal';
+	font-family: 'Noto Sans KR';
 	font-weight: normal;
 	color: #1f1f1f;
 	margin-bottom: 10px;
@@ -196,27 +234,33 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
 	font-size: 28px;
+	font-weight: 900;
 }
 
 h2 {
 	font-size: 25px;
+	font-weight: 900;
 }
 
 h3 {
 	font-size: 22px;
 	line-height: 26px;
+	font-weight: 900;
 }
 
 h4 {
 	font-size: 17px;
+	font-weight: 900;
 }
 
 h5 {
 	font-size: 15px;
+	font-weight: 900;
 }
 
 h6 {
 	font-size: 14px;
+	font-weight: 900;
 }
 
 .divider, .divider2, .divider3 {
@@ -253,7 +297,7 @@ img.right {
 }
 
 em {
-	font-family: Georgia, Times, "Times New Roman", serif;
+	font-family: Noto Sans KR;
 	font-size: 11px;
 	color: #565656;
 }
@@ -271,7 +315,7 @@ em {
 	font-weight: normal;
 	color: #FFF;
 	cursor: pointer;
-	font-family: 'Puritan20Normal';
+	font-family: 'Noto Sans KR';
 }
 .button span {
 	display: block;
@@ -354,7 +398,7 @@ em {
 	padding:0;
 	margin: 0;
 	margin:10px 8px 3px 0;
-	font-family: 'Puritan20Normal';
+	font-family: 'Noto Sans KR';
 }
 
 table {
@@ -381,7 +425,7 @@ table th {
 	color:#1f1f1f;
 	text-align: left;
 	border-right:1px solid #c1c1c1;
-	font-family: 'Puritan20Normal';
+	font-family: 'Noto Sans KR';
 	font-weight: normal;
 }
 
@@ -449,7 +493,7 @@ table.price td h2 sup {
 	padding:0px;
 	padding-left:10px;
 	padding-right:10px;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Noto Sans KR;
 	font-style: italic;
 	width:25%;
 }
@@ -525,7 +569,7 @@ table.price td h2 sup {
 #logo {
 	float: left;
 	position: absolute;
-	bottom: 15px;
+	top:13px;
 	left: 0;
 }
 
@@ -583,7 +627,7 @@ table.price td h2 sup {
 /*-----------------------------------------------------------------------------------*/
 
 .ddsmoothmenu {
-	font-family: 'Puritan20Normal';
+	font-family: 'Noto Sans KR';
 	font-size: 17px;
 	z-index: 1000;
 	position: relative;
@@ -633,7 +677,7 @@ table.price td h2 sup {
 /*1st sub level menu*/
 .ddsmoothmenu ul li ul {
 	background: none;
-	font-family: 'Puritan20Normal';
+	font-family: 'Noto Sans KR';
 	position: absolute;
 	padding: 22px 0 0 0;
 	left: 0;
@@ -853,7 +897,8 @@ table.price td h2 sup {
 	font-size: 22px;
 	text-align: center;
 	font-weight: normal;
-	font-family: 'Puritan20Italic';
+	font-family: 'Noto Sans KR';
+	font-style:italic;
 	color: #626262;
 }
 
@@ -968,7 +1013,7 @@ ul.gallerynav li {
 
 ul.gallerynav li a {
 	float:left;
-	font-family: 'Puritan20Normal';
+	font-family: 'Noto Sans KR';
 	color: #565656;
 	margin: 0 15px;
 	font-size: 15px;
@@ -1025,7 +1070,7 @@ ul.gallerynav li.selected-1 a {
 }
 
 a.p-project, a.n-project {
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Noto Sans KR;
 	font-style: italic;
 	font-size: 12px;
 	color: #565656;
@@ -1056,7 +1101,7 @@ ul#tab-menu {
 	margin:0 20px 0 0;
 	padding: 0 10px;
 	list-style:none;
-	font-family: 'Puritan20Normal';
+	font-family: 'Noto Sans KR';
 	font-size: 17px;
 }
 
@@ -1166,7 +1211,7 @@ h2.title {
 .post .meta {
 	background: transparent url(style/images/line.png) center bottom repeat-x;
 	padding: 10px 0;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Noto Sans KR;
 	font-size: 12px;
 	font-style: italic;
 	margin-bottom: 21px;
@@ -1185,7 +1230,7 @@ h2.title {
 }
 
 .post .tags a {
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Noto Sans KR;
 	font-size: 12px;
 	font-style: italic;
 	line-height: 12px;
@@ -1245,12 +1290,12 @@ h2.title {
 }
 
 #searchform input {
-	background: #e8e8e8 url(style/images/search.png) no-repeat 230px center;
-	width: 240px;
+	background: #e8e8e8 url(style/images/search.png) no-repeat 385px center;
+	width: 400px;
 	padding: 5px 10px;
 	height: 25px;
 	border: 0;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Noto Sans KR;
 	font-size: 13px;
 	font-style: italic;
 	color: #565656;
@@ -1289,7 +1334,7 @@ h2.title {
 #wrapper .sidebox ul.post-list.archive li {
 	padding: 5px 0 5px 0;
 	height: 20px;
-	font-family:"Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-family: Noto Sans KR;
 	font-size: 13px;
 }
 
@@ -1308,7 +1353,7 @@ h2.title {
 #wrapper .sidebox ul.post-list li span.info {
 	width: 180px;
 	display: block;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Noto Sans KR;
 	font-size: 12px;
 	font-style: italic;
 	overflow: hidden;
@@ -1348,7 +1393,7 @@ ul.tags {
 	padding: 3px 8px;
 	float: left;
 	margin: 5px 5px 0 0;
-	font-family:"Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-family: Noto Sans KR;
 	font-style: normal;
 	background-color: #e8e8e8;
 	font-size: 11px;
@@ -1408,7 +1453,7 @@ ul.ads {
 }
 
 #comments ol.commentlist .message p {
-	font-family:"Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-family: Noto Sans KR;
 	font-size: 13px;
 	line-height: 18px;
 	font-style: normal;
@@ -1452,7 +1497,7 @@ ul.ads {
 #comments .message .info .date {
 	float:left;
 	font-style: italic;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Noto Sans KR;
 	font-size: 12px;
 	color: #565656;
 	margin-left: 5px;
@@ -1471,7 +1516,7 @@ ul.ads {
 	font-size:9px;
 	text-transform: uppercase;
 	font-style: normal;
-	font-family:"Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-family: Noto Sans KR;
 }
 
 #comments a.reply-link:hover {
@@ -1601,7 +1646,7 @@ ul.ads {
 	background-color: #e8e8e8;
 	color: #565656;
 	font-size: 12px;
-	font-family:"Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-family: Noto Sans KR;
 }
 
 .comment-form textarea:hover {
@@ -1708,7 +1753,7 @@ ul.ads {
 
 #newslist h4 span {
 	font-style: italic;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Noto Sans KR;
 	font-size: 12px;
 	color: #565656;
 	padding-left: 5px;
@@ -1932,7 +1977,7 @@ h2.trigger.active {
 	background: none;
 	overflow: hidden;
 	position: relative;
-	font-family: 'Puritan20Normal';
+	font-family: 'Noto Sans KR';
 }
 
 #wrapper ul.tabs li a {
