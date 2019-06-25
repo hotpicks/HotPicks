@@ -1,0 +1,108 @@
+Hot Picks 프로젝트 구조
+
+	- [src]
+		- com.kitri.hotpicks.admin.controller
+			Controller
+			
+		- com.kitri.hotpicks.admin.dao
+			Dao (I)
+			
+		- com.kitri.hotpicks.admin.model
+			ReportDto.java
+
+		- com.kitri.hotpicks.admin.service
+			Service (I)
+			Impl
+			
+		------------------------------------------------
+		
+		- com.kitri.hotpicks.contents.controller
+			Controller
+			
+		- com.kitri.hotpicks.contents.dao
+			Dao (I)
+			
+		- com.kitri.hotpicks.contents.model
+			ContentsTypeDto.java
+			SidoDto.java
+			SigunguDto.java
+			ContentsDto.java
+			ReviewDetailDto.java
+			ReviewDto.java
+			CommentDto.java
+			HashTagDto.java
+
+		- com.kitri.hotpicks.contents.service
+			Service (I)
+			Impl
+			
+		------------------------------------------------
+		
+		- com.kitri.hotpicks.member.controller
+			Controller
+			
+		- com.kitri.hotpicks.member.dao
+			Dao (I)
+			
+		- com.kitri.hotpicks.member.model
+			MemberDto.java
+
+		- com.kitri.hotpicks.member.service
+			Service (I)
+			Impl
+	
+		------------------------------------------------
+		
+		- com.kitri.hotpicks.mypicks.controller
+			Controller
+			
+		- com.kitri.hotpicks.mypicks.dao
+			Dao (I)
+			
+		- com.kitri.hotpicks.mypicks.model
+			PickListDto.java
+
+		- com.kitri.hotpicks.mypicks.service
+			Service (I)
+			Impl
+		
+		------------------------------------------------
+
+		- com.kitri.hotpicks.util
+			Constance.java		::: HotPicks에서 사용할 상수 (페이지 목록 수 등)
+			
+			...
+			
+	/////////////////////////////////////////////////////////////////////////
+	
+	- webapp
+		index.jsp
+		
+		- samplepage	::: 레이아웃 참고용 page
+		
+		- page			::: *ui 구현 완료 후 추가할 경로 변경 예정 (->views로)
+			- admin		::: 관리자
+			- contents	::: 카테고리별 컨텐츠
+			- member	::: 로그인/회원가입
+			- mypicks	::: Pick 목록
+		
+		- template		::: *ui 구현 완료 후 추가할 경로 변경 예정 (->views로)
+			header.jsp
+			footer.jsp
+		
+		- resources
+			- doc
+				structure.txt	::: 프로젝트 구조 설명
+			- contact
+			- scripts
+			- style
+			style.css
+			
+		- META-INF
+			
+		- WEB-INF
+			- views 	::: 서블릿을 거쳐야하는 모든 jsp
+			- mybatis	::: DB
+				configuration.xml
+
+					
