@@ -8,6 +8,9 @@ font-size: 40px;
 padding-bottom: 50px;
 }
 
+#wrapper {
+    line-height: 50px;
+}
 </style>
 
 
@@ -52,12 +55,28 @@ padding-bottom: 50px;
                 <input class="required inpt" type="text" name="name" id="name" value="" />
               </p>
               <p>
+              	<label for="region">지역</label>
+              	<div id="region">
               	<select>
-              		<option >
-              	</select>  
+              		<option>시/도</option>
+              		<option>서울</option>
+              		<option>인천</option>
+              		<option>대전</option>
+              		<option>대구</option>
+              	</select>
+              	<select>
+              		<option>시/군/구</option>
+              		<option>구로구</option>
+              		<option>강남구</option>
+              		<option>동대문구</option>
+              		<option>강동구</option>
+              	</select>
+              	</div>
               </p>
             </div>
             
+	        <div class="divider"></div>
+	        <div class="clear"></div>
             <label id="load" style="display:none"></label>
             <input id="submit-button" class="button red" type="submit" name="submit" value="Send Message" />
           </form>
@@ -68,11 +87,6 @@ padding-bottom: 50px;
         <div class="clear"></div>
         <br />
       </div>
-      <div class="clear"></div>
-      <div class="divider"></div>
-      <div id="twitter-wrapper">
-        <div id="twitter"></div>
-        <span class="username">모하나 <a href="https://github.com/hotpicks/HotPicks/tree/master/hotpicks">재밌군</a></span> </div>
       <div class="clear"></div>
     </div>
     <!-- End Content --> 

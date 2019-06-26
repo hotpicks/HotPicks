@@ -49,7 +49,7 @@
         <!-- Search -->
         <div id="search">
         	<form id="searchform" method="get">
-          	<input type="text" id="s" name="s" value="검색어를 입력해주세요." onfocus="this.value=''" onblur="this.value='type and hit enter'"/>
+          	<input type="text" id="s" name="s" value="검색어를 입력해주세요." onfocus="this.value=''" onblur="this.value='검색어를 입력해주세요.'"/>
         </form>
         </div>
         
