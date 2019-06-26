@@ -37,7 +37,6 @@
 
 </head>
 <body>
-<body>
 <div id="container"> 
   <!-- Begin Header Wrapper -->
   <div id="page-top">

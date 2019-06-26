@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file = "/template/header.jsp" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset='utf-8' />
+
 <link href='${root}/resources/packages/core/main.css' rel='stylesheet' />
 <link href='${root}/resources/packages/daygrid/main.css' rel='stylesheet' />
 <link href='${root}/resources/packages/timegrid/main.css' rel='stylesheet' />
@@ -105,26 +103,8 @@
   });
 
 </script>
-<style>
 
-  body {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-  }
 
-  #calendar {
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  <div id='calendar' style="font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 14px; max-width: 900px; margin: 0 auto;"></div>
 
-</style>
-</head>
-<body>
-
-  <div id='calendar'></div>
-
-</body>
-</html>
-
+<%@ include file = "/template/footer.jsp" %>
