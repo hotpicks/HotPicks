@@ -96,6 +96,11 @@ Hot Picks 프로젝트 구조
 			- contact
 			- scripts
 			- style
+				- css
+				- images
+					- sample 	::: ui 구성용 샘플 이미지 파일 저장
+				- js
+				- type
 			style.css
 			
 		- META-INF
