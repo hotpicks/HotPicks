@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Piecemaker>
   <Contents>
-    <Image Source="style/images/art/slider-1.jpg" Title="Image 1"></Image>
-    <Image Source="style/images/art/slider-2.jpg" Title="Image 2">
+    <Image Source="resources/style/images/art/slider-1.jpg" Title="Image 1"></Image>
+    <Image Source="resources/style/images/art/slider-2.jpg" Title="Image 2">
       <Text>&lt;h1&gt;Curabitur bibendum neque&lt;/h1&gt;&lt;p&gt;Vestibulum semper eleifend metus, sed sollicitudin diam sollicitudin sit amet. Vivamus placerat diam sit amet leo vehicula imperdiet. Donec pellentesque sagittis dolor non lobortis.&lt;/p&gt;</Text>
       <Hyperlink URL="#" Target="_blank" />
     </Image>
-    <Image Source="style/images/art/slider-3.jpg" Title="Image 3"></Image>
-    <Image Source="style/images/art/slider-4.jpg" Title="Image 4">
+    <Image Source="resources/style/images/art/slider-3.jpg" Title="Image 3"></Image>
+    <Image Source="resources/style/images/art/slider-4.jpg" Title="Image 4">
       <Text>&lt;h1&gt;Mauris imperdiet, lacus&lt;/h1&gt;&lt;p&gt;Proin ac dictum tortor. Nunc vel enim erat. Suspendisse sagittis gravida augue, vitae pellentesque nibh auctor a. In id libero sem, nec semper est. Nulla volutpat metus ullamcorper augue ultrices ut laoreet nibh dictum. Nam feugiat rhoncus vulputate. Vestibulum facilisis facilisis egestas. In non ipsum tellus. &lt;/p&gt;</Text>
       <Hyperlink URL="#" Target="_blank" />
     </Image>
