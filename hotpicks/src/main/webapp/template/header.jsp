@@ -26,6 +26,14 @@
 <script type="text/javascript" src="${root}/resources/scripts/swfobject/swfobject.js"></script>
 <script type="text/javascript" src="${root}/resources/style/js/twitter.min.js"></script>
 
+<style>
+#search{
+	float: left;
+	position: absolute;
+	bottom:17px;
+	left:170px;
+}
+</style>
 
 </head>
 <body>
@@ -36,10 +44,17 @@
     <div id="header-wrapper"> 
       <!-- Begin Header -->
       <div id="header">
-        <div id="logo"><a href="index.jsp"><img src="${root}/resources/style/images/logo.png" alt="Delphic" /></a></div>
         <!-- Logo --> 
+        <div id="logo"><a href="index.jsp"><img src="${root}/resources/style/images/logo.png" alt="HotPicks로고" /></a></div>
+        <!-- Search -->
+        <div id="search">
+        	<form id="searchform" method="get">
+          	<input type="text" id="s" name="s" value="검색어를 입력해주세요." onfocus="this.value=''" onblur="this.value='type and hit enter'"/>
+        </form>
+        </div>
+        
         <!-- Begin Menu -->
-        <div id="menu-wrapper">
+        <div id="menu-wrapper">        
           <div id="smoothmenu1" class="ddsmoothmenu">
             <ul>
               <li><a href="index.jsp" class="selected">Home</a>
