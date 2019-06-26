@@ -28,7 +28,7 @@
 	background-color: #e8e8e8;
 	color: #565656;
 	font-size: 12px;
-	font-family:"Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", Helvetica, Arial, sans-serif;
+	font-family: 'Noto Sans KR';
 }
 
 #contact-form textarea:hover {
@@ -96,7 +96,7 @@
 			{
 				font-size:13px;
 				color: #5d8ba6;
-				font-family: 'Puritan20Normal';
+				font-family: 'Noto Sans KR';
 			}
 
 .notes span,.notice span,.success span,.error span 
