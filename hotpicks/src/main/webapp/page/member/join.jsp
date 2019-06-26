@@ -8,6 +8,16 @@ font-size: 40px;
 padding-bottom: 50px;
 }
 
+#wrapper {
+    line-height: 50px;
+}
+
+a {
+width: 50px;
+}
+
+
+
 </style>
 
 
@@ -33,33 +43,77 @@ padding-bottom: 50px;
               <p>
                 <label for="emailId" class="labels">Email ID</label>
                 <br />
-                <input class="required inpt" type="text" name="emailId" id="emailId" value="" />
+                <!-- ******** userid ******** -->
+                <input class="required inpt" type="text" name="userid" id="userid" value="" />
               <div><font color="red">이미 사용중인 id입니다.</font></div>
               </p>
               <p>
                 <label for="event">비밀번호</label>
                 <br />
+                <!-- ******** pass ******** -->
                 <input class="required inpt" type="text" name="pass" id="pass" value="" />
               </p>
               <p>
                 <label for="event">비밀번호 확인</label>
                 <br />
+                <!-- ******** passck ******** -->
                 <input class="required inpt" type="text" name="passck" id="passck" value="" />
               </p>
               <p>
                 <label for="name">이름</label>
                 <br />
+                <!-- ******** name ******** -->
                 <input class="required inpt" type="text" name="name" id="name" value="" />
               </p>
               <p>
-              	<select>
-              		<option >
-              	</select>  
+                <label for="age">나이</label>
+                <br />
+                <!-- ******** age ******** -->
+                <input class="required inpt" type="text" name="age" id="age" value="" />
               </p>
+              <p>
+                <label for="gender">성별</label>
+                <br />
+                <!-- ******** gender ******** -->
+                <ul id="gender">
+               		<li>
+                		여성<input type="radio" name="gender" id="gender" value="여" checked>
+						남성<input type="radio" name="gender" id="gender" value="남">               		
+               		</li>
+               	</ul>
+              </p>
+              <p>
+              	<label for="region">지역</label>
+              	<div id="region">
+                <!-- ******** sidoCode ******** -->
+              	<select id="sidoCode" name="sidoCode">
+              		<option value="123">시/도</option>
+              		<option value="123">서울</option>
+              		<option value="123">인천</option>
+              		<option value="123">대전</option>
+              		<option value="123">대구</option>
+              	</select>
+                <!-- ******** sigunguCode ******** -->
+              	<select id="sigunguCode" name="sigunguCode">
+              		<option value="123">시/군/구</option>
+              		<option value="123">구로구</option>
+              		<option value="123">강남구</option>
+              		<option value="123">동대문구</option>
+              		<option value="123">강동구</option>
+              	</select>
+              	</div>
+              </p>
+                <!-- ******** x ******** -->
+              <input type="hidden" name="x" value="">
+                <!-- ******** y ******** -->
+              <input type="hidden" name="y" value="">
             </div>
             
+	        <div class="divider"></div>
+	        <div class="clear"></div>
             <label id="load" style="display:none"></label>
-            <input id="submit-button" class="button red" type="submit" name="submit" value="Send Message" />
+            <a class="button light-purple" href="#">취  소</a>
+            <a class="button light-purple" href="#">가  입</a>
           </form>
         </div>
         <!-- End Form -->
@@ -68,11 +122,6 @@ padding-bottom: 50px;
         <div class="clear"></div>
         <br />
       </div>
-      <div class="clear"></div>
-      <div class="divider"></div>
-      <div id="twitter-wrapper">
-        <div id="twitter"></div>
-        <span class="username">모하나 <a href="https://github.com/hotpicks/HotPicks/tree/master/hotpicks">재밌군</a></span> </div>
       <div class="clear"></div>
     </div>
     <!-- End Content --> 
