@@ -67,9 +67,9 @@
               </li>
               <li><a href="">My Picks</a>
                 <ul>
-                  <li><a href="">Pick 목록</a></li>
+                  <li><a href="${root}/page/mypicks/mypicklist.jsp">Pick 목록</a></li>
                   <li><a href="">Pick 지도</a></li>
-                  <li><a href="">Pick 달력</a></li>
+                  <li><a href="${root}/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
                 </ul>
               </li>
               <li><a href="">Login/Join</a></li>

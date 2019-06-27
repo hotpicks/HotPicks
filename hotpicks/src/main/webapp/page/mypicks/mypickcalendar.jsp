@@ -104,7 +104,21 @@
 
 </script>
 
+<div align="center" style="margin-bottom: 30px;">
+	<div style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
+		<a>전체	|</a>
+		<a>공연	|</a>
+		<a>전시	|</a>
+		<a>행사</a>
+	</div>
+	<div>
+		<button>목록형사진</button>
+		<button>지도형사진</button>
+		<button>달력형사진</button>
+	</div>
+</div>
 
-  <div id='calendar' style="font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 14px; max-width: 900px; margin: 0 auto;"></div>
+
+  <div id='calendar' style="font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 15px; max-width: 900px; margin: 0 auto;"></div>
 
 <%@ include file = "/template/footer.jsp" %>
