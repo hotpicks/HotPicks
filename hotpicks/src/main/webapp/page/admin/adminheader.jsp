@@ -75,7 +75,7 @@ body{
                   <li><a href="${root}/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
                 </ul>
               </li>
-              <li><a href="${root}/page/member/login.jsp">Login/Join</a></li>
+              <li><a href="${root}/page/member/login.jsp">Logout</a></li>
             </ul>
           </div>
         </div>
