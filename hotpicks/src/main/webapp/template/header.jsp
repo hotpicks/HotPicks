@@ -61,8 +61,8 @@
               <li><a href="${root}/page/contents/tak_main.jsp">Contents</a>
                 <ul>
                   <li><a href="${root}/page/contents/tak_main.jsp">공연</a></li>
-                  <li><a href="${root}/page/">전시</a></li>
-                  <li><a href="${root}/page/">행사</a></li>
+                  <li><a href="${root}/page/contents/tak_main.jsp">전시</a></li>
+                  <li><a href="${root}/page/contents/tak_main.jsp">행사</a></li>
                 </ul>
               </li>
               <li><a href="${root}/page/mypicks/mypicklist.jsp">My Picks</a>
@@ -72,7 +72,8 @@
                   <li><a href="${root}/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
                 </ul>
               </li>
-              <li><a href="${root}/page/admin/managemember.jsp">Login/Join</a></li>
+              <li><a href="${root}/page/member/mypage.jsp">My Page</a></li>
+              <li><a href="${root}/page/member/login.jsp">Login/Join</a></li>
             </ul>
           </div>
         </div>

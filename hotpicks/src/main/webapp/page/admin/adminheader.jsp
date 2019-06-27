@@ -47,7 +47,7 @@ body{
       <!-- Begin Header -->
       <div id="header">
         <!-- Logo --> 
-        <div id="logo"><a href="${root}/index.jsp"><img src="${root}/resources/style/images/logo.png" alt="HotPicks로고" /></a></div>
+        <div id="logo"><a href="${root}/index.jsp"><img width=:"$(root). }" src="${root}/resources/style/images/admin_logo.png" alt="HotPicks로고" /></a></div>
         <!-- Search -->
         <div id="search">
         	<form id="searchform" method="get">
@@ -75,7 +75,7 @@ body{
                   <li><a href="${root}/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
                 </ul>
               </li>
-              <li><a href="${root}/page/admin/managemember.jsp">Login/Join</a></li>
+              <li><a href="${root}/page/member/login.jsp">Logout</a></li>
             </ul>
           </div>
         </div>

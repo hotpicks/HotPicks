@@ -13,19 +13,19 @@
       
       <!-- Begin Copyright -->
       <div id="copyright">
-        <p>© Copyright 2011 Delphic | Creative Portfolio Template</p>
+        <p>© Copyright 2011 Delphic | Team3 - Web Application Project 'Hot Picks'</p>
       </div>
       <!-- End Copyright --> 
       
       <!-- Begin Social Icons -->
       <div id="socials">
         <ul>
-          <li><a href="#"><img src="${root}/resources/style/images/icon-rss.png" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/icon-twitter.png" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/icon-dribble.png" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/icon-tumblr.png" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/icon-flickr.png" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/icon-facebook.png" alt="" /></a></li>
+          <li>
+          	<a href="${root}/page/admin/managemember.jsp">
+          		<span>Admin Page</span>
+          		<img src="${root}/resources/style/images/icon-dribble.png" alt="관리자 페이지 이동 버튼" />
+          	</a>
+          </li>
         </ul>
       </div>
       <!-- End Social Icons --> 

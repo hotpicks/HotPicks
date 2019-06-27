@@ -85,6 +85,7 @@ Hot Picks 프로젝트 구조
 			- contents	::: 카테고리별 컨텐츠
 			- member	::: 로그인/회원가입
 			- mypicks	::: Pick 목록
+			- search	::: 검색
 		
 		- template		::: *ui 구현 완료 후 추가할 경로 변경 예정 (->views로)
 			header.jsp
