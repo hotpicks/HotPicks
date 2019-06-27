@@ -65,7 +65,7 @@ height: 30px;
             <div class="labels">
               
               <p>
-                <label for="profile">프로필 사진</label>
+                <label for="profile" style="margin-top:80px;">프로필 사진</label>
                 <br />
                 <!-- ******** profile ******** -->
                 <div class="user">
@@ -73,7 +73,10 @@ height: 30px;
               	<img alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
               	</div>
               </p>
-            
+              <p>
+              	<a href="#" class="button red btns" style="margin-left:410px; font-weight: 700;">사진 설정<span></span></a>
+              </p>
+              <br><br>
               <p>
                 <label for="emailId" class="labels"">Email ID</label>
                 <br />

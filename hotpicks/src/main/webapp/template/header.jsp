@@ -73,7 +73,7 @@
                 </ul>
               </li>
               <li><a href="${root}/page/member/mypage.jsp">My Page</a></li>
-              <li><a href="${root}/page/admin/managemember.jsp">Login/Join</a></li>
+              <li><a href="${root}/page/member/login.jsp">Login/Join</a></li>
             </ul>
           </div>
         </div>
