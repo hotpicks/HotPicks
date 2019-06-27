@@ -1290,8 +1290,8 @@ h2.title {
 }
 
 #searchform input {
-	background: #e8e8e8 url(style/images/search.png) no-repeat 385px center;
-	width: 400px;
+	background: #e8e8e8 url(style/images/search.png) no-repeat 300px center;
+	width: 315px;
 	padding: 5px 10px;
 	height: 25px;
 	border: 0;

@@ -63,6 +63,17 @@ height: 30px;
           
           <form id="ajax-contact-form" method="post" action="javascript:alert('success!');">
             <div class="labels">
+              
+              <p>
+                <label for="profile">프로필 사진</label>
+                <br />
+                <!-- ******** profile ******** -->
+                <div class="user">
+                 <!-- ***************** 프로필 사진 **************** -->
+              	<img alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
+              	</div>
+              </p>
+            
               <p>
                 <label for="emailId" class="labels"">Email ID</label>
                 <br />
@@ -71,13 +82,13 @@ height: 30px;
               <p style="margin-bottom:15px;"><font color="red" style="font-style: italic;">*이미 사용중인 id입니다.</font></p>
               </p>
               <p>
-                <label for="event">비밀번호</label>
+                <label for="pass">비밀번호</label>
                 <br />
                 <!-- ******** pass ******** -->
                 <input class="required inpt" type="text" name="pass" id="pass" value="" />
               </p>
               <p>
-                <label for="event">비밀번호 확인</label>
+                <label for="passck">비밀번호 확인</label>
                 <br />
                 <!-- ******** passck ******** -->
                 <input style="margin-bottom: 0px;" class="required inpt" type="text" name="passck" id="passck" value="" />

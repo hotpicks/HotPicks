@@ -72,7 +72,8 @@
                   <li><a href="">Pick 달력</a></li>
                 </ul>
               </li>
-              <li><a href="">Login/Join</a></li>
+              <li><a href="${root}/page/member/mypage.jsp">My Page</a></li>
+              <li><a href="${root}/page/member/login.jsp">Login/Join</a></li>
             </ul>
           </div>
         </div>
