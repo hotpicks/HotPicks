@@ -51,12 +51,26 @@ getTwitters('twitter', {
 });
 </script>
   
+
   <!-- Begin Wrapper -->
   <div id="wrapper"> 
     
     <!-- Begin Content -->
     <div class="content">
-    
+      <div>
+<div align="center" style="margin-bottom: 30px;">
+	<div style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
+		<a>전체	|</a>
+		<a>공연	|</a>
+		<a>전시	|</a>
+		<a>행사</a>
+	</div>
+	<div>
+		<a href="${root}/page/mypicks/mypicklist.jsp"><button>목록형사진</button></a>
+		<a href="${root}/page/mypicks/mypickmap.jsp"><button>지도형사진</button></a>
+		<a href="${root}/page/mypicks/mypickcalendar.jsp"><button>달력형사진</button></a>
+	</div>
+</div>
       <h3>지도댱!</h3>
       <table style="border: solid 1px;">
       	<tr>

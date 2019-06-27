@@ -47,7 +47,7 @@ body{
       <!-- Begin Header -->
       <div id="header">
         <!-- Logo --> 
-        <div id="logo"><a href="index.jsp"><img src="${root}/resources/style/images/logo.png" alt="HotPicks로고" /></a></div>
+        <div id="logo"><a href="${root}/index.jsp"><img src="${root}/resources/style/images/logo.png" alt="HotPicks로고" /></a></div>
         <!-- Search -->
         <div id="search">
         	<form id="searchform" method="get">
@@ -59,23 +59,23 @@ body{
         <div id="menu-wrapper">        
           <div id="smoothmenu1" class="ddsmoothmenu">
             <ul>
-              <li><a href="index.jsp" class="selected">Home</a>
+              <li><a href="${root}/index.jsp" class="selected">Home</a>
               </li>
-              <li><a href="">Contents</a>
+              <li><a href="${root}/page/contents/tak_main.jsp">Contents</a>
                 <ul>
-                  <li><a href="">공연</a></li>
-                  <li><a href="">전시</a></li>
-                  <li><a href="">행사</a></li>
+                  <li><a href="${root}/page/contents/tak_main.jsp">공연</a></li>
+                  <li><a href="${root}/page/">전시</a></li>
+                  <li><a href="${root}/page/">행사</a></li>
                 </ul>
               </li>
-              <li><a href="">My Picks</a>
+              <li><a href="${root}/page/mypicks/mypicklist.jsp">My Picks</a>
                 <ul>
-                  <li><a href="">Pick 목록</a></li>
-                  <li><a href="">Pick 지도</a></li>
-                  <li><a href="">Pick 달력</a></li>
+                  <li><a href="${root}/page/mypicks/mypicklist.jsp">Pick 목록</a></li>
+                  <li><a href="${root}/page/mypicks/mypickmap.jsp">Pick 지도</a></li>
+                  <li><a href="${root}/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
                 </ul>
               </li>
-              <li><a href="">Login/Join</a></li>
+              <li><a href="${root}/page/admin/managemember.jsp">Login/Join</a></li>
             </ul>
           </div>
         </div>
