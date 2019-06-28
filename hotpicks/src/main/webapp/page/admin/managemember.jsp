@@ -5,14 +5,27 @@
 .title{
 font-weight: 900;
 font-size: 40px;
-padding-bottom: 50px;
 color: white;
 }
+
+.divider{
+margin-top:0px;
+padding-bottom: 30px;
+margin-bottom: 60px;
+}
+
+.tab .list{
+background-color : lightgray;
+}
+
 </style>
 
   <!-- Begin Wrapper -->
   <div id="wrapper">
 	  <div align="left" class="title">HotPicks Admin</div>
+	  <div class="divider"></div>
+	  <div class="clear"></div>
+      
     <div class="tab-wrapper">
       <ul id="tab-menu">
         <li class="selected"><img src="${root}/resources/style/images/icon-palette.png" alt="" /><strong>회원관리</strong></li>
@@ -20,14 +33,34 @@ color: white;
         <li><img src="${root}/resources/style/images/icon-laptop.png" alt="" /><strong>회원 방문 통계</strong></li>
         <li><img src="${root}/resources/style/images/icon-camera.png" alt="" /><strong>신고 리뷰 관리</strong></li>
       </ul>
+      
       <div class="tab-content">
-        <div class="tab show">
+        <div class="tab show" style="display: block;">
           <h3>신고 회원 목록</h3>
-          <p><img src="${root}/resources/style/images/art/portfolio12-th.jpg" alt="" class="right"/> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elementum consequat sem, nec tincidunt enim feugiat sed. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed egestas mattis tortor, quis auctor orci commodo id. In hac habitasse platea dictumst. Integer sed nisi nibh. Integer neque mi, pellentesque ut adipiscing ultrices, egestas vel ligula. Integer interdum ultrices turpis. Ut non est sed odio malesuada congue ac id ipsum. Duis mi tellus, porttitor a tristique eu, porttitor a odio. Curabitur accumsan cursus sollicitudin. Nullam quis ante ante, sed molestie elit. Morbi egestas est quis metus luctus accumsan. Duis interdum lectus eget est hendrerit mollis. Mauris vestibulum dictum porta. Praesent vel odio quis augue ultricies aliquam eget ut magna.</p>
-          <p>Aliquam porttitor faucibus rhoncus. Aliquam erat volutpat. Vestibulum molestie fringilla mollis. Fusce eu neque arcu. Donec blandit imperdiet mollis. Etiam suscipit nisl eget libero aliquet tincidunt. Mauris euismod, tellus ac pellentesque malesuada, ligula tortor venenatis velit, at vehicula ligula lorem ac nisi. Maecenas et ligula arcu. Nullam vel accumsan felis. Vivamus venenatis diam vel magna ornare pellentesque. Pellentesque pharetra facilisis consectetur euismod mauris felis.</p>
-         </div>
+          <p class="list">
+          	<table>
+          		<tr>
+          			<td>1열 1행</td>
+          			<td>1열 2행</td>
+          			<td>1열 3행</td>
+          			<td>1열 4행</td>
+          			<td>1열 5행</td>
+          			<td>1열 6행</td>
+          		</tr>
+          		<tr>
+          			<td>2열 1행</td>
+          			<td>2열 2행</td>
+          			<td>2열 3행</td>
+          			<td>2열 4행</td>
+          			<td>2열 5행</td>
+          			<td>2열 6행</td>
+          		</tr>
+          	</table>
+			          
+          </p>
+        </div>
         
-        <div class="tab">
+        <div class="tab" style="display: none;">
           <h3>사용자 선호도 추이</h3>
           <p>
           	<img src="${root}/resources/style/images/art/portfolio11-th.jpg" alt="" class="right"/>
@@ -58,6 +91,7 @@ color: white;
       </div>
     </div>
     <div class="clear"></div>
+    
   </div>
   <!-- End Wrapper -->
 
