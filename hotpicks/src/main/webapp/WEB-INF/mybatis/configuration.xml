@@ -22,7 +22,8 @@
       <typeAlias alias="memberDto" type="com.kitri.hotpicks.member.model.MemberDto"/>
 
       <typeAlias alias="likeListDto" type="com.kitri.hotpicks.mypicks.model.PickListDto"/>
-      
+      <typeAlias alias="mapContentsDto" type="com.kitri.hotpicks.mypicks.model.MapContentsDto"/>
+		      
 	</typeAliases>
   
 
