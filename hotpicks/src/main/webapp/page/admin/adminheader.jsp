@@ -33,6 +33,9 @@
 	bottom:17px;
 	left:170px;
 }
+body{
+	background-color: #527a7a;
+}
 </style>
 
 </head>
@@ -44,10 +47,10 @@
       <!-- Begin Header -->
       <div id="header">
         <!-- Logo --> 
-        <div id="logo"><a href="${root}/index.jsp"><img src="${root}/resources/style/images/logo.png" alt="HotPicks로고" /></a></div>
+        <div id="logo"><a href="${root}/index.jsp"><img width=:"$(root). }" src="${root}/resources/style/images/admin_logo.png" alt="HotPicks로고" /></a></div>
         <!-- Search -->
-        <div id="search"">
-        	<form id="searchform" method="get" action="${root}/page/search/searchresult.jsp">
+        <div id="search">
+        	<form id="searchform" method="get">
           	<input type="text" id="s" name="s" value="검색어를 입력해주세요." onfocus="this.value=''" onblur="this.value='검색어를 입력해주세요.'"/>
         </form>
         </div>
@@ -61,8 +64,8 @@
               <li><a href="${root}/page/contents/tak_main.jsp">Contents</a>
                 <ul>
                   <li><a href="${root}/page/contents/tak_main.jsp">공연</a></li>
-                  <li><a href="${root}/page/contents/tak_main.jsp">전시</a></li>
-                  <li><a href="${root}/page/contents/tak_main.jsp">행사</a></li>
+                  <li><a href="${root}/page/">전시</a></li>
+                  <li><a href="${root}/page/">행사</a></li>
                 </ul>
               </li>
               <li><a href="${root}/page/mypicks/mypicklist.jsp">My Picks</a>
@@ -72,8 +75,7 @@
                   <li><a href="${root}/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
                 </ul>
               </li>
-              <li><a href="${root}/page/member/mypage.jsp">My Page</a></li>
-              <li><a href="${root}/page/member/login.jsp">Login/Join</a></li>
+              <li><a href="${root}/page/member/login.jsp">Logout</a></li>
             </ul>
           </div>
         </div>

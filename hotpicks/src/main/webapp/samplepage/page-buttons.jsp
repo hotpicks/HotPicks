@@ -8,7 +8,7 @@
       <h2>Buttons</h2>
       <br />
       <div class="one-half">
-      <a href="#" class="button light-blue"> This is a button<span></span></a> <div class="clear"></div><br /><pre>&lt;a class="button light-blue" href="#"&gt;Text&lt;/a&gt;</pre><br />
+      <a href="#" class="bu`tton light-blue"> This is a button<span></span></a> <div class="clear"></div><br /><pre>&lt;a class="button light-blue" href="#"&gt;Text&lt;/a&gt;</pre><br />
       <a href="#" class="button light-purple"> This is a button<span></span></a> <div class="clear"></div><br /><pre>&lt;a class="button light-purple" href="#"&gt;Text&lt;/a&gt;</pre><br />
       <a href="#" class="button light-pink"> This is a button<span></span></a> <div class="clear"></div><br /><pre>&lt;a class="button light-pink" href="#"&gt;Text&lt;/a&gt;</pre><br />
       <a href="#" class="button light-brown"> This is a button<span></span></a> <div class="clear"></div><br /><pre>&lt;a class="button light-brown" href="#"&gt;Text&lt;/a&gt;</pre><br />

@@ -1,10 +1,89 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "/template/header.jsp" %>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <style>
+.range{
+	width: 100px;
+}
+/* Fixed sidenav, full height */
+.sidenav {
+	overflow-x: hidden;
+	padding-top: 20px;
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+	padding: 6px 8px 6px 16px;
+	border: none;
+	background: none;
+	width: 100%;
+	text-align: left;
+	cursor: pointer;
+	outline: none;
+	font-size: 14px;
+	font-weight: 600;
+	color: rgba(0, 0, 0, 0.45);
+	display: inline-block;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+	color: #f1f1f1;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+	color: #565656;
+	font-weight: bold;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+	display: none;
+	padding-left: 2vh;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+	float: right;
+	padding-right: 8px;
+}
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+	.sidenav {
+		padding-top: 15px;
+	}
+	.sidenav a {
+		font-size: 18px;
+	}
+}
+.condition{
+	padding-top: 50px;
+}
+.bAddr{
+	color: gray;
+	font-size: 2rem;
+	
+}
+.content{
+	padding-bottom: 50px;
+}
+.hAddr{
+	height: 60px;
+	padding: 10px;
+}
+body{
+background-color: #f0f0f0;
+!important;
+}
 .map{
 	box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.175) !important;
 	border: solid 1px gray;
@@ -15,24 +94,6 @@
 	padding-bottom: 56.26%;
 	
 }
-.btn {
-  border: none;
-  background-color: inherit;
-  padding: 14px 28px;
-  font-size: 16px;
-  cursor: pointer;
-  display: inline-block;
-}
-
-/* On mouse-over */
-.btn:hover {background: #eee;}
-
-.success {color: green;}
-.info {color: dodgerblue;}
-.warning {color: orange;}
-.danger {color: red;}
-.default {color: black;}
-
 
 </style>
 <script type="text/javascript"
@@ -51,28 +112,57 @@ getTwitters('twitter', {
 });
 </script>
   
+
   <!-- Begin Wrapper -->
   <div id="wrapper"> 
-    
-    <!-- Begin Content -->
-    <div class="content">
-    
-      <h3>지도댱!</h3>
-      <table style="border: solid 1px;">
-      	<tr>
-      	 <td width="150">1</td>
-      	 <td>1</td>
-      	</tr>
-      	<tr>
-      	 <td>2</td>
-      	 <td>2</td>
-      	</tr>
-      </table>
-      <div id="map" class="map mx-auto">
-		<div class="hAddr">
-			<span class="title"></span> <span id="centerAddr"></span>
-		</div>
+  <div class="content">
+<div align="center" style="margin-bottom: 30px;">
+	<div style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
+		<a>전체	|</a>
+		<a>공연	|</a>
+		<a>전시	|</a>
+		<a>행사</a>
 	</div>
+	<div>
+		<a href="${root}/page/mypicks/mypicklist.jsp"><button>목록형사진</button></a>
+		<a href="${root}/page/mypicks/mypickmap.jsp"><button>지도형사진</button></a>
+		<a href="${root}/page/mypicks/mypickcalendar.jsp"><button>달력형사진</button></a>
+	</div>
+</div>
+      
+      <h3></h3>
+       <div class="container">
+  <div class="row">
+ 		<div class="condition col-2" style="height:100%">CONDITION
+ 		<div class="sidenav">
+						<button class="dropdown-btn">
+							가봤니? <i class="fa fa-caret-down"></i>
+						</button>
+						<div class="dropdown-container">
+							<a href="#">전체</a> <a href="#">가고싶은 곳</a> <a href="#">다녀온 곳</a>
+						</div>
+						<button class="dropdown-btn">
+							지역별 분류 <i class="fa fa-caret-down"></i>
+						</button>
+						<div class="dropdown-container">
+							<a href="#">지역<br>(시/군/구)</a> 
+							<a href="#"><div>반경</div></a> 
+							<input type="range" class="range align-middle" id="customRange" name="range"
+									min="0.5" max="3" step="0.5" value="2"> <label id="range">2</label><label>km</label>
+						</div>
+					</div>
+ 		</div>
+ 		<div  class="col-10">
+ 		<div class="hAddr">
+			<span class="title"></span> <span id="clickAddr"></span>
+			<span id="clickAddrDetail"></span>
+			
+		</div>
+      <div id="map" class="map mx-auto">
+      </div>
+	</div>
+	  </div>
+</div>
 	<div id="clickLatlng"></div>
     </div>
     <!-- End Content --> 
@@ -120,12 +210,12 @@ getTwitters('twitter', {
 	var circle = new daum.maps.Circle({
 		center : new daum.maps.LatLng(37.54699, 127.09598), // 원의 중심좌표 입니다 
 		radius : $('input[name=range]').val() * 1000, // 미터 단위의 원의 반지름입니다 
-		strokeWeight : 5, // 선의 두께입니다 
-		strokeColor : '#75B8FA', // 선의 색깔입니다
-		strokeOpacity : 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+		strokeWeight : 4, // 선의 두께입니다 
+		strokeColor : '#343a40', // 선의 색깔입니다
+		strokeOpacity : 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
 		strokeStyle : 'dashed', // 선의 스타일 입니다
-		fillColor : '#CFE7FF', // 채우기 색깔입니다
-		fillOpacity : 0.7
+		fillColor : '#f0f0f0', // 채우기 색깔입니다
+		fillOpacity : 0.5
 	// 채우기 불투명도 입니다   
 	});
 	var imageSrc2 = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -169,16 +259,19 @@ getTwitters('twitter', {
 		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
 			var latlng = mouseEvent.latLng;
 			marker.setPosition(latlng);
+			searchAddrFromCoords(latlng, displayCenterInfo);
 		});
-		searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+		
 		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
 			searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
 				if (status === daum.maps.services.Status.OK) {
-					var detailAddr = !!result[0].road_address ? '<div>도로명주소 : '
-							+ result[0].road_address.address_name + '</div>' : '';
-					detailAddr += '<div>' + result[0].address.address_name
+					var detailAddr = !!result[0].road_address ? '<div style="font-size:12px; color:gray;">'
+							+ result[0].road_address.address_name + '(도로명주소)</div>' : '<div style="font-size:12px; color:gray;">' + result[0].address.address_name
 							+ '</div>';
-					var content = '<div class="bAddr">' + detailAddr + '</div>';
+					/* detailAddr += '<div>' + result[0].address.address_name
+							+ '</div>'; */
+					var content = '<div class="bAddr"><' + detailAddr + '</div>';
+					document.getElementById('clickAddrDetail').innerHTML = detailAddr;
 					markerSet(mouseEvent.latLng.getLat(), mouseEvent.latLng
 							.getLng());
 					selectDistanceLesson(marker);
@@ -201,8 +294,9 @@ getTwitters('twitter', {
 	// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
 	function displayCenterInfo(result, status) {
 		if (status === daum.maps.services.Status.OK) {
-			var infoDiv = document.getElementById('centerAddr');
+			var infoDiv = document.getElementById('clickAddr');
 			for (var i = 0; i < result.length; i++) {
+				console.log(result[i]);
 				// 행정동의 region_type 값은 'H' 이므로
 				if (result[i].region_type === 'H') {
 					infoDiv.innerHTML = result[i].address_name;
@@ -239,4 +333,21 @@ getTwitters('twitter', {
 		}
 	}
 </script>
+<script>
+			/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+			var dropdown = document.getElementsByClassName("dropdown-btn");
+			var i;
+
+			for (i = 0; i < dropdown.length; i++) {
+				dropdown[i].addEventListener("click", function() {
+					this.classList.toggle("active");
+					var dropdownContent = this.nextElementSibling;
+					if (dropdownContent.style.display === "block") {
+						dropdownContent.style.display = "none";
+					} else {
+						dropdownContent.style.display = "block";
+					}
+				});
+			}
+		</script>
 <%@ include file = "/template/footer.jsp"%>
