@@ -18,7 +18,7 @@
 <div id="wrapper"> 
 <div class="content">
 <div>
-	<div align="center" style="margin-bottom: 30px;">
+	<div align="center" style="margin-bottom: 20px;">
 		<div
 			style="margin-bottom: 10px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
 			<a>전체 |</a> <a>공연 |</a> <a>전시 |</a> <a>행사</a>
@@ -27,10 +27,20 @@
 			<a href="#">가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> <a href="#">다녀온 곳</a>
 		</div>
 		<div>
-			<a href="${root}/page/mypicks/mypicklist.jsp"><button>목록형사진</button></a>
-			<a href="${root}/page/mypicks/mypickmap.jsp"><button>지도형사진</button></a>
-			<a href="${root}/page/mypicks/mypickcalendar.jsp"><button>달력형사진</button></a>
+			<a href="${root}/page/mypicks/mypicklist.jsp"><img src="${root}/resources/style/images/listpicks.png"></a>
+			<img src="${root}/resources/style/images/blank.png">
+			<a href="${root}/page/mypicks/mypickmap.jsp"><img src="${root}/resources/style/images/mappicks.png"></a>
+			<img src="${root}/resources/style/images/blank.png">
+			<a href="${root}/page/mypicks/mypickcalendar.jsp"><img src="${root}/resources/style/images/calendarpicks
+			.png"></a>
 		</div>
+		
+		<div style="float: right;">
+			<button>수정</button>
+			<button>저장</button>
+			<button>삭제</button>
+		</div>
+		<div style="clear:both;"></div>
 	</div>
 
     <div id="about">
