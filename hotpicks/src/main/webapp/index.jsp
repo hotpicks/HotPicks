@@ -27,6 +27,7 @@ $(function() {
 			
 			}
 }); 
+
 </script>
   
   <!-- Begin Slider -->
