@@ -40,7 +40,7 @@ $(function() {
 </script>
 
   <!-- Begin Wrapper -->
-  <div id="wrapper"> 
+  <div id="wrapper" style="margin-bottom: 20px;"> 
     
     <!-- Begin Intro -->
     <div class="intro">
@@ -71,17 +71,17 @@ $(function() {
     
   </div>
   
-   <div id="wrapper"> 
-    
+   <div id="wrapper" style="margin-bottom: 20px;"> 
+   
     <!-- Begin Intro -->
     <div class="intro">
+    
     <div>
       <h1>
-      	<a href="#" style="color: purple;font-style: bold;">All</a> |
-      	<a href="#" style="color: purple;">Performence</a> |
-      	<a href="#" style="color: purple;">Musical</a> |
-      	<a href="#" style="color: purple;">Party</a> |
-      	<a href="#" style="color: purple;">Opera</a>
+      	<a href="#" style="color: purple;font-style: bold;">전체</a> |
+      	<a href="#" style="color: purple;">공연</a> |
+      	<a href="#" style="color: purple;">전시</a> |
+      	<a href="#" style="color: purple;">행사</a>
       </h1>
      </div>
      <div align="right">
