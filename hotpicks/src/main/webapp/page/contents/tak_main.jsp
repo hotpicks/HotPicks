@@ -50,9 +50,9 @@ $(function() {
     
     <!-- favorite -->
     <div id="about">
-      <div class="one-fourth"> <a href="#"><img src="${root}/resources/style/images/img_dog/007.jpg" alt="" /></a>
-        <h4>board1</h4>
-        <p>content.</p>
+      <div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp"><img src="${root}/resources/style/images/sample/p1.jpg" alt="" /></a>
+        <h4>부산 다함께 축제</h4>
+        <p>부산 감천문화 마을에서 펼처지는 재밋는 놀이</p>
       </div>
       <div class="one-fourth"> <a href="#"><img src="${root}/resources/style/images/img_dog/008.jpg" alt="" /></a>
         <h4>board2</h4>
