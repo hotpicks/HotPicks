@@ -37,6 +37,7 @@ $(function() {
 			
 			}
 }); 
+
 </script>
   
   <!-- Begin Slider -->
