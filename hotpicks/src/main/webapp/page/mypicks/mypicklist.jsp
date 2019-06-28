@@ -12,6 +12,7 @@
 	height: 160px;
 	width: 100%;
 }
+
 </style>
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <div id="wrapper"> 
@@ -19,8 +20,11 @@
 <div>
 	<div align="center" style="margin-bottom: 30px;">
 		<div
-			style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
+			style="margin-bottom: 10px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
 			<a>전체 |</a> <a>공연 |</a> <a>전시 |</a> <a>행사</a>
+		</div>
+		<div style="margin-bottom: 10px; font-size: 15px;">
+			<a href="#">가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> <a href="#">다녀온 곳</a>
 		</div>
 		<div>
 			<a href="${root}/page/mypicks/mypicklist.jsp"><button>목록형사진</button></a>
