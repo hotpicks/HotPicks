@@ -1,7 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "/template/header.jsp" %>
-
+<style>
+#about .one-fourth img {
+	-moz-box-shadow: 0px 1px 2px #656565;
+	-webkit-box-shadow: 0px 1px 2px #656565;
+	box-shadow: 0px 1px 2px #656565;
+	display: block;
+	margin-bottom: 20px;
+	height: 160px;
+	width: 100%;
+}
+</style>
 <script type="text/javascript">
 $(function() {
 			if ($('#sliderholder-cycle').length) {
@@ -31,7 +41,8 @@ $(function() {
   
   <!-- Begin Slider -->
   <div id="cycle-wrapper">
-    <div id="sliderholder-cycle"> <img src="resources/style/images/art/slider-1.jpg" width="960" height="380" />
+    <div id="sliderholder-cycle"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+    <img src="${root}/resources/style/images/sample/p1.jpg" width="960" height="380" /></a>
       <div>
         <iframe src="http://player.vimeo.com/video/4890208?title=0&amp;byline=0&amp;portrait=0" width="960" height="380" frameborder="0"></iframe>
       </div>
@@ -53,19 +64,21 @@ $(function() {
     
     <!-- Begin About -->
     <div id="about">
-      <div class="one-fourth"> <a href="#"><img src="resources/style/images/art/home-1.jpg" alt="" /></a>
-        <h4>Elegant Style</h4>
-        <p>Morbi non nunc nec ipsum tincidunt luctus aliquam vel nisi. Donec eu accumsan elit.</p>
+      <div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+      <img src="${root}/resources/style/images/sample/p1.jpg" alt="" /></a>
+        <h4>부산 다함께 축제</h4>
+        <p>부산 감천문화 마을에서 펼처지는 재밋는 놀이</p>
       </div>
-      <div class="one-fourth"> <a href="#"><img src="resources/style/images/art/home-2.jpg" alt="" /></a>
+      <div class="one-fourth"> <a href="#">
+      <img src="${root}/resources/style/images/img_dog/008.jpg" alt="" /></a>
         <h4>Easily Customizable</h4>
         <p>Nulla facilisi. Aenean porttitor cursus aliquet. Praesent sit amet dictum lacus. Risus eget augue.</p>
       </div>
-      <div class="one-fourth"> <a href="#"><img src="resources/style/images/art/home-3.jpg" alt="" /></a>
+      <div class="one-fourth"> <a href="#"><img src="${root}/resources/style/images/sample/p1.jpg" alt="" /></a>
         <h4>Dark and Light Layouts</h4>
         <p>Vivamus placerat viverra posuere. Duis quis luctus diam. Aliquam a mi id vel orci lectus.</p>
       </div>
-      <div class="one-fourth last"> <a href="#"><img src="resources/style/images/art/home-4.jpg" alt="" /></a>
+      <div class="one-fourth last"> <a href="#"><img src="${root}/resources/style/images/img_dog/005.jpg" alt="" /></a>
         <h4>jQuery Enhanced</h4>
         <p>Sed eu lorem sed lectus interdum vehicula. Praesent sit amet risus eget augue semper.</p>
       </div>
