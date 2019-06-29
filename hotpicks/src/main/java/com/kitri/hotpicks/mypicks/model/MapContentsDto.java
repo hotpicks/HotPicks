@@ -3,8 +3,9 @@ package com.kitri.hotpicks.mypicks.model;
 public class MapContentsDto {
 	private String contentsid;
 	private String subject;
-	private int x;
-	private int y;
+	private double x;
+	private double y;
+	private int cate;
 	
 	public String getContentsid() {
 		return contentsid;
@@ -18,18 +19,26 @@ public class MapContentsDto {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public int getX() {
+	public double getX() {
 		return x;
 	}
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
-	public int getY() {
+	public double getY() {
 		return y;
 	}
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
+	public int getCate() {
+		return cate;
+	}
+	public void setCate(int cate) {
+		this.cate = cate;
+	}
+	
+	
 	
 	
 }

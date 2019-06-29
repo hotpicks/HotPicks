@@ -11,7 +11,7 @@ $(function() {
 			    var index = opts.currSlide; 
 			    return timeouts[index] * 1000;
 			}
-			jQuery('#sliderholder-cycle').cycle({
+			$('#sliderholder-cycle').cycle({
 				fx: 'fade',
 				pager: '.slidernav',
 				prev:    '.sliderprev',
