@@ -18,7 +18,8 @@
   <div id="wrapper">
     <div id="post-wrapper">
       <div class="post">
-        <h2 class="title">부산 다함께 축제</h2>
+        <div style="float: left;"><h1 class="title" style="margin-top: 20px;">부산 다함께 축제</h1></div><div style="float:right;"><img src="${root}/resources/style/images/heart64.png"></div>
+        <div style="clear:both;"></div>
         <div class="meta">
           <div class="top-border"></div>
           <span class="contentsType">축제</span> | <span class="picksCount">54</span> Picks | <span class="reviewCount">4</span> Reviews </div>
@@ -91,7 +92,7 @@
         
         <!-- Begin Form -->
         <div id="comment-form" class="comment-form">
-          <h3>후기 작성</h3>
+          <h3>리뷰 작성</h3>
           <form name="form_name" method="post">
             <div class="comment-input">
               <p>
@@ -111,11 +112,11 @@
               </p>
             </div>
             <div class="comment-textarea">
-              <textarea name="textarea" id="textarea" rows="5" cols="30"></textarea>
+              <textarea name="textarea" id="textarea" rows="5" cols="30" placeholder="후기 내용"></textarea>
             </div>
             <div class="clear"></div>
-            <input id="submit-button" class="button gray stripe" type="submit" name="submit" value="후기 내용" />
           </form>
+            <input id="submit-button" class="button gray stripe" type="submit" name="submit" value="저장" />
           <div class="clear"></div>
         </div>
         <!-- End Form --> 

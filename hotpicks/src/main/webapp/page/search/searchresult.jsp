@@ -88,6 +88,29 @@
 	</div>
 	</div>
 
+	<div>
+	<h2>해시태그</h2>
+	<hr style="height:5px; background: #000;">
+	<div id="about">
+	<div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
+        <h4>board4</h4>
+ 		 <p>content.</p>
+      </div>
+      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
+        <h4>board4</h4>
+ 		 <p>content.</p>
+      </div>
+      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
+        <h4>board4</h4>
+ 		 <p>content.</p>
+      </div>
+      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
+        <h4>board4</h4>
+ 		 <p>content.</p>
+      </div>
+	</div>
+	</div>
+
 
 </div>
 </div>

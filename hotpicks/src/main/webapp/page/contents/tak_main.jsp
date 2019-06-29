@@ -40,7 +40,7 @@ $(function() {
 </script>
 
   <!-- Begin Wrapper -->
-  <div id="wrapper"> 
+  <div id="wrapper" style="margin-bottom: 20px;"> 
     
     <!-- Begin Intro -->
     <div class="intro">
@@ -50,9 +50,9 @@ $(function() {
     
     <!-- favorite -->
     <div id="about">
-      <div class="one-fourth"> <a href="#"><img src="${root}/resources/style/images/img_dog/007.jpg" alt="" /></a>
-        <h4>board1</h4>
-        <p>content.</p>
+      <div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp"><img src="${root}/resources/style/images/sample/p1.jpg" alt="" /></a>
+        <h4>부산 다함께 축제</h4>
+        <p>부산 감천문화 마을에서 펼처지는 재밋는 놀이</p>
       </div>
       <div class="one-fourth"> <a href="#"><img src="${root}/resources/style/images/img_dog/008.jpg" alt="" /></a>
         <h4>board2</h4>
@@ -71,17 +71,17 @@ $(function() {
     
   </div>
   
-   <div id="wrapper"> 
-    
+   <div id="wrapper" style="margin-bottom: 20px;"> 
+   
     <!-- Begin Intro -->
     <div class="intro">
+    
     <div>
       <h1>
-      	<a href="#" style="color: purple;font-style: bold;">All</a> |
-      	<a href="#" style="color: purple;">Performence</a> |
-      	<a href="#" style="color: purple;">Musical</a> |
-      	<a href="#" style="color: purple;">Party</a> |
-      	<a href="#" style="color: purple;">Opera</a>
+      	<a href="#" style="color: purple;font-style: bold;">전체</a> |
+      	<a href="#" style="color: purple;">공연</a> |
+      	<a href="#" style="color: purple;">전시</a> |
+      	<a href="#" style="color: purple;">행사</a>
       </h1>
      </div>
      <div align="right">

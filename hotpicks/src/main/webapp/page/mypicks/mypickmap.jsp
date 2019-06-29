@@ -130,10 +130,12 @@ getTwitters('twitter', {
 		<a>행사</a>
 	</div>
 	<div>
-		<a href="${root}/page/mypicks/mypicklist.jsp"><button>목록형사진</button></a>
-		<a href="${root}/page/mypicks/mypickmap.jsp"><button>지도형사진</button></a>
-		<a href="${root}/page/mypicks/mypickcalendar.jsp"><button>달력형사진</button></a>
-	</div>
+			<a href="${root}/page/mypicks/mypicklist.jsp"><img src="${root}/resources/style/images/listpicks.png"></a>
+			<img src="${root}/resources/style/images/blank.png">
+			<a href="${root}/page/mypicks/mypickmap.jsp"><img src="${root}/resources/style/images/mappicks.png"></a>
+			<img src="${root}/resources/style/images/blank.png">
+			<a href="${root}/page/mypicks/mypickcalendar.jsp"><img src="${root}/resources/style/images/calendarpicks.png"></a>
+		</div>
 </div>
       
       <h3></h3>
