@@ -8,7 +8,7 @@
   <!-- 패키지에 alias 추가 -->
 	<typeAliases>
 	
-      <typeAlias alias="contentsTypeDto" type="com.kitri.hotpicks.contents.model.ContentsTypeDto"/>
+  	  <typeAlias alias="contentsTypeDto" type="com.kitri.hotpicks.contents.model.ContentsTypeDto"/>
       <typeAlias alias="sidoDto" type="com.kitri.hotpicks.contents.model.SidoDto"/>
       <typeAlias alias="sigunguDto" type="com.kitri.hotpicks.contents.model.SigunguDto"/>
       <typeAlias alias="contentsDto" type="com.kitri.hotpicks.contents.model.ContentsDto"/>
@@ -22,7 +22,8 @@
       <typeAlias alias="memberDto" type="com.kitri.hotpicks.member.model.MemberDto"/>
 
       <typeAlias alias="likeListDto" type="com.kitri.hotpicks.mypicks.model.PickListDto"/>
-      
+      <typeAlias alias="mapContentsDto" type="com.kitri.hotpicks.mypicks.model.MapContentsDto"/>
+		      
 	</typeAliases>
   
 

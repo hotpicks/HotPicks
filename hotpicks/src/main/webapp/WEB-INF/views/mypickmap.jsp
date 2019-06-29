@@ -130,12 +130,10 @@ getTwitters('twitter', {
 		<a>행사</a>
 	</div>
 	<div>
-			<a href="${root}/page/mypicks/mypicklist.jsp"><img src="${root}/resources/style/images/listpicks.png"></a>
-			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/page/mypicks/mypickmap.jsp"><img src="${root}/resources/style/images/mappicks.png"></a>
-			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/page/mypicks/mypickcalendar.jsp"><img src="${root}/resources/style/images/calendarpicks.png"></a>
-		</div>
+		<a href="${root}/page/mypicks/mypicklist.jsp"><button>목록형사진</button></a>
+		<a href="${root}/page/mypicks/mypickmap.jsp"><button>지도형사진</button></a>
+		<a href="${root}/page/mypicks/mypickcalendar.jsp"><button>달력형사진</button></a>
+	</div>
 </div>
       
       <h3></h3>
@@ -144,13 +142,13 @@ getTwitters('twitter', {
  		<div class="condition col-2" style="height:100%">CONDITION
  		<div class="sidenav">
 						<button class="dropdown-btn">
-							가봤니? <i class="fa fa-caret-down"></i>
+							HOTPICKS <i class="fa fa-caret-down"></i>
 						</button>
 						<div class="dropdown-container">
-							<a href="#">전체</a> <a href="#">가고싶은 곳</a> <a href="#">다녀온 곳</a>
+							<a href="#" id="all">전체</a> <a href="#" id="pick">가고싶은 곳</a> <a href="#" id="done">다녀온 곳</a>
 						</div>
 						<button class="dropdown-btn">
-							지역별 분류 <i class="fa fa-caret-down"></i>
+							SOON <i class="fa fa-caret-down"></i>
 						</button>
 						<div class="dropdown-container">
 							<a href="#">지역<br>(시/군/구)</a> 
@@ -179,9 +177,10 @@ getTwitters('twitter', {
   <!-- End Wrapper -->
   <script type="text/javascript">
 	var loginClass = '${loginClass}';
-	
 	var arr = [];
-	var markers = [];
+	var allMarkers= [];
+	var doneMarkers = [];
+	var pickMarkers = [];
 	var selectMarkers = [];
 	var container = document.getElementById('map');
 	var options;
@@ -197,15 +196,21 @@ getTwitters('twitter', {
 				center : new daum.maps.LatLng(37.5028273473234, 126.9871525346085),
 				level : 8};
 	}
+	
 	var map = new daum.maps.Map(container, options);
-	var imageSrc = '${root}/resources/style/images/marker2.png', // 마커이미지의 주소입니다    
-	imageSize = new daum.maps.Size(32, 35), // 마커이미지의 크기입니다
+	var imageSrc = '${root}/resources/style/images/marker/location.png', // 마커이미지의 주소입니다    
+	imageSize = new daum.maps.Size(43, 45), // 마커이미지의 크기입니다
+	imageSize2 = new daum.maps.Size(28, 38), // 마커이미지의 크기입니다
+	pickMarkerImageSize = new daum.maps.Size(35, 45), // 마커이미지의 크기입니다
+	imageOption2 = {
+		offset : new daum.maps.Point(16,45)
+	}; 
 	imageOption = {
-		offset : new daum.maps.Point(15,35)
+		offset : new daum.maps.Point(23,45)
 	}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-	var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize,
-			imageOption), markerPosition = new daum.maps.LatLng(37.54699,
+	var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize2,
+			imageOption2), markerPosition = new daum.maps.LatLng(37.54699,
 			127.09598); // 마커가 표시될 위치입니다
 	// 마커를 생성합니다
 	var marker = new daum.maps.Marker({
@@ -226,39 +231,81 @@ getTwitters('twitter', {
 		fillOpacity : 0.5
 	// 채우기 불투명도 입니다   
 	});
-	var imageSrc2 = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+	var doneMarkerimagesrc = '${root}/resources/style/images/marker/done_mark1.png';
+	var doneMarkerimage = new daum.maps.MarkerImage(doneMarkerimagesrc, imageSize,
+			imageOption), markerPosition = new daum.maps.LatLng(37.54699,
+			127.09598); 
+	var pickMarkerimagesrc = '${root}/resources/style/images/marker/pick_basic_mark.png';
+	var pickMarkerimage = new daum.maps.MarkerImage(pickMarkerimagesrc, pickMarkerImageSize,
+			imageOption), markerPosition = new daum.maps.LatLng(37.54699,
+			127.09598);
 	// 마커를 생성하고 지도위에 표시하는 함수입니다
-	function addMarker(position, title) {
+	function addMarker(cate, image ,position, title) {
+		
 		// 마커를 생성합니다
-		var marker2 = new daum.maps.Marker({
-			position : position
+		var mapMarker = new daum.maps.Marker({
+			position : position,
+			image : image
 		});
-		marker2.setTitle(title);
+		mapMarker.setTitle(title);
 		// 마커가 지도 위에 표시되도록 설정합니다
-		marker2.setMap(map);
+		mapMarker.setMap(map);
 		// 생성된 마커를 배열에 추가합니다
-		markers.push(marker2);
+		allMarkers.push(mapMarker);
+		if (cate == 1) {
+			doneMarkers.push(mapMarker);
+		}else if(cate == 2){
+			pickMarkers.push(mapMarker);
+		}
+		
 		var iwContent = '<div id="mtitle" class="mx-auto" style="width:5rem;">'
-				+ marker2.getTitle() + '</div>';
+				+ mapMarker.getTitle() + '</div>';
 		var infowindow = new daum.maps.InfoWindow({
 			position : position,
 			content : iwContent
 		});
-		daum.maps.event.addListener(marker2, 'mouseover', function() {
-			infowindow.open(map, marker2);
+		daum.maps.event.addListener(mapMarker, 'mouseover', function() {
+			infowindow.open(map, mapMarker);
 		});
-		daum.maps.event.addListener(marker2, 'mouseout', function() {
+		daum.maps.event.addListener(mapMarker, 'mouseout', function() {
 			infowindow.close();
 		});
-		daum.maps.event.addListener(marker2, 'click', function() {
-			page_move("${root}/mainfront?sid=godetail", null ,marker2.getTitle());
+		daum.maps.event.addListener(mapMarker, 'click', function() {
+			page_move("${root}/mainfront?sid=godetail", null ,mapMarker.getTitle());
 			//$.post("${root}/mainfront?sid=godetail", {"loginId" : "test3", "no" : "00000003"},function(data));
 			//location.href = '${root}/mainfront?sid=godetail&no=' + marker2.getTitle()+"&id="+id;
 		});
 	}
 
-		var geocoder = new daum.maps.services.Geocoder();
+	var geocoder = new daum.maps.services.Geocoder();
 	$(document).ready(function() {
+		$.ajax({
+			url : "${root}/mypickmap/getmaplist",
+			dataType : "JSON",
+			success : function(result){
+				for (var i = 0; i < result.length; i++) {
+					console.log(result[i]);
+					var position = new daum.maps.LatLng(result[i].x, result[i].y);
+				    if (result[i].cate == 1) {
+						addMarker(1, doneMarkerimage,position, result[i].subject);
+					} else if(result[i].cate == 2){
+						addMarker(2, pickMarkerimage,position, result[i].subject);
+					}
+				}
+			}
+		});
+		$('#all').click(function(event) {
+			event.preventDefault();
+			setAllMarkers(map);
+		})
+		$('#pick').click(function(event) {
+			event.preventDefault();
+			setPickMarkers(map);
+		})
+		$('#done').click(function(event) {
+			event.preventDefault();
+			setDoneMarkers(map);
+		})
 		$('input[name=range]').change(function() {
 			var jb = $('input[name=range]').val();
 			$("label[id=range]").html(jb);
@@ -267,7 +314,7 @@ getTwitters('twitter', {
 		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
 			var latlng = mouseEvent.latLng;
 			marker.setPosition(latlng);
-			searchAddrFromCoords(latlng, displayCenterInfo);
+		    searchAddrFromCoords(latlng, displayCenterInfo);
 		});
 		
 		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
@@ -280,9 +327,8 @@ getTwitters('twitter', {
 							+ '</div>'; */
 					var content = '<div class="bAddr"><' + detailAddr + '</div>';
 					document.getElementById('clickAddrDetail').innerHTML = detailAddr;
-					markerSet(mouseEvent.latLng.getLat(), mouseEvent.latLng
-							.getLng());
-					selectDistanceLesson(marker);
+					markerSet(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
+					/* selectDistanceLesson(marker); */
 				}
 			});
 		});
@@ -304,7 +350,6 @@ getTwitters('twitter', {
 		if (status === daum.maps.services.Status.OK) {
 			var infoDiv = document.getElementById('clickAddr');
 			for (var i = 0; i < result.length; i++) {
-				console.log(result[i]);
 				// 행정동의 region_type 값은 'H' 이므로
 				if (result[i].region_type === 'H') {
 					infoDiv.innerHTML = result[i].address_name;
@@ -313,14 +358,33 @@ getTwitters('twitter', {
 			}
 		}
 	}
+	function setDoneMarkers(map) {
+		hideMarkers()
+	    for (var i = 0; i < doneMarkers.length; i++) {
+	    	doneMarkers[i].setMap(map);
+	    }            
+	}
+	function setPickMarkers(map) {
+		hideMarkers()
+	    for (var i = 0; i < pickMarkers.length; i++) {
+	    	pickMarkers[i].setMap(map);
+	    }            
+	}
+	function setAllMarkers(map) {
+	    for (var i = 0; i < allMarkers.length; i++) {
+	    	allMarkers[i].setMap(map);
+	    }            
+	}
+	function hideMarkers() {
+	    setAllMarkers(null);    
+	}
 	function markerSet(lat, lng) {
 		marker.setPosition(new daum.maps.LatLng(lat, lng));
 		circle.setPosition(new daum.maps.LatLng(lat, lng));
-		console.log(new daum.maps.LatLng(lat, lng));
 		marker.setMap(map);
 		circle.setMap(map);
 	}
-	function selectDistanceLesson(marker) {
+	/* function selectDistanceLesson(marker) {
 		arr = [];
 		selectMarkers = [];
 		var m1 = marker.getPosition();
@@ -338,7 +402,7 @@ getTwitters('twitter', {
 		for (var j = 0; j < selectMarkers.length; j++) {
 			arr.push(selectMarkers[j].getTitle());
 		}
-	}
+	} */
 </script>
 <script>
 			/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
