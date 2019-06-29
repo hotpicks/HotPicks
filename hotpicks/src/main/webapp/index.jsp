@@ -16,12 +16,12 @@
 $(function() {
 			if ($('#sliderholder-cycle').length) {
 			// timeouts per slide (in seconds) 
-			var timeouts = [150,390,25]; 
+			var timeouts = [150,390,25]; d
 			function calculateTimeout(currElement, nextElement, opts, isForward) { 
 			    var index = opts.currSlide; 
 			    return timeouts[index] * 1000;
 			}
-			jQuery('#sliderholder-cycle').cycle({
+			$('#sliderholder-cycle').cycle({
 				fx: 'fade',
 				pager: '.slidernav',
 				prev:    '.sliderprev',
