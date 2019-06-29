@@ -82,6 +82,7 @@ height: 30px;
                 <br />
                 <!-- ******** userid ******** -->
                 <input style="margin-bottom: 0px;" class="required inpt" type="text" name="userid" id="userid" value="" />
+              <!-- ******* id 중복 확인 메세지 ******* -->
               <p style="margin-bottom:15px;"><font color="red" style="font-style: italic;">*이미 사용중인 id입니다.</font></p>
               </p>
               <p>
@@ -95,6 +96,7 @@ height: 30px;
                 <br />
                 <!-- ******** passck ******** -->
                 <input style="margin-bottom: 0px;" class="required inpt" type="text" name="passck" id="passck" value="" />
+              <!-- ******* 비밀번호 일치 여부 확인 메세지 ******* -->
                 <p style="margin-bottom:15px;"><font color="red" style="font-style: italic;">*비밀번호가 일치하지 않습니다.</font></p>
               </p>
               <p>
