@@ -174,36 +174,48 @@ getTwitters('twitter', {
     <!-- End Content --> 
     
   </div>
+  
+  
+  <!-- daum map api -->
   <!-- End Wrapper -->
   <script type="text/javascript">
-	var loginClass = '${loginClass}';
+  <!-- GeoLocation Api -->
+	var user_x = 37.5028273473234;
+	var user_y = 126.9871525346085;
+	if ("geolocation" in navigator) {
+			getLocation();
+		} else {
+		  alert('사용자의 위치를 가져올 수 없는 브라우저 입니다.');
+		}
+	
+	function getLocation() {
+		  if (navigator.geolocation) {
+		    navigator.geolocation.getCurrentPosition(showPosition);
+		  } 
+		}
+	
+	function showPosition(position) {
+		user_x = position.coords.latitude; 
+		user_y = position.coords.longitude;
+		markerSet(user_x, user_y);
+		map.setCenter(new daum.maps.LatLng(user_x, user_y));
+		}	
 	var arr = [];
 	var allMarkers= [];
 	var doneMarkers = [];
 	var pickMarkers = [];
 	var selectMarkers = [];
 	var container = document.getElementById('map');
-	var options;
-	if (loginClass =='s'){
-		//var stu_x = '${id.stu_x}';
-		//var stu_y = '${id.stu_y}';
-	options = {
-		center : new daum.maps.LatLng(stu_x, stu_y),
-		level : 8
-	};
-	} else {
-		options = {
-				center : new daum.maps.LatLng(37.5028273473234, 126.9871525346085),
-				level : 8};
-	}
-	
+	var options = {
+			center : new daum.maps.LatLng(user_x, user_y),
+			level : 8};
 	var map = new daum.maps.Map(container, options);
-	var imageSrc = '${root}/resources/style/images/marker/location.png', // 마커이미지의 주소입니다    
+	var imageSrc = '${root}/resources/style/images/marker/mylocation.png', // 마커이미지의 주소입니다    
 	imageSize = new daum.maps.Size(43, 45), // 마커이미지의 크기입니다
 	imageSize2 = new daum.maps.Size(28, 38), // 마커이미지의 크기입니다
 	pickMarkerImageSize = new daum.maps.Size(35, 45), // 마커이미지의 크기입니다
 	imageOption2 = {
-		offset : new daum.maps.Point(16,45)
+		offset : new daum.maps.Point(14,38)
 	}; 
 	imageOption = {
 		offset : new daum.maps.Point(23,45)
@@ -215,7 +227,8 @@ getTwitters('twitter', {
 	// 마커를 생성합니다
 	var marker = new daum.maps.Marker({
 		position : markerPosition,
-		image : markerImage
+		image : markerImage,
+		zIndex : 1000
 	// 마커이미지 설정 
 	}), infowindow = new daum.maps.InfoWindow({
 		zindex : 100
@@ -278,6 +291,7 @@ getTwitters('twitter', {
 	}
 
 	var geocoder = new daum.maps.services.Geocoder();
+	
 	$(document).ready(function() {
 		$.ajax({
 			url : "${root}/mypickmap/getmaplist",
