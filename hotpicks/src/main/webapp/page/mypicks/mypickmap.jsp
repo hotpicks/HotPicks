@@ -177,11 +177,6 @@ getTwitters('twitter', {
     
   </div>
   <!-- End Wrapper -->
-  <!-- GeoLocation Api -->
-  <script>
-  	window.navigator.geolocation.getCurrenPosition();
-  </script>
-  <!-- daum map api -->
   <script type="text/javascript">
 	var loginClass = '${loginClass}';
 	
