@@ -22,7 +22,9 @@ public class MypickMapController {
 	@RequestMapping("/mvmypickmap")
 	public String mvMap() {
 		System.out.println("1");
-		return "/page/mypicks/mypickmap";
+		String a = "/mypicks/mypickmap";
+		System.out.println(a);
+		return a;
 	}
 	
 	@RequestMapping("/getmaplist")
