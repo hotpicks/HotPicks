@@ -22,11 +22,9 @@
 			</list>
 		</property>
 	</bean>
+	
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactoryBean"></constructor-arg>
 	</bean>
-	
-	<context:component-scan base-package="com.kitri.hotpicks.**.service"></context:component-scan>
-	<context:component-scan base-package="com.kitri.hotpicks.**.dao"></context:component-scan>
 		
 </beans>

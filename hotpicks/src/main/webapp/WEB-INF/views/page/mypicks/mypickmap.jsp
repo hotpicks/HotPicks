@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file = "/template/header.jsp" %>
+<%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <style>
@@ -130,9 +130,9 @@ getTwitters('twitter', {
 		<a>행사</a>
 	</div>
 	<div>
-		<a href="${root}/page/mypicks/mypicklist.jsp"><button>목록형사진</button></a>
-		<a href="${root}/page/mypicks/mypickmap.jsp"><button>지도형사진</button></a>
-		<a href="${root}/page/mypicks/mypickcalendar.jsp"><button>달력형사진</button></a>
+		<a href="${root}/WEB-INF/views/page/mypicks/mypicklist.jsp"><button>목록형사진</button></a>
+		<a href="${root}/WEB-INF/views/page/mypicks/mypickmap.jsp"><button>지도형사진</button></a>
+		<a href="${root}/WEB-INF/views/page/mypicks/mypickcalendar.jsp"><button>달력형사진</button></a>
 	</div>
 </div>
       
@@ -421,4 +421,4 @@ getTwitters('twitter', {
 				});
 			}
 		</script>
-<%@ include file = "/template/footer.jsp"%>
+<%@ include file = "/WEB-INF/views/page/template/footer.jsp"%>

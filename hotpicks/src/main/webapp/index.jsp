@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file = "/template/header.jsp" %>
+<%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
 <style>
 #about .one-fourth img {
 	-moz-box-shadow: 0px 1px 2px #656565;
@@ -42,7 +42,7 @@ $(function() {
   
   <!-- Begin Slider -->
   <div id="cycle-wrapper">
-    <div id="sliderholder-cycle"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+    <div id="sliderholder-cycle"> <a href="${root}/WEB-INF/views/page/contents/sohyun_contentdetail.jsp">
     <img src="${root}/resources/style/images/sample/p1.jpg" width="960" height="380" /></a>
       <div>
         <iframe src="http://player.vimeo.com/video/4890208?title=0&amp;byline=0&amp;portrait=0" width="960" height="380" frameborder="0"></iframe>
@@ -65,7 +65,7 @@ $(function() {
     
     <!-- Begin About -->
     <div id="about">
-      <div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+      <div class="one-fourth"> <a href="${root}/WEB-INF/views/page/contents/sohyun_contentdetail.jsp">
       <img src="${root}/resources/style/images/sample/p1.jpg" alt="" /></a>
         <h4>부산 다함께 축제</h4>
         <p>부산 감천문화 마을에서 펼처지는 재밋는 놀이</p>
@@ -89,4 +89,4 @@ $(function() {
   </div>
   
 
-  <%@ include file = "/template/footer.jsp" %>
+  <%@ include file = "/WEB-INF/views/page/template/footer.jsp" %>
