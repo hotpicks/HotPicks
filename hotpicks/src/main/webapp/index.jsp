@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file = "/template/header.jsp" %>
+<%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
 <style>
 #about .one-fourth img {
 	-moz-box-shadow: 0px 1px 2px #656565;
@@ -89,4 +89,4 @@ $(function() {
   </div>
   
 
-  <%@ include file = "/template/footer.jsp" %>
+  <%@ include file = "/WEB-INF/views/page/template/footer.jsp" %>

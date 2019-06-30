@@ -68,7 +68,7 @@
               <li><a href="${root}/WEB-INF/views/page/mypicks/mypicklist.jsp">My Picks</a>
                 <ul>
                   <li><a href="${root}/WEB-INF/views/page/mypicks/mypicklist.jsp">Pick 목록</a></li>
-                  <li><a href="${root}/WEB-INF/views/page/mypicks/mypickmap.jsp">Pick 지도</a></li>
+                  <li><a href="${root}/mypickmap/mvmypickmap">Pick 지도</a></li>
                   <li><a href="${root}/WEB-INF/views/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
                 </ul>
               </li>

@@ -32,8 +32,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kitri.hotpicks.**.controller" />
-	
+	<!-- ********** 다 읽기 *********** | 컨트롤러, service, dao의 컴포넌트 다 읽어들임 -->
+	<context:component-scan base-package="com.kitri.hotpicks" />
 	
 	
 </beans:beans>
