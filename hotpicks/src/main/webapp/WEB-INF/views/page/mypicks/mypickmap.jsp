@@ -112,12 +112,6 @@ getTwitters('twitter', {
         newwindow: true
 });
 </script>
-<script>
-	$(document).ready(function() {
-		
-	});
-	
-</script>
 
   <!-- Begin Wrapper -->
   <div id="wrapper"> 
@@ -138,7 +132,7 @@ getTwitters('twitter', {
       
       <h3></h3>
        <div class="container">
-  <div class="row">
+  <div style="padding-bottom:30px;" class="row">
  		<div class="condition col-2" style="height:100%">CONDITION
  		<div class="sidenav">
 						<button class="dropdown-btn">
@@ -168,8 +162,9 @@ getTwitters('twitter', {
       </div>
 	</div>
 	  </div>
+	  <hr>
+	  <div id="selectcontents"></div>
 </div>
-	<div id="clickLatlng"></div>
     </div>
     <!-- End Content --> 
     
@@ -197,9 +192,22 @@ getTwitters('twitter', {
 	function showPosition(position) {
 		user_x = position.coords.latitude; 
 		user_y = position.coords.longitude;
+		console.log(user_x + " "+ user_y);
 		markerSet(user_x, user_y);
 		map.setCenter(new daum.maps.LatLng(user_x, user_y));
-		}	
+		searchDetailAddrFromCoords(new daum.maps.LatLng(user_x, user_y), function(result, status) {
+			if (status === daum.maps.services.Status.OK) {
+				var detailAddr = !!result[0].road_address ? '<div style="font-size:12px; color:gray;">'
+						+ result[0].road_address.address_name + '(도로명주소)</div>' : '<div style="font-size:12px; color:gray;">' + result[0].address.address_name
+						+ '</div>';
+				/* detailAddr += '<div>' + result[0].address.address_name
+						+ '</div>'; */
+				var content = '<div class="bAddr"><' + detailAddr + '</div>';
+				document.getElementById('clickAddrDetail').innerHTML = detailAddr;
+				/* selectDistanceLesson(marker); */
+			}
+		});
+	}
 	var arr = [];
 	var allMarkers= [];
 	var doneMarkers = [];
@@ -246,21 +254,19 @@ getTwitters('twitter', {
 	});
 	var doneMarkerimagesrc = '${root}/resources/style/images/marker/done_mark1.png';
 	var doneMarkerimage = new daum.maps.MarkerImage(doneMarkerimagesrc, imageSize,
-			imageOption), markerPosition = new daum.maps.LatLng(37.54699,
-			127.09598); 
+			imageOption)
 	var pickMarkerimagesrc = '${root}/resources/style/images/marker/pick_basic_mark.png';
 	var pickMarkerimage = new daum.maps.MarkerImage(pickMarkerimagesrc, pickMarkerImageSize,
-			imageOption), markerPosition = new daum.maps.LatLng(37.54699,
-			127.09598);
+			imageOption)
 	// 마커를 생성하고 지도위에 표시하는 함수입니다
-	function addMarker(cate, image ,position, title) {
+	function addMarker(cate, image ,position, subject, contentsid) {
 		
 		// 마커를 생성합니다
 		var mapMarker = new daum.maps.Marker({
 			position : position,
-			image : image
+			image : image,
 		});
-		mapMarker.setTitle(title);
+		mapMarker.setTitle(contentsid);
 		// 마커가 지도 위에 표시되도록 설정합니다
 		mapMarker.setMap(map);
 		// 생성된 마커를 배열에 추가합니다
@@ -272,7 +278,7 @@ getTwitters('twitter', {
 		}
 		
 		var iwContent = '<div id="mtitle" class="mx-auto" style="width:5rem;">'
-				+ mapMarker.getTitle() + '</div>';
+				+ subject + '</div>';
 		var infowindow = new daum.maps.InfoWindow({
 			position : position,
 			content : iwContent
@@ -298,12 +304,11 @@ getTwitters('twitter', {
 			dataType : "JSON",
 			success : function(result){
 				for (var i = 0; i < result.length; i++) {
-					console.log(result[i]);
 					var position = new daum.maps.LatLng(result[i].x, result[i].y);
 				    if (result[i].cate == 1) {
-						addMarker(1, doneMarkerimage,position, result[i].subject);
+						addMarker(1, doneMarkerimage,position, result[i].subject, result[i].contentsid);
 					} else if(result[i].cate == 2){
-						addMarker(2, pickMarkerimage,position, result[i].subject);
+						addMarker(2, pickMarkerimage,position, result[i].subject, result[i].contentsid);
 					}
 				}
 			}
@@ -325,11 +330,6 @@ getTwitters('twitter', {
 			$("label[id=range]").html(jb);
 			circle.setRadius(jb * 1000);
 		});
-		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
-			var latlng = mouseEvent.latLng;
-			marker.setPosition(latlng);
-		    searchAddrFromCoords(latlng, displayCenterInfo);
-		});
 		
 		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
 			searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
@@ -342,10 +342,26 @@ getTwitters('twitter', {
 					var content = '<div class="bAddr"><' + detailAddr + '</div>';
 					document.getElementById('clickAddrDetail').innerHTML = detailAddr;
 					markerSet(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
-					/* selectDistanceLesson(marker); */
+					selectDistanceLesson(marker);
+					console.log(selectMarkers);
+					$.ajax({
+						url : '${root}/mypickmap/getcontentslist',
+						type : 'post',
+						data : {
+							"selectMarkers" : selectMarkers
+						},
+						traditional : true,
+						//dataType : "JSON",
+						dataType : "html",
+						success : function(result) {
+							
+							$('#selectcontents').html(result);
+						}
+					});
 				}
 			});
-		});
+			
+	});
 		daum.maps.event.addListener(map, 'idle', function() {
 			searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 		});
@@ -398,25 +414,22 @@ getTwitters('twitter', {
 		marker.setMap(map);
 		circle.setMap(map);
 	}
-	/* function selectDistanceLesson(marker) {
-		arr = [];
+	function selectDistanceLesson(marker) {
 		selectMarkers = [];
 		var m1 = marker.getPosition();
-		for (var i = 0; i < markers.length; i++) {
-			var m2 = markers[i].getPosition();
+		for (var i = 0; i < allMarkers.length; i++) {
+			var m2 = allMarkers[i].getPosition();
 			var linePath = new daum.maps.Polyline({
 				map : map,
 				path : [ m1, m2 ]
 			});
 			if (linePath.getLength() < $('input[name=range]').val() * 1000) {
-				selectMarkers.push(markers[i]);
+				selectMarkers.push(allMarkers[i].getTitle());
 			}
 			linePath.setMap(null);
 		}
-		for (var j = 0; j < selectMarkers.length; j++) {
-			arr.push(selectMarkers[j].getTitle());
-		}
-	} */
+		
+	}
 </script>
 <script>
 			/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
