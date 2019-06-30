@@ -17,8 +17,14 @@ public class MypickMapServiceImpl implements MypickMapService {
 	
 	@Override
 	public List<MapContentsDto> getContent() {
-		System.out.println("service");
+		
 		return sqlSession.getMapper(MypickMapDao.class).getMapList();
+	}
+
+	@Override
+	public List<MapContentsDto> selectContentsList(List<String> selectMarkers) {
+		System.out.println("service111" + selectMarkers);
+		return sqlSession.getMapper(MypickMapDao.class).selectContentsList(selectMarkers);
 	}
 
 }
