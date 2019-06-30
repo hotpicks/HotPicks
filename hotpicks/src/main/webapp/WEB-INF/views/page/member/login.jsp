@@ -40,6 +40,23 @@ height: auto;
 
 </style>
 
+<script>
+$(function(){
+	
+	// 가입 페이지 이동 요청
+	$("#joinBtn").click(function(){
+		$(this).attr("href", "${root}/member/join");
+	});
+	
+	// 로그인 요청
+	$("#loginBtn").click(function(){
+		
+		$(".loginForm").attr("method", "POST").attr("action", "${root}/member/login").submit();
+		
+	});
+	
+});
+</script>
 
  <div align="center" class="title">로그인</div>
 
@@ -58,14 +75,19 @@ height: auto;
           <div id="note"></div>
           <!--begin:notice message block-->
           
-          <form id="ajax-contact-form" method="post" action="javascript:alert('success!');">
+          <form class="loginForm" id="ajax-contact-form">
             <div class="labels">
               <p>
-                <label for="emailId" class="labels"">Email ID</label>
+                <label for="userId" class="labels"">Email ID</label>
                 <br />
-                <!-- ******** userid ******** -->
-                <input class="required inpt" type="text" name="userid" id="userid" value="" 
+                <!-- ******** userId ******** -->
+                <input class="required inpt" type="text" name="userId" id="userId" value="" 
                 		style="margin-bottom: 0px; height:30px;"/>
+                		
+<c:if test="${loginfail != null}">
+                <!-- ******* 로그인 실패 메세지 ******* -->
+              <p style="margin-bottom:15px;"><font color="red" style="font-style: italic;">*id 또는 비밀번호가 일치하지 않습니다.</font></p>
+</c:if>
               </p>
               <p>
                 <label for="event">비밀번호</label>
@@ -101,9 +123,10 @@ height: auto;
 				</script>
             	<!-- *************************** 카카오톡 로그인 버튼 *************************** -->
 				
-            	<a href="#" class="button red btns" style="font-weight: 700;">로그인<span></span></a><br><br><br>
+            	<a id="loginBtn" class="button red btns" style="font-weight: 700;">로그인<span></span></a>
+            	<br><br><br>
             	<span>아직 계정이 없다면, <strong>회원가입</strong> 하세요.</span>
-            	<a href="${root}/WEB-INF/views/page/member/join.jsp" class="button light-teal btns" style="margin-bottom:20px; font-weight: 700;">회원가입<span></span></a>
+            	<a id="joinBtn" class="button light-teal btns" style="margin-bottom:20px; font-weight: 700;">회원가입<span></span></a>
             </div>
           </form>
         </div>

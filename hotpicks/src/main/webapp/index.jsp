@@ -16,7 +16,7 @@
 $(function() {
 			if ($('#sliderholder-cycle').length) {
 			// timeouts per slide (in seconds) 
-			var timeouts = [150,390,25]; d
+			var timeouts = [150,390,25];
 			function calculateTimeout(currElement, nextElement, opts, isForward) { 
 			    var index = opts.currSlide; 
 			    return timeouts[index] * 1000;
