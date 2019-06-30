@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
+<%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
 
 <script>
+
 $(function(){
 	
 	//가입하기 요청
@@ -11,8 +12,15 @@ $(function(){
 		$(".joinForm").attr("method", "POST").attr("action", "${root}/member/join").submit();
 		
 	});
-
+	
+	// TODO id 이멜 형식 & 중복체크, 비밀번호 확인 체크, 모든 항목 유효성 검사 추가
+	
+	// 지역 select 박스 값 관광 api 호출
+	// x,y 값 다음 api 호출
+	// 프로필 사진값 적용
+	
 });
+
 </script>
 
 <!-- icon 사용 위함 -->
@@ -87,16 +95,16 @@ height: 30px;
               </div>
               </p>
               <p>
-              	<a href="#" class="button red btns" style="margin-left:410px; font-weight: 700;">사진 설정<span></span></a>
+              	<a id="profileBtn" class="button red btns" style="margin-left:410px; font-weight: 700;">사진 설정<span></span></a>
               </p>
               <br><br>
               <p>
                 <label for="userId" class="labels"">Email ID</label>
                 <br />
                 <!-- ******** userId ******** -->
-                <input style="margin-bottom: 0px;" class="required inpt" type="text" name="userId" id="userId" value="" />
+                <input style="margin-bottom: 0px;" class="required inpt" type="text" name="userId" id="userId" value="" placeholder="example@gmail.com" />
               <!-- ******* id 중복 확인 메세지 ******* -->
-              <p style="margin-bottom:15px;"><font id="idcheck" color="red" style="font-style: italic;">*이미 사용중인 id입니다.</font></p>
+              <p style="margin-bottom:15px;"><font id="idcheck" color="red" style="font-style: italic;"> </font></p>
               </p>
               <p>
                 <label for="pass">비밀번호</label>
@@ -130,8 +138,8 @@ height: 30px;
                 <label>성별</label>
                 <br />
                 <!-- ******** gender ******** -->
-                	여성<input type="radio" name="gender" id="gender" value="여" checked>
-					남성<input type="radio" name="gender" id="gender" value="남">	
+                	여성<input type="radio" name="gender" value="여" checked>
+					남성<input type="radio" name="gender" value="남">	
               </p>
               <p>
               	<label for="region">지역</label>

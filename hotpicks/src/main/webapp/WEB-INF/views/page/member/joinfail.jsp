@@ -6,10 +6,10 @@
 
 $(function(){
 	
-	// 로그인 화면 이동 요청
+	// 회원가입 화면 이동 요청
 	$("#okBtn").click(function(){
 		
-		$(this).attr("href", "${root}/member/login");
+		$(this).attr("href", "${root}/member/join");
 		
 	});
 	
@@ -58,26 +58,19 @@ height: 30px;
 
 </style>
 
- <div align="center" class="title">회원가입 완료</div>
+ <div align="center" class="title">회원가입 실패</div>
 
  <!-- Begin Wrapper -->
   <div id="wrapper" align="center"> 
     <!-- Begin Content -->
     <div class="content" align="center">
       <br/>
-      <h3><font color="#f16e77">${joinInfo.name}</font>님 환영합니다! &nbsp;<font color="#ff99bb"><i class="fas fa-handshake"></i></font></h3>
-      <p>지금부터 Hot Picks를 자유롭게 이용할 수 있습니다.</p>
+      <h3>회원가입에 실패하였습니다. &nbsp;<font color="#ff99bb"><i class="fas fa-exclamation-triangle"></i></font></h3>
+      <p>서버 문제로 회원가입이 완료되지 않았습니다. 다시 시도해주세요.</p>
       <br>
-      <div style="background-color: lightgray; padding:10px; margin:0 auto; width:300px;">
-      	<h4>가입 정보</h4>
- 	  	<p>id : ${joinInfo.userId}</p>
-      	<p>성명 : ${joinInfo.name}</p>
-      	<p>나이 : ${joinInfo.age}</p>
-      	<p>가입일 : ${joinInfo.joinDate}</p>
-      </div>
       
       <div style="padding:10px; margin:30px auto; width:300px;">
-          <a id="okBtn" class="button red btns" style="margin-left:100px; font-weight: 700;">로그인<span></span></a>
+          <a id="okBtn" class="button red btns" style="margin-left:100px; font-weight: 700;">회원가입<span></span></a>
  	  </div>
  
       <div class="contact-right">  

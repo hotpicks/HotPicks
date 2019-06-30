@@ -4,7 +4,8 @@ import com.kitri.hotpicks.member.model.MemberDto;
 
 public interface MemberService {
 	
-	public void join(MemberDto memberDto);
+	public int join(MemberDto memberDto);
+	public String idCheck(String userId);
 	public MemberDto login(MemberDto memberDto);
 	
 }

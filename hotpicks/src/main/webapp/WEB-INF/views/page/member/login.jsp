@@ -7,7 +7,9 @@ $(function(){
 	
 	// 가입 페이지 이동 요청
 	$("#joinBtn").click(function(){
+		
 		$(this).attr("href", "${root}/member/join");
+	
 	});
 	
 	// 로그인 요청

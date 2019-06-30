@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -32,7 +33,24 @@ public class MemberController {
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(MemberDto memberDto, Model model) {
 		System.out.println("c : 가입하기 메소드 들어옴");
-		return "/member/joinok";
+		
+		int isJoined = memberService.join(memberDto);
+		
+		if(isJoined == 1) {
+			model.addAttribute("joinInfo", memberDto);
+			return "/member/joinok";			
+		} else {
+			return "/member/joinfail";
+		}
+				
+	}
+	
+	// id 중복 체크하기
+	@RequestMapping("/idcheck")
+	@ResponseBody
+	public String idcheck(@RequestParam(name="checkid", defaultValue = "") String userId) {
+		String json = memberService.idCheck(userId);
+		return json;
 	}
 
 	// 로그인 페이지 이동
