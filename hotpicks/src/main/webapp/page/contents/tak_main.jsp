@@ -14,6 +14,7 @@
 </style>
 <script type="text/javascript">
 $(function() {
+	console.log("정상작동");
 			if ($('#sliderholder-cycle').length) {
 			// timeouts per slide (in seconds) 
 			var timeouts = [150,390,25]; 
@@ -36,6 +37,24 @@ $(function() {
 			jQuery('.slidernav').css("display", "block");
 			
 			}
+			
+			
+/* 	$("#enter").click(function(){ */
+		$.ajax({
+			url : "${root}/api/enter",
+			type : "get",
+			
+			dataType : "json",
+			data : {"key":"keykey"},
+			success :function(result){
+				console.log("넘어옴");
+				$("#result").html(result);
+				}
+		});
+/* 			return;
+	}); */
+			
+			
 }); 
 </script>
 
@@ -50,6 +69,8 @@ $(function() {
     
     <!-- favorite -->
     <div id="about">
+    <div id="result>">
+     </div>
       <div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp"><img src="${root}/resources/style/images/sample/p1.jpg" alt="" /></a>
         <h4>부산 다함께 축제</h4>
         <p>부산 감천문화 마을에서 펼처지는 재밋는 놀이</p>
@@ -66,9 +87,9 @@ $(function() {
         <h4>board4</h4>
  		 <p>content.</p>
       </div>
-    </div>
+   
     <!-- End About --> 
-    
+    </div>
   </div>
   
    <div id="wrapper" style="margin-bottom: 20px;"> 
@@ -98,7 +119,7 @@ $(function() {
     
     <!-- favorite -->
     <div id="about">
-      <div class="one-fourth"> <a href="#"><img src="resources/style/images/img_dog/001.jpg" alt="" /></a>
+  <!--     <div class="one-fourth"> <a href="#"><img src="resources/style/images/img_dog/001.jpg" alt="" /></a>
         <h4>board1</h4>
         <p>content.</p>
       </div>
@@ -129,7 +150,7 @@ $(function() {
       <div class="one-fourth last"> <a href="#"><img src="resources/style/images/img_dog/002.jpg" alt="" /></a>
         <h4>board8</h4>
  		 <p>content.</p>
-      </div>
+      </div> -->
     </div>
     <!-- End About --> 
     
