@@ -102,4 +102,14 @@ public class MemberDto {
 	}
 	
 	
+	
+	
+	@Override
+	public String toString() {
+		return "MemberDto [userId=" + userId + ", pass=" + pass + ", name=" + name + ", age=" + age + ", gender="
+				+ gender + ", joinDate=" + joinDate + ", sidoCode=" + sidoCode + ", sigunguCode=" + sigunguCode + ", x="
+				+ x + ", y=" + y + ", enable=" + enable + ", profile=" + profile + "]";
+	}
+	
+	
 }

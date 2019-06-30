@@ -1,6 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
+
+<script>
+$(function(){
+	
+	//가입하기 요청
+	$("#joinBtn").click(function(){
+		
+		$(".joinForm").attr("method", "POST").attr("action", "${root}/member/join").submit();
+		
+	});
+
+});
+</script>
+
 <!-- icon 사용 위함 -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
@@ -40,9 +54,7 @@ width: 180px;
 height: 30px;
 }
 
-
 </style>
-
 
  <div align="center" class="title">회원가입</div>
 
@@ -61,7 +73,7 @@ height: 30px;
           <div id="note"></div>
           <!--begin:notice message block-->
           
-          <form id="ajax-contact-form" method="post" action="javascript:alert('success!');">
+          <form class="joinForm" id="ajax-contact-form">
             <div class="labels">
               
               <p>
@@ -71,33 +83,36 @@ height: 30px;
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
               	<img alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
-              	</div>
+              	<input type="hidden" name="profile" value="프로필사진확인용값"/>
+              </div>
               </p>
               <p>
               	<a href="#" class="button red btns" style="margin-left:410px; font-weight: 700;">사진 설정<span></span></a>
               </p>
               <br><br>
               <p>
-                <label for="emailId" class="labels"">Email ID</label>
+                <label for="userId" class="labels"">Email ID</label>
                 <br />
-                <!-- ******** userid ******** -->
-                <input style="margin-bottom: 0px;" class="required inpt" type="text" name="userid" id="userid" value="" />
+                <!-- ******** userId ******** -->
+                <input style="margin-bottom: 0px;" class="required inpt" type="text" name="userId" id="userId" value="" />
               <!-- ******* id 중복 확인 메세지 ******* -->
-              <p style="margin-bottom:15px;"><font color="red" style="font-style: italic;">*이미 사용중인 id입니다.</font></p>
+              <p style="margin-bottom:15px;"><font id="idcheck" color="red" style="font-style: italic;">*이미 사용중인 id입니다.</font></p>
               </p>
               <p>
                 <label for="pass">비밀번호</label>
                 <br />
                 <!-- ******** pass ******** -->
-                <input class="required inpt" type="text" name="pass" id="pass" value="" />
+                <input style="margin-bottom: 0px;" class="required inpt" type="password" name="pass" id="pass" value="" />
+              <!-- ******* 비밀번호 정규표현식 확인 메세지 ******* -->
+                <p style="margin-bottom:15px;"><font id="passtypecheck" color="red" style="font-style: italic;">*비밀번호는 특수문자, 영문 소문자 포함하여 12글자 이상</font></p>
               </p>
               <p>
                 <label for="passck">비밀번호 확인</label>
                 <br />
                 <!-- ******** passck ******** -->
-                <input style="margin-bottom: 0px;" class="required inpt" type="text" name="passck" id="passck" value="" />
+                <input style="margin-bottom: 0px;" class="required inpt" type="password" name="passck" id="passck" value="" />
               <!-- ******* 비밀번호 일치 여부 확인 메세지 ******* -->
-                <p style="margin-bottom:15px;"><font color="red" style="font-style: italic;">*비밀번호가 일치하지 않습니다.</font></p>
+                <p style="margin-bottom:15px;"><font id="passsamecheck" color="red" style="font-style: italic;">*비밀번호가 일치하지 않습니다.</font></p>
               </p>
               <p>
                 <label for="name">이름</label>
@@ -123,26 +138,26 @@ height: 30px;
               	<div id="region">
                 <!-- ******** sidoCode ******** -->
               	<select id="sidoCode" name="sidoCode" style="margin-right:50px;">
-              		<option value="123">시/도</option>
-              		<option value="123">서울</option>
-              		<option value="123">인천</option>
-              		<option value="123">대전</option>
-              		<option value="123">대구</option>
+              		<option value="0">시/도</option>
+              		<option value="1">서울</option>
+              		<option value="2">인천</option>
+              		<option value="3">대전</option>
+              		<option value="4">대구</option>
               	</select>
                 <!-- ******** sigunguCode ******** -->
               	<select id="sigunguCode" name="sigunguCode">
-              		<option value="123">시/군/구</option>
-              		<option value="123">구로구</option>
-              		<option value="123">강남구</option>
-              		<option value="123">동대문구</option>
-              		<option value="123">강동구</option>
+              		<option value="00">시/군/구</option>
+              		<option value="11">구로구</option>
+              		<option value="22">강남구</option>
+              		<option value="33">동대문구</option>
+              		<option value="44">강동구</option>
               	</select>
               	</div>
               </p>
                 <!-- ******** x ******** -->
-              <input type="hidden" name="x" value="">
+              <input type="hidden" name="x" value="0.1">
                 <!-- ******** y ******** -->
-              <input type="hidden" name="y" value="">
+              <input type="hidden" name="y" value="0.2">
             </div>
             
 	        <div class="divider"></div>
@@ -150,8 +165,8 @@ height: 30px;
             <label id="load" style="display:none"></label>
             
             <div class="align-center">
-            	<a href="#" class="button red btns" style="margin-right:100px; font-weight: 700;">취  소<span></span></a>
-            	<a href="#" class="button red btns" style="font-weight: 700;">가  입<span></span></a>
+            	<a id="cancleBtn" class="button red btns" style="margin-right:100px; font-weight: 700;">취  소<span></span></a>
+            	<a id="joinBtn" class="button red btns" style="font-weight: 700;">가  입<span></span></a>
             </div>
           </form>
         </div>
