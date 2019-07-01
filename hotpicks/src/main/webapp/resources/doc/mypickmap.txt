@@ -1,30 +1,67 @@
+drop table contents;
 create table contents (
 	contentsid varchar2(30),
 	subject varchar2(50),
 	x number,
-	y number
-)
+	y number,
+	cate number
+);
 
-insert into contents values ('a1', 'subject1', 37.487974453016804, 127.00062626740702);
-insert into contents values ('a2', 'subject1', 37.477974453016804, 126.90562626740702);
-insert into contents values ('a3', 'subject1', 37.47974453016804, 126.93562626740702);
-insert into contents values ('a4', 'subject1', 36.987974453016804, 126.97062626740702);
-insert into contents values ('a5', 'subject1', 37.367974453016804, 127.11062626740702);
-insert into contents values ('a6', 'subject1', 37.327974453016804, 127.133062626740702);
-insert into contents values ('a7', 'subject1', 37.287974453016804, 127.1520062626740702);
-insert into contents values ('a8', 'subject1', 37.227974453016804, 126.99062626740702);
-insert into contents values ('a9', 'subject1', 37.4227974453016804, 127.22002626740702);
+insert into contents values ('a1', 'subject1', 37.487974453016804, 127.00062626740702,1);
+insert into contents values ('a2', 'subject1', 37.477974453016804, 126.90562626740702,1);
+insert into contents values ('a3', 'subject1', 37.47974453016804, 126.93562626740702,1);
+insert into contents values ('a4', 'subject1', 36.987974453016804, 126.97062626740702,1);
+insert into contents values ('a5', 'subject1', 37.367974453016804, 127.11062626740702,1);
+insert into contents values ('a6', 'subject1', 37.327974453016804, 127.133062626740702,1);
+insert into contents values ('a7', 'subject1', 37.287974453016804, 127.1520062626740702,1);
+insert into contents values ('a8', 'subject1', 37.227974453016804, 126.99062626740702,1);
+insert into contents values ('a9', 'subject1', 37.4227974453016804, 127.22002626740702,1);
 INSERT INTO contents 
-VALUES ( 'b1','bsubject1', 37.4946101500637,126.986973011941 );
+VALUES ( 'b1','bsubject1', 37.4946101500637,126.986973011941 ,2);
 INSERT INTO contents 
-VALUES ( 'b2','bsubject2', 37.4977806737610,127.020265060283 );
+VALUES ( 'b2','bsubject2', 37.4977806737610,127.020265060283 ,2);
 INSERT INTO contents 
-VALUES ('b3','bsubject3', 37.4732203858393,126.886408122337 );
+VALUES ('b3','bsubject3', 37.4732203858393,126.886408122337 ,2);
 INSERT INTO contents
-VALUES ( 'b4','bsubject4', 37.46894659093263,126.97106103725571 );
+VALUES ( 'b4','bsubject4', 37.46894659093263,126.97106103725571 ,2);
 INSERT INTO contents
-VALUES ( 'b5','bsubject5', 37.54535520073692,126.99384419933796);
+VALUES ( 'b5','bsubject5', 37.54535520073692,126.99384419933796,2);
 INSERT INTO contents 
-VALUES ( 'b6','bsubject6' , 37.52833987710257,127.03294415207834 );
+VALUES ( 'b6','bsubject6' , 37.52833987710257,127.03294415207834 ,2);
 INSERT INTO contents
-VALUES ( 'b7','bsubject7' , 37.53467167004162,127.06118716687314 );
+VALUES ( 'b7','bsubject7' , 37.53467167004162,127.06118716687314,2 );
+
+
+
+CREATE OR REPLACE FUNCTION RADIANS(nDegrees IN NUMBER) 
+RETURN NUMBER DETERMINISTIC 
+IS
+BEGIN
+  /*
+  -- radians = degrees / (180 / pi)
+  -- RETURN nDegrees / (180 / ACOS(-1)); but 180/pi is a constant, so...
+  */
+  RETURN nDegrees / 57.29577951308232087679815481410517033235;
+END RADIANS;
+ 
+create or replace function DISTNACEWGS84( H_LAT in number, H_LNG in number, T_LAT in number, T_LNG in number)
+return number deterministic
+is
+begin
+  return ( 6371.0 * acos(  
+          cos( radians( H_LAT ) )*cos( radians( T_LAT /* 위도 */ ) )
+          *cos( radians( T_LNG /* 경도 */ )-radians( H_LNG ) )
+          +
+          sin( radians( H_LAT ) )*sin( radians( T_LAT /* 위도 */ ) )        
+         ));
+end DISTNACEWGS84;
+ 
+select DISTNACEWGS84(33.504274, 126.529182, 33.524383, 126.544333) from dual;
+/* 결과 2.64059773979495999846417249534463003211 */
+ 
+commit;
+
+select contentsid, subject, x, y, cate , DISTNACE_WGS84(33.504274,126.529182,x,y) 
+ 		from contents c
+ 		where DISTNACEWGS84(33.504274,126.529182,x,y) < 100000
+        and contentsid in ('a1','a2');

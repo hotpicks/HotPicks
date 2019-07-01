@@ -341,15 +341,20 @@ getTwitters('twitter', {
 							+ '</div>'; */
 					var content = '<div class="bAddr"><' + detailAddr + '</div>';
 					document.getElementById('clickAddrDetail').innerHTML = detailAddr;
-					markerSet(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
+					var x = mouseEvent.latLng.getLat();
+					var y = mouseEvent.latLng.getLng();
+					markerSet(x, y);
 					selectDistanceLesson(marker);
-					console.log(selectMarkers);
+					var data = {
+							"selectMarkers" : selectMarkers,
+							"x" : x,
+							"y" : y,
+							"selectDistance" :  $('input[name=range]').val() * 1000
+						}
 					$.ajax({
 						url : '${root}/mypickmap/getcontentslist',
 						type : 'post',
-						data : {
-							"selectMarkers" : selectMarkers
-						},
+						data : data,
 						traditional : true,
 						//dataType : "JSON",
 						dataType : "html",
