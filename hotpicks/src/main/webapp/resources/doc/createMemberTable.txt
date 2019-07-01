@@ -9,10 +9,6 @@ create table member (
 	age number,			-- 나이
 	gender varchar2(3),		-- 성별 (여/남)
 	joinDate date default sysdate,	-- 가입일
-	sidoCode varchar2(3),		-- 시도코드
-	sigunguCode varchar2(16),	-- 시군구코드
-	x float,			-- x좌표
-	y float,			-- y좌표
 	enable number(3) default 1,	-- 활동여부 (0:탈퇴,1:활동)
 	profile clob,			-- 프로필사진 경로
 	CONSTRAINT pk_member primary key(userId)

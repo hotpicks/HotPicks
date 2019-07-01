@@ -12,8 +12,8 @@
  	</select>
  	
  	<insert id="join" parameterType="memberDto">
- 		insert into member(userid, pass, name, age, gender, joinDate, sidoCode, sigunguCode, x, y, enable, profile)
-		values(#{userId}, #{pass}, #{name}, #{age}, #{gender}, sysdate, #{sidoCode}, #{sigunguCode}, #{x}, #{y}, 1, #{profile})
+ 		insert into member(userid, pass, name, age, gender, joinDate, enable, profile)
+		values(#{userId}, #{pass}, #{name}, #{age}, #{gender}, sysdate, 1, #{profile})
  	</insert>
  	
  	<select id="idCheck" parameterType="String" resultType="int">

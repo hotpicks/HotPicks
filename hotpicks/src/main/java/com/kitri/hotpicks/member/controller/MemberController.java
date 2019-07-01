@@ -1,5 +1,7 @@
 package com.kitri.hotpicks.member.controller;
 
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +30,6 @@ public class MemberController {
 		System.out.println("c : 가입 페이지 이동 메소드 들어옴");
 	}
 
-	// TODO 가입하기 메소드 구현
 	// 가입하기
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(MemberDto memberDto, Model model) {
@@ -37,6 +38,9 @@ public class MemberController {
 		int isJoined = memberService.join(memberDto);
 		
 		if(isJoined == 1) {
+			SimpleDateFormat format = new SimpleDateFormat ( "yyyy년 MM월 dd일");
+			String today = format.format(System.currentTimeMillis());
+			memberDto.setJoinDate(today);
 			model.addAttribute("joinInfo", memberDto);
 			return "/member/joinok";			
 		} else {
@@ -50,6 +54,7 @@ public class MemberController {
 	@ResponseBody
 	public String idcheck(@RequestParam(name="checkid", defaultValue = "") String userId) {
 		String json = memberService.idCheck(userId);
+		System.out.println(json);
 		return json;
 	}
 

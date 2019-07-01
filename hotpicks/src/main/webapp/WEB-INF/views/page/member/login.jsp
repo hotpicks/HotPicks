@@ -15,9 +15,16 @@ $(function(){
 	// 로그인 요청
 	$("#loginBtn").click(function(){
 		
-		$(".loginForm").attr("method", "POST").attr("action", "${root}/member/login").submit();
+		if($("#userId").val().trim().length == 0){
+			alert("id를 입력해주세요.");
+		} else if($("#pass").val().trim().length == 0){
+			alert("비밀번호를 입력해주세요.");
+		} else {
 		
+			$(".loginForm").attr("method", "POST").attr("action", "${root}/member/login").submit();
+		}
 	});
+	
 	
 });
 </script>
@@ -62,7 +69,6 @@ height: auto;
 </style>
 
  <div align="center" class="title">로그인</div>
-
  <!-- Begin Wrapper -->
   <div id="wrapper" align="center"> 
     <!-- Begin Content -->
@@ -111,19 +117,28 @@ height: auto;
             	<a id="kakao-login-btn"></a>
 				<a href="http://developers.kakao.com/logout"></a>
 				<script type='text/javascript'>
+					var token;
 				    // 사용할 앱의 JavaScript 키를 설정해 주세요.
 				    Kakao.init('80e0c68902771bfbccccae15ff290afd');
 				    // 카카오 로그인 버튼을 생성합니다.
 				    Kakao.Auth.createLoginButton({
 				      container: '#kakao-login-btn',
+				      
 				      success: function(authObj) {
 				        alert("로그인 성공\n" + JSON.stringify(authObj));
+				        
+				        token = JSON.stringify(authObj.access_token);
+				        
 				      },
 				      fail: function(err) {
 				         alert("로그인 실패\n" + JSON.stringify(err));
+				         console.log(JSON.stringify(authObj));
 				      }
 				    });
+				    
+			
 				</script>
+				
             	<!-- *************************** 카카오톡 로그인 버튼 *************************** -->
 				
             	<a id="loginBtn" class="button red btns" style="font-weight: 700;">로그인<span></span></a>

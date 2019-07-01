@@ -26,7 +26,6 @@ public class MemberServiceImpl implements MemberService {
 	public String idCheck(String userId) {
 		System.out.println("s_Impl : id검사 메소드 실행");
 		int result = sqlSession.getMapper(MemberDao.class).idCheck(userId);
-		
 		JSONObject json = new JSONObject();
 		json.put("idcount", result);
 		
