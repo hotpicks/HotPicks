@@ -14,7 +14,6 @@
 </style>
 <script type="text/javascript">
 $(function() {
-	console.log("정상작동");
 			if ($('#sliderholder-cycle').length) {
 			// timeouts per slide (in seconds) 
 			var timeouts = [150,390,25]; 
@@ -41,14 +40,13 @@ $(function() {
 			
 /* 	$("#enter").click(function(){ */
 		$.ajax({
-			url : "${root}/api/enter",
+			url : "${root}/contents/enter",
 			type : "get",
-			
-			dataType : "json",
+			dataType : "HTML",
 			data : {"key":"keykey"},
 			success :function(result){
 				console.log("넘어옴");
-				$("#result").html(result);
+				$('#about1').html(result);
 				}
 		});
 /* 			return;
@@ -59,7 +57,7 @@ $(function() {
 </script>
 
   <!-- Begin Wrapper -->
-  <div id="wrapper" style="margin-bottom: 20px;"> 
+  <div id="wrapper1" style="margin-bottom: 20px;"> 
     
     <!-- Begin Intro -->
     <div class="intro">
@@ -68,10 +66,8 @@ $(function() {
     <!-- End Intro --> 
     
     <!-- favorite -->
-    <div id="about">
-    <div id="result>">
-     </div>
-      <div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp"><img src="${root}/resources/style/images/sample/p1.jpg" alt="" /></a>
+    <div id="about1">
+     <%--  <div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp"><img src="${root}/resources/style/images/sample/p1.jpg" alt="" /></a>
         <h4>부산 다함께 축제</h4>
         <p>부산 감천문화 마을에서 펼처지는 재밋는 놀이</p>
       </div>
@@ -86,13 +82,13 @@ $(function() {
       <div class="one-fourth last"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
         <h4>board4</h4>
  		 <p>content.</p>
-      </div>
+      </div>  --%>
    
     <!-- End About --> 
     </div>
   </div>
   
-   <div id="wrapper" style="margin-bottom: 20px;"> 
+   <div id="wrapper2" style="margin-bottom: 20px;"> 
    
     <!-- Begin Intro -->
     <div class="intro">
@@ -118,7 +114,7 @@ $(function() {
     <!-- End Intro --> 
     
     <!-- favorite -->
-    <div id="about">
+    <div id="about2">
   <!--     <div class="one-fourth"> <a href="#"><img src="resources/style/images/img_dog/001.jpg" alt="" /></a>
         <h4>board1</h4>
         <p>content.</p>

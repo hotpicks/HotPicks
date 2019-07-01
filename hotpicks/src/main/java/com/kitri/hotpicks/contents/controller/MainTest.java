@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/contents")
 public class MainTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(MainTest.class);
@@ -39,10 +39,10 @@ public class MainTest {
 				+ "contentTypeId=15&" + "cat1=A02&" + "cat2=A0207&" + "cat3=A02070100&"
 				+ "_type=json&" + "ServiceKey=" + takapikey;
 
-		String categoryurlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/categoryCode?"
-
-				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "contentTypeId=15&" + "cat1=A02&" + "cat2=A0208&"
-				+ "cat3=A02080300&" + "_type=json&" + "ServiceKey=" + takapikey;
+//		String categoryurlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/categoryCode?"
+//
+//				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "contentTypeId=15&" + "cat1=A02&" + "cat2=A0208&"
+//				+ "cat3=A02080300&" + "_type=json&" + "ServiceKey=" + takapikey;
 
 		logger.info("----------------------------------");
 		List<Map<String, String>> list = apiexc(periodurlStr);
