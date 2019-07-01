@@ -5,10 +5,11 @@
  <mapper namespace="com.kitri.hotpicks.member.dao.MemberDao">
  	
  	<select id="login" parameterType="memberDto" resultType="memberDto">
- 		select userId, name
+ 		select userId, name, age, gender, pass, profile
  		from member
  		where userId = #{userId}
  		and pass = #{pass}
+ 		and enable = 1
  	</select>
  	
  	<insert id="join" parameterType="memberDto">
@@ -21,5 +22,29 @@
  		from member
  		where userId = #{userId}
  	</select>
+ 	
+ 	<update id="modify" parameterType="memberDto">
+ 		update member
+ 		set pass = #{pass},
+ 		age = #{age},
+ 		gender = #{gender},
+ 		profile = #{profile}
+ 		where userId = #{userId}
+ 	</update>
+ 	
+ 	<update id="modifynew" parameterType="memberDto">
+ 		update member
+ 		set pass = #{newpass},
+ 		age = #{age},
+ 		gender = #{gender},
+ 		profile = #{profile}
+ 		where userId = #{userId}
+ 	</update>
+ 	
+ 	<update id="exit">
+ 		update member
+ 		set enable = 0
+ 		where userId = #{userId}
+ 	</update>
  
  </mapper>

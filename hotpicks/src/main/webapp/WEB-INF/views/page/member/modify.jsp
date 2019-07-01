@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
 <!-- icon 사용 위함 -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -43,6 +45,105 @@ height: 30px;
 
 </style>
 
+<script>
+$(function(){
+	
+	// 현재 비번 일치 여부 체크
+	$("#pass").keyup(function(){
+		var curpass = $(this).attr("data-pass");
+		var inputpass = $(this).val();
+		if(curpass != inputpass) {
+			$("#passrightcheck").css('color', 'tomato');
+			$("#passrightcheck").text('*비밀번호가 일치하지 않습니다.');
+		}else {			
+			$("#passrightcheck").css('color', 'steelblue');
+			$("#passrightcheck").text('*비밀번호가 일치합니다.');
+		}
+	});
+	
+	// 새 비번 적합 여부 체크
+	// password 형식 - 정규표현식
+	// 숫자, 특수문자, 영문자 포함한 8~15자리 이내의 비밀번호만 허용
+	var passtypecnt = 1;
+	var passwordRule = /(?=.*\d{1,})(?=.*[~`!@#$%\^&*()-+=]{1,})(?=.*[a-zA-Z]{1,}).{8,14}$/;
+	
+	// 새 비번 형식 체크
+	$("#newpass").keyup(function(){
+		var newpass = $(this).val();
+		
+		if(newpass.trim().length == 0){			
+			$("#passtypecheck").css('color', 'gray');
+			$("#passtypecheck").text('*비밀번호 변경을 원할 경우, 입력해주세요.');
+		} else if(!passwordRule.test(newpass)){
+			passtypecnt = 1;
+			$("#passtypecheck").css('color', 'tomato');
+			$("#passtypecheck").html('*비밀번호는 특수문자+영문+숫자를 포함한 8~15자리입니다.');
+		} else{
+			passtypecnt = 0;
+			$("#passtypecheck").css('color', 'steelblue');
+			$("#passtypecheck").html('*사용 가능한 비밀번호 입니다.');
+		}
+	});
+	
+	var passsamecnt = 1;
+	
+	// 새 비번 확인 일치 여부
+	$("#newpassck").keyup(function(){
+		var newpass = $("#newpass").val();
+		var passck = $(this).val();
+		
+		if(newpass.trim().length == 0){			
+			$("#passsamecheck").css('color', 'tomato');
+			$("#passsamecheck").text('*새 비밀번호를 입력해주세요.');
+		}else if(newpass != passck){
+			passsamecnt = 1;
+			$("#passsamecheck").css('color', 'tomato');
+			$("#passsamecheck").text('*비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+		} else {
+			passsamecnt = 0;
+			$("#passsamecheck").css('color', 'steelblue');
+			$("#passsamecheck").html('*비밀번호가 일치합니다.');			
+		}
+	});
+	
+		
+	// 수정 요청
+	$("#modifyBtn").click(function(){
+		if($("#pass").val().trim().length == 0){
+			alert("현재 비밀번호를 입력해주세요.");
+		} else if($("#age").val().trim().length == 0){
+			alert("나이를 입력해주세요.");
+		} else if(passtypecnt != 0) {
+			alert("사용할 수 없는 새 비밀번호입니다. 다시 확인해주세요.");
+		}else if(passsamecnt != 0) {
+			alert("새 비밀번호 확인란이 일치하지 않습니다. 다시 확인해주세요.");
+		}else {
+		
+			$(".modifyForm").attr("method", "POST").attr("action", "${root}/member/modify").submit();
+		}
+	});
+	
+	// 탈퇴 요청
+	$("#exitBtn").click(function(){
+		var userInput = prompt('탈퇴를 위해 현재 비밀번호를 입력해주세요.');
+		var pass = $(this).attr("data-pass");
+		if(userInput != pass){
+			alert("비밀번호가 일치하지 않습니다.");
+		} else{
+			var result = confirm('정말 탈퇴하시겠습니까?');
+			
+			if(result){
+				alert("탈퇴가 완료되었습니다.");		
+				$(this).attr("href", "${root}/member/exit");
+			}
+		}
+		
+		
+	});
+	
+});
+
+</script>
 
  <div align="center" class="title">내 정보 수정</div>
 
@@ -52,7 +153,7 @@ height: 30px;
     <div class="content" align="center">
       <br/>
       <h3>회원님의 정보를 수정하세요.&nbsp;<font color="#ff99bb"><i class="fas fa-user-edit"></i></font></h3>
-      <p><font color="gray">*수정 시, <strong>비밀번호</strong>를 반드시 입력해주세요.</font></p>
+      <p><font color="gray">*수정 시, <strong>현재 비밀번호</strong>를 반드시 입력해주세요.</font></p>
       <br/><br/>
       <!-- Begin Form -->
         <div id="contact-form"> 
@@ -61,7 +162,7 @@ height: 30px;
           <div id="note"></div>
           <!--begin:notice message block-->
           
-          <form id="ajax-contact-form" method="post" action="javascript:alert('success!');">
+          <form class="modifyForm" id="ajax-contact-form">
             <div class="labels">
             
             <p>
@@ -71,6 +172,7 @@ height: 30px;
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
               	<img alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
+              	<input type="hidden" name="profile" value="프로필사진확인용값"/>
               	</div>
               </p>
               <p>
@@ -79,83 +181,75 @@ height: 30px;
               <br><br>
             
               <p>
-                <label for="emailId" class="labels"">Email ID</label>
+                <label for="userId" class="labels"">Email ID</label>
                 <br />
                 <!-- ******** userid ******** -->
-                <input class="required inpt" type="text" name="userid" id="userid" value="shzy232@naver.com" disabled="disabled"/>
+                <input style="font-weight: 700;" class="required inpt" type="text" name="userId" id="userId" value="${userInfo.userId}" readonly/>
               </p>
               <p>
-                <label for="event">비밀번호</label>
+                <label for="pass">현재 비밀번호</label>
                 <br />
                 <!-- ******** pass ******** -->
-                <input class="required inpt" type="text" name="pass" id="pass" value="" />
+                <input data-pass="${userInfo.pass}" style="margin-bottom: 0px;" class="required inpt" type="password" name="pass" id="pass" value="" placeholder="현재 비밀번호를 입력해주세요."/>
+              <!-- ******* 비밀번호 부합 여부 확인 메세지 ******* -->
+                <div style="margin-bottom:15px; color:tomato;" id="passrightcheck">*현재 비밀번호를 입력해주세요.</div>
               </p>
               <p>
-                <label for="event">비밀번호 확인</label>
+                <label for="newpass">새 비밀번호</label>
                 <br />
-                <!-- ******** passck ******** -->
-                <input style="margin-bottom: 0px;" class="required inpt" type="text" name="passck" id="passck" value="" />
-                <p style="margin-bottom:15px;"><font color="red" style="font-style: italic;">*비밀번호가 일치하지 않습니다.</font></p>
+                <!-- ******** newpass ******** -->
+                <input style="margin-bottom: 0px;" class="required inpt" type="password" name="newpass" id="newpass" value="" placeholder="특수문자+영문+숫자를 포함한 8~15자리"/>
+              <!-- ******* 새 비밀번호 정규표현식 확인 메세지******* -->
+                <div style="margin-bottom:15px;" id="passtypecheck">&nbsp;</div>
+              </p>
+              <p>
+                <label for="newpassck">새 비밀번호 확인</label>
+                <br />
+                <!-- ******** newpassck ******** -->
+                <input style="margin-bottom: 0px;" class="required inpt" type="password" name="newpassck" id="newpassck" value="" placeholder="새 비밀번호를 다시 입력해주세요."/>
+              <!-- ******* 새 비밀번호 일치 여부 확인 메세지******* -->
+                <div style="margin-bottom:15px;" id="passsamecheck">&nbsp;</div>
               </p>
               <p>
                 <label for="name">이름</label>
                 <br />
                 <!-- ******** name ******** -->
-                <input class="required inpt" type="text" name="name" id="name" value="홍길동" disabled="disabled"/>
+                <input style="font-weight: 700;" class="required inpt" type="text" name="name" id="name" value="${userInfo.name}" readonly/>
               </p>
               <p>
                 <label for="age">나이</label>
                 <br />
                 <!-- ******** age ******** -->
-                <input class="required inpt" type="text" name="age" id="age" value="25" />
+                <input class="required inpt" type="text" name="age" id="age" value="${userInfo.age}" />
               </p>
               <p>
                 <label>성별</label>
                 <br />
                 <!-- ******** gender ******** -->
-                	여성<input type="radio" name="gender" id="gender" value="여" checked>
-					남성<input type="radio" name="gender" id="gender" value="남">	
+                
+<c:if test="${userInfo.gender == '여'}">
+                	여성<input type="radio" name="gender" value="여" checked>
+					남성<input type="radio" name="gender" value="남">	
+</c:if>
+<c:if test="${userInfo.gender == '남' }">
+                	여성<input type="radio" name="gender" value="여">
+					남성<input type="radio" name="gender" value="남" checked>	
+</c:if>
               </p>
-              <p>
-              	<label for="region">지역</label>
-              	<div id="region">
-                <!-- ******** sidoCode ******** -->
-              	<select id="sidoCode" name="sidoCode" style="margin-right:50px;">
-              		<option value="123">시/도</option>
-              		<option value="123" selected>서울</option>
-              		<option value="123">인천</option>
-              		<option value="123">대전</option>
-              		<option value="123">대구</option>
-              	</select>
-                <!-- ******** sigunguCode ******** -->
-              	<select id="sigunguCode" name="sigunguCode">
-              		<option value="123">시/군/구</option>
-              		<option value="123" selected>구로구</option>
-              		<option value="123">강남구</option>
-              		<option value="123">동대문구</option>
-              		<option value="123">강동구</option>
-              	</select>
-              	</div>
-              </p>
-                <!-- ******** x ******** -->
-              <input type="hidden" name="x" value="">
-                <!-- ******** y ******** -->
-              <input type="hidden" name="y" value="">
-            </div>
             
 	        <div class="divider"></div>
 	        <div class="clear"></div>
             <label id="load" style="display:none"></label>
             
             <div class="align-center">
-            	<a href="#" class="button red btns" style="margin-right:100px; font-weight: 700;">취  소<span></span></a>
-            	<a href="#" class="button red btns" style="font-weight: 700;">수 정<span></span></a>
+            	<a id="cancelBtn" class="button red btns" style="margin-right:100px; font-weight: 700;">취  소<span></span></a>
+            	<a id="modifyBtn" class="button red btns" style="font-weight: 700;">수 정<span></span></a>
             </div>
             <div class="clear"></div>
             <br>
             <p>
             	<span>
-            		<font color="gray">회원 탈퇴를 원하시면, <a href=""><strong>여기</strong></a>를 눌러주세요.</font>
+            		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" href="" data-pass="${userInfo.pass}"><strong>여기</strong></a>를 눌러주세요.</font>
             	</span>
             </p>
           </form>

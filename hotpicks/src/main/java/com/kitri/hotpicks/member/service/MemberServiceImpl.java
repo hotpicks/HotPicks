@@ -38,5 +38,21 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.getMapper(MemberDao.class).login(memberDto);
 	}
 
+	@Override
+	public void modify(MemberDto memberDto) {
+		System.out.println("s_Impl : 정보수정 메소드 실행");
+		if(memberDto.getNewpass() != "") {
+			sqlSession.getMapper(MemberDao.class).modifynew(memberDto); //비밀번호 변경 + 정보 수정
+		}else {
+			sqlSession.getMapper(MemberDao.class).modify(memberDto);	//비밀번호 유지 + 정보 수정
+		}
+	}
+
+	@Override
+	public void exit(MemberDto memberDto) {
+		System.out.println("s_Impl : 회원탈퇴 메소드 실행");
+		sqlSession.getMapper(MemberDao.class).exit(memberDto);
+	}
+
 
 }

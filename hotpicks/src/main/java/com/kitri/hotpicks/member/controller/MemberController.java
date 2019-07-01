@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -82,12 +83,56 @@ public class MemberController {
 	}
 	
 	// 로그아웃하기
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/logout")
 	public String logout(@ModelAttribute("userInfo") MemberDto memberDto, SessionStatus sessionStatus) {
 		System.out.println("c : 로그아웃하기 메소드 들어옴");
 		sessionStatus.setComplete();
 		return "redirect:/index.jsp";
 	}
 	
+	// 마이페이지 이동
+	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
+	public void mypage(@ModelAttribute("userInfo") MemberDto memberDto, Model model) {
+		System.out.println("c : 마이페이지 이동 메소드 들어옴");
+		// TODO 마이페이지 이동 이벤트 수정
+		// : memberDto의 id값이 가진, 리뷰개수, 리뷰 정보들을 model에 add해주기
+	}
 	
+	// 정보수정 페이지 이동
+	@RequestMapping(value="/modify", method = RequestMethod.GET)
+	public void modify() {
+		System.out.println("c : 정보수정 페이지 이동 메소드 들어옴");
+	}
+	
+	// 정보수정하기
+	@RequestMapping(value="/modify", method = RequestMethod.POST)
+	public String modify(MemberDto memberDto, Model model) {
+		System.out.println("c : 정보수정하기 메소드 들어옴");
+		System.out.println("아이디 : " +memberDto.getUserId());
+		System.out.println("비번    : " +memberDto.getPass());
+		System.out.println("새비번 : " +memberDto.getNewpass());
+		System.out.println("이름 : " +memberDto.getName());
+		System.out.println("나이 : " +memberDto.getAge());
+
+		memberService.modify(memberDto);
+		
+		model.addAttribute("userInfo", memberDto);
+		
+		return "member/mypage";
+		
+	}
+	
+	
+	// 탈퇴하기
+	@RequestMapping("/exit")
+	public String exit(@ModelAttribute("userInfo") MemberDto memberDto, SessionStatus sessionStatus) {
+		System.out.println("c : 탈퇴하기 메소드 들어옴");
+		
+		memberService.exit(memberDto);
+		
+		sessionStatus.setComplete();
+		
+		return "redirect:/index.jsp";
+		
+	}
 }
