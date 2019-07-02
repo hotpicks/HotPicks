@@ -30,7 +30,7 @@ public class MypickMapServiceImpl implements MypickMapService {
 		map.put("x", x);
 		map.put("y", y);
 		map.put("distance", distance);
-		
+		System.out.println("service" + map);
 		return sqlSession.getMapper(MypickMapDao.class).selectContentsList(map);
 	}
 
