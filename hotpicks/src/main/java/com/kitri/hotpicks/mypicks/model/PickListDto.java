@@ -1,6 +1,7 @@
 package com.kitri.hotpicks.mypicks.model;
 
-public class PickListDto {
+
+public class PickListDto{
 
 	private String userId;
 	private String contentsId;
