@@ -6,7 +6,14 @@ public class MapContentsDto {
 	private double x;
 	private double y;
 	private int cate;
+	private int distance; 
 	
+	public int getDistance() {
+		return distance;
+	}
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
 	public String getContentsid() {
 		return contentsid;
 	}

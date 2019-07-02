@@ -6,6 +6,15 @@
  	<select id="getMapList" resultType="mapContentsDto">
  		select contentsid, subject, x, y, cate
  		from contents
- 	</select> 	
+ 	</select>
+ 	<select id="selectContentsList" parameterType="map" resultType="mapContentsDto">
+ 	<![CDATA[
+      select * from (
+		select contentsid, subject, x, y, cate , to_char(DISTNACE_WGS84(#{x},#{y},x,y),'999,999,999') distance
+ 		from contents)
+ 		where distance < #{distance}/1000
+        order by distance
+        ]]>
+ 	</select>
  </mapper>
  
