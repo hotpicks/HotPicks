@@ -179,7 +179,7 @@ CREATE TABLE member (
 	age NUMBER, /* 나이 */
 	gender VARCHAR2(3), /* 성별 */
 	joinDate DATE DEFAULT sysdate, /* 가입일 */
-	profile CLOB, /* 프로필사진 */
+	profile VARCHAR2(100), /* 프로필사진 */
 	enable NUMBER(3) DEFAULT 1 /* 상태 */
 );
 
