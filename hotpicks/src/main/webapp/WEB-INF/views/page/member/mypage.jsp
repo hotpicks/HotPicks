@@ -44,7 +44,7 @@ margin-bottom: 20px;
             <li class= "clearfix">
               <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
-              	<img alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
+              	<img alt="사용자프로필사진" src="${root}/upload/member/${userInfo.profile}" height="150px" width="150px"/>
               </div>
               <div class="message">
                 <div class="info">

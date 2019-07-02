@@ -1,6 +1,11 @@
 package com.kitri.hotpicks.member.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
@@ -40,13 +45,38 @@ public class MemberController {
 	// 가입하기
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(MemberDto memberDto,
-						@RequestParam("profile") MultipartFile multipartFile,
+						@RequestParam("profile_file") MultipartFile multipartFile,
 						Model model) {
 		System.out.println("c : 가입하기 메소드 들어옴");
 		
+		// 프로필 사진이 있는 경우,
 		if(multipartFile != null && !multipartFile.isEmpty()) {
 			String orignPicture = multipartFile.getOriginalFilename();
-			String realPath = servletContext.getRealPath("/");
+			String realPath = servletContext.getRealPath("/upload/member");
+			
+			File dir = new File(realPath);
+			if(!dir.exists()) {
+				dir.mkdirs();
+			}
+			
+			String savePicture = UUID.randomUUID().toString() + orignPicture.substring(orignPicture.lastIndexOf("."));
+			File file = new File(realPath, savePicture);
+
+			System.out.println("저장 경로 = " + realPath);
+			
+			memberDto.setProfile(savePicture); // memberDto에 '사진명.jpg'을 세팅함
+			
+			try {
+				
+				multipartFile.transferTo(file); // multipartFile의 파일을 file로 옮김
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else { // 프로필 사진이 없는 경우,
+			memberDto.setProfile("${root}/upload/member/user.png"); // memberDto에 기본 사진 경로를 세팅함
 		}
 		
 		int isJoined = memberService.join(memberDto);
@@ -119,14 +149,41 @@ public class MemberController {
 	
 	// 정보수정하기
 	@RequestMapping(value="/modify", method = RequestMethod.POST)
-	public String modify(MemberDto memberDto, Model model) {
+	public String modify(MemberDto memberDto,
+						  @RequestParam("profile_file") MultipartFile multipartFile,
+						  @ModelAttribute("userInfo") MemberDto membercurrentDto,
+						  Model model) {
 		System.out.println("c : 정보수정하기 메소드 들어옴");
-		System.out.println("아이디 : " +memberDto.getUserId());
-		System.out.println("비번    : " +memberDto.getPass());
-		System.out.println("새비번 : " +memberDto.getNewpass());
-		System.out.println("이름 : " +memberDto.getName());
-		System.out.println("나이 : " +memberDto.getAge());
+		
+		// 프로필 사진이 있는 경우,
+		if(multipartFile != null && !multipartFile.isEmpty()) {
+			String orignPicture = multipartFile.getOriginalFilename();
+			String realPath = servletContext.getRealPath("/upload/member");
+					
+			File dir = new File(realPath);
+			if(!dir.exists()) {
+				dir.mkdirs();
+			}
+					
+			String savePicture = UUID.randomUUID().toString() + orignPicture.substring(orignPicture.lastIndexOf("."));
+			File file = new File(realPath, savePicture);
 
+			memberDto.setProfile(savePicture); // memberDto에 '사진명.jpg'을 세팅함
+					
+			try {
+						
+				multipartFile.transferTo(file); // multipartFile의 파일을 file로 옮김
+						
+			} catch (IllegalStateException e) {
+						e.printStackTrace();
+			} catch (IOException e) {
+						e.printStackTrace();
+			}
+		} else { // 프로필 사진이 없는 경우,
+			// 수정을 안하는 경우. 냅둔다.
+			memberDto.setProfile(membercurrentDto.getProfile());
+		}
+		
 		memberService.modify(memberDto);
 		
 		model.addAttribute("userInfo", memberDto);
