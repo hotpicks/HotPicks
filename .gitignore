@@ -7,6 +7,7 @@ buildSrc/build
 /build
 classes/
 javadata/
+/.properties
 
 # Created by https://www.gitignore.io/api/java,eclipse
 # Edit at https://www.gitignore.io/?templates=java,eclipse
@@ -56,7 +57,7 @@ local.properties
 
 # STS (Spring Tool Suite)
 .springBeans
-.properties
+
 
 # Code Recommenders
 .recommenders/
