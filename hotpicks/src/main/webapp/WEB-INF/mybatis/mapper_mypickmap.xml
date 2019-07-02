@@ -6,13 +6,6 @@
  	<select id="getMapList" resultType="mapContentsDto">
  		select contentsid, subject, x, y, cate
  		from contents
- 	</select>
- 	<select id="selectContentsList" parameterType="map" resultType="mapContentsDto">
- 		select contentsid, subject, x, y, cate
- 		from contents
- 		where  
- 		<foreach collection="list" item="item" index="index" open="(" separator="OR" close=")">
- 		contentsid = #{item}
- 	</foreach>
- 	</select>
+ 	</select> 	
  </mapper>
+ 

@@ -1,16 +1,19 @@
 package com.kitri.hotpicks.mypicks.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kitri.hotpicks.mypicks.model.MapContentsDto;
+import com.kitri.hotpicks.mypicks.model.SelectMapContentsDto;
 import com.kitri.hotpicks.mypicks.service.MypickMapService;
 
 @Controller
@@ -36,10 +39,12 @@ public class MypickMapController {
 		return array.toString();
 		
 	}
+	//@RequestParam(value = "selectMarkers") List<String> selectMarkers,@RequestParam("x") double x, @RequestParam("y") double y,@RequestParam("distance") int distance
 	@RequestMapping("/getcontentslist")
-	public String selectContentsList(@RequestParam(value = "selectMarkers") List<String> selectMarkers, Model model) {
+	public String selectContentsList(@RequestParam(value = "selectMarkers") List<String> selectMarkers,@RequestParam("x") double x, @RequestParam("y") double y,@RequestParam("selectDistance") int distance, Model model) {
+		System.out.println(selectMarkers);
 		if (selectMarkers.size() != 0) {
-			List<MapContentsDto> list = mypickMapService.selectContentsList(selectMarkers);
+			List<MapContentsDto> list = mypickMapService.selectContentsList(x, y, selectMarkers,distance);
 			model.addAttribute("list",list);
 		}
 		String path = "/mypicks/selectcontents";
