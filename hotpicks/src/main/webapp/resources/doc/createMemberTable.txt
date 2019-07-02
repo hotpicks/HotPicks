@@ -1,0 +1,17 @@
+drop table member;
+drop table region;
+
+-- 회원 테이블
+create table member (
+	userId varchar2(40),	-- 회원이메일id
+	pass varchar2(16) not null,	-- 비밀번호
+	name varchar2(40) not null,	-- 이름
+	age number,			-- 나이
+	gender varchar2(3),		-- 성별 (여/남)
+	joinDate date default sysdate,	-- 가입일
+	enable number(3) default 1,	-- 활동여부 (0:탈퇴,1:활동,2:활중)
+	profile varchar2(100),		-- 프로필사진 경로
+	CONSTRAINT pk_member primary key(userId)
+);
+
+commit;
