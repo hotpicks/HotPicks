@@ -10,9 +10,9 @@
  	<select id="selectContentsList" parameterType="map" resultType="mapContentsDto">
  	<![CDATA[
       select * from (
-		select contentsid, subject, x, y, cate , to_char(DISTNACE_WGS84(#{x},#{y},x,y),'999,999,999') distance
+		select contentsid, subject, x, y, cate , to_char(DISTNACE_GRS80(#{x},#{y},x,y),'999,999,999.999') distance
  		from contents)
- 		where distance < #{distance}/1000
+ 		where distance <= #{distance}/999
         order by distance
         ]]>
  	</select>

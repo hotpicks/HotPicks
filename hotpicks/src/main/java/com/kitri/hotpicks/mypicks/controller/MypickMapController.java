@@ -44,10 +44,10 @@ public class MypickMapController {
 	public String selectContentsList(@RequestParam(value = "selectMarkers") List<String> selectMarkers,@RequestParam("x") double x, @RequestParam("y") double y,@RequestParam("selectDistance") int distance, Model model) {
 		
 		System.out.println(selectMarkers);
-		if (selectMarkers.size() != 0) {
+//		if (selectMarkers.size() != 0) {
 			List<MapContentsDto> list = mypickMapService.selectContentsList(x, y, selectMarkers, distance);
 			model.addAttribute("list",list);
-		}
+//		}
 		String path = "/mypicks/selectcontents";
 		return path;
 	}
