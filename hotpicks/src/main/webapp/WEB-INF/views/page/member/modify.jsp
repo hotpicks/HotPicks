@@ -162,7 +162,8 @@ $(function(){
           <div id="note"></div>
           <!--begin:notice message block-->
           
-          <form class="modifyForm" id="ajax-contact-form">
+          <form class="modifyForm" id="ajax-contact-form"
+             enctype="multipart/form-data">
             <div class="labels">
             
             <p>
@@ -172,7 +173,7 @@ $(function(){
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
               	<img alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
-              	<input type="hidden" name="profile" value="프로필사진확인용값"/>
+              	<input type="file" id="profileBtn" name="profile" style="width:200px; background-color: white"/>
               	</div>
               </p>
               <p>

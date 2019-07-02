@@ -10,16 +10,8 @@ create table member (
 	gender varchar2(3),		-- 성별 (여/남)
 	joinDate date default sysdate,	-- 가입일
 	enable number(3) default 1,	-- 활동여부 (0:탈퇴,1:활동,2:활중)
-	profile clob,			-- 프로필사진 경로
+	profile varchar2(100),		-- 프로필사진 경로
 	CONSTRAINT pk_member primary key(userId)
-);
-
--- 지역분류 테이블 (시도+시구군)
-create table region (
-	sidoCode varchar2(16),	 	-- 시도 코드
-	sidoName varchar2(32),		-- 시도 이름
-	sigugunCode varchar2(32),	-- 시구군 코드
-	sigugunName varchar2(50)	-- 시구군 이름
 );
 
 commit;

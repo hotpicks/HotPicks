@@ -178,7 +178,8 @@ height: 30px;
           <div id="note"></div>
           <!--begin:notice message block-->
           
-          <form class="joinForm" id="ajax-contact-form">
+          <form class="joinForm" id="ajax-contact-form"
+            enctype="multipart/form-data">
             <div class="labels">
               
               <p>
@@ -188,11 +189,10 @@ height: 30px;
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
               	<img alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
-              	<input type="hidden" name="profile" value="프로필사진확인용값"/>
+              	<input type="file" id="profileBtn" name="profile" style="width:200px; background-color: white"/>
               </div>
               </p>
               <p>
-              	<a id="profileBtn" class="button red btns" style="margin-left:410px; font-weight: 700;">사진 설정<span></span></a>
               </p>
               <br><br>
               <p>
@@ -236,7 +236,7 @@ height: 30px;
                 <br />
                 <!-- ******** gender ******** -->
                 	여성<input type="radio" name="gender" value="여" checked>
-					남성<input type="radio" name="gender" value="남">	
+					<div style="display:inline-none;">남성<input type="radio" name="gender" value="남"></div>
               </p>
              
 	        <div class="divider"></div>

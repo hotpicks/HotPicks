@@ -2,6 +2,8 @@ package com.kitri.hotpicks.member.controller;
 
 import java.text.SimpleDateFormat;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kitri.hotpicks.member.model.MemberDto;
 import com.kitri.hotpicks.member.service.MemberService;
@@ -22,6 +25,9 @@ import com.kitri.hotpicks.member.service.MemberService;
 @SessionAttributes("userInfo")
 public class MemberController {
 
+	@Autowired
+	private ServletContext servletContext;
+	
 	@Autowired
 	private MemberService memberService;
 	
@@ -33,8 +39,15 @@ public class MemberController {
 
 	// 가입하기
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String join(MemberDto memberDto, Model model) {
+	public String join(MemberDto memberDto,
+						@RequestParam("profile") MultipartFile multipartFile,
+						Model model) {
 		System.out.println("c : 가입하기 메소드 들어옴");
+		
+		if(multipartFile != null && !multipartFile.isEmpty()) {
+			String orignPicture = multipartFile.getOriginalFilename();
+			String realPath = servletContext.getRealPath("/");
+		}
 		
 		int isJoined = memberService.join(memberDto);
 		

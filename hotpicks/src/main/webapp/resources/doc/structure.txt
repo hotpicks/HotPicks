@@ -78,6 +78,11 @@ Hot Picks 프로젝트 구조
 	- [webapp] 
 		index.jsp						::: 첫 화면
 		
+		- upload						::: 사진 저장 경로
+			- contents					::: 컨텐츠 사진
+			- member					::: 회원 프로필 사진
+			- review					::: 리뷰 사진
+		
 		- WEB-INF
 			- mybatis					::: MyBatis DB 설정
 				configuration.xml

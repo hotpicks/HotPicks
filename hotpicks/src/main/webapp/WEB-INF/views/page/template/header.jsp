@@ -65,7 +65,7 @@
                   <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">행사</a></li>
                 </ul>
               </li>
-<c:if test="${userInfo != null}">
+<%-- <c:if test="${userInfo != null}"> --%>
               <li><a href="${root}/WEB-INF/views/page/mypicks/mypicklist.jsp">My Picks</a>
                 <ul>
                   <li><a href="${root}/WEB-INF/views/page/mypicks/mypicklist.jsp">Pick 목록</a></li>
@@ -73,8 +73,9 @@
                   <li><a href="${root}/WEB-INF/views/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
                 </ul>
               </li>
+<c:if test="${userInfo != null}">
               <li><a href="${root}/member/mypage">My Page</a></li>
-              <li><a href="${root}/member/logout">Logout</a></li>
+			  <li><a href="${root}/member/logout">Logout</a></li>
 </c:if>
 <c:if test="${userInfo == null}">
               	   <li><a href="${root}/member/login">Login/Join</a></li>
