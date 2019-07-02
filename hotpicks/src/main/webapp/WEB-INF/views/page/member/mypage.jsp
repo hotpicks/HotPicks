@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
 
 <style>
@@ -48,13 +49,13 @@ margin-bottom: 20px;
               <div class="message">
                 <div class="info">
                  <!-- ***************** 이메일 id **************** -->
-                  <h3 style="font-weight:700; font-size:30px;">userid@gmail.com</h3>
+                  <h3 style="font-weight:700; font-size:30px;">${userInfo.userId}</h3>
                  </div>
                  <br><br><br>
                  <!-- ***************** 리뷰 개수 **************** -->
                 <p style="font-weight:700; font-size:15px; margin-top: 10px;">리뷰 개수 : 10
                 <br>
-                <a href="${root}/WEB-INF/views/page/member/modify.jsp" style="font-size:10px; margin-top: 5px;" class="button light-teal btns">정보 수정<span></span></a></p>
+                <a href="${root}/member/modify" style="font-size:10px; margin-top: 5px;" class="button light-teal btns">정보 수정<span></span></a></p>
               </div>
               </li>
               </ol>
