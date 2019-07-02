@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- End Wrapper -->
 <div class="clearfix"></div>
@@ -17,11 +18,12 @@
       </div>
       <!-- End Copyright --> 
       
+<c:if test="${userInfo.userId == 'hotpicks'}">
       <!-- Begin Social Icons -->
       <div id="socials">
         <ul>
           <li>
-          	<a href="${root}/page/admin/managemember.jsp">
+          	<a href="${root}/admin/mgmember">
           		<span>Admin Page</span>
           		<img src="${root}/resources/style/images/icon-dribble.png" alt="관리자 페이지 이동 버튼" />
           	</a>
@@ -29,6 +31,7 @@
         </ul>
       </div>
       <!-- End Social Icons --> 
+</c:if>
       
     </div>
   </div>

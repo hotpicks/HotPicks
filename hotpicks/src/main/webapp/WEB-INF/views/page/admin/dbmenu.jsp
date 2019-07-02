@@ -22,33 +22,25 @@ $(function(){
   <!-- Begin Wrapper -->
   <div id="wrapper">
       
-    <div class="tab-wrapper">
-      <ul id="tab-menu">
-        <li><a href="${root}/admin/mgmember"><img src="${root}/resources/style/images/ad_menu1.png" alt="" /><strong><font color="#287f56">회원관리</font></strong></a></li>
-        <li><a href="${root}/admin/mgreview"><img src="${root}/resources/style/images/ad_menu2.png" alt="" /><strong>게시글 관리</strong></a></li>
-        <li><a href="${root}/admin/stlike"><img src="${root}/resources/style/images/ad_menu3.png" alt="" /><strong>회원 선호도 분석</strong></a></li>
-        <li><a href="${root}/admin/stvisit"><img src="${root}/resources/style/images/ad_menu4.png" alt="" /><strong>회원 방문 통계</strong></a></li>
-      </ul>
-      
       <div class="tab-content">
       
-      <!-- ***************************** [ tab 1 시작 ] ****************************** -->
+      <!-- ***************************** [ 내용 시작 ] ****************************** -->
         <div class="tab show" style="display: block;">
-          <h3>회원 관리</h3>
+          <h3>Contents DB 관리</h3>
           <div class="divider"></div>
           <div class="clear"></div>
           
-          <!-- ********** 회원 현황 테이블 ********** -->
+          <!-- ********** 컨텐츠 현황 테이블 ********** -->
           <table>
           	<tr align="center">
-          		<td>집계일자</td>
-          		<td>전체 회원 수</td>
-          		<td>탈퇴 회원 수</td>
+          		<td>갱신일자</td>
+          		<td>전체 컨텐츠 수</td>
+          		<td>유효 컨텐츠 수</td>
           	</tr>
           	<tr align="center" id="membercnt">
-          		<td style="vertical-align: middle;">2019.06.28</td>
-          		<td style="vertical-align: middle;">100</td>
-          		<td style="vertical-align: middle;">3</td>
+          		<td style="vertical-align: middle;">2019.07.02</td>
+          		<td style="vertical-align: middle;">3000</td>
+          		<td style="vertical-align: middle;">2800</td>
           	</tr>
           </table>
           
@@ -56,19 +48,17 @@ $(function(){
           <div class="clear"></div>
           
           
-          <!-- ********** 회원 현황 그래프 ********** -->
-          
-          
-          
-          <!-- ********** 회원 관리 테이블 ********** -->
-          	<a href="#" class="button red btns" style="margin-right:30px; font-weight: 700;">활동중지<span></span></a>
-          	<a href="#" class="button red btns" style="font-weight: 700;">강제탈퇴<span></span></a>
+          <!-- ********** 컨텐츠 관리 테이블 ********** -->
+          	<a href="#" class="button red btns" style="margin-right:30px; font-weight: 700;">삭 제<span></span></a>
+          	<a href="#" class="button lime btns" style="margin-right:30px; font-weight: 700;">DB UPDATE<span></span></a>
           	<select>
-          		<option>전체 회원</option>
-          		<option>신고 회원</option>
+          		<option>전체 컨텐츠</option>
+          		<option>유효 컨텐츠</option>
+          		<option>무효 컨텐츠</option>
           	</select>
           	<div class="clear"></div>
- 
+
+
           <div style="float:none; height: 600px; overflow-y:auto">
           
           <p class="list">
@@ -79,63 +69,77 @@ $(function(){
           				<input type="checkbox" class="allch">
           			</td>
           			<td>no</td>
-          			<td>id</td>
-          			<td>가입일</td>
-          			<td>활동 상태</td>
+          			<td>카테고리</td>
+          			<td>컨텐츠명</td>
+          			<td>조회수</td>
+          			<td>갱신일자</td>
+          			<td>유효여부</td>
           		</tr>
           		<tr align="center">
           			<td>
           				<input type="checkbox" class="ch">
           			</td>
           			<td>1</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>탈퇴</td>
+          			<td>공연</td>
+          			<td>쉬어매드니스</td>
+          			<td>1002</td>
+          			<td>2019.07.02</td>
+          			<td>유효</td>
           		</tr>
           		<tr align="center">
           			<td>
           				<input type="checkbox" class="ch">
           			</td>
           			<td>2</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>활동중지</td>
+          			<td>공연</td>
+          			<td>쉬어매드니스</td>
+          			<td>1002</td>
+          			<td>2019.07.02</td>
+          			<td>유효</td>
           		</tr>
           		<tr align="center">
           			<td>
           				<input type="checkbox" class="ch">
           			</td>
           			<td>3</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>활동</td>
+          			<td>공연</td>
+          			<td>쉬어매드니스</td>
+          			<td>1002</td>
+          			<td>2019.07.02</td>
+          			<td>유효</td>
           		</tr>
           		<tr align="center">
           			<td>
           				<input type="checkbox" class="ch">
           			</td>
           			<td>4</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>활동</td>
+          			<td>공연</td>
+          			<td>쉬어매드니스</td>
+          			<td>1002</td>
+          			<td>2019.07.02</td>
+          			<td>유효</td>
           		</tr>
           		<tr align="center">
           			<td>
           				<input type="checkbox" class="ch">
           			</td>
           			<td>5</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>탈퇴</td>
+          			<td>공연</td>
+          			<td>쉬어매드니스</td>
+          			<td>1002</td>
+          			<td>2019.07.02</td>
+          			<td>유효</td>
           		</tr>
           		<tr align="center">
           			<td>
           				<input type="checkbox" class="ch">
           			</td>
           			<td>6</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>활동</td>
+          			<td>공연</td>
+          			<td>쉬어매드니스</td>
+          			<td>1002</td>
+          			<td>2019.07.02</td>
+          			<td>유효</td>
           		</tr>
    
           	</table>
@@ -145,11 +149,10 @@ $(function(){
            </div>
            
         </div>
-      <!-- ***************************** [ tab 1 끝 ] ****************************** -->
+      <!-- ***************************** [ 내용 끝 ] ****************************** -->
         
 		
       </div>
-    </div>
     
     
     <div class="clear"></div>
