@@ -6,6 +6,24 @@
 
 $(function(){
 	
+	// input type = file 의 파일값 읽어서, 프로필 사진 이미지 부분에 적용 (미리보기)
+	function readURL(input) {
+		if(input.files && input.files[0]) {
+			var reader = new FileReader();
+			
+			reader.onload = function (e) {
+				$("#profileImg").attr("src", e.target.result);
+			}
+			
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	
+	//파일 변경 이벤트 (프로필 사진 썸네일 미리보기)
+	$("#profileBtn").change(function(){
+		readURL(this);
+	});
+	
 	//가입하기 요청
 	$("#joinBtn").click(function(){
 		if($("#userId").val().trim().length == 0){
@@ -26,7 +44,7 @@ $(function(){
 			alert("비밀번호 확인란이 일치하지 않습니다. 다시 확인해주세요.");
 		}else {
 		
-			$(".joinForm").attr("method", "POST").attr("action", "${root}/member/join").submit();
+			$(".joinForm").attr("action", "${root}/member/join").submit();
 		
 		}
 	});
@@ -178,7 +196,7 @@ height: 30px;
           <div id="note"></div>
           <!--begin:notice message block-->
           
-          <form class="joinForm" id="ajax-contact-form"
+          <form class="joinForm" id="ajax-contact-form" method="POST"
             enctype="multipart/form-data">
             <div class="labels">
               
@@ -188,11 +206,9 @@ height: 30px;
                 <!-- ******** profile ******** -->
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
-              	<img alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
-              	<input type="file" id="profileBtn" name="profile" style="width:200px; background-color: white"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
+              	<input type="file" id="profileBtn" name="profile_file" style="width:200px; background-color: white"/>
               </div>
-              </p>
-              <p>
               </p>
               <br><br>
               <p>
