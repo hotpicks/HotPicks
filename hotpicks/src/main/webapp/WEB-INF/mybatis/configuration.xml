@@ -23,6 +23,7 @@
 
       <typeAlias alias="pickListDto" type="com.kitri.hotpicks.mypicks.model.PickListDto"/>
       <typeAlias alias="mapContentsDto" type="com.kitri.hotpicks.mypicks.model.MapContentsDto"/>
+      <typeAlias alias="selectMapContentsDto" type="com.kitri.hotpicks.mypicks.model.SelectMapContentsDto"/>
 		      
 	</typeAliases>
   

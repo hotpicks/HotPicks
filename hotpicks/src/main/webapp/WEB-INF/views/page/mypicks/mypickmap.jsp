@@ -1,9 +1,77 @@
+<!-- webapp/resource/doc/mypickmap.txt 에서 function radian, function distance_grs80 을 순서대로 compile 하고 commit 해야함 -->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <style>
+
+/*infowindow*/
+#map-canvas {
+	margin: 0;
+	padding: 0;
+	height: 400px;
+	max-width: none;
+}
+#map-canvas img {
+	max-width: none !important;
+}
+.gm-style-iw {
+	width: 350px !important;
+	top: 15px !important;
+	left: 0px !important;
+	background-color: #fff;
+	box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+	border: 1px solid rgba(72, 181, 233, 0.6);
+	border-radius: 2px 2px 10px 10px;
+}
+#iw-container {
+	margin-bottom: 10px;
+	width: 300px;
+}
+#iw-container .iw-title {
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 22px;
+	font-weight: 400;
+	padding: 10px;
+	background-color: #48b5e9;
+	color: white;
+	margin: 0;
+	border-radius: 2px 2px 0 0;
+}
+#iw-container .iw-content {
+	font-size: 13px;
+	line-height: 18px;
+	font-weight: 400;
+	margin-right: 1px;
+	padding: 15px 5px 20px 15px;
+	max-height: 140px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.iw-content img {
+	float: right;
+	margin: 0 5px 5px 10px;	
+}
+.iw-subTitle {
+	font-size: 16px;
+	font-weight: 700;
+	padding: 5px 0;
+}
+.iw-bottom-gradient {
+	position: absolute;
+	width: 326px;
+	height: 25px;
+	bottom: 10px;
+	right: 18px;
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+}
+
+/*infowindow*/
 .range{
 	width: 100px;
 }
@@ -192,9 +260,11 @@ getTwitters('twitter', {
 	function showPosition(position) {
 		user_x = position.coords.latitude; 
 		user_y = position.coords.longitude;
-		console.log(user_x + " "+ user_y);
-		markerSet(user_x, user_y);
 		map.setCenter(new daum.maps.LatLng(user_x, user_y));
+		markerSet(user_x, user_y);
+		/* selectDistance(user_x,user_y); */
+		selectedRangeContents(user_x, user_y); 
+		console.log(user_x + " "+ user_y);
 		searchDetailAddrFromCoords(new daum.maps.LatLng(user_x, user_y), function(result, status) {
 			if (status === daum.maps.services.Status.OK) {
 				var detailAddr = !!result[0].road_address ? '<div style="font-size:12px; color:gray;">'
@@ -277,8 +347,17 @@ getTwitters('twitter', {
 			pickMarkers.push(mapMarker);
 		}
 		
-		var iwContent = '<div id="mtitle" class="mx-auto" style="width:5rem;">'
-				+ subject + '</div>';
+		var iwContent = '<div id="iw-container">' +
+        '<div class="iw-title">'+subject+'</div>' +
+        '<div class="iw-content">' +
+          '<div class="iw-subTitle">History</div>' +
+          '<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg" alt="Porcelain Factory of Vista Alegre" height="115" width="83">' +
+          '<p>끼ㅐ야야야아앙ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</p>' +
+          '<div class="iw-subTitle">Contacts</div>' +
+          '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
+          '<br>Phone. +351 234 320 600<br>e-mail: geral@vaa.pt<br>www: www.myvistaalegre.com</p>'+
+        '</div>' +
+      '</div>';
 		var infowindow = new daum.maps.InfoWindow({
 			position : position,
 			content : iwContent
@@ -290,7 +369,7 @@ getTwitters('twitter', {
 			infowindow.close();
 		});
 		daum.maps.event.addListener(mapMarker, 'click', function() {
-			page_move("${root}/mainfront?sid=godetail", null ,mapMarker.getTitle());
+			//page_move("${root}/mainfront?sid=godetail", null ,mapMarker.getTitle());
 			//$.post("${root}/mainfront?sid=godetail", {"loginId" : "test3", "no" : "00000003"},function(data));
 			//location.href = '${root}/mainfront?sid=godetail&no=' + marker2.getTitle()+"&id="+id;
 		});
@@ -299,6 +378,7 @@ getTwitters('twitter', {
 	var geocoder = new daum.maps.services.Geocoder();
 	
 	$(document).ready(function() {
+		
 		$.ajax({
 			url : "${root}/mypickmap/getmaplist",
 			dataType : "JSON",
@@ -329,6 +409,8 @@ getTwitters('twitter', {
 			var jb = $('input[name=range]').val();
 			$("label[id=range]").html(jb);
 			circle.setRadius(jb * 1000);
+			selectDistance(marker);
+			selectedRangeContents(marker.getPosition().getLat(), marker.getPosition().getLng());
 		});
 		
 		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
@@ -341,23 +423,11 @@ getTwitters('twitter', {
 							+ '</div>'; */
 					var content = '<div class="bAddr"><' + detailAddr + '</div>';
 					document.getElementById('clickAddrDetail').innerHTML = detailAddr;
-					markerSet(mouseEvent.latLng.getLat(), mouseEvent.latLng.getLng());
-					selectDistanceLesson(marker);
-					console.log(selectMarkers);
-					$.ajax({
-						url : '${root}/mypickmap/getcontentslist',
-						type : 'post',
-						data : {
-							"selectMarkers" : selectMarkers
-						},
-						traditional : true,
-						//dataType : "JSON",
-						dataType : "html",
-						success : function(result) {
-							
-							$('#selectcontents').html(result);
-						}
-					});
+					var x = mouseEvent.latLng.getLat();
+					var y = mouseEvent.latLng.getLng();
+					markerSet(x, y);
+					selectDistance(marker);
+					selectedRangeContents(x,y);
 				}
 			});
 			
@@ -414,7 +484,7 @@ getTwitters('twitter', {
 		marker.setMap(map);
 		circle.setMap(map);
 	}
-	function selectDistanceLesson(marker) {
+	function selectDistance(marker) {
 		selectMarkers = [];
 		var m1 = marker.getPosition();
 		for (var i = 0; i < allMarkers.length; i++) {
@@ -428,8 +498,29 @@ getTwitters('twitter', {
 			}
 			linePath.setMap(null);
 		}
+	}
+	function selectedRangeContents(lat,lng){
+		var data = {
+				"selectMarkers" : selectMarkers,
+				"x" : lat,
+				"y" : lng,
+				"selectDistance" :  $('input[name=range]').val() * 1000
+			}
+		$.ajax({
+			url : '${root}/mypickmap/getcontentslist',
+			type : 'post',
+			data : data,
+			traditional : true,
+			//dataType : "JSON",
+			dataType : "html",
+			success : function(result) {
+				
+				$('#selectcontents').html(result);
+			}
+		});
 		
 	}
+	
 </script>
 <script>
 			/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
