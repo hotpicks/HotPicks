@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.kitri.hotpicks.contents.dao.ContentsDao">
+ 
+ 	<insert id="insertSido" parameterType="sidoDto">
+ 	INSERT INTO sido()
+ 	VALUES()
+ 	</insert>
+ 	
+ 	
+ 	
+ 	<insert id="insertSigungu" parameterType="hashmap">
+ 	INSERT INTO sigungu()
+ 	VALUES()
+ 	</insert>
+
+ </mapper>
