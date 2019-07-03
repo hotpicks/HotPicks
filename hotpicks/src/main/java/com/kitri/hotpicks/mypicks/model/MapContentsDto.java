@@ -6,12 +6,12 @@ public class MapContentsDto {
 	private double x;
 	private double y;
 	private int cate;
-	private int distance; 
+	private double distance; 
 	
-	public int getDistance() {
+	public double getDistance() {
 		return distance;
 	}
-	public void setDistance(int distance) {
+	public void setDistance(double distance) {
 		this.distance = distance;
 	}
 	public String getContentsid() {

@@ -344,7 +344,7 @@ getTwitters('twitter', {
 					var x = mouseEvent.latLng.getLat();
 					var y = mouseEvent.latLng.getLng();
 					markerSet(x, y);
-					selectDistanceLesson(marker);
+					
 					var data = {
 							"selectMarkers" : selectMarkers,
 							"x" : x,

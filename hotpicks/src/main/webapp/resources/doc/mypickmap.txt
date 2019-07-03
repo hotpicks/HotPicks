@@ -31,7 +31,7 @@ VALUES ( 'b6','bsubject6' , 37.52833987710257,127.03294415207834 ,2);
 INSERT INTO contents
 VALUES ( 'b7','bsubject7' , 37.53467167004162,127.06118716687314,2 );
 
-
+drop procedure DISTNACE_WGS84;
 
 CREATE OR REPLACE FUNCTION RADIANS(nDegrees IN NUMBER) 
 RETURN NUMBER DETERMINISTIC 
@@ -44,19 +44,21 @@ BEGIN
   RETURN nDegrees / 57.29577951308232087679815481410517033235;
 END RADIANS;
  
-create or replace function DISTNACEWGS84( H_LAT in number, H_LNG in number, T_LAT in number, T_LNG in number)
+drop function DISTNACE_WGS84;
+create or replace function DISTNACE_GRS80( H_LAT in number, H_LNG in number, T_LAT in number, T_LNG in number)
 return number deterministic
 is
 begin
-  return ( 6371.0 * acos(  
+  return ( 6378.137 * acos(  
           cos( radians( H_LAT ) )*cos( radians( T_LAT /* 위도 */ ) )
           *cos( radians( T_LNG /* 경도 */ )-radians( H_LNG ) )
           +
           sin( radians( H_LAT ) )*sin( radians( T_LAT /* 위도 */ ) )        
          ));
-end DISTNACEWGS84;
+end DISTNACE_GRS80;
+commit;
  
-select DISTNACEWGS84(33.504274, 126.529182, 33.524383, 126.544333) from dual;
+select DISTNACE_WGS84(33.504274, 126.529182, 33.524383, 126.544333) from dual;
 /* 결과 2.64059773979495999846417249534463003211 */
  
 commit;
