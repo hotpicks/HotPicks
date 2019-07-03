@@ -1,72 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "adminheader.jsp" %>
-<style>
-#wrapper{
-line-height: 45px;
-}
-
-.title{
-font-weight: 900;
-font-size: 40px;
-color: white;
-}
-
-.divider{
-margin-top:0px;
-padding-bottom: 0px;
-margin-bottom: 10px;
-}
-
-.btns{
-margin-bottom: 10px;
-}
-
-.tab .list{
-background-color : lightgray;
-}
-
-ul#tab-menu {
-    float: none;
-    width: 100%;
-}
-
-#wrapper ul li {
-    line-height: 60px;
-    display: inline;
-    margin-left: 35px;
-    margin-right: 35px;
-}
-
-.tab-content{
-	float:none;
-	margin-top:10px;
-	width : 98%;
-	height: 1000px;
-}
-
-input[type=checkbox]{
-width:20px;
-height:20px;
-}
-
-table td {
-padding:0px;
-}
-
-#membercnt {
-height: 100px;
-}
-
-#membercnt td{
-font-weight:700;
-font-size:large;
-}
-
-.tab-content div.tab p {
-	width: 100%;
-}
-</style>
 
 <script>
 $(function(){
@@ -90,10 +24,10 @@ $(function(){
       
     <div class="tab-wrapper">
       <ul id="tab-menu">
-        <li><a href="${root}/WEB-INF/views/page/admin/managemember.jsp"><img src="${root}/resources/style/images/ad_menu1.png" alt="" /><strong>회원관리</strong></a></li>
-        <li><a href="${root}/WEB-INF/views/page/admin/managereview.jsp"><img src="${root}/resources/style/images/ad_menu2.png" alt="" /><strong><font color="#287f56">게시글 관리</font></strong></a></li>
-        <li><a href="${root}/WEB-INF/views/page/admin/statlike.jsp"><img src="${root}/resources/style/images/ad_menu3.png" alt="" /><strong>회원 선호도 분석</strong></a></li>
-        <li><a href="${root}/WEB-INF/views/page/admin/statvisit.jsp"><img src="${root}/resources/style/images/ad_menu4.png" alt="" /><strong>회원 방문 통계</strong></a></li>
+        <li><a href="${root}/admin/mgmember"><img src="${root}/resources/style/images/ad_menu1.png" alt="" /><strong>회원관리</strong></a></li>
+        <li><a href="${root}/admin/mgreview"><img src="${root}/resources/style/images/ad_menu2.png" alt="" /><strong><font color="#287f56">게시글 관리</font></strong></a></li>
+        <li><a href="${root}/admin/stlike"><img src="${root}/resources/style/images/ad_menu3.png" alt="" /><strong>회원 선호도 분석</strong></a></li>
+        <li><a href="${root}/admin/stvisit"><img src="${root}/resources/style/images/ad_menu4.png" alt="" /><strong>회원 방문 통계</strong></a></li>
       </ul>
       
       <div class="tab-content">
@@ -112,9 +46,9 @@ $(function(){
           		<td>신고 리뷰 수</td>
           	</tr>
           	<tr align="center" id="membercnt">
-          		<td>2019.06.28</td>
-          		<td>500</td>
-          		<td>3</td>
+          		<td style="vertical-align: middle;">2019.06.28</td>
+          		<td style="vertical-align: middle;">500</td>
+          		<td style="vertical-align: middle;">3</td>
           	</tr>
           </table>
           
@@ -126,9 +60,13 @@ $(function(){
           
           
           
-          <!-- ********** 게시글 관리 테이블 ********** -->
+          <!-- ********** 신고 게시글 관리 테이블 ********** -->
           	<a href="#" class="button red btns" style="margin-right:30px; font-weight: 700;">리뷰삭제<span></span></a>
-          	<br>
+          	<select>
+          		<option>전체 리뷰</option>
+          		<option>신고 리뷰</option>
+          	</select>
+          	<div class="clear"></div>
  
           <div style="float:none; height: 850px; overflow-y:auto">
           
@@ -143,6 +81,9 @@ $(function(){
           			<td>제목</td>
           			<td>작성자 id</td>
           			<td>작성일</td>
+          			<td>내용</td>
+          			<td>신고내용</td>
+          			<td>신고일자</td>
           			<td>조회수</td>
           		</tr>
           		<tr align="center">
@@ -153,6 +94,9 @@ $(function(){
           			<td>리뷰 제목</td>
           			<td>작성자 id</td>
           			<td>2019.06.29</td>
+          			<td>랄라라</td>
+          			<td>컨텐츠와 관련 없는 내용</td>
+          			<td>2019.07.02</td>
           			<td>9</td>
           		</tr>
           		<tr align="center">
@@ -163,6 +107,9 @@ $(function(){
           			<td>리뷰 제목</td>
           			<td>작성자 id</td>
           			<td>2019.06.29</td>
+          			<td>랄라라</td>
+          			<td>컨텐츠와 관련 없는 내용</td>
+          			<td>2019.07.02</td>
           			<td>9</td>
           		</tr>
           		<tr align="center">
@@ -173,6 +120,9 @@ $(function(){
           			<td>리뷰 제목</td>
           			<td>작성자 id</td>
           			<td>2019.06.29</td>
+          			<td>@#$%!@$$</td>
+          			<td>부적절한 내용</td>
+          			<td>2019.07.02</td>
           			<td>9</td>
           		</tr>
           		<tr align="center">
@@ -183,6 +133,9 @@ $(function(){
           			<td>리뷰 제목</td>
           			<td>작성자 id</td>
           			<td>2019.06.29</td>
+          			<td>랄라라</td>
+          			<td>컨텐츠와 관련 없는 내용</td>
+          			<td>2019.07.02</td>
           			<td>9</td>
           		</tr>
           		<tr align="center">
@@ -193,6 +146,9 @@ $(function(){
           			<td>리뷰 제목</td>
           			<td>작성자 id</td>
           			<td>2019.06.29</td>
+          			<td>랄라라</td>
+          			<td>컨텐츠와 관련 없는 내용</td>
+          			<td>2019.07.02</td>
           			<td>9</td>
           		</tr>
           		<tr align="center">
@@ -203,6 +159,9 @@ $(function(){
           			<td>리뷰 제목</td>
           			<td>작성자 id</td>
           			<td>2019.06.29</td>
+          			<td>랄라라</td>
+          			<td>컨텐츠와 관련 없는 내용</td>
+          			<td>2019.07.02</td>
           			<td>9</td>
           		</tr>
  

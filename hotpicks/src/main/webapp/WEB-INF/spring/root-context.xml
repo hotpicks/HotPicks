@@ -19,6 +19,7 @@
 		<property name="mapperLocations">
 			<list>
 				<value>/WEB-INF/mybatis/mapper_mypickmap.xml</value>
+				<value>/WEB-INF/mybatis/mapper_member.xml</value>
 			</list>
 		</property>
 	</bean>

@@ -36,6 +36,84 @@
 body{
 	background-color: #527a7a;
 }
+
+#wrapper{
+line-height: 45px;
+}
+
+.title{
+font-weight: 900;
+font-size: 40px;
+color: white;
+}
+
+.divider{
+margin-top:0px;
+padding-bottom: 0px;
+margin-bottom: 10px;
+}
+
+.btns{
+margin-bottom: 10px;
+}
+
+.tab .list{
+background-color : lightgray;
+}
+
+ul#tab-menu {
+    float: none;
+    width: 100%;
+}
+
+#wrapper ul li {
+    line-height: 60px;
+    display: inline;
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
+.tab-content{
+	float:none;
+	margin-top:10px;
+	width : 98%;
+	height: 1000px;
+}
+
+input[type=checkbox]{
+width:20px;
+height:20px;
+}
+
+table td {
+padding:0px;
+}
+
+#membercnt {
+height: 100px;
+}
+
+#membercnt td{
+font-weight:700;
+font-size:large;
+}
+
+.tab-content div.tab p {
+	width: 100%;
+}
+
+select{
+float: right;
+width:200px;
+height:30px;
+font-size: 15px;
+font-weight: 700;
+}
+
+#membercnt {
+    height: 100%;
+}
+
 </style>
 
 </head>
@@ -59,23 +137,18 @@ body{
         <div id="menu-wrapper">        
           <div id="smoothmenu1" class="ddsmoothmenu">
             <ul>
-              <li><a href="${root}/index.jsp">Home</a>
+              <li>
+              	<a href="${root}/index.jsp">Home</a>
               </li>
-              <li><a href="">Contents</a>
-                <ul>
-                  <li><a href="">공연</a></li>
-                  <li><a href="">전시</a></li>
-                  <li><a href="">행사</a></li>
-                </ul>
+              <li>
+              	<a href="${root}/admin/mgmember">Admin</a>
               </li>
-              <li><a href="">My Picks</a>
-                <ul>
-                  <li><a href="">Pick 목록</a></li>
-                  <li><a href="">Pick 지도</a></li>
-                  <li><a href="">Pick 달력</a></li>
-                </ul>
+              <li>
+              	<a href="${root}/admin/db">DB</a>
               </li>
-              <li><a href="">Logout</a></li>
+              <li>
+              	<a href="${root}/member/logout">Logout</a>
+              </li>
             </ul>
           </div>
         </div>
