@@ -11,7 +11,7 @@
 <div style="padding-top: 30px;">
 <div id="about">
 <c:forEach var="selectcontents" items="${list}" >
-      <div class="one-fourth sh"> <a href="#"><img src="${root}/resources/style/images/art/home-1.jpg" alt="" /></a>
+      <div class="one-fourth sh"><div>${selectcontents.distance}</div> <img src="${root}/resources/style/images/art/home-1.jpg" alt="" />
         <h4>${selectcontents.subject}</h4>
         <p>contentsid = ${selectcontents.contentsid}</p>
       </div>
