@@ -161,13 +161,6 @@ DROP TABLE sigungu
 DROP TABLE contents_detail 
 	CASCADE CONSTRAINTS;
 
-/* sequence1 */
-DROP SEQUENCE seq;
-
-/* sequence1 */
-CREATE SEQUENCE seq
-	start with 100;
-
 /* 회원 */
 CREATE TABLE member (
 	userId VARCHAR2(100) NOT NULL, /* 회원아이디 */
@@ -204,6 +197,13 @@ ALTER TABLE member
 		PRIMARY KEY (
 			userId
 		);
+/* sequence1 */
+DROP SEQUENCE seq;
+
+/* sequence1 */
+CREATE SEQUENCE seq
+	start with 100;
+
 
 /* 해시테그 */
 CREATE TABLE hashTag (
@@ -336,8 +336,9 @@ CREATE TABLE contents (
 	catId NUMBER, /* 카테고리id */
 	sggCode VARCHAR2(100), /* 시군구코드 */
 	sdCode VARCHAR2(100), /* 시도코드 */
-	mainImg CLOB, /* 이미지 */
-	viewCount NUMBER /* 조회수 */
+	hit NUMBER, /* 조회수 */
+	image1 CLOB, /* 이미지1 */
+	image2 CLOB /* 이미지2 */
 );
 
 COMMENT ON TABLE contents IS '컨텐츠';
@@ -352,9 +353,11 @@ COMMENT ON COLUMN contents.sggCode IS '시군구코드';
 
 COMMENT ON COLUMN contents.sdCode IS '시도코드';
 
-COMMENT ON COLUMN contents.mainImg IS '이미지';
+COMMENT ON COLUMN contents.hit IS '조회수';
 
-COMMENT ON COLUMN contents.viewCount IS '조회수';
+COMMENT ON COLUMN contents.image1 IS '이미지1';
+
+COMMENT ON COLUMN contents.image2 IS '이미지2';
 
 ALTER TABLE contents
 	ADD
@@ -442,7 +445,9 @@ CREATE TABLE contents_detail (
 	discountInfo LONG TEXT, /* 할인정보 */
 	placeInfo LONG TEXT, /* 행사장위치안내 */
 	infoName LONG TEXT, /* 행사소개 */
-	infoText LONG TEXT /* 행사내용 */
+	infoText LONG TEXT, /* 행사내용 */
+	xPoint NUMBER, /* x좌표 */
+	yPoint NUMBER /* y좌표 */
 );
 
 COMMENT ON TABLE contents_detail IS 'contents_detail';
@@ -484,6 +489,10 @@ COMMENT ON COLUMN contents_detail.placeInfo IS '행사장위치안내';
 COMMENT ON COLUMN contents_detail.infoName IS '행사소개';
 
 COMMENT ON COLUMN contents_detail.infoText IS '행사내용';
+
+COMMENT ON COLUMN contents_detail.xPoint IS 'x좌표';
+
+COMMENT ON COLUMN contents_detail.yPoint IS 'y좌표';
 
 ALTER TABLE contents_detail
 	ADD
