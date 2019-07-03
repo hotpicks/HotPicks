@@ -12,7 +12,18 @@
       select * from (
 		select contentsid, subject, x, y, cate , to_char(DISTNACE_GRS80(#{x},#{y},x,y),'999,999,999.999') distance
  		from contents)
- 		where distance <= #{distance}/999
+ 		where
+	 ]]>
+ 	<if test="selectMarkers.size() != 0">
+ 		contentsid in
+ 		<foreach collection="selectMarkers" item="selectMarker" open="(" separator="," close=")" >
+ 		#{selectMarker} 
+ 		</foreach>
+		and
+ 	</if>
+ 	 
+ 		<![CDATA[
+ 		distance <= #{distance}/1000
         order by distance
         ]]>
  	</select>
