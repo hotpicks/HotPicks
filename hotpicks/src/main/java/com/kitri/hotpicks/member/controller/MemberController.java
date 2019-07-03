@@ -63,6 +63,7 @@ public class MemberController {
 			File file = new File(realPath, savePicture);
 
 			System.out.println("저장 경로 = " + realPath);
+			System.out.println("db에 저장되는 것 = " + savePicture);
 			
 			memberDto.setProfile(savePicture); // memberDto에 '사진명.jpg'을 세팅함
 			
@@ -76,7 +77,7 @@ public class MemberController {
 				e.printStackTrace();
 			}
 		} else { // 프로필 사진이 없는 경우,
-			memberDto.setProfile("${root}/upload/member/user.png"); // memberDto에 기본 사진 경로를 세팅함
+			memberDto.setProfile("user.png"); // memberDto에 기본 사진 경로를 세팅함
 		}
 		
 		int isJoined = memberService.join(memberDto);
