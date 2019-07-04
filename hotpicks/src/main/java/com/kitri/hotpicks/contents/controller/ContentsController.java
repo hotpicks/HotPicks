@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kitri.hotpicks.contents.model.SidoDto;
 import com.kitri.hotpicks.contents.service.ContentsService;
 
 
@@ -31,8 +32,7 @@ public class ContentsController {
 		
 		String periodurlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?"
 				+ "numOfRows=10&" + "pageNo=1&" + "MobileOS=ETC&" + "MobileApp=AppTest&" + "listYN=Y&" + "arrange=A&"
-				+ "contentTypeId=15&" + "cat1=A02&" + "cat2=A0207&" + "cat3=A02070100&"
-				+ "_type=json&" + "ServiceKey=" + takapikey;
+				+ "contentTypeId=15&" + "_type=json&" + "ServiceKey=" + takapikey + "&cat2=A0207" ;
 
 
 		System.out.println(periodurlStr);
@@ -40,6 +40,13 @@ public class ContentsController {
 		List<Map<String, String>> list = contentsService.apiexc(periodurlStr);
 		model.addAttribute("json", list);
 		
+		List<SidoDto> sidoList = contentsService.selectSido(); 
+		model.addAttribute("sidoList", sidoList);
+//		for(int i = 0 ; i< sidoList.size();i++) {
+//			SidoDto dto = sidoList.get(i);
+//			System.out.println(sidoList.get(i).toString());
+//			System.out.println(dto.toString());
+//		}
 		//String resultMsg = locationProcess();
 		//model.addAttribute("msg", resultMsg);
 		return "contents/result";

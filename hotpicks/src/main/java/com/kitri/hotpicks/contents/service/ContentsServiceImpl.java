@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.kitri.hotpicks.contents.dao.ContentsDao;
 import com.kitri.hotpicks.contents.model.ContentsDto;
+import com.kitri.hotpicks.contents.model.ContentsTypeDto;
 import com.kitri.hotpicks.contents.model.SidoDto;
 import com.kitri.hotpicks.contents.model.SigunguDto;
 
@@ -31,7 +33,127 @@ public class ContentsServiceImpl implements ContentsService {
 	private SqlSession sqlSession;
 
 	@Override
+	public List<SidoDto> selectSido() {
+		return sqlSession.getMapper(ContentsDao.class).selectSido();
+	}
+	
+	@Override
+	public void insertApiProcess(String urlStr) {
+		List<ContentsTypeDto> typeList = sqlSession.getMapper(ContentsDao.class).selectContentsType();
+		System.out.println(typeList.toString());
+		
+		 //String ee = "&cat1=A02&" + "&cat2=A0207" + "&cat3=A02070100";
+		 
+//		int len = sdList.size();
+//		for (int i = 0; i < len; i++) {
+//			sigunguUrl = sigunguUrlOrigin + "&areaCode=" + sdList.get(i);
+//			System.out.println(sdList.get(i));
+//
+//		}
+		
+		
+		String contentsUrlStr = urlStr + "&cat2=" + typeList.get(0).getCateCode();
+		
+		String data = "";
+		BufferedReader br = null;
+		List<ContentsDto> list = null;
+		ContentsDto contentsDto = null;
+		URL url;
+		
+			try {
+				url = new URL(contentsUrlStr);
+			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setRequestMethod("GET");
+			br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+
+			String line;
+			while ((line = br.readLine()) != null) {
+				data = data.concat(line);
+			
+			// 받은 데이터확인
+			System.out.println("data : " + data);
+			// 문자열데이터 객체화
+			JSONParser parser = new JSONParser();
+			JSONObject obj = (JSONObject) parser.parse(data);
+			System.out.println("obj : " + obj);
+			// top레벨의 response 키로 데이터 파싱
+			JSONObject parse_response = (JSONObject) obj.get("response");
+			JSONObject parse_body = (JSONObject) parse_response.get("body");
+			System.out.println("body : " + parse_body);
+			JSONObject parse_items = (JSONObject) parse_body.get("items");
+			JSONArray parse_itemlist = (JSONArray) parse_items.get("item");
+			JSONObject item = null;
+			
+			list = new ArrayList<ContentsDto>();
+			for (int i = 0; i < parse_itemlist.size(); i++) {
+				item = (JSONObject) parse_itemlist.get(i);
+				contentsDto = new ContentsDto();
+				contentsDto.setContentsId(item.get("contentid").toString());
+				contentsDto.setTitle(item.get("title").toString());
+				contentsDto.setCatId(String.valueOf(typeList.get(0).getCatId()));
+				contentsDto.setSdCode(item.get("addr1").toString().split(" ")[0]);
+				contentsDto.setSggCode(item.get("addr1").toString().split(" ")[1]);
+				contentsDto.setImage1((item.get("firstimage1") != null ? 
+						item.get("firstimage1").toString().replace("\\", "") : "x"));
+				contentsDto.setImage2((item.get("firstimage2") != null ? 
+						item.get("firstimage2").toString().replace("\\", "") : "x"));
+				contentsDto.setHit(0);
+				System.out.println(contentsDto.toString());
+				list.add(contentsDto);
+			}
+		}
+	
+			
+		
+	
+		
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	
+	}
+
+	@Override
+	public void insertApiContents(List<Integer> contentsTypeList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertApiContentsDetail(List<Integer> contentsIdList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
+
+	
+	
+	@Override
 	public List<Map<String, String>> apiexc(String urlStr) {
+		
+		insertApiProcess(urlStr);
+		
+		
+		
+		
+		
+		
+//		///////////////////////////////////////////
+		
+		
 		System.out.println("왜 service에 안들어와지지?");
 		System.out.println(urlStr);
 		String data = "";
@@ -249,5 +371,8 @@ public class ContentsServiceImpl implements ContentsService {
 		} // end for
 
 	}
+
+
+	
 
 }

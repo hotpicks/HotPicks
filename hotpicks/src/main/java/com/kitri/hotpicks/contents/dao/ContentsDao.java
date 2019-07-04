@@ -4,15 +4,23 @@ import java.util.List;
 
 import com.kitri.hotpicks.contents.model.ContentsDetailDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
+import com.kitri.hotpicks.contents.model.ContentsTypeDto;
 import com.kitri.hotpicks.contents.model.SidoDto;
 import com.kitri.hotpicks.contents.model.SigunguDto;
 
 public interface ContentsDao {
 
+	
+	
 //select contents list process
 	List<ContentsDto>contentslist();
 	//select detail	
 	ContentsDetailDto contentsdetail();
+	
+//Select location process
+	List<SidoDto> selectSido();
+	
+	
 	
 //contents update process
 	//api 목록 list와 db의 list를 비교하여(where contentId in (list)
@@ -26,13 +34,13 @@ public interface ContentsDao {
 	void deleteContentsDetail(int contentsId);
 	
 	//insert contents process
-	void insertContents(ContentsDetailDto cdd);
+	List<ContentsTypeDto> selectContentsType();
+	void insertApiContents(List<ContentsDto> contentsDto);	
+	void insertApiContentsDetail(ContentsDetailDto contentsDetailDto);
 	
-	void insertContentsDetail(ContentsDetailDto cdd);
+
 	
-	
-	
-//Location Process
+//Insert Location Process
 	//insert sido
 	void insertSido(List<SidoDto> sidoData);
 	//insert sigungu

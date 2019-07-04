@@ -21,4 +21,13 @@
  	VALUES(#{sggCode}, #{sggName}, #{sdCode})
  	</insert>
 
+	<select id="selectSido" resultType="sidoDto">
+	SELECT *
+	FROM sido
+	</select>
+	
+	<select id="selectContentsType" resultType="contentsTypeDto">
+	SELECT *
+	FROM boardtype
+	</select>
  </mapper>
