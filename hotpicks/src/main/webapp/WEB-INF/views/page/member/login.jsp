@@ -115,26 +115,82 @@ height: auto;
                         	
             	<!-- *************************** 카카오톡 로그인 버튼 *************************** -->
             	<a id="kakao-login-btn"></a>
-				<a href="http://developers.kakao.com/logout"></a>
+				<input type="button" value="로그아웃" onclick="ktout()"/>
 				<script type='text/javascript'>
 					var token;
 				    // 사용할 앱의 JavaScript 키를 설정해 주세요.
-				    Kakao.init('80e0c68902771bfbccccae15ff290afd');
+				    Kakao.init('9735071d5888d9bfbab24b41f01958c2');
 				    // 카카오 로그인 버튼을 생성합니다.
 				    Kakao.Auth.createLoginButton({
 				      container: '#kakao-login-btn',
 				      
+				      // 1 로그인 성공
 				      success: function(authObj) {
-				        alert("로그인 성공\n" + JSON.stringify(authObj));
-				        
-				        token = JSON.stringify(authObj.access_token);
-				        
+				    	  
+				          //token = JSON.stringify(authObj.access_token);
+				    	  
+				    	  // 1-1. 사용자 정보 요청 api 호출
+				    	  Kakao.API.request({
+				    		 url : '/v2/user/me',
+				    		 success: function(res){
+				    			 alert("정보 요청 성공")
+				    			 console.log(res);
+				    			 
+				    			 var userId = res.id;
+				    			 var userNickName = res.properties.nickname;
+				    			 
+				    			 var userEmail = "";
+				    			 var profile_image = "";
+				    			 var age = "";
+				    			 var gender = "";
+				    			 
+				    			 // 값 존재 여부
+				    			 var has_age_range = res.kakao_account.has_age_range;
+				    			 var has_email = res.kakao_account.has_email;
+				    			 var has_gender = res.kakao_account.has_gender;
+				    			 
+				    			 if(has_email){
+				    				 userEmail = res.kakao_account.email;
+				    			 }
+				    			 if(has_age_range){
+				    				 age = res.kakao_account.age_range;
+				    				 var idx = age.lastIndexOf("~");
+				    				 age = age.substring(0, idx);
+				    			 }
+				    			 if(has_gender){
+				    				 gender = (res.kakao_account.gender == "female") ? "여" : "남";
+				    			 }
+				    			 if(profile_image != null){
+				    				 profile_image = res.properties.profile_image;
+				    			 }else{
+				    				 profile_image = "user.png";
+				    			 }
+				    			 
+				    			 console.log("아이디 : " + userId);
+				    			 console.log("이름 : " + userNickName);
+				    			 console.log("이메일 : " + userEmail);
+				    			 console.log("연령 : " + age);
+				    			 console.log("성별 : " + gender);
+				    			 console.log("프로필 사진 : " + profile_image);
+				    		 },
+				    		 fail : function(error){
+				    			 alert(JSON.stringify(error));
+				    		 }
+				    	  });
+								        
 				      },
+				      // 2 로그인 실패
 				      fail: function(err) {
 				         alert("로그인 실패\n" + JSON.stringify(err));
-				         console.log(JSON.stringify(authObj));
 				      }
 				    });
+				    
+				    // 로그아웃
+				    function ktout(){
+				    	Kakao.Auth.logout(function(){
+				    		setTimeout(function(){location.href="${root}/index.jsp"}, 1000);
+				    	});
+				    }
 				    
 			
 				</script>
