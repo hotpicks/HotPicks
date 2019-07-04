@@ -33,7 +33,6 @@ public class MypickMapController {
 	@ResponseBody
 	public String mypicksMap() {
 		System.out.println("controller");
-		System.out.println("controller");
 		List<MapContentsDto> list = mypickMapService.getContent();
 		JSONArray array = new JSONArray(list);
 		return array.toString();
