@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kitri.hotpicks.common.dao.CommonDao;
 import com.kitri.hotpicks.mypicks.dao.MypicksDamDao;
 import com.kitri.hotpicks.mypicks.model.PickListDto;
 import com.kitri.hotpicks.util.CafeConstance;
@@ -34,6 +33,16 @@ public class MypickDamServiceImpl implements MypickDamService{
 	@Transactional
 	public PickListDto viewArticle(int seq) {
 		return null;
+		
+	}
+
+	@Override
+	public int modifyArticle(PickListDto pickListDto) {
+		return 0;
+	}
+
+	@Override
+	public void deleteArticle(int seq) {
 		
 	}
 

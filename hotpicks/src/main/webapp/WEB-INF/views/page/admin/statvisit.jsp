@@ -2,9 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file = "adminheader.jsp" %>
 
-</style>
-
 <script>
+
 $(function(){
 		
 	/* 전체 선택 및 해제 이벤트 */
@@ -68,6 +67,42 @@ $(function(){
           	<div class="clear"></div>
         	방문 그래프 띄우기
           </p>
+          <canvas id="chart" width="490" height="320" class="chartjs-render-monitor" style="display: block; height: 256px; width: 392px;"></canvas>
+<script>
+var data
+= {
+	"labels":["06.22","06.23","06.24","06.25","06.26","06.27","06.28"],
+	"datasets":[
+				{
+					"label":"방문 수",
+					"data":[30,31,40,29,50,58,60],
+					"fill":true,
+					"borderColor":"rgb(75, 192, 192)",
+					"lineTension":0.1
+				}
+				]
+	};
+
+var options
+= {
+	scales : {
+		yAxes: [{
+			ticks: {
+				beginAtZero : true,
+				showLabelBackdrop : true,
+				max : 100
+			}
+		}]
+	}
+  };
+		
+var ctx = $("#chart");
+var myChart = new Chart(ctx, {
+	 type: 'line',
+	 data: data,
+	 options: options
+});
+</script>
 
          </div>
       <!-- ***************************** [ tab 4 끝 ] ****************************** -->

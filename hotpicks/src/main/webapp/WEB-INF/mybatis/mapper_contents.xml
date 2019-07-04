@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.kitri.hotpicks.contents.dao.ContentsDao">
+ 
+ 	<insert id="insertSido" parameterType="java.util.List">
+	<foreach collection="list" item="sido" open="INSERT ALL" close="SELECT * FROM dual">
+	INTO sido(sdcode, sdname) VALUES(#{sido.sdCode}, #{sido.sdName})
+	</foreach>
+ 	</insert>
+ 	
+ 	<insert id="insertSigunguList" parameterType="java.util.List">
+ 	<foreach collection="list" item="sigungu" open="INSERT ALL" close="SELECT * FROM dual">
+ 	INTO sigungu(sggcode,sggname,sdcode) VALUES(#{sigungu.sggCode}, #{sigungu.sggName}, #{sigungu.sdCode})
+ 	</foreach>
+ 	</insert>
+ 	
+ 	<insert id="insertSigungu" parameterType="sigunguDto">
+ 	INSERT INTO sigungu(sggcode,sggname,sdcode) 
+ 	VALUES(#{sggCode}, #{sggName}, #{sdCode})
+ 	</insert>
+
+ </mapper>

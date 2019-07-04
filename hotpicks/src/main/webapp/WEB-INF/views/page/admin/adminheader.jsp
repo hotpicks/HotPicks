@@ -26,6 +26,9 @@
 <script type="text/javascript" src="${root}/resources/scripts/swfobject/swfobject.js"></script>
 <script type="text/javascript" src="${root}/resources/style/js/twitter.min.js"></script>
 
+<!-- chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 <style>
 #search{
 	float: left;

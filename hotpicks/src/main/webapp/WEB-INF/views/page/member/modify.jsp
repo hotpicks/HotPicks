@@ -48,14 +48,35 @@ height: 30px;
 <script>
 $(function(){
 	
+	// input type = file 의 파일값 읽어서, 프로필 사진 이미지 부분에 적용 (미리보기)
+	function readURL(input) {
+		if(input.files && input.files[0]) {
+			var reader = new FileReader();
+			
+			reader.onload = function (e) {
+				$("#profileImg").attr("src", e.target.result);
+			}
+			
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	
+	//파일 변경 이벤트 (프로필 사진 썸네일 미리보기)
+	$("#profileBtn").change(function(){
+		readURL(this);
+	});
+	
+	var curpassright = 1;
 	// 현재 비번 일치 여부 체크
 	$("#pass").keyup(function(){
 		var curpass = $(this).attr("data-pass");
 		var inputpass = $(this).val();
 		if(curpass != inputpass) {
+			curpassright = 1;
 			$("#passrightcheck").css('color', 'tomato');
 			$("#passrightcheck").text('*비밀번호가 일치하지 않습니다.');
 		}else {			
+			curpassright = 0;
 			$("#passrightcheck").css('color', 'steelblue');
 			$("#passrightcheck").text('*비밀번호가 일치합니다.');
 		}
@@ -86,13 +107,14 @@ $(function(){
 	});
 	
 	var passsamecnt = 1;
+	var istherenewpass = 0;
 	
 	// 새 비번 확인 일치 여부
 	$("#newpassck").keyup(function(){
 		var newpass = $("#newpass").val();
 		var passck = $(this).val();
 		
-		if(newpass.trim().length == 0){			
+		if(newpass.trim().length == 0){		
 			$("#passsamecheck").css('color', 'tomato');
 			$("#passsamecheck").text('*새 비밀번호를 입력해주세요.');
 		}else if(newpass != passck){
@@ -101,6 +123,7 @@ $(function(){
 			$("#passsamecheck").text('*비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
 		} else {
 			passsamecnt = 0;
+			istherenewpass = 1;
 			$("#passsamecheck").css('color', 'steelblue');
 			$("#passsamecheck").html('*비밀번호가 일치합니다.');			
 		}
@@ -111,15 +134,17 @@ $(function(){
 	$("#modifyBtn").click(function(){
 		if($("#pass").val().trim().length == 0){
 			alert("현재 비밀번호를 입력해주세요.");
+		} else if(curpassright != 0){
+			alert("현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
 		} else if($("#age").val().trim().length == 0){
 			alert("나이를 입력해주세요.");
-		} else if(passtypecnt != 0) {
+		} else if(passtypecnt != 0 && istherenewpass != 0) {
 			alert("사용할 수 없는 새 비밀번호입니다. 다시 확인해주세요.");
-		}else if(passsamecnt != 0) {
+		}else if(passsamecnt != 0 && istherenewpass != 0) {
 			alert("새 비밀번호 확인란이 일치하지 않습니다. 다시 확인해주세요.");
 		}else {
 		
-			$(".modifyForm").attr("method", "POST").attr("action", "${root}/member/modify").submit();
+			$(".modifyForm").attr("action", "${root}/member/modify").submit();
 		}
 	});
 	
@@ -162,7 +187,7 @@ $(function(){
           <div id="note"></div>
           <!--begin:notice message block-->
           
-          <form class="modifyForm" id="ajax-contact-form"
+          <form class="modifyForm" id="ajax-contact-form" method="POST"
              enctype="multipart/form-data">
             <div class="labels">
             
@@ -172,12 +197,9 @@ $(function(){
                 <!-- ******** profile ******** -->
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
-              	<img alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
-              	<input type="file" id="profileBtn" name="profile" style="width:200px; background-color: white"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+              	<input type="file" id="profileBtn" name="profile_file" style="width:200px; background-color: white"/>
               	</div>
-              </p>
-              <p>
-              	<a href="#" class="button red btns" style="margin-left:410px; font-weight: 700;">사진 설정<span></span></a>
               </p>
               <br><br>
             

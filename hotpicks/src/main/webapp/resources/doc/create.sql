@@ -13,9 +13,9 @@ ALTER TABLE review
 		CONSTRAINT FK_contents_TO_review
 		CASCADE;
 
-ALTER TABLE comment
+ALTER TABLE comments
 	DROP
-		CONSTRAINT FK_review_TO_comment
+		CONSTRAINT FK_review_TO_comments
 		CASCADE;
 
 ALTER TABLE pickList
@@ -134,7 +134,7 @@ DROP TABLE boardType
 	CASCADE CONSTRAINTS;
 
 /* 댓글 */
-DROP TABLE comment 
+DROP TABLE comments 
 	CASCADE CONSTRAINTS;
 
 /* pickList */
@@ -160,8 +160,8 @@ DROP TABLE sigungu
 /* contents_detail */
 DROP TABLE contents_detail 
 	CASCADE CONSTRAINTS;
-
-/* sequence1 */
+	
+	/* sequence1 */
 DROP SEQUENCE seq;
 
 /* sequence1 */
@@ -228,7 +228,7 @@ ALTER TABLE hashTag
 CREATE TABLE review (
 	seq NUMBER NOT NULL, /* 글번호 */
 	userId VARCHAR2(100), /* 회원아이디 */
-	contentsId VARCHAR2(50), /* 컨텐츠아이디 */
+	contentsId NUMBER(12), /* 컨텐츠아이디 */
 	hashTag VARCHAR2(100), /* 태그이름 */
 	subject VARCHAR2(100), /* 제목 */
 	starPoint NUMBER, /* 별점 */
@@ -273,14 +273,14 @@ ALTER TABLE review
 /* 카테고리 */
 CREATE TABLE boardType (
 	catId NUMBER NOT NULL, /* 카테고리id */
-	catName VARCHAR2(600) /* 카테고리name */
+	catName VARCHAR2(600) /* 카테고리name */
 );
 
 COMMENT ON TABLE boardType IS '카테고리';
 
 COMMENT ON COLUMN boardType.catId IS '카테고리id';
 
-COMMENT ON COLUMN boardType.catName IS '카테고리name';
+COMMENT ON COLUMN boardType.catName IS '카테고리name';
 
 ALTER TABLE boardType
 	ADD
@@ -290,28 +290,28 @@ ALTER TABLE boardType
 		);
 
 /* 댓글 */
-CREATE TABLE comment (
+CREATE TABLE comments (
 	seq NUMBER NOT NULL, /* 글번호 */
 	logId VARCHAR2(40), /* 작성자아이디 */
 	logTime DATE, /* 작성시간 */
 	content VARCHAR2(200) /* 글내용 */
 );
 
-COMMENT ON TABLE comment IS '댓글';
+COMMENT ON TABLE comments IS '댓글';
 
-COMMENT ON COLUMN comment.seq IS '글번호';
+COMMENT ON COLUMN comments.seq IS '글번호';
 
-COMMENT ON COLUMN comment.logId IS '작성자아이디';
+COMMENT ON COLUMN comments.logId IS '작성자아이디';
 
-COMMENT ON COLUMN comment.logTime IS '작성시간';
+COMMENT ON COLUMN comments.logTime IS '작성시간';
 
-COMMENT ON COLUMN comment.content IS '글내용';
+COMMENT ON COLUMN comments.content IS '글내용';
 
 /* pickList */
 CREATE TABLE pickList (
 	seq NUMBER NOT NULL, /* 글번호 */
 	userId VARCHAR2(100), /* 회원아이디 */
-	contentsId VARCHAR2(50) /* 아이디 */
+	contentsId NUMBER(12) /* 아이디 */
 );
 
 COMMENT ON TABLE pickList IS 'pickList';
@@ -331,13 +331,14 @@ ALTER TABLE pickList
 
 /* 컨텐츠 */
 CREATE TABLE contents (
-	contentsId VARCHAR2(50) NOT NULL, /* 아이디 */
+	contentsId NUMBER(12) NOT NULL, /* 아이디 */
 	title VARCHAR(600), /* 제목 */
 	catId NUMBER, /* 카테고리id */
 	sggCode VARCHAR2(100), /* 시군구코드 */
 	sdCode VARCHAR2(100), /* 시도코드 */
-	mainImg CLOB, /* 이미지 */
-	viewCount NUMBER /* 조회수 */
+	hit NUMBER, /* 조회수 */
+	image1 CLOB, /* 이미지1 */
+	image2 CLOB /* 이미지2 */
 );
 
 COMMENT ON TABLE contents IS '컨텐츠';
@@ -352,9 +353,11 @@ COMMENT ON COLUMN contents.sggCode IS '시군구코드';
 
 COMMENT ON COLUMN contents.sdCode IS '시도코드';
 
-COMMENT ON COLUMN contents.mainImg IS '이미지';
+COMMENT ON COLUMN contents.hit IS '조회수';
 
-COMMENT ON COLUMN contents.viewCount IS '조회수';
+COMMENT ON COLUMN contents.image1 IS '이미지1';
+
+COMMENT ON COLUMN contents.image2 IS '이미지2';
 
 ALTER TABLE contents
 	ADD
@@ -424,25 +427,27 @@ ALTER TABLE sigungu
 
 /* contents_detail */
 CREATE TABLE contents_detail (
-	contentsId VARCHAR2(50) NOT NULL, /* 아이디 */
+	contentsId NUMBER(12) NOT NULL, /* 아이디 */
 	homePage VARCHAR(4000), /* 홈페이지 */
 	telName VARCHAR(1000), /* 주최자 명 */
 	tel VARCHAR(300), /* 주최자 전화번호 */
-	zipCode VARCHAR2(20), /* 우편번호 */
+	zipCode NUMBER(12), /* 우편번호 */
 	addr1 VARCHAR(400), /* 주소 */
 	addr2 VARCHAR(400), /* 상세주소 */
-	eventStartDate DATE, /* 행사시작일 */
-	eventEndDate DATE, /* 행사종료일 */
-	playTime LONG TEXT, /* 공연시간 */
-	program LONG TEXT, /* 행사프로그램 */
-	useTime LONG TEXT, /* 이용요금 */
-	spendTime LONG TEXT, /* 관람소요시간 */
+	eventStartDate NUMBER(8), /* 행사시작일 */
+	eventEndDate NUMBER(8), /* 행사종료일 */
+	playTime CLOB, /* 공연시간 */
+	program CLOB, /* 행사프로그램 */
+	useTime CLOB, /* 이용요금 */
+	spendTime CLOB, /* 관람소요시간 */
 	ageLimit VARCHAR(2000), /* 관람가능연령 */
-	bookingPlace LONG TEXT, /* 예매처 */
-	discountInfo LONG TEXT, /* 할인정보 */
-	placeInfo LONG TEXT, /* 행사장위치안내 */
-	infoName LONG TEXT, /* 행사소개 */
-	infoText LONG TEXT /* 행사내용 */
+	bookingPlace CLOB, /* 예매처 */
+	discountInfo CLOB, /* 할인정보 */
+	placeInfo CLOB, /* 행사장위치안내 */
+	infoName CLOB, /* 행사소개 */
+	infoText CLOB, /* 행사내용 */
+	xPoint NUMBER, /* x좌표 */
+	yPoint NUMBER /* y좌표 */
 );
 
 COMMENT ON TABLE contents_detail IS 'contents_detail';
@@ -485,6 +490,10 @@ COMMENT ON COLUMN contents_detail.infoName IS '행사소개';
 
 COMMENT ON COLUMN contents_detail.infoText IS '행사내용';
 
+COMMENT ON COLUMN contents_detail.xPoint IS 'x좌표';
+
+COMMENT ON COLUMN contents_detail.yPoint IS 'y좌표';
+
 ALTER TABLE contents_detail
 	ADD
 		CONSTRAINT PK_contents_detail
@@ -522,9 +531,9 @@ ALTER TABLE review
 			contentsId
 		);
 
-ALTER TABLE comment
+ALTER TABLE comments
 	ADD
-		CONSTRAINT FK_review_TO_comment
+		CONSTRAINT FK_review_TO_comments
 		FOREIGN KEY (
 			seq
 		)

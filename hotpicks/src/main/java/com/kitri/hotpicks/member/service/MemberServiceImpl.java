@@ -41,9 +41,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void modify(MemberDto memberDto) {
 		System.out.println("s_Impl : 정보수정 메소드 실행");
-		if(memberDto.getNewpass() != "") {
+		
+		if(!memberDto.getNewpass().isEmpty()) {
+			System.out.println("비번 변경 + 정보 수정!");
 			sqlSession.getMapper(MemberDao.class).modifynew(memberDto); //비밀번호 변경 + 정보 수정
 		}else {
+			System.out.println("비번 변경안함 + 정보 수정!");			
 			sqlSession.getMapper(MemberDao.class).modify(memberDto);	//비밀번호 유지 + 정보 수정
 		}
 	}

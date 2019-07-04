@@ -73,10 +73,9 @@
                   <li><a href="${root}/WEB-INF/views/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
                 </ul>
               </li>
-<c:if test="${userInfo != null}">
               <li><a href="${root}/member/mypage">My Page</a></li>
 			  <li><a href="${root}/member/logout">Logout</a></li>
-</c:if>
+<%-- </c:if> --%>
 <c:if test="${userInfo == null}">
               	   <li><a href="${root}/member/login">Login/Join</a></li>
 </c:if>
