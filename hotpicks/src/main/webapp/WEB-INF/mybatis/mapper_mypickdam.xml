@@ -2,10 +2,13 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.kitri.hotpicks.mypicks.dao.MypickDamDao">
+ <mapper namespace="com.kitri.hotpicks.mypicks.dao.MypicksDamDao">
  	
-	<select id="listArticle" parameterType="map" resultType="pickListDto">
-		
+	<select id="listArticle" parameterType="String" resultType="pickListDto">
+		select A.seq, A.userid, A.contentsId, A.title, A.image1, cD.eventStartDate, cD.eventEndDate, cD.spendTime
+		from(select pL.seq,pL.userid, pL.contentsId,C.title,C.image1
+		 	 from pickList pL, contents C
+			 where pL.contentsId=C.contentsId) A, contentsDetail cD
 	</select>
 
  </mapper>

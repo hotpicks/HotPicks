@@ -24,6 +24,8 @@
 				<value>/WEB-INF/mybatis/mapper_mypickmap.xml</value>
 				<value>/WEB-INF/mybatis/mapper_member.xml</value>
 				<value>/WEB-INF/mybatis/mapper_contents.xml</value>
+				<value>/WEB-INF/mybatis/mapper_mypickdam.xml</value>				
+				<value>/WEB-INF/mybatis/mapper_common.xml</value>				
 			</list>
 		</property>
 	</bean>
