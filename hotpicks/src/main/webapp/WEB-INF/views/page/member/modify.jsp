@@ -197,7 +197,7 @@ $(function(){
                 <!-- ******** profile ******** -->
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
-              	<img id="profileImg" alt="사용자프로필사진" src="${root}/upload/member/${userInfo.profile}" height="150px" width="150px"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
               	<input type="file" id="profileBtn" name="profile_file" style="width:200px; background-color: white"/>
               	</div>
               </p>
