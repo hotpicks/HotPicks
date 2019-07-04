@@ -28,8 +28,8 @@ public class CommonServiceImpl implements CommonService {
 	   public PageNavigation getPageNavigation(Map<String, String> parameter) {
 	      PageNavigation navigation = new PageNavigation();
 	      
-	      int newArticleCount = sqlSession.getMapper(CommonDao.class).getNewArticleCount(Integer.parseInt(parameter.get("bcode")));
-	      navigation.setNewArticleCount(newArticleCount);
+//	      int newArticleCount = sqlSession.getMapper(CommonDao.class).getNewArticleCount(Integer.parseInt(parameter.get("bcode")));
+//	      navigation.setNewArticleCount(newArticleCount);
 	      
 	      int totalArticleCount = sqlSession.getMapper(CommonDao.class).getTotalArticleCount(parameter);
 	      navigation.setTotalArticleCount(totalArticleCount);

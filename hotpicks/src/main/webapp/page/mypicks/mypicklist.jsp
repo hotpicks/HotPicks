@@ -15,6 +15,7 @@
 
 </style>
 <c:set var="root" value="${pageContext.request.contextPath}" />
+
 <div id="wrapper"> 
 <div class="content">
 <div>
@@ -56,7 +57,7 @@
         <h4>board3</h4>
         <p>content.</p>
       </div>
-      <div class="one-fourth last" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
+      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
         <h4>board4</h4>
  		 <p>content.</p>
       </div>
@@ -72,7 +73,7 @@
         <h4>board3</h4>
         <p>content.</p>
       </div>
-      <div class="one-fourth last" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
+      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
         <h4>board4</h4>
  		 <p>content.</p>
       </div>
@@ -88,7 +89,7 @@
         <h4>board3</h4>
         <p>content.</p>
       </div>
-      <div class="one-fourth last" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
+      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
         <h4>board4</h4>
  		 <p>content.</p>
       </div>
