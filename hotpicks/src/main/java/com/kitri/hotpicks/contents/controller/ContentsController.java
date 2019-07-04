@@ -39,7 +39,9 @@ public class ContentsController {
 		logger.info("set----------------------------------");
 		List<Map<String, String>> list = contentsService.apiexc(periodurlStr);
 		model.addAttribute("json", list);
-		locationProcess();
+		
+		//String resultMsg = locationProcess();
+		//model.addAttribute("msg", resultMsg);
 		return "contents/result";
 
 	}
@@ -50,17 +52,17 @@ public class ContentsController {
 		String takapikey = "qldeV%2BL5Ff%2BFi%2BJisZxRFyc1KDitxcPmNkhuwOjk6c7xQDVITEe0oDrh3XFd98iqnW89ky8RMDhQkQIb48h3%2BQ%3D%3D";
 		
 		String locationUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaCode?" + 
-						"MobileOS=ETC&" + "MobileApp=AppTest&"+"numOfRows=50&" + "areaCode=1&" +
-						"_type=json&" + "ServiceKey="+ takapikey;
+						"MobileOS=ETC&" + "MobileApp=AppTest&"+"numOfRows=50&" + "_type=json&" + 
+						"ServiceKey="+ takapikey;
 		
 		
 		
 		System.out.println(locationUrl);
 		logger.info("set----------------------------------");
-		contentsService.locationProcess(locationUrl);
+		String resultMsg = contentsService.locationProcess(locationUrl);
 		
 		
-		return "";
+		return resultMsg;
 	}
 	
 

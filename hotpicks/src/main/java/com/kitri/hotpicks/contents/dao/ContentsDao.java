@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.kitri.hotpicks.contents.model.ContentsDetailDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
+import com.kitri.hotpicks.contents.model.SidoDto;
+import com.kitri.hotpicks.contents.model.SigunguDto;
 
 public interface ContentsDao {
 
@@ -32,9 +34,10 @@ public interface ContentsDao {
 	
 //Location Process
 	//insert sido
-	List<Integer> insertSido(String sidoUrl);
+	void insertSido(List<SidoDto> sidoData);
 	//insert sigungu
-	void insertSigungu(String sigunguUrl);
+	void insertSigunguList(List<SigunguDto> sigunguData);
 
+	void insertSigungu(SigunguDto sigunguDto);
 	
 }

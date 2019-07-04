@@ -10,9 +10,9 @@ public interface ContentsService {
 	
 	
 	//시도,시군구 api 자료 DB에 insert
-	void locationProcess(String locationUrl);
+	String locationProcess(String locationUrl);
 	//시도
 	List<Integer> insertSido(String sidoUrl);
 	//시군구
-	void insertSigungu(String sigunguUrl);
+	void insertSigungu(String sigunguUrl, List<Integer> sdList);
 }
