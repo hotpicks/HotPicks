@@ -23,6 +23,13 @@ public class CommonServiceImpl implements CommonService {
 		return sqlSession.getMapper(CommonDao.class).getNextSeq();
 		
 	}
+	
+	@Override
+	public int getReNextSeq() {
+		
+		return sqlSession.getMapper(CommonDao.class).getReNextSeq();
+		
+	}
 
 	@Override
 	   public PageNavigation getPageNavigation(Map<String, String> parameter) {
