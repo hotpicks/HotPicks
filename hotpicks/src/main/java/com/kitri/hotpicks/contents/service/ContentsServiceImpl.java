@@ -356,14 +356,35 @@ public class ContentsServiceImpl implements ContentsService {
 
 	}
 	
+
+		
+		
+
+
 	@Override
 	public List<SidoDto> selectSido() {
+		
 		return sqlSession.getMapper(ContentsDao.class).selectSido();
+		 
 	}
 
 	@Override
-	public List<SigunguDto> selectSigungu(int sdcode) {
-		return sqlSession.getMapper(ContentsDao.class).selectSigungu(sdcode); 
+	public Map<Integer, List<SigunguDto>> selectSigungu(List<SidoDto> sidoList) {
+	
+		Map<Integer, List<SigunguDto>> sidogunguMap = new HashMap<Integer, List<SigunguDto>>();
+		for(int i = 0 ; i<sidoList.size();i++) {
+			System.out.println("list"+sidoList.get(i).getSdCode());
+		}
+		
+		for(SidoDto sido : sidoList) {
+			System.out.println("code"+sido.getSdCode());
+			sidogunguMap.put(sido.getSdCode(), sqlSession.getMapper(ContentsDao.class).selectSigungu(sido.getSdCode())); 
+		}
+		
+		return sidogunguMap;
 	}
+
+	
+	
 
 }
