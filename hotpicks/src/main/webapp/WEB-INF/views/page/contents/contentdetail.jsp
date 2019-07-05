@@ -106,7 +106,7 @@ li.clearfix {
 					<div class="trigger"><button class="writeReview">리뷰 작성</button></div>
 					<div class="togglebox">
           				<div>
-          				<form id="writeForm" name="writeForm" method="post" action="">
+          				<form id="writeForm" name="writeForm" method="post" action="" enctype="multipart/form-data">
           					<input type="hidden" name="pg" value="1">
           					<input type="hidden" name="key" value="">
           					<input type="hidden" name="word" value="">

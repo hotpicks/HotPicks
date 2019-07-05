@@ -38,9 +38,8 @@ public class ReviewController {
 	private ReviewService reviewService;
 	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(
+	public String write(ReviewDto reviewDto, 
 						@RequestParam Map<String, String> parameter, 
-						ReviewDto reviewDto, 
 						Model model, HttpSession session,
 						@RequestParam("picture") MultipartFile multipartFile) {
 		System.out.println("ReviewController 들어왔다!!");
