@@ -58,12 +58,12 @@
             <ul>
               <li><a href="${root}/index.jsp" class="selected">Home</a>
               </li>
-              <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">Contents</a>
+              <li><a href="${root}/contents/contentdetail">Contents</a>
                 <ul>
-                  <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">공연</a></li>
+           <%--        <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">공연</a></li>
                   <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">전시</a></li>
-                  <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">행사</a></li>
-                  <li><a href="${root}/contents/contentdetail">일정 상세</a></li>
+                  <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">행사</a></li> 
+                  <li><a href="${root}/contents/contentdetail">일정 상세</a></li>--%>
                 </ul>
               </li>
 <c:if test="${userInfo != null}">

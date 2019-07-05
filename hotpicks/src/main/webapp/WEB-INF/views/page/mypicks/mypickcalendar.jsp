@@ -43,16 +43,11 @@
       editable: true,
       eventLimit: true, // allow "more" link when too many events
       events: [
-</script>
-<c:forEach var="article" items="${articleList}">
-<script>
         {
-          title: 'All Day Event',
+          title: '${article.title}',
           start: '${article.eventStartDate}',
           end: '${article.eventEndDate}'
         },
-        </script>
-</c:forEach>
         {
           title: 'Long Event',
           start: '2019-06-07',
@@ -103,7 +98,6 @@
           url: 'http://google.com/',
           start: '2019-06-28'
         }
-<script>
       ]
     });
 

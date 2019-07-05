@@ -5,7 +5,7 @@
  <mapper namespace="com.kitri.hotpicks.mypicks.dao.MypickMapDao">
  	<select id="getMapList" resultType="mapContentsDto">
  		select contentsid, subject, x, y, cate
- 		from contents
+ 		from tpguscontents
  	</select>
  	<select id="selectContentsList" parameterType="map" resultType="mapContentsDto">
  	<![CDATA[
