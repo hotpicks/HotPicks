@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +49,7 @@ public class MemberController {
 						@RequestParam("profile_file") MultipartFile multipartFile,
 						Model model) {
 		System.out.println("c : 가입하기 메소드 들어옴");
-		
+				
 		// 프로필 사진이 있는 경우,
 		if(multipartFile != null && !multipartFile.isEmpty()) {
 			String orignPicture = multipartFile.getOriginalFilename();
@@ -94,6 +95,28 @@ public class MemberController {
 				
 	}
 	
+	// kakaotalk 초기 로그인 -> 회원가입
+	@RequestMapping(value = "/kakaojoin", method = RequestMethod.POST)
+	@ResponseBody
+	public String join(MemberDto memberDto, Model model) {
+		System.out.println("c : 카카오톡으로 가입하기 메소드 들어옴");
+				
+//		System.out.println("프사는 : " + memberDto.getProfile());
+//		System.out.println("이름은 : " + memberDto.getName());
+//		System.out.println("id는 : " + memberDto.getUserId());
+//		System.out.println("pass는 : " + memberDto.getPass());
+//		System.out.println("성별은 : " + memberDto.getGender());
+//		System.out.println("나이는 : " + memberDto.getAge());
+		
+		int isJoined = memberService.join(memberDto);
+		
+		JSONObject json = new JSONObject();
+		json.put("result", "ok");
+		
+		return json.toString();
+				
+	}
+	
 	// id 중복 체크하기
 	@RequestMapping("/idcheck")
 	@ResponseBody
@@ -110,11 +133,16 @@ public class MemberController {
 	}
 
 	// 로그인하기
+	// TODO : 카톡 로그인 메소드 만들기 - addAttribute("kakaomember", ) - 로그아웃 버튼 누르면 kakaomember있으면 ktout() 호출
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(MemberDto memberDto, Model model) {
 		System.out.println("c : 로그인하기 메소드 들어옴");
-				
+		
+		System.out.println("로그인 메소드 : 받은 값" + memberDto);
+		
 		MemberDto loginMember = memberService.login(memberDto);
+		
+		System.out.println("로그인 한 객체 받아옴 : " + loginMember);
 		
 		if(loginMember != null) {
 			model.addAttribute("userInfo", loginMember);
