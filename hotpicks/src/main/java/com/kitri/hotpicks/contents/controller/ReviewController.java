@@ -47,7 +47,7 @@ public class ReviewController {
 		
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		if(memberDto != null) {
-			int seq = commonService.getNextSeq();
+			int seq = commonService.getReNextSeq();
 			reviewDto.setSeq(seq);
 			reviewDto.setUserId(memberDto.getUserId());
 			
@@ -89,12 +89,12 @@ public class ReviewController {
 			
 			if(seq != 0) {
 				model.addAttribute("seq", seq);
-				path = "reboard/writeok";
+				path = "contents/writeok";
 			} else {
-				path = "reboard/writefail";
+				path = "contents/writefail";
 			}
 		} else {
-			path = "reboard/writefail";
+			path = "contents/writefail";
 		}
 		model.addAttribute("parameter", parameter);
 		return path;

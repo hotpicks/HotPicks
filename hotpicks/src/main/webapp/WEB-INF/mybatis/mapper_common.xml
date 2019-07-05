@@ -10,6 +10,11 @@
 		select picklist_seq.nextval
 		from dual
 	</select>
+	
+	<select id="getReNextSeq" resultType="int">
+		select review_seq.nextval
+		from dual
+	</select>
 
 	<select id="getNewArticleCount" parameterType="int" resultType="int">
 	select count(seq)

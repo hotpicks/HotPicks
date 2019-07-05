@@ -6,7 +6,7 @@
  	
  	<insert id="writeArticle" parameterType="reviewDto">
 	insert all
-		into board (seq, userId,contentsId,hashTag,subject,starPoint,content,logTime,saveFolder,orignPicture,savePicture)
+		into review (seq, userId,contentsId,hashTag,subject,starPoint,content,logTime,saveFolder,orignPicture,savePicture)
 		values (#{seq}, #{userId}, #{contentsId}, #{hashTag}, #{subject}, #{starPoint}, #{content}, sysdate, #{saveFolder}, #{orignPicture},#{savePicture})
 	select * from dual
 	</insert>
