@@ -58,6 +58,18 @@ return true;
 });
 });
 
+//div
+$(document).ready(function(){
+	//Hide the tooglebox when page load
+	$(".togglebox").hide();
+	//slide up and down when click over heading 2
+	$("div.trigger").click(function(){
+	// slide toggle effect set to slow you can set it to fast too.
+	$(this).toggleClass("active").next(".togglebox").slideToggle("slow");
+	return true;
+	});
+	});
+
 /*-----------------------------------------------------------------------------------*/
 /*	TABS
 /*-----------------------------------------------------------------------------------*/
