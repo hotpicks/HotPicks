@@ -133,7 +133,7 @@ height: auto;
 				    	  Kakao.API.request({
 				    		 url : '/v2/user/me',
 				    		 success: function(res){
-				    			 alert("정보 요청 성공")
+				    			 //alert("정보 요청 성공")
 				    			 console.log(res);
 				    			 
 				    			 var userId = res.id;
