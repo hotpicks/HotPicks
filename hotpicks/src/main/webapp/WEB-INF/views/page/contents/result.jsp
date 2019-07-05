@@ -27,14 +27,12 @@ $(function() {
 				}
 		});
 
-	
-
 			
 }); 
 </script>
 
 
-   <!-- Begin Wrapper -->
+ <%--   <!-- Begin Wrapper -->
  <div id="wrapper" style="margin-bottom: 20px;"> 
     <!-- Begin Intro -->
     <div class="intro">
@@ -69,15 +67,15 @@ $(function() {
     </div>
  <!-- End About --> 
 
-   </div> 
+   </div>  --%>
 <!-- -------------------------------------------------------------------------- --> 
 <!-- -------------------------------------------------------------------------- --> 
 <!-- -------------------------------------------------------------------------- --> 
   <div id="wrapper" style="margin-bottom: 20px;">
    
     <!-- Begin Intro -->
-    <div class="intro">
-      <h1 style="float:left;">
+    <div class="intro" align="center">
+      <h1 >
       	<a href="#" style="color: purple;font-style: bold;">전체</a> |
       	<a href="#" style="color: purple;">공연</a> |
       	<a href="#" style="color: purple;">전시</a> |

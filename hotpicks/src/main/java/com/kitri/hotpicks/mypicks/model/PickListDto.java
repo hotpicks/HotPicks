@@ -6,7 +6,7 @@ public class PickListDto extends ContentsDto{
 
 	private int seq;
 	private String userId;
-	private String contentsId;
+	private int contentsId;
 	private int wanna;
 	
 	public int getSeq() {
@@ -21,10 +21,10 @@ public class PickListDto extends ContentsDto{
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getContentsId() {
+	public int getContentsId() {
 		return contentsId;
 	}
-	public void setContentsId(String contentsId) {
+	public void setContentsId(int contentsId) {
 		this.contentsId = contentsId;
 	}
 	public int getWanna() {
