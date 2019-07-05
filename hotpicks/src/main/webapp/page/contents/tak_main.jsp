@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file = "/template/header.jsp" %>
+<%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
 <style>
 #about .one-fourth img {
 	-moz-box-shadow: 0px 1px 2px #656565;
@@ -46,111 +46,28 @@ $(function() {
 			data : {"key":"keykey"},
 			success :function(result){
 				console.log("넘어옴");
-				$('#about1').html(result);
+				$('#main').html(result);
 				}
 		});
 /* 			return;
 	}); */
-			
+	
+/*	$("#enter").click(function(){ 
+		$.ajax({
+			url : "${root}/contents/enter",
+			type : "get",
+			dataType : "HTML",
+			data : {"key":"keykey"},
+			success :function(result){
+				console.log("넘어옴");
+				$('#main').html(result);
+				}
+		});
+			*/
 			
 }); 
 </script>
+<div id="main">
 
-  <!-- Begin Wrapper -->
-  <div id="wrapper1" style="margin-bottom: 20px;"> 
-    
-    <!-- Begin Intro -->
-    <div class="intro">
-      <h1>이런 곳은 어떠세요?<br><a style="color: red;">#서울</a>의 HOT한<a style="color: steelblue;">#공연</a></h1>
-    </div>
-    <!-- End Intro --> 
-    
-    <!-- favorite -->
-    <div id="about1">
-     <%--  <div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp"><img src="${root}/resources/style/images/sample/p1.jpg" alt="" /></a>
-        <h4>부산 다함께 축제</h4>
-        <p>부산 감천문화 마을에서 펼처지는 재밋는 놀이</p>
-      </div>
-      <div class="one-fourth"> <a href="#"><img src="${root}/resources/style/images/img_dog/008.jpg" alt="" /></a>
-        <h4>board2</h4>
-	  <p>content.</p>
-      </div>
-      <div class="one-fourth"> <a href="#"><img src="${root}/resources/style/images/img_dog/003.jpg" alt="" /></a>
-        <h4>board3</h4>
-        <p>content.</p>
-      </div>
-      <div class="one-fourth last"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
-        <h4>board4</h4>
- 		 <p>content.</p>
-      </div>  --%>
-   
-    <!-- End About --> 
-    </div>
-  </div>
-  
-   <div id="wrapper2" style="margin-bottom: 20px;"> 
-   
-    <!-- Begin Intro -->
-    <div class="intro">
-    
-    <div>
-      <h1>
-      	<a href="#" style="color: purple;font-style: bold;">전체</a> |
-      	<a href="#" style="color: purple;">공연</a> |
-      	<a href="#" style="color: purple;">전시</a> |
-      	<a href="#" style="color: purple;">행사</a>
-      </h1>
-     </div>
-     <div align="right">
-     	<select>
-     		<option>시도</option>
-     	</select>
-     	
-     	<select>
-     		<option>시도</option>
-     	</select>
-     </div>
-    </div>
-    <!-- End Intro --> 
-    
-    <!-- favorite -->
-    <div id="about2">
-  <!--     <div class="one-fourth"> <a href="#"><img src="resources/style/images/img_dog/001.jpg" alt="" /></a>
-        <h4>board1</h4>
-        <p>content.</p>
-      </div>
-      <div class="one-fourth"> <a href="#"><img src="resources/style/images/img_dog/008.jpg" alt="" /></a>
-        <h4>board2</h4>
-	  <p>content.</p>
-      </div>
-      <div class="one-fourth"> <a href="#"><img src="resources/style/images/img_dog/007.jpg" alt="" /></a>
-        <h4>board3</h4>
-        <p>content.</p>
-      </div>
-      <div class="one-fourth last"> <a href="#"><img src="resources/style/images/img_dog/006.jpg" alt="" /></a>
-        <h4>board4</h4>
- 		 <p>content.</p>
-      </div>
-      <div class="one-fourth"> <a href="#"><img src="resources/style/images/img_dog/005.jpg" alt="" /></a>
-        <h4>board5</h4>
- 		 <p>content.</p>
-      </div>
-      <div class="one-fourth"> <a href="#"><img src="resources/style/images/img_dog/004.jpg" alt="" /></a>
-        <h4>board6</h4>
- 		 <p>content.</p>
-      </div>
-      <div class="one-fourth"> <a href="#"><img src="resources/style/images/img_dog/003.jpg" alt="" /></a>
-        <h4>board7</h4>
- 		 <p>content.</p>
-      </div>
-      <div class="one-fourth last"> <a href="#"><img src="resources/style/images/img_dog/002.jpg" alt="" /></a>
-        <h4>board8</h4>
- 		 <p>content.</p>
-      </div> -->
-    </div>
-    <!-- End About --> 
-    
-  </div>
-  
-
-<%@ include file = "/template/footer.jsp" %>
+</div>
+<%@ include file = "/WEB-INF/views/page/template/footer.jsp" %>

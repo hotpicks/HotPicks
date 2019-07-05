@@ -200,9 +200,11 @@ getTwitters('twitter', {
 		<a>행사</a>
 	</div>
 	<div>
-		<a href="${root}/mypicklist/list"><button>목록형사진</button></a>
-		<a href="${root}/mypickmap/mvmypickmap"><button>지도형사진</button></a>
-		<a href="${root}/mypicklist/cal"><button>달력형사진</button></a>
+		<a href="${root}/mypicklist/list"><img src="${root}/resources/style/images/listpicks.png"></a>
+			<img src="${root}/resources/style/images/blank.png">
+			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
+			<img src="${root}/resources/style/images/blank.png">
+			<a href="${root}/mypicklist/cal"><img src="${root}/resources/style/images/calendarpicks.png"></a>
 	</div>
 </div>
       
@@ -367,7 +369,7 @@ getTwitters('twitter', {
         '<div class="iw-content">' +
           '<div class="iw-subTitle">History</div>' +
           '<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg" alt="Porcelain Factory of Vista Alegre" height="115" width="83">' +
-          '<p>끼ㅐ야야야아앙ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</p>' +
+          '<p>국립전주박물관 설 대보름 맞이 문화축전 2019</p>' +
           '<div class="iw-subTitle">Contacts</div>' +
           '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
           '<br>Phone. +351 234 320 600<br>e-mail: geral@vaa.pt<br>www: www.myvistaalegre.com</p>'+
