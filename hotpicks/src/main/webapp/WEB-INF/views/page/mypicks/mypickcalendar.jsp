@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 
 <link href='${root}/resources/packages/core/main.css' rel='stylesheet' />
@@ -42,10 +43,16 @@
       editable: true,
       eventLimit: true, // allow "more" link when too many events
       events: [
+</script>
+<c:forEach var="article" items="${articleList}">
+<script>
         {
           title: 'All Day Event',
-          start: '2019-06-01'
+          start: '${article.eventStartDate}',
+          end: '${article.eventEndDate}'
         },
+        </script>
+</c:forEach>
         {
           title: 'Long Event',
           start: '2019-06-07',
@@ -96,6 +103,7 @@
           url: 'http://google.com/',
           start: '2019-06-28'
         }
+<script>
       ]
     });
 
@@ -113,11 +121,11 @@
 		<a>행사</a>
 	</div>
 	<div>
-			<a href="${root}/WEB-INF/views/page/mypicks/mypicklist.jsp"><img src="${root}/resources/style/images/listpicks.png"></a>
+			<a href="${root}/mypicklist/list"><img src="${root}/resources/style/images/listpicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/WEB-INF/views/page/mypicks/mypickmap.jsp"><img src="${root}/resources/style/images/mappicks.png"></a>
+			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/WEB-INF/views/page/mypicks/mypickcalendar.jsp"><img src="${root}/resources/style/images/calendarpicks.png"></a>
+			<a href="${root}/mypicklist/cal"><img src="${root}/resources/style/images/calendarpicks.png"></a>
 		</div>
 </div>
 

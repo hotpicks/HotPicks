@@ -5,11 +5,6 @@
 
 ALTER TABLE review
 	DROP
-		CONSTRAINT FK_hashTag_TO_review
-		CASCADE;
-
-ALTER TABLE review
-	DROP
 		CONSTRAINT FK_contents_TO_review
 		CASCADE;
 
@@ -40,7 +35,7 @@ ALTER TABLE contents
 
 ALTER TABLE contents
 	DROP
-		CONSTRAINT FK_boardType_TO_contents
+		CONSTRAINT FK_contentsCate_TO_contents
 		CASCADE;
 
 ALTER TABLE blackreview
@@ -81,7 +76,7 @@ ALTER TABLE review
 		CASCADE
 		KEEP INDEX;
 
-ALTER TABLE boardType
+ALTER TABLE contentsCate
 	DROP
 		PRIMARY KEY
 		CASCADE
@@ -130,7 +125,7 @@ DROP TABLE review
 	CASCADE CONSTRAINTS;
 
 /* 카테고리 */
-DROP TABLE boardType 
+DROP TABLE contentsCate 
 	CASCADE CONSTRAINTS;
 
 /* 댓글 */
@@ -160,13 +155,13 @@ DROP TABLE sigungu
 /* contents_detail */
 DROP TABLE contentsDetail 
 	CASCADE CONSTRAINTS;
-	
+    
 	/* sequence1 */
 DROP SEQUENCE seq;
 
 /* sequence1 */
 CREATE SEQUENCE seq
-	start with 100;	
+	start with 100;    
 
 /* 회원 */
 CREATE TABLE member (
@@ -229,7 +224,7 @@ CREATE TABLE review (
 	seq NUMBER NOT NULL, /* 글번호 */
 	userId VARCHAR2(100), /* 회원아이디 */
 	contentsId NUMBER(12), /* 컨텐츠아이디 */
-	hashTag VARCHAR2(100), /* 태그이름 */
+	hashTag VARCHAR2(4000), /* 태그이름 */
 	subject VARCHAR2(100), /* 제목 */
 	starPoint NUMBER, /* 별점 */
 	content CLOB, /* 내용 */
@@ -271,21 +266,28 @@ ALTER TABLE review
 		);
 
 /* 카테고리 */
-CREATE TABLE boardType (
+CREATE TABLE contentsCate (
+	catCode VARCHAR2(12) NOT NULL, /* 분류코드 */
 	catId NUMBER NOT NULL, /* 카테고리id */
-	catName VARCHAR2(600) /* 카테고리name */
+	catName VARCHAR2(600), /* 카테고리name */
+	catType VARCHAR2(8) /* 분류타입 */
 );
 
-COMMENT ON TABLE boardType IS '카테고리';
+COMMENT ON TABLE contentsCate IS '카테고리';
 
-COMMENT ON COLUMN boardType.catId IS '카테고리id';
+COMMENT ON COLUMN contentsCate.catCode IS '분류코드';
 
-COMMENT ON COLUMN boardType.catName IS '카테고리name';
+COMMENT ON COLUMN contentsCate.catId IS '카테고리id';
 
-ALTER TABLE boardType
+COMMENT ON COLUMN contentsCate.catName IS '카테고리name';
+
+COMMENT ON COLUMN contentsCate.catType IS '분류타입';
+
+ALTER TABLE contentsCate
 	ADD
-		CONSTRAINT PK_boardType
+		CONSTRAINT PK_contentsCate
 		PRIMARY KEY (
+			catCode,
 			catId
 		);
 
@@ -335,10 +337,11 @@ ALTER TABLE pickList
 /* 컨텐츠 */
 CREATE TABLE contents (
 	contentsId NUMBER(12) NOT NULL, /* 아이디 */
-	title VARCHAR(600), /* 제목 */
+	catCode VARCHAR2(12), /* 분류코드 */
 	catId NUMBER, /* 카테고리id */
 	sggCode NUMBER(5), /* 시군구코드 */
 	sdCode NUMBER(5), /* 시도코드 */
+	title VARCHAR(600), /* 제목 */
 	hit NUMBER, /* 조회수 */
 	image1 CLOB, /* 이미지1 */
 	image2 CLOB /* 이미지2 */
@@ -348,13 +351,15 @@ COMMENT ON TABLE contents IS '컨텐츠';
 
 COMMENT ON COLUMN contents.contentsId IS '아이디';
 
-COMMENT ON COLUMN contents.title IS '제목';
+COMMENT ON COLUMN contents.catCode IS '분류코드';
 
 COMMENT ON COLUMN contents.catId IS '카테고리id';
 
 COMMENT ON COLUMN contents.sggCode IS '시군구코드';
 
 COMMENT ON COLUMN contents.sdCode IS '시도코드';
+
+COMMENT ON COLUMN contents.title IS '제목';
 
 COMMENT ON COLUMN contents.hit IS '조회수';
 
@@ -517,16 +522,6 @@ ALTER TABLE review
 
 ALTER TABLE review
 	ADD
-		CONSTRAINT FK_hashTag_TO_review
-		FOREIGN KEY (
-			hashTag
-		)
-		REFERENCES hashTag (
-			hashTag
-		);
-
-ALTER TABLE review
-	ADD
 		CONSTRAINT FK_contents_TO_review
 		FOREIGN KEY (
 			contentsId
@@ -589,11 +584,13 @@ ALTER TABLE contents
 
 ALTER TABLE contents
 	ADD
-		CONSTRAINT FK_boardType_TO_contents
+		CONSTRAINT FK_contentsCate_TO_contents
 		FOREIGN KEY (
+			catCode,
 			catId
 		)
-		REFERENCES boardType (
+		REFERENCES contentsCate (
+			catCode,
 			catId
 		);
 

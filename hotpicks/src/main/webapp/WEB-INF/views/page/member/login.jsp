@@ -160,18 +160,43 @@ height: auto;
 				    			 if(has_gender){
 				    				 gender = (res.kakao_account.gender == "female") ? "여" : "남";
 				    			 }
+				    			 
 				    			 if(profile_image != null){
 				    				 profile_image = res.properties.profile_image;
-				    			 }else{
+				    			 }
+				    			 
+				    			 if(profile_image == null){
 				    				 profile_image = "user.png";
 				    			 }
 				    			 
-				    			 console.log("아이디 : " + userId);
-				    			 console.log("이름 : " + userNickName);
-				    			 console.log("이메일 : " + userEmail);
-				    			 console.log("연령 : " + age);
-				    			 console.log("성별 : " + gender);
-				    			 console.log("프로필 사진 : " + profile_image);
+				    			 // 로그인 처음인 경우, 회원가입 처리
+				    			 $.ajax({
+				    					type: 'POST',
+				    					url : '${root}/member/kakaojoin',
+				    					dataType : 'json',
+				    					data : {
+				    							'userId' : userId,
+				    							'pass' : 'kakao',
+				    							'name' : userNickName,
+				    							'age' : age,
+				    							'gender' : gender,
+				    							'profile' : profile_image
+				    						   },
+				    					success : function(json){
+				    						alert("카톡 회원가입 성공");
+				    						
+				    						$("#ui").val(userId);
+				    						$("#pw").val('kakao');
+				    						$("#name").val(userNickName);
+				    						$("#age").val(age);
+				    						$("#gender").val(gender);
+				    						$("#kakao_profile").val(profile_image);
+				    						
+				    						$("#kakaologin").attr("action", "${root}/member/login").submit();
+				    						
+				    					}
+				    				});
+				    			 
 				    		 },
 				    		 fail : function(error){
 				    			 alert(JSON.stringify(error));
@@ -194,9 +219,8 @@ height: auto;
 				    
 			
 				</script>
-				
+
             	<!-- *************************** 카카오톡 로그인 버튼 *************************** -->
-				
             	<a id="loginBtn" class="button red btns" style="font-weight: 700;">로그인<span></span></a>
             	<br><br><br>
             	<span>아직 계정이 없다면, <strong>회원가입</strong> 하세요.</span>
@@ -216,5 +240,14 @@ height: auto;
     
   </div>
   <!-- End Wrapper -->
+
+				<form id="kakaologin" method="POST">
+					<input type="hidden" name="userId" id="ui"/>
+					<input type="hidden" name="pass" id="pw"/>
+					<input type="hidden" name="name" id="name"/>
+					<input type="hidden" name="age" id="age"/>
+					<input type="hidden" name="gender" id="gender"/>
+					<input type="hidden" name="profile" id="kakao_profile"/>
+				</form>
 
 <%@ include file = "/WEB-INF/views/page/template/footer.jsp" %>
