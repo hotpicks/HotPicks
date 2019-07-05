@@ -4,7 +4,7 @@
       type="javax.sql.DataSource"
       factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
       driverClassName="oracle.jdbc.driver.OracleDriver"
-      url="jdbc:oracle:thin:@ 183.101.196.136:1521:xe" username="hotpicks"
+      url="jdbc:oracle:thin:@183.101.196.136:1521:xe" username="hotpicks"
       password="hotpicks" maxTotal="100" maxIdle="20" maxWaitMillis="10000"
       removeAbandoned="true" removeAbandonedTimeout="60"
       logAbandoned="true" />

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kitri.hotpicks.common.dao.CommonDao">	<!-- mapper라는 루트 엘리먼트가 꼭 들어가야 에러가 안 남 -->
+
+	<select id="getNextSeq" resultType="int">
+		select picklist_seq.nextval
+		from dual
+	</select>
+
+	<select id="getNewArticleCount" parameterType="int" resultType="int">
+	select count(seq)
+	from picklist
+	where userId = #{userId}
+	</select>
+	
+	<select id="getTotalArticleCount" parameterType="map" resultType="int">
+		select count(seq)
+		from picklist
+		where userId = #{userId}
+	</select>
+</mapper>
