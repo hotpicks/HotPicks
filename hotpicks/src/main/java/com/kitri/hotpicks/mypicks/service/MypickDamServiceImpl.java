@@ -20,13 +20,8 @@ public class MypickDamServiceImpl implements MypickDamService{
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<PickListDto> listArticle(Map<String, String> parameter) {
-		int pg = NumberCheck.NotNumberToOne(parameter.get("pg"));
-		int end = pg * CafeConstance.ARTICLE_SIZE;
-		int start = end - CafeConstance.ARTICLE_SIZE;
-		parameter.put("start", start+"");
-		parameter.put("end", end+"");
-		return sqlSession.getMapper(MypicksDamDao.class).listArticle(parameter);
+	public List<PickListDto> listArticle(String userid) {
+		return sqlSession.getMapper(MypicksDamDao.class).listArticle(userid);
 	}
 
 	@Override

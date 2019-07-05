@@ -15,6 +15,12 @@
 
 </style>
 <c:set var="root" value="${pageContext.request.contextPath}" />
+
+<%-- <c:set var="title" value="${parameter.title}" />
+<c:set var="info" value="${parameter.infoName}" />
+<c:set var="image" value="${parameter.image1}" />
+<c:set var="seq" value="${parameter.pg}" />
+<c:set var="catid" value="${parameter.catId}" /> --%>
 <div id="wrapper"> 
 <div class="content">
 <div>
@@ -43,57 +49,27 @@
 	</div>
 
     <div id="about">
+    <c:forEach var="article" items="${articleList}">
       <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/007.jpg" alt="" /></a>
-        <h4>board1</h4>
-        <p>content.</p>
+        <h4>${article.title}</h4>
+      <%--   <p>${article.infoName}</p> --%>
       </div>
-      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/008.jpg" alt="" /></a>
-        <h4>board2</h4>
-	  <p>content.</p>
-      </div>
-      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/003.jpg" alt="" /></a>
-        <h4>board3</h4>
-        <p>content.</p>
-      </div>
-      <div class="one-fourth last" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
-        <h4>board4</h4>
- 		 <p>content.</p>
-      </div>
-      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/007.jpg" alt="" /></a>
-        <h4>board1</h4>
-        <p>content.</p>
-      </div>
-      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/008.jpg" alt="" /></a>
-        <h4>board2</h4>
-	  <p>content.</p>
-      </div>
-      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/003.jpg" alt="" /></a>
-        <h4>board3</h4>
-        <p>content.</p>
-      </div>
-      <div class="one-fourth last" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
-        <h4>board4</h4>
- 		 <p>content.</p>
-      </div>
-      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/007.jpg" alt="" /></a>
-        <h4>board1</h4>
-        <p>content.</p>
-      </div>
-      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/008.jpg" alt="" /></a>
-        <h4>board2</h4>
-	  <p>content.</p>
-      </div>
-      <div class="one-fourth" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/003.jpg" alt="" /></a>
-        <h4>board3</h4>
-        <p>content.</p>
-      </div>
-      <div class="one-fourth last" style="margin:0 1% 1% 0; width:24%;"> <a href="#"><img src="${root}/resources/style/images/img_dog/002.jpg" alt="" /></a>
-        <h4>board4</h4>
- 		 <p>content.</p>
-      </div>
+     </c:forEach>
      
     </div>
-    
+    <!-- 하단 페이징 -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td colspan="3" height="5"></td>
+	</tr>
+	<tr valign="top">
+		<td width="100%" align="center"><!--PAGE--> ${navigator.navigator }</td>
+		<td nowrap class="stext"><b>${navigator.pageNo }</b> / ${navigator.totalPageCount }
+		pages</td>
+	</tr>
+</table>
+<br>
+<!-- 하단 페이징 -->
 </div>
 
 </div>

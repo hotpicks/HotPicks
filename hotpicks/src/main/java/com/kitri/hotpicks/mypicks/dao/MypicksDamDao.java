@@ -8,7 +8,7 @@ import com.kitri.hotpicks.mypicks.model.PickListDto;
 public interface MypicksDamDao {
 
 	// 글 목록 
-			List<PickListDto> listArticle(Map<String, String> pamameter);
+			List<PickListDto> listArticle(String userid);
 			
 	// 글 보기 | 인자 : 글 번호
 			PickListDto viewArticle(int seq);
