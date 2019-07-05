@@ -24,12 +24,14 @@
 	<select id="selectSido" resultType="sidoDto">
 	SELECT *
 	FROM sido
+	WHERE sdcode != 0
 	</select>
 	
 	<select id="selectSigungu" parameterType="int" resultType="sigunguDto">
 	SELECT *
-	FROM sigungu
-	WHERE sdcode = #{sdcode}
+	FROM sido s inner join sigungu g
+	ON s.sdcode = g.sdcode
+	WHERE s.sdcode = #{sdcode} and s.sdcode != 0
 	</select>
 	
 	<select id="selectContentsType" resultType="contentsTypeDto">
