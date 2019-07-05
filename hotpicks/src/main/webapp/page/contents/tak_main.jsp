@@ -38,33 +38,16 @@ $(function() {
 			}
 			
 			
-/* 	$("#enter").click(function(){ */
 		$.ajax({
 			url : "${root}/contents/enter",
 			type : "get",
 			dataType : "HTML",
-			data : {"key":"keykey"},
 			success :function(result){
 				console.log("넘어옴");
 				$('#main').html(result);
 				}
 		});
-/* 			return;
-	}); */
-	
-/*	$("#enter").click(function(){ 
-		$.ajax({
-			url : "${root}/contents/enter",
-			type : "get",
-			dataType : "HTML",
-			data : {"key":"keykey"},
-			success :function(result){
-				console.log("넘어옴");
-				$('#main').html(result);
-				}
-		});
-			*/
-			
+
 }); 
 </script>
 <div id="main">

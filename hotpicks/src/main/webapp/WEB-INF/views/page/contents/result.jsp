@@ -1,34 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <script type="text/javascript">
 $(function() {
 
+	 $("#sido").change(function(){
+			var sdcode = $('#sido').val();
+			alert(sdcode);
 			
+		
 			
- 	$("#sido").on('change', function(){
- 		var sdcode = $('#sido').val();
-		$.ajax({
-			url : "${root}/contents/enter",
-			type : "get",
-			dataType : "HTML",
-			data : {"sdcode": sdcode},
-			success :function(result){
-				console.log("넘어옴");
-				var sigunguStr = "";
-				sigunguStr = "	<c:forEach var="sigungu" items="${sigunguList}">";
-				sigunguStr = "<option value="${sigungu.sggCode}">${sigungu.sggName}</option>";
-				sigunguStr = "</c:forEach>";
-
-				$('#sigungu').html(sigunguStr);
-				
-				
-				
-				}
+			$('#sigungu').html(sigunguStr);
+			
 		});
-
 			
-}); 
+ 
+ 	
+ 	
+ 	
+});
 </script>
 
 
@@ -71,6 +62,10 @@ $(function() {
 <!-- -------------------------------------------------------------------------- --> 
 <!-- -------------------------------------------------------------------------- --> 
 <!-- -------------------------------------------------------------------------- --> 
+
+	
+
+
   <div id="wrapper" style="margin-bottom: 20px;">
    
     <!-- Begin Intro -->
@@ -83,15 +78,20 @@ $(function() {
       </h1>
       
      	<select id="sido">
-			<c:forEach var="sido" items="${sidoList}">
+			 <c:forEach var="sido" items="${sidoList}">
      			<option value="${sido.sdCode}">${sido.sdName}</option>
-   			</c:forEach>
+   			</c:forEach> 
      	</select>
      	
      	<select id="sigungu">
-     		<c:forEach var="sigungu" items="${sigunguList}">
+     	
+		<c:set var="sigunguList" value="${sigunguMap.get(1)}"/>
+		</div>
+     	<c:forEach var="sigungu" items="${sigunguList}">
      			<option value="${sigungu.sggCode}">${sigungu.sggName}</option>
-   			</c:forEach>
+     			
+		</c:forEach>
+		<div>
      	</select>
 
     </div>

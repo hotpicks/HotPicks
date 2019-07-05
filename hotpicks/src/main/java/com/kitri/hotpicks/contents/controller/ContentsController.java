@@ -57,10 +57,13 @@ public class ContentsController {
 		
 		//SelectLocation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		List<SidoDto> sidoList = contentsService.selectSido();
-		System.out.println(sidoList.size());
-		List<SigunguDto> sigunguList = contentsService.selectSigungu(sidoList.get(0).getSdCode());
+		System.out.println("size" + sidoList.size());
+		Map<Integer, List<SigunguDto>> sigunguMap = contentsService.selectSigungu(sidoList);
+		System.out.println(sigunguMap.toString());
+		System.out.println(sigunguMap.size());
+		System.out.println(sigunguMap.get(1));
 		model.addAttribute("sidoList", sidoList);
-		model.addAttribute("sigunguList", sigunguList);
+		model.addAttribute("sigunguMap", sigunguMap);
 		
 		
 		
@@ -78,17 +81,17 @@ public class ContentsController {
 	}
 
 	
-	@RequestMapping(value = "/changelocation", method = RequestMethod.GET)
-	public String changeLocation(@RequestParam int sdcode, Model model) {
-	
-		System.out.println(sdcode);
-		List<SigunguDto> sigunguList = contentsService.selectSigungu(sdcode);
-		System.out.println(sigunguList.toString());
-		model.addAttribute("sigunguList", sigunguList);
-		
-		
-		return "";
-	}
+//	@RequestMapping(value = "/changelocation", method = RequestMethod.GET)
+//	public String changeLocation(@RequestParam int sdcode, Model model) {
+//	
+//		System.out.println(sdcode);
+//		List<SigunguDto> sigunguList = contentsService.selectSigungu(sdcode);
+//		System.out.println(sigunguList.toString());
+//		model.addAttribute("sigunguList", sigunguList);
+//		
+//		
+//		return "";
+//	}
 	
 	
 	

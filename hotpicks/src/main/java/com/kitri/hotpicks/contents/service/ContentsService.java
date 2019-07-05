@@ -18,7 +18,7 @@ public interface ContentsService {
 	//view 단에 sido, sigungu selecter
 	//sido
 	List<SidoDto> selectSido();
-	List<SigunguDto> selectSigungu(int sdcode);
+	Map<Integer, List<SigunguDto>> selectSigungu(List<SidoDto> sidoList);
 	
 	
 	//시도,시군구 api 자료 DB에 insert
