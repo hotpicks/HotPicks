@@ -3,10 +3,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
+<%@ include file = "/WEB-INF/views/page/template/logincheck.jsp" %>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
 <style>
-
+#ipadd{
+	display:none;
+}
+#addressresult{
+	margin: 20px;
+}
 /*infowindow*/
 #map-canvas {
 	margin: 0;
@@ -210,13 +218,19 @@ getTwitters('twitter', {
 							<a href="#" id="all">전체</a> <a href="#" id="pick">가고싶은 곳</a> <a href="#" id="done">다녀온 곳</a>
 						</div>
 						<button class="dropdown-btn">
-							SOON <i class="fa fa-caret-down"></i>
+							반경검색 <i class="fa fa-caret-down"></i>
 						</button>
 						<div class="dropdown-container">
-							<a href="#">지역<br>(시/군/구)</a> 
-							<a href="#"><div>반경</div></a> 
+							<div><a href="#">반경</a></div>
 							<input type="range" class="range align-middle" id="customRange" name="range"
-									min="0.5" max="3" step="0.5" value="2"> <label id="range">2</label><label>km</label>
+									min="3" max="9" step="1" value="3"> <label id="range">3</label><label>km</label>
+						</div>
+						<button class="dropdown-btn" id="location">
+							LOCATION <i class="fa fa-caret-down"></i>
+						</button>
+						<div class="dropdown-container">
+							<div></div>
+							
 						</div>
 					</div>
  		</div>
@@ -224,8 +238,9 @@ getTwitters('twitter', {
  		<div class="hAddr">
 			<span class="title"></span> <span id="clickAddr"></span>
 			<span id="clickAddrDetail"></span>
-			
 		</div>
+		<input id="ipadd" type="text" class="form-control" placeholder="원하는 장소를 검색하세요!">
+		<div id="addressresult" class="searchresult"></div>
       <div id="map" class="map mx-auto">
       </div>
 	</div>
@@ -261,9 +276,11 @@ getTwitters('twitter', {
 		user_x = position.coords.latitude; 
 		user_y = position.coords.longitude;
 		map.setCenter(new daum.maps.LatLng(user_x, user_y));
-		markerSet(user_x, user_y);
+		marker.setPosition(new daum.maps.LatLng(user_x, user_y));
+		marker.setMap(map);
+		//markerSet(user_x, user_y);
 		/* selectDistance(user_x,user_y); */
-		selectedRangeContents(user_x, user_y); 
+		//selectedRangeContents(user_x, user_y); 
 		console.log(user_x + " "+ user_y);
 		searchDetailAddrFromCoords(new daum.maps.LatLng(user_x, user_y), function(result, status) {
 			if (status === daum.maps.services.Status.OK) {
@@ -376,9 +393,80 @@ getTwitters('twitter', {
 	}
 
 	var geocoder = new daum.maps.services.Geocoder();
-	
-	$(document).ready(function() {
+
+	$('#addressresult>span>a').live('click', function(e) {
+		e.preventDefault();
+		var a = $(this).data('y');
+		var b = $(this).data('x');
+		searchDetailAddrFromCoords(new daum.maps.LatLng(a, b), function(result, status) {
+			if (status === daum.maps.services.Status.OK) {
+				var detailAddr = !!result[0].road_address ? '<div style="font-size:12px; color:gray;">'
+						+ result[0].road_address.address_name + '(도로명주소)</div>' : '<div style="font-size:12px; color:gray;">' + result[0].address.address_name
+						+ '</div>';
+				/* detailAddr += '<div>' + result[0].address.address_name
+						+ '</div>'; */
+				var content = '<div class="bAddr"><' + detailAddr + '</div>';
+				document.getElementById('clickAddrDetail').innerHTML = detailAddr;
+				markerSet(a, b);
+				map.setCenter(new daum.maps.LatLng(a, b));
+				selectDistance(marker);
+				selectedRangeContents(a, b);
+			}
+		});
 		
+	});
+
+	
+	$(document).ready(function() {		
+		/* $("#go").click(function() {
+			markerSet($("#ipadd").data("y"), $("#ipadd").data("x"));
+			//	map.setCenter(new daum.maps.LatLng($("#ipadd").data("y"), $("#ipadd").data("x")));
+			var moveLatLng = new daum.maps.LatLng($("#ipadd").data("y"), $("#ipadd").data("x"));
+			map.setLevel(6);
+			map.panTo(moveLatLng);
+			}); */
+		/*주소검색*/
+		$('#location').click(function(event) {
+			event.preventDefault();
+			if ($('#ipadd').css('display') === "block") {
+				console.log("2");
+				$('#ipadd').val('');
+				$('#addressresult').empty();
+				$('#ipadd').css('display','none');
+			} else {
+				$('#ipadd').css('display','block');
+			}
+			
+		});
+		var searchadd = $("#ipadd");
+		$(searchadd).keyup(function() {
+			var sid = $(searchadd).val();
+			console.log(sid);
+			if (sid.length != 0) {
+				$.ajax({
+						url : 'https://dapi.kakao.com/v2/local/search/address.json?query='+ sid,
+						headers : {'Authorization' : 'KakaoAK a6462a6cb3e275f85632af19d7ec24cb'},
+						type : 'GET'
+						}).done(function(result) {
+									console.log(result);
+									var list = result.documents;
+									if (list.length != 0) {
+										var html = "<span><a href='#' id='a0' data-y='"+list[0].y+"' data-x='"+list[0].x+"'>"
+												+ list[0].address_name
+												+ "</a></span><br>";
+										console.log($("#addressresult>span>a[id=a0]"));
+										for (var i = 1; i < list.length; i++) {
+											html += "<span><a href='#' id='a"+i+"' data-y='"+list[i].y+"' data-x='"+list[i].x+"'>"
+													+ list[i].address_name + "</a></span><br>";
+										}
+										$("#addressresult").html(html);
+							}
+						});
+			} else {
+				$("#addressresult").html("");
+			}
+		});
+		/*DB마커 가져오기*/
 		$.ajax({
 			url : "${root}/mypickmap/getmaplist",
 			dataType : "JSON",

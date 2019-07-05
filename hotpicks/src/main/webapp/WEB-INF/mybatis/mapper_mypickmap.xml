@@ -11,7 +11,7 @@
  	<![CDATA[
       select * from (
 		select contentsid, subject, x, y, cate , to_char(DISTNACE_GRS80(#{x},#{y},x,y),'999,999,999.999') distance
- 		from contents)
+ 		from tpguscontents)
  		where
 	 ]]>
  	<if test="selectMarkers.size() != 0">
