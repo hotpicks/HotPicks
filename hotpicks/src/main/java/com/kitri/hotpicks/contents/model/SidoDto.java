@@ -17,6 +17,10 @@ public class SidoDto {
 	public void setSdName(String sdName) {
 		this.sdName = sdName;
 	}
+	@Override
+	public String toString() {
+		return "SidoDto [sdCode=" + sdCode + ", sdName=" + sdName + "]";
+	}
 	
 
 	

@@ -17,6 +17,10 @@ public class SigunguDto extends SidoDto {
 	public void setSggName(String sggName) {
 		this.sggName = sggName;
 	}
+	@Override
+	public String toString() {
+		return "SigunguDto [sggCode=" + sggCode + ", sggName=" + sggName + "]";
+	}
 	
 	
 	
