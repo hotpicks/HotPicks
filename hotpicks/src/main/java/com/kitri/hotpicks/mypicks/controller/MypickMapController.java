@@ -26,13 +26,12 @@ public class MypickMapController {
 	@RequestMapping("/mvmypickmap")
 	public String mvMap() {
 		System.out.println("1");
-		return "/mypicks/mypickmap";
+		return "mypicks/mypickmap";
 	}
 	
 	@RequestMapping("/getmaplist")
 	@ResponseBody
 	public String mypicksMap() {
-		System.out.println("controller");
 		System.out.println("controller");
 		List<MapContentsDto> list = mypickMapService.getContent();
 		JSONArray array = new JSONArray(list);
@@ -48,7 +47,7 @@ public class MypickMapController {
 			List<MapContentsDto> list = mypickMapService.selectContentsList(x, y, selectMarkers, distance);
 			model.addAttribute("list",list);
 //		}
-		String path = "/mypicks/selectcontents";
+		String path = "mypicks/selectcontents";
 		return path;
 	}
 	
