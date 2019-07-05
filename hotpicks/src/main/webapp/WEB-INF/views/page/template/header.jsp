@@ -58,16 +58,16 @@
             <ul>
               <li><a href="${root}/index.jsp" class="selected">Home</a>
               </li>
-              <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">Contents</a>
+              <li><a href="${root}/contents/contentdetail">Contents</a>
                 <ul>
-                  <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">공연</a></li>
+           <%--        <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">공연</a></li>
                   <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">전시</a></li>
-                  <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">행사</a></li>
-                  <li><a href="${root}/contents/contentdetail">일정 상세</a></li>
+                  <li><a href="${root}/WEB-INF/views/page/contents/tak_main.jsp">행사</a></li> 
+                  <li><a href="${root}/contents/contentdetail">일정 상세</a></li>--%>
                 </ul>
               </li>
-<%-- <c:if test="${userInfo != null}"> --%>
-              <li><a href="${root}/WEB-INF/views/page/mypicks/mypicklist.jsp">My Picks</a>
+<c:if test="${userInfo != null}">
+              <li><a href="${root}/mypicklist/list">My Picks</a>
                 <ul>
                   <li><a href="${root}/mypicklist/list">Pick 목록</a></li>
                   <li><a href="${root}/mypickmap/mvmypickmap">Pick 지도</a></li>
@@ -76,7 +76,7 @@
               </li>
               <li><a href="${root}/member/mypage">My Page</a></li>
 			  <li><a href="${root}/member/logout">Logout</a></li>
-<%-- </c:if> --%>
+</c:if>
 <c:if test="${userInfo == null}">
               	   <li><a href="${root}/member/login">Login/Join</a></li>
 </c:if>

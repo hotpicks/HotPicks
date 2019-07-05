@@ -50,7 +50,7 @@ public class MypickDamController {
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		String userid = memberDto.getUserId();
 		List<PickListDto> list = mypickDamService.listArticle(userid);
-		model.addAttribute("articleList", list);
+		model.addAttribute("articleList2", list);
 		return  "mypicks/mypickcalendar";
 				
 //		List<PickListDto> list= mypickDamService.listArticle(parameter);
