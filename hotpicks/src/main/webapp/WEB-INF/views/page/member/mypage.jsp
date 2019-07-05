@@ -48,8 +48,8 @@ margin-bottom: 20px;
               </div>
               <div class="message">
                 <div class="info">
-                 <!-- ***************** 이메일 id **************** -->
-                  <h3 style="font-weight:700; font-size:30px;">${userInfo.userId}</h3>
+                 <!-- ***************** 이름 (id) **************** -->
+                  <h3 style="font-weight:700; font-size:30px;">${userInfo.name}님 (${userInfo.userId})</h3>
                  </div>
                  <br><br><br>
                  <!-- ***************** 리뷰 개수 **************** -->
