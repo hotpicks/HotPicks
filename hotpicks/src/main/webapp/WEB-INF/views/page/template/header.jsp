@@ -70,7 +70,7 @@
                 <ul>
                   <li><a href="${root}/mypicklist/list">Pick 목록</a></li>
                   <li><a href="${root}/mypickmap/mvmypickmap">Pick 지도</a></li>
-                  <li><a href="${root}/WEB-INF/views/page/mypicks/mypickcalendar.jsp">Pick 달력</a></li>
+                  <li><a href="${root}/mypicklist/cal">Pick 달력</a></li>
                 </ul>
               </li>
               <li><a href="${root}/member/mypage">My Page</a></li>
