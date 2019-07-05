@@ -5,8 +5,8 @@
  <mapper namespace="com.kitri.hotpicks.mypicks.dao.MypicksDamDao">
  	
 	<select id="listArticle" parameterType="String" resultType="pickListDto">
-		select A.seq, A.userid, A.contentsId, A.title, A.image1, cD.eventStartDate, cD.eventEndDate, cD.spendTime
-		from(select pL.seq,pL.userid, pL.contentsId,C.title,C.image1
+		select A.seq, A.userid, A.contentsId, A.title, A.image1,A.catId ,to_char(to_date(to_char(eventstartdate,'99999999'),'yyyy.mm.dd'),'yyyy-mm-dd'),to_char(to_date(to_char(cD.eventEndDate,'99999999'),'yyyy.mm.dd'),'yyyy-mm-dd'), cD.spendTime
+		from(select pL.seq,pL.userid, pL.contentsId,C.title,C.image1,C.catId
 		 	 from pickList pL, contents C
 			 where pL.contentsId=C.contentsId) A, contentsDetail cD
 	</select>
