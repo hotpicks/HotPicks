@@ -33,11 +33,11 @@
 			<a href="#">가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> <a href="#">다녀온 곳</a>
 		</div>
 		<div>
-			<a href="${root}/WEB-INF/views/page/mypicks/mypicklist.jsp"><img src="${root}/resources/style/images/listpicks.png"></a>
+			<a href="${root}/mypicklist/list"><img src="${root}/resources/style/images/listpicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/WEB-INF/views/page/mypicks/mypickmap.jsp"><img src="${root}/resources/style/images/mappicks.png"></a>
+			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/WEB-INF/views/page/mypicks/mypickcalendar.jsp"><img src="${root}/resources/style/images/calendarpicks.png"></a>
+			<a href="${root}/mypicklist/cal"><img src="${root}/resources/style/images/calendarpicks.png"></a>
 		</div>
 		
 		<div style="float: right;">
@@ -57,19 +57,7 @@
      </c:forEach>
      
     </div>
-    <!-- 하단 페이징 -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-	<tr>
-		<td colspan="3" height="5"></td>
-	</tr>
-	<tr valign="top">
-		<td width="100%" align="center"><!--PAGE--> ${navigator.navigator }</td>
-		<td nowrap class="stext"><b>${navigator.pageNo }</b> / ${navigator.totalPageCount }
-		pages</td>
-	</tr>
-</table>
-<br>
-<!-- 하단 페이징 -->
+
 </div>
 
 </div>

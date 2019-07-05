@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.kitri.hotpicks.contents.dao.ReviewDao">
+ 	
+ 	<insert id="writeArticle" parameterType="reviewDto">
+	insert all
+		into review (seq, userId,contentsId,hashTag,subject,starPoint,content,logTime,saveFolder,orignPicture,savePicture)
+		values (#{seq}, #{userId}, #{contentsId}, #{hashTag}, #{subject}, #{starPoint}, #{content}, sysdate, #{saveFolder}, #{orignPicture},#{savePicture})
+	select * from dual
+	</insert>
+ 
+ </mapper>
