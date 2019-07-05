@@ -52,7 +52,7 @@ $(function() {
 /* 			return;
 	}); */
 	
-/*	$("#enter").click(function(){ */
+/*	$("#enter").click(function(){ 
 		$.ajax({
 			url : "${root}/contents/enter",
 			type : "get",
@@ -63,7 +63,7 @@ $(function() {
 				$('#main').html(result);
 				}
 		});
-			
+			*/
 			
 }); 
 </script>

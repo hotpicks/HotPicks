@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kitri.hotpicks.contents.model.SidoDto;
+import com.kitri.hotpicks.contents.model.SigunguDto;
 
 public interface ContentsService {
 
@@ -17,6 +18,8 @@ public interface ContentsService {
 	//view 단에 sido, sigungu selecter
 	//sido
 	List<SidoDto> selectSido();
+	List<SigunguDto> selectSigungu(int sdcode);
+	
 	
 	//시도,시군구 api 자료 DB에 insert
 	String locationProcess(String locationUrl);

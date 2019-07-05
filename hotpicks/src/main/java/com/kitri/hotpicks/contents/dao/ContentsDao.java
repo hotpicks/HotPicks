@@ -20,7 +20,7 @@ public interface ContentsDao {
 //Select location process
 	List<SidoDto> selectSido();
 	
-	
+	List<SigunguDto> selectSigungu(int sdcode);
 	
 //contents update process
 	//api 목록 list와 db의 list를 비교하여(where contentId in (list)
@@ -35,7 +35,7 @@ public interface ContentsDao {
 	
 	//insert contents process
 	List<ContentsTypeDto> selectContentsType();
-	void insertApiContents(List<ContentsDto> contentsDto);	
+	void insertApiContents(ContentsDto contentsDto);	
 	void insertApiContentsDetail(ContentsDetailDto contentsDetailDto);
 	
 

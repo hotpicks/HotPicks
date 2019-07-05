@@ -26,8 +26,29 @@
 	FROM sido
 	</select>
 	
+	<select id="selectSigungu" parameterType="int" resultType="sigunguDto">
+	SELECT *
+	FROM sigungu
+	WHERE sdcode = #{sdcode}
+	</select>
+	
 	<select id="selectContentsType" resultType="contentsTypeDto">
 	SELECT *
 	FROM boardtype
 	</select>
+	
+	<!-- <insert id="insertApiContents" parameterType="java.util.List">
+ 	<foreach collection="list" item="contents" open="INSERT ALL" close="SELECT * FROM dual">
+ 	INTO contents(contentsid, catcode, catid, sggcode, sdcode, title, image1, image2, hit)
+ 	VALUES(#{contents.contentsId}, #{contents.catCode}, #{contents.catId}, #{contents.sggCode}, 
+ 		#{contents.sdCode}, #{contents.title}, #{contents.image1}, #{contents.image2}, #{contents.hit})
+ 	</foreach>
+ 	</insert> -->
+ 	
+	<insert id="insertApiContents" parameterType="contentsDto">
+ 	INSERT INTO contents(contentsid, catcode, catid, sggcode, sdcode, title, image1, image2, hit)
+ 	VALUES(#{contentsId}, #{catCode}, #{catId}, #{sggCode}, 
+ 		#{sdCode}, #{title}, #{image1}, #{image2}, #{hit})
+ 	</insert>
+	
  </mapper>

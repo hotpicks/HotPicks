@@ -19,6 +19,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.kitri.hotpicks.contents.dao.ContentsDao;
 import com.kitri.hotpicks.contents.model.ContentsDto;
@@ -32,36 +33,33 @@ public class ContentsServiceImpl implements ContentsService {
 	@Autowired
 	private SqlSession sqlSession;
 
-	@Override
-	public List<SidoDto> selectSido() {
-		return sqlSession.getMapper(ContentsDao.class).selectSido();
-	}
 	
+
 	@Override
 	public void insertApiProcess(String urlStr) {
-		List<ContentsTypeDto> typeList = sqlSession.getMapper(ContentsDao.class).selectContentsType();
-		System.out.println(typeList.toString());
-		
-		 //String ee = "&cat1=A02&" + "&cat2=A0207" + "&cat3=A02070100";
-		 
+
+//		String ee = "&cat1=A02&" + "&cat2=A0207" + "&cat3=A02070100";
+
 //		int len = sdList.size();
 //		for (int i = 0; i < len; i++) {
 //			sigunguUrl = sigunguUrlOrigin + "&areaCode=" + sdList.get(i);
 //			System.out.println(sdList.get(i));
-//
 //		}
+	
+		List<ContentsTypeDto> typeList = sqlSession.getMapper(ContentsDao.class).selectContentsType();
+		System.out.println(typeList.toString());
 		
-		
-		String contentsUrlStr = urlStr + "&cat2=" + typeList.get(0).getCateCode();
-		
+		String contentsUrlStr = urlStr + "&cat2=" + typeList.get(0).getCatCode();
+
 		String data = "";
 		BufferedReader br = null;
-		List<ContentsDto> list = null;
+		//List<ContentsDto> contentslist = null;
+		List<Integer> contentsIdList = null;
 		ContentsDto contentsDto = null;
 		URL url;
-		
-			try {
-				url = new URL(contentsUrlStr);
+
+		try {
+			url = new URL(contentsUrlStr);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestMethod("GET");
 			br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
@@ -69,13 +67,14 @@ public class ContentsServiceImpl implements ContentsService {
 			String line;
 			while ((line = br.readLine()) != null) {
 				data = data.concat(line);
-			
+			}
+
 			// 받은 데이터확인
-			System.out.println("data : " + data);
+			//System.out.println("data : " + data);
 			// 문자열데이터 객체화
 			JSONParser parser = new JSONParser();
 			JSONObject obj = (JSONObject) parser.parse(data);
-			System.out.println("obj : " + obj);
+			//System.out.println("obj : " + obj);
 			// top레벨의 response 키로 데이터 파싱
 			JSONObject parse_response = (JSONObject) obj.get("response");
 			JSONObject parse_body = (JSONObject) parse_response.get("body");
@@ -83,78 +82,71 @@ public class ContentsServiceImpl implements ContentsService {
 			JSONObject parse_items = (JSONObject) parse_body.get("items");
 			JSONArray parse_itemlist = (JSONArray) parse_items.get("item");
 			JSONObject item = null;
-			
-			list = new ArrayList<ContentsDto>();
+
+			//contentslist = new ArrayList<ContentsDto>();
+			contentsIdList = new ArrayList<Integer>();
 			for (int i = 0; i < parse_itemlist.size(); i++) {
 				item = (JSONObject) parse_itemlist.get(i);
 				contentsDto = new ContentsDto();
-				contentsDto.setContentsId(item.get("contentid").toString());
+				int contentsId = Integer.valueOf(item.get("contentid").toString());
+				contentsDto.setContentsId(contentsId);
+				contentsIdList.add(contentsId);
 				contentsDto.setTitle(item.get("title").toString());
-				contentsDto.setCatId(String.valueOf(typeList.get(0).getCatId()));
-				contentsDto.setSdCode(item.get("addr1").toString().split(" ")[0]);
-				contentsDto.setSggCode(item.get("addr1").toString().split(" ")[1]);
-				contentsDto.setImage1((item.get("firstimage1") != null ? 
-						item.get("firstimage1").toString().replace("\\", "") : "x"));
-				contentsDto.setImage2((item.get("firstimage2") != null ? 
-						item.get("firstimage2").toString().replace("\\", "") : "x"));
+				contentsDto.setCatId(typeList.get(0).getCatId());
+				contentsDto.setCatCode(typeList.get(0).getCatCode().toString());
+//				contentsDto.setSdCode(Integer.valueOf(item.get("areacode").toString()));
+				contentsDto.setSdCode(Integer.valueOf((item.get("areacode") != null ? item.get("areacode") : 0).toString()));
+//				contentsDto.setSggCode(Integer.valueOf(item.get("sigungucode").toString()));
+				contentsDto.setSggCode(Integer.valueOf((item.get("sigungucode") != null ? item.get("sigungucode") : 0).toString()));
+				contentsDto.setImage1(
+						(item.get("firstimage1") != null ? item.get("firstimage1").toString().replace("\\", "") : "x"));
+				contentsDto.setImage2(
+						(item.get("firstimage2") != null ? item.get("firstimage2").toString().replace("\\", "") : "x"));
 				contentsDto.setHit(0);
-				System.out.println(contentsDto.toString());
-				list.add(contentsDto);
+				
+				
+				sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
+				
+				//contentslist.add(contentsDto);
+				//System.out.println(contentsDto.toString());
+				//System.out.println("index : " +i + "/ size : " +parse_itemlist.size() +"/id"+contentsDto.getContentsId());
 			}
-		}
-	
 			
-		
-	
-		
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-	
+
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void insertApiContents(List<Integer> contentsTypeList) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void insertApiContentsDetail(List<Integer> contentsIdList) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
-	
-
-	
-	
 	@Override
 	public List<Map<String, String>> apiexc(String urlStr) {
-		
-		insertApiProcess(urlStr);
-		
-		
-		
-		
-		
-		
+
+
 //		///////////////////////////////////////////
-		
-		
-		System.out.println("왜 service에 안들어와지지?");
+
 		System.out.println(urlStr);
 		String data = "";
 		BufferedReader br = null;
@@ -191,7 +183,7 @@ public class ContentsServiceImpl implements ContentsService {
 				item = (JSONObject) parse_itemlist.get(i);
 				map.put("title", item.get("title").toString());
 				map.put("contentid", item.get("contentid").toString());
-				map.put("addr1", item.get("addr1").toString());
+				map.put("addr1", (item.get("addr1") != null ? item.get("addr1").toString() : "x"));
 				map.put("firstimage1",
 						(item.get("firstimage1") != null ? item.get("firstimage1").toString().replace("\\", "") : "x"));
 				map.put("firstimage2",
@@ -294,12 +286,11 @@ public class ContentsServiceImpl implements ContentsService {
 
 	public void insertSigungu(String sigunguUrlOrigin, List<Integer> sdList) {
 
-		
 		BufferedReader br;
 		URL url;
 		SigunguDto sigungu;
 		String sigunguUrl;
-		
+
 		int len = sdList.size();
 		for (int i = 0; i < len; i++) {
 			sigunguUrl = sigunguUrlOrigin + "&areaCode=" + sdList.get(i);
@@ -317,17 +308,17 @@ public class ContentsServiceImpl implements ContentsService {
 				}
 
 				// System.out.println("Sigungu : "+data);
-				
+
 				JSONParser parser = new JSONParser();
 				JSONObject obj = (JSONObject) parser.parse(data);
 				JSONObject responseObj = (JSONObject) obj.get("response");
 				JSONObject bodyObj = (JSONObject) responseObj.get("body");
 				JSONObject itemsObj = (JSONObject) bodyObj.get("items");
 				int condition = (Integer.valueOf(bodyObj.get("totalCount").toString()));
-				if(condition > 1) {
+				if (condition > 1) {
 					JSONArray itemArr = (JSONArray) itemsObj.get("item");
-					System.out.println(condition+itemArr.toString());
-					
+					System.out.println(condition + itemArr.toString());
+
 					List<SigunguDto> sigunguData = new ArrayList<SigunguDto>();
 					for (int j = 0; j < itemArr.size(); j++) {
 						JSONObject item = (JSONObject) itemArr.get(j);
@@ -337,26 +328,19 @@ public class ContentsServiceImpl implements ContentsService {
 						sigungu.setSdCode(sdList.get(i));
 						sigunguData.add(sigungu);
 					}
-					
+
 					sqlSession.getMapper(ContentsDao.class).insertSigunguList(sigunguData);
-					
-				}else {
+
+				} else {
 					JSONObject item = (JSONObject) itemsObj.get("item");
-					System.out.println(condition+item.toString());
+					System.out.println(condition + item.toString());
 					sigungu = new SigunguDto();
 					sigungu.setSggCode(Integer.valueOf(item.get("code").toString()));
 					sigungu.setSggName(item.get("name").toString());
 					sigungu.setSdCode(sdList.get(i));
-					
+
 					sqlSession.getMapper(ContentsDao.class).insertSigungu(sigungu);
 				}
-
-				
-					
-					
-				
-				
-			
 
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -371,8 +355,15 @@ public class ContentsServiceImpl implements ContentsService {
 		} // end for
 
 	}
-
-
 	
+	@Override
+	public List<SidoDto> selectSido() {
+		return sqlSession.getMapper(ContentsDao.class).selectSido();
+	}
+
+	@Override
+	public List<SigunguDto> selectSigungu(int sdcode) {
+		return sqlSession.getMapper(ContentsDao.class).selectSigungu(sdcode); 
+	}
 
 }
