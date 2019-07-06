@@ -36,10 +36,12 @@
 	
 	<select id="selectContentsType" resultType="contentsTypeDto">
 	SELECT *
-	FROM boardtype
+	FROM contentscate
+	ORDER BY catid
 	</select>
 	
-	<!-- <insert id="insertApiContents" parameterType="java.util.List">
+	<!-- insert all문으로 돌리면 열이 너무 길어 DB가 한번에 처리하지못함.(tourapi contents 200개 이하는 가능)
+	 <insert id="insertApiContents" parameterType="java.util.List">
  	<foreach collection="list" item="contents" open="INSERT ALL" close="SELECT * FROM dual">
  	INTO contents(contentsid, catcode, catid, sggcode, sdcode, title, image1, image2, hit)
  	VALUES(#{contents.contentsId}, #{contents.catCode}, #{contents.catId}, #{contents.sggCode}, 

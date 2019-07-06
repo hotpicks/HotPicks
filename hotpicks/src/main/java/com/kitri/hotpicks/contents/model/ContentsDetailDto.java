@@ -14,6 +14,20 @@ public class ContentsDetailDto extends ContentsDto {
 	private String program;
 	private String usetime;
 	
+	private String spendtime;
+	private String ageLimit;
+	private String bookingPlace;
+	private String discountInfo;
+	private String placeInfo;
+	private String infoName;
+	private String infoText;
+	private double xPoint;
+	private double yPoint;
+	
+	private String imgName;
+	private String originImgurl;
+	private String serialNum;
+	private String smallImageUrl;
 	
 	public String getHomePage() {
 		return homePage;
@@ -135,17 +149,30 @@ public class ContentsDetailDto extends ContentsDto {
 	public void setyPoint(double yPoint) {
 		this.yPoint = yPoint;
 	}
-	private String spendtime;
-	private String ageLimit;
-	private String bookingPlace;
-	private String discountInfo;
-	private String placeInfo;
-	private String infoName;
-	private String infoText;
-	private double xPoint;
-	private double yPoint;
-	
-	
+	public String getImgName() {
+		return imgName;
+	}
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+	public String getOriginImgurl() {
+		return originImgurl;
+	}
+	public void setOriginImgurl(String originImgurl) {
+		this.originImgurl = originImgurl;
+	}
+	public String getSerialNum() {
+		return serialNum;
+	}
+	public void setSerialNum(String serialNum) {
+		this.serialNum = serialNum;
+	}
+	public String getSmallImageUrl() {
+		return smallImageUrl;
+	}
+	public void setSmallImageUrl(String smallImageUrl) {
+		this.smallImageUrl = smallImageUrl;
+	}
 	
 
 
