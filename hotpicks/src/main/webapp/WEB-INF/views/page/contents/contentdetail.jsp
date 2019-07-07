@@ -166,80 +166,28 @@ li.clearfix {
 								<div class="info">
 									<h3><a>부산축제 완전추천!!</a></h3>
 									<span class="date">  - 2019.07.11</span>
-									<span class="commReply"><a href="#">Reply</a></span>
 								</div>
 								<p>★★★★★</p>
 								<p>#부산 #여행 #나홀로 #축제 #부산축제</p>
 							</div>
 							</div>
-							<div class="togglebox">fffffff
-							fdf
-							fd
-							fdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdf
-							</div>
-						</div>
-					</li>
-					<li class="clearfix">
-						<div class="toggle">
-							<div class="trigger">
-							<div class="user">
-								<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> 
-							</div>
-							<div class="message">
-								<div class="info">
-									<h3><a>부산축제 완전추천!!</a></h3>
-									<span class="date">  - 2019.07.11</span>
-									<span class="commReply"><a href="#">Reply</a></span>
+							<div class="togglebox">
+								<div>
+								fffffff
+								fdf
+								fd
+								fdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
+								fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
+								fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
+								fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
+								fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
+								fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
+								fdkjf;lakjdf;kljda;kldjf;kjdf
 								</div>
-								<p>★★★★★</p>
-								
-							</div>
-							</div>
-							<div class="togglebox">fffffff
-							fdf
-							fd
-							fdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdf
-							</div>
-						</div>
-					</li>
-					<li class="clearfix">
-						<div class="toggle">
-							<div class="trigger">
-							<div class="user">
-								<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> 
-							</div>
-							<div class="message">
-								<div class="info">
-									<h3><a>부산축제 완전추천!!</a></h3>
-									<span class="date">  - 2019.07.11</span>
-									<span class="commReply"><a href="#">Reply</a></span>
+								<div>
+									<textarea id="mcontent" cols="68" rows="5"></textarea>
+									<input type="button" id="memoBtn" value="글작성">
 								</div>
-								<p>★★★★★</p>
-								
-							</div>
-							</div>
-							<div class="togglebox">fffffff
-							fdf
-							fd
-							fdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdf
 							</div>
 						</div>
 					</li>
