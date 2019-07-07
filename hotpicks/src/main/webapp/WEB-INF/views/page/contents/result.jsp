@@ -4,14 +4,30 @@
 
 <script type="text/javascript">
 $(function() {
+	var sigunguList = 
+	
 
 	 $("#sido").change(function(){
 			var sdcode = $('#sido').val();
-			alert(sdcode);
-			
+				alert(sdcode);
+		 	$.ajax({
+				url: '${root}/contents/changesgg',
+				type: 'GET',
+				data: {"sdcode" : sdcode},
+				success: function(result){
+					alert("돌아옴");
+
+					var sigunguStr = "";
+					sigunguStr += "<c:forEach var='sigungu' items='${sigunguList}'>";
+					sigunguStr += "<option value='${sigungu.sggCode}'>${sigungu.sggName}</option>";
+					sigunguStr += "</c:forEach>";
+					
+					//$('#sigungu').html(sigunguStr);
+					}
+				
+				}); 
 		
-			
-			$('#sigungu').html(sigunguStr);
+
 			
 		});
 			
@@ -87,10 +103,10 @@ $(function() {
      	
 		<c:set var="sigunguList" value="${sigunguMap.get(1)}"/>
 		</div>
-     	<c:forEach var="sigungu" items="${sigunguList}">
+     	<%-- <c:forEach var="sigungu" items="${sigunguList}">
      			<option value="${sigungu.sggCode}">${sigungu.sggName}</option>
      			
-		</c:forEach>
+		</c:forEach> --%>
 		<div>
      	</select>
 
@@ -99,23 +115,19 @@ $(function() {
     
     <!-- favorite -->
     <div id="about">
- <c:forEach var="list" items="${json}" varStatus="status">
+ <c:forEach var="list" items="${dbContentsList}" varStatus="status" end="13">
 <c:choose>
-	<c:when test="${ status.count%4 != 0 || status.last != false}">
-	<div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
-	<img src="${list.firstimage1 != 'x' ? list.firstimage1 : (list.firstimage2 != 'x' ? list.firstimage2 : '') }" width="200" alt="" /></a>
+		<c:when test="${status.last == true || status.count % 4 == 0}">
+	    	<div class="one-fourth last"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+	    </c:when>
+	    <c:otherwise>
+			<div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+	    </c:otherwise>
+</c:choose>
+		<img src="${list.image1 != 'x' ? list.image1 : (list.image2 != 'x' ? list.image2 : '') }" width="200" alt="" /></a>
         <h4>${list.title}</h4>
         <p>${list.title}</p>
       </div>
-    </c:when>
-    <c:otherwise>
-      <div class="one-fourth last"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
-      <img src="${list.firstimage1 != 'x' ? list.firstimage1 : (list.firstimage2 != 'x' ? list.firstimage2 : '') }" width="200" alt="" /></a>
-        <h4>${list.title}</h4>
- 		 <p>${list.title}</p>
-      </div>
-    </c:otherwise>
-</c:choose>
 </c:forEach>
     </div> 
     <!-- End About --> 
