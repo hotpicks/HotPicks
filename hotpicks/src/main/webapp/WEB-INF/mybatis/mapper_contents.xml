@@ -36,10 +36,12 @@
 	
 	<select id="selectContentsType" resultType="contentsTypeDto">
 	SELECT *
-	FROM boardtype
+	FROM contentscate
+	ORDER BY catid
 	</select>
 	
-	<!-- <insert id="insertApiContents" parameterType="java.util.List">
+	<!-- insert all문으로 돌리면 열이 너무 길어 DB가 한번에 처리하지못함.(tourapi contents 200개 이하는 가능)
+	 <insert id="insertApiContents" parameterType="java.util.List">
  	<foreach collection="list" item="contents" open="INSERT ALL" close="SELECT * FROM dual">
  	INTO contents(contentsid, catcode, catid, sggcode, sdcode, title, image1, image2, hit)
  	VALUES(#{contents.contentsId}, #{contents.catCode}, #{contents.catId}, #{contents.sggCode}, 
@@ -52,5 +54,19 @@
  	VALUES(#{contentsId}, #{catCode}, #{catId}, #{sggCode}, 
  		#{sdCode}, #{title}, #{image1}, #{image2}, #{hit})
  	</insert>
+ 	
+	<insert id="insertApiContentsDetail" parameterType="contentsDetailDto">
+ 	INSERT INTO contentsDetail(contentsid, homepage, telname, tel, playtime, program, usetime,
+ 	 spendtime, agelimit, bookingplace, discountinfo, placeinfo, infoname, infotext,
+ 	 eventstartdate, eventenddate, xpoint, ypoint, zipcode, addr1, addr2)
+ 	VALUES(#{contentsId}, #{homePage}, #{telName}, #{tel}, #{playtime}, #{program}, #{usetime},
+ 	 #{spendtime}, #{ageLimit},	#{bookingPlace}, #{discountInfo}, #{placeInfo}, #{infoName}, #{infoText},
+ 	 #{eventStartDate}, #{eventEndDate}, #{xPoint}, #{yPoint}, #{zipCode}, #{addr1}, #{addr2})
+ 	</insert>
+	
+	<select id="contentslist" resultType="contentsDto">
+	SELECT *
+	FROM contents
+	</select>
 	
  </mapper>

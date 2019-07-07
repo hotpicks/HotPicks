@@ -6,6 +6,7 @@ public class ContentsTypeDto {
 	private String catName;
 	private String catType;
 	private String catCode;
+	
 	public int getCatId() {
 		return catId;
 	}
