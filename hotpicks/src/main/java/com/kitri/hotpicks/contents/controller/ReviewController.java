@@ -54,7 +54,6 @@ public class ReviewController {
 			//contents아이디/별점
 			reviewDto.setContentsId(1);
 			
-			//
 			
 			if(multipartFile != null && !multipartFile.isEmpty()) {
 				String orignPicture = multipartFile.getOriginalFilename();
@@ -83,7 +82,7 @@ public class ReviewController {
 				
 				reviewDto.setOrignPicture(orignPicture);
 				reviewDto.setSavePicture(savePicture);
-				reviewDto.setSaveFolder(saveFolder);
+				reviewDto.setSaveFolder(saveFolder); 
 			}
 			seq = reviewService.writeArticle(reviewDto);
 			
