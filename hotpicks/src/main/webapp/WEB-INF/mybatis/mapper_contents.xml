@@ -54,5 +54,19 @@
  	VALUES(#{contentsId}, #{catCode}, #{catId}, #{sggCode}, 
  		#{sdCode}, #{title}, #{image1}, #{image2}, #{hit})
  	</insert>
+ 	
+	<insert id="insertApiContentsDetail" parameterType="contentsDetailDto">
+ 	INSERT INTO contentsDetail(contentsid, homepage, telname, tel, playtime, program, usetime,
+ 	 spendtime, agelimit, bookingplace, discountinfo, placeinfo, infoname, infotext,
+ 	 eventstartdate, eventenddate, xpoint, ypoint, zipcode, addr1, addr2)
+ 	VALUES(#{contentsId}, #{homePage}, #{telName}, #{tel}, #{playtime}, #{program}, #{usetime},
+ 	 #{spendtime}, #{ageLimit},	#{bookingPlace}, #{discountInfo}, #{placeInfo}, #{infoName}, #{infoText},
+ 	 #{eventStartDate}, #{eventEndDate}, #{xPoint}, #{yPoint}, #{zipCode}, #{addr1}, #{addr2})
+ 	</insert>
+	
+	<select id="contentslist" resultType="contentsDto">
+	SELECT *
+	FROM contents
+	</select>
 	
  </mapper>

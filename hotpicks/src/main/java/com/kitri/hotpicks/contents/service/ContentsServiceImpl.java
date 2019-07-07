@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import com.kitri.hotpicks.contents.dao.ContentsDao;
 import com.kitri.hotpicks.contents.model.ContentsDetailDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
+import com.kitri.hotpicks.contents.model.ContentsImageDto;
 import com.kitri.hotpicks.contents.model.ContentsTypeDto;
 import com.kitri.hotpicks.contents.model.SidoDto;
 import com.kitri.hotpicks.contents.model.SigunguDto;
@@ -56,7 +57,7 @@ public class ContentsServiceImpl implements ContentsService {
 		// Insert Contents process
 		List<ContentsTypeDto> typeList = new ArrayList<ContentsTypeDto>();
 		typeList = sqlSession.getMapper(ContentsDao.class).selectContentsType();
-		System.out.println("size : " + typeList.size());
+		//System.out.println("size : " + typeList.size());
 		
 		List<Integer> contentsIdList = insertApiContents(urlStr, typeList);
 
@@ -99,7 +100,7 @@ public class ContentsServiceImpl implements ContentsService {
 			// top레벨의 response 키로 데이터 파싱
 			JSONObject parse_response = (JSONObject) obj.get("response");
 			JSONObject parse_body = (JSONObject) parse_response.get("body");
-			System.out.println("body : " + parse_body);
+			//System.out.println("body : " + parse_body);
 			JSONObject parse_items = (JSONObject) parse_body.get("items");
 			JSONArray parse_itemlist = (JSONArray) parse_items.get("item");
 			JSONObject item = null;
@@ -152,43 +153,48 @@ public class ContentsServiceImpl implements ContentsService {
 	@Override
 	public void insertApiContentsDetail(List<Integer> contentsIdList) {
 
-		BufferedReader br = null;
-		ContentsDetailDto cdtDto = null;
+		BufferedReader br;
+		ContentsDetailDto cdtDto;
 		URL url;
 		String detailUrlStr;
-
+		ContentsImageDto imageDto;
+		List<ContentsImageDto> imageList;
+		
 		// String contentsUrlStr = urlStr + "&cat2=" + typeList.get(0).getCatCode();
 
 		List<String> detailUrlList = new ArrayList<String>();
 
 		String detailCommonUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?" +
 				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "defaultYN=Y&" + "addrinfoYN=Y&" +
-				 "mapinfoYN=Y&" + "ServiceKey=" + takapikey + "&"; // conid
+				 "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + takapikey + "&"; // conid
+		
 		String detailIntroUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?" +
-				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "ServiceKey=" + takapikey + "&"; // "conid,typeid";
+				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey=" + takapikey + "&"; // "conid,typeid"
+		
 		String detailInfoUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailInfo?" +
-				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "ServiceKey=" + takapikey + "&"; // "conid,typeid";
+				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey=" + takapikey + "&"; // "conid,typeid"
+		
 		String detailImageUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?" +
-				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "ServiceKey=" + takapikey + "&"; // "conid";
+				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "imageYN=Y&" + "subImageYN=Y&" +
+				"ServiceKey=" + takapikey + "&"; // "conid";
 
 		detailUrlList.add(detailCommonUrlStr);
 		detailUrlList.add(detailIntroUrlStr);
-		//detailUrlList.add(detailInfoUrlStr);
+		detailUrlList.add(detailInfoUrlStr);
 		//detailUrlList.add(detailImageUrlStr);
 		
 		int lenCL = contentsIdList.size();
 		int lenDL = detailUrlList.size();
 
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 100; i++) {
 
+			cdtDto = new ContentsDetailDto();
+			cdtDto.setContentsId(contentsIdList.get(i));
+			br = null;
+			
 			for (int j = 0 ; j < lenDL ; j++) {
 
-				if(j<(lenDL-1)){
-					detailUrlStr = detailUrlList.get(j) + "contentTypeId=15&contentId=" +  contentsIdList.get(i);
-				}else {
-					detailUrlStr = detailUrlList.get(j) + "contentId=" +  contentsIdList.get(i);
-				}
-				
+					detailUrlStr = detailUrlList.get(j) + "contentId=" +  contentsIdList.get(i);			
 				
 				try {
 					url = new URL(detailUrlStr);
@@ -211,79 +217,125 @@ public class ContentsServiceImpl implements ContentsService {
 					// top레벨의 response 키로 데이터 파싱
 					JSONObject parse_response = (JSONObject) obj.get("response");
 					JSONObject parse_body = (JSONObject) parse_response.get("body");
-					//System.out.println("dbody : " + parse_body);
+					if(Integer.valueOf(parse_body.get("totalCount").toString()) == 0) {
+						break;
+					}
+					System.out.println(j+"/dbody : " + parse_body);
 					JSONObject parse_items = (JSONObject) parse_body.get("items");
-					JSONObject item = (JSONObject) parse_items.get("item");
-					System.out.println("ditem : " + item.toJSONString());
+					JSONObject item = null;
+					switch(j) {
 					
-					//1)detailCommonUrlStr
-					cdtDto = new ContentsDetailDto();
-					cdtDto.setHomePage(item.get("homepage").toString());
-					cdtDto.setTel(item.get("tel").toString());
-					cdtDto.setTelName(item.get("telname").toString());
-					cdtDto.setAddr1(item.get("addr1").toString());
-					cdtDto.setAddr2(item.get("addr2").toString());
-					cdtDto.setZipCode(item.get("zipcode").toString());
-					cdtDto.setxPoint(Double.parseDouble(item.get("mapx").toString()));
-					cdtDto.setyPoint(Double.parseDouble(item.get("mapy").toString()));
-					
-					System.out.println(cdtDto.toString());
-					
-					//2)detailIntroUrlStr
-					cdtDto.setAgeLimit(item.get("agelimit").toString());
-					cdtDto.setBookingPlace(item.get("bookingplace").toString());
-					cdtDto.setDiscountInfo(item.get("discountinfofestival").toString());
-					cdtDto.setEventStartDate(item.get("eventstartdate").toString());
-					cdtDto.setEventEndDate(item.get("eventenddate").toString());
-					cdtDto.setPlaceInfo(item.get("placeinfo").toString());
-					cdtDto.setPlaytime(item.get("playtime").toString());
-					cdtDto.setProgram(item.get("program").toString());
-					cdtDto.setSpendtime(item.get("spendtimefestival").toString());
-					//이거 이용요금인데 이름 이래도 괜찮음?
-					cdtDto.setUsetime(item.get("usetimefetival").toString());
-					
-					//3)detailInfoUrlStr
-					cdtDto.setInfoName(item.get("infoname").toString());
-					cdtDto.setInfoText(item.get("infotext").toString());
-					
-					//4)detailImageUrlStr
-					cdtDto.setImgName(item.get("imgname").toString());
-					cdtDto.setOriginImgurl(item.get("originimgurl").toString());
-					cdtDto.setSerialNum(item.get("serialnum").toString());
-					cdtDto.setSmallImageUrl(item.get("smallimageurl").toString());
-					
-					
-					//JSONObject item = null;
+					case 0 :
+						item = (JSONObject) parse_items.get("item");
+						//0)detailCommonUrlStr
+						cdtDto.setHomePage((item.get("homepage") != null ? item.get("homepage").toString().replace("\\", "") : "-1"));
+						cdtDto.setTel((item.get("tel") != null ? item.get("tel").toString() : "-1"));
+						cdtDto.setTelName((item.get("telname") != null ? item.get("telname").toString() : "-1"));
+						cdtDto.setAddr1((item.get("addr1") != null ? item.get("addr1").toString() : "-1"));
+						cdtDto.setAddr2((item.get("addr2") != null ? item.get("addr2").toString() : "-1"));
+						cdtDto.setZipCode((item.get("zipcode") != null ? item.get("zipcode").toString() : "-1"));
+						cdtDto.setxPoint(Double.parseDouble((item.get("mapx") != null ? item.get("mapx").toString() : "-1")));
+						cdtDto.setyPoint(Double.parseDouble((item.get("mapy") != null ? item.get("mapy").toString() : "-1")));
+						break;
+						
+					case 1 :
+						item = (JSONObject) parse_items.get("item");
+						//1)detailIntroUrlStr
+						cdtDto.setAgeLimit((item.get("agelimit") != null ? item.get("agelimit").toString() : "-1"));
+						cdtDto.setBookingPlace((item.get("bookingplace") != null ? item.get("bookingplace").toString() : "-1"));
+						cdtDto.setDiscountInfo((item.get("discountinfofestival") != null ? item.get("discountinfofestival").toString() : "-1"));
+						cdtDto.setEventStartDate((item.get("eventstartdate") != null ? item.get("eventstartdate").toString() : "-1"));
+						cdtDto.setEventEndDate((item.get("eventenddate") != null ? item.get("eventenddate").toString() : "-1"));
+						cdtDto.setPlaceInfo((item.get("placeinfo") != null ? item.get("placeinfo").toString() : "-1"));
+						cdtDto.setPlaytime((item.get("playtime") != null ? item.get("playtime").toString().replace("\\", "") : "-1"));
+						cdtDto.setProgram((item.get("program") != null ? item.get("program").toString() : "-1"));
+						cdtDto.setSpendtime((item.get("spendtimefestival") != null ? item.get("spendtimefestival").toString() : "-1"));
+						//이거 이용요금인데 이름 이래도 괜찮음?
+						cdtDto.setUsetime((item.get("usetimefetival") != null ? item.get("usetimefetival").toString() : "-1"));
+						break;
+						
+					case 2 :
+						int condition = (Integer.valueOf(parse_body.get("totalCount").toString()));
+						if(condition > 1) {
+							JSONArray infoitemList = (JSONArray) parse_items.get("item");
+							JSONObject sogaeItem = (JSONObject) infoitemList.get(0);
+							JSONObject naeyongItem = (JSONObject) infoitemList.get(1);
+							//3)detailInfoUrlStr
+							cdtDto.setInfoName((sogaeItem.get("infotext") != null ? sogaeItem.get("infotext").toString().replace("\\", "") : "-1"));
+							cdtDto.setInfoText((naeyongItem.get("infotext") != null ? naeyongItem.get("infotext").toString().replace("\\", "") : "-1"));
+							
+							//System.out.println("id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString() );
+							sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
+						
+						
+						}else {
+							JSONObject infoItem = (JSONObject) parse_items.get("item");
+							
+							//3)detailInfoUrlStr
+							cdtDto.setInfoName((infoItem.get("infotext") != null ? infoItem.get("infotext").toString().replace("\\", "") : "-1"));
+							cdtDto.setInfoText("-1");
+							
+							System.out.println("id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString() );
+							sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
+						}
+						break;
+						
+						
+//					case 3 :
+						//contentsid set해줘야함
+						
+//						int condition = (Integer.valueOf(parse_body.get("totalCount").toString()));
+//						if(condition > 1) {
+//						
+//							JSONArray imageItemList = (JSONArray) parse_items.get("item");
+//							imageList = new ArrayList<ContentsImageDto>();
+//							for(int k = 0 ; k < imageItemList.size() ; k++) {
+//							JSONObject imageItem = (JSONObject)imageItemList.get(k);
+//							imageDto = new ContentsImageDto();
+//							//3)detailImageUrlStr
+//							imageDto.setImgName((imageItem.get("imgname") != null ? imageItem.get("imgname").toString() : "-1"));
+//							imageDto.setOriginImgurl((imageItem.get("originimgurl") != null ? imageItem.get("originimgurl").toString().replace("\\", "") : "-1"));
+//							imageDto.setSerialNum((imageItem.get("serialnum") != null ? imageItem.get("serialnum").toString() : "-1"));
+//							imageDto.setSmallImageUrl((imageItem.get("smallimageurl") != null ? imageItem.get("smallimageurl").toString().replace("\\", "") : "-1"));
+//							imageList.add(imageDto);
+//							}
+//							System.out.println("imgList : " + imageList.toString());
+//							//insert
+//						}else {
+//							JSONObject imageItem = (JSONObject) parse_items.get("item");
+//							imageList = new ArrayList<ContentsImageDto>();
+//							imageDto = new ContentsImageDto();
+//							//3)detailImageUrlStr
+//							imageDto.setImgName((imageItem.get("imgname") != null ? imageItem.get("imgname").toString() : "-1"));
+//							imageDto.setOriginImgurl((imageItem.get("originimgurl") != null ? imageItem.get("originimgurl").toString().replace("\\", "") : "-1"));
+//							imageDto.setSerialNum((imageItem.get("serialnum") != null ? imageItem.get("serialnum").toString() : "-1"));
+//							imageDto.setSmallImageUrl((imageItem.get("smallimageurl") != null ? imageItem.get("smallimageurl").toString().replace("\\", "") : "-1"));
+//							
+//							
+//							//insert
+//							
+//							System.out.println("img : " + imageDto.toString());
+//						}
+//						
+//						break;
+						
 
-					// contentslist = new ArrayList<ContentsDto>();
-					// contentsIdList = new ArrayList<Integer>();
-//			for (int i = 0; i < parse_itemlist.size(); i++) {
-//				item = (JSONObject) parse_itemlist.get(i);
-//				contentsDto = new ContentsDto();
-//				int contentsId = Integer.valueOf(item.get("contentid").toString());
-//				contentsDto.setContentsId(contentsId);
-//				contentsIdList.add(contentsId);
+					}
+					
+
 //				contentsDto.setTitle(item.get("title").toString());
 //				contentsDto.setCatId(typeList.get(0).getCatId());
 //				contentsDto.setCatCode(typeList.get(0).getCatCode().toString());
-////				contentsDto.setSdCode(Integer.valueOf(item.get("areacode").toString()));
+///				contentsDto.setSdCode(Integer.valueOf(item.get("areacode").toString()));
 //				contentsDto.setSdCode(Integer.valueOf((item.get("areacode") != null ? item.get("areacode") : 0).toString()));
-////				contentsDto.setSggCode(Integer.valueOf(item.get("sigungucode").toString()));
+//				contentsDto.setSggCode(Integer.valueOf(item.get("sigungucode").toString()));
 //				contentsDto.setSggCode(Integer.valueOf((item.get("sigungucode") != null ? item.get("sigungucode") : 0).toString()));
 //				contentsDto.setImage1(
 //						(item.get("firstimage1") != null ? item.get("firstimage1").toString().replace("\\", "") : "x"));
 //				contentsDto.setImage2(
 //						(item.get("firstimage2") != null ? item.get("firstimage2").toString().replace("\\", "") : "x"));
 //				contentsDto.setHit(0);
-//				
-//				
-//				sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
-//				
-//				//contentslist.add(contentsDto);
-//				//System.out.println(contentsDto.toString());
-//				//System.out.println("index : " +i + "/ size : " +parse_itemlist.size() +"/id"+contentsDto.getContentsId());
-//				
-//			}
+
 
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
@@ -299,6 +351,7 @@ public class ContentsServiceImpl implements ContentsService {
 					e.printStackTrace();
 				}
 			}
+			System.out.println(i+"/cdt : " + cdtDto.toString());
 		}
 	}
 
@@ -524,19 +577,25 @@ public class ContentsServiceImpl implements ContentsService {
 	}
 
 	@Override
-	public Map<Integer, List<SigunguDto>> selectSigungu(List<SidoDto> sidoList) {
+	public List<SigunguDto> selectSigungu(int sdcode) {
 
-		Map<Integer, List<SigunguDto>> sidogunguMap = new HashMap<Integer, List<SigunguDto>>();
-		for (int i = 0; i < sidoList.size(); i++) {
-			System.out.println("list" + sidoList.get(i).getSdCode());
-		}
+//		Map<Integer, List<SigunguDto>> sidogunguMap = new HashMap<Integer, List<SigunguDto>>();
+//		for (int i = 0; i < sidoList.size(); i++) {
+//			System.out.println("list" + sidoList.get(i).getSdCode());
+//		}
+//
+//		for (SidoDto sido : sidoList) {
+//			System.out.println("code" + sido.getSdCode());
+//			sidogunguMap.put(sido.getSdCode(), sqlSession.getMapper(ContentsDao.class).selectSigungu(sido.getSdCode()));
+//		}
+		
+		
+		return sqlSession.getMapper(ContentsDao.class).selectSigungu(sdcode);
+	}
 
-		for (SidoDto sido : sidoList) {
-			System.out.println("code" + sido.getSdCode());
-			sidogunguMap.put(sido.getSdCode(), sqlSession.getMapper(ContentsDao.class).selectSigungu(sido.getSdCode()));
-		}
-
-		return sidogunguMap;
+	@Override
+	public List<ContentsDto> selectContentsList() {
+		return sqlSession.getMapper(ContentsDao.class).contentslist();
 	}
 
 	

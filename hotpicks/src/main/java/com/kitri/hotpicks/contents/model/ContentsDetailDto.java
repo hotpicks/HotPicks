@@ -1,5 +1,7 @@
 package com.kitri.hotpicks.contents.model;
 
+import java.util.List;
+
 public class ContentsDetailDto extends ContentsDto {
 
 	private String homePage;
@@ -8,26 +10,23 @@ public class ContentsDetailDto extends ContentsDto {
 	private String zipCode;
 	private String addr1;
 	private String addr2;
+	private double xPoint;
+	private double yPoint;
+	
+	private String program;
+	private String usetime;
 	private String eventStartDate;
 	private String eventEndDate;
 	private String playtime;
-	private String program;
-	private String usetime;
-	
 	private String spendtime;
 	private String ageLimit;
 	private String bookingPlace;
 	private String discountInfo;
 	private String placeInfo;
+	
+	
 	private String infoName;
 	private String infoText;
-	private double xPoint;
-	private double yPoint;
-	
-	private String imgName;
-	private String originImgurl;
-	private String serialNum;
-	private String smallImageUrl;
 	
 	public String getHomePage() {
 		return homePage;
@@ -65,6 +64,30 @@ public class ContentsDetailDto extends ContentsDto {
 	public void setAddr2(String addr2) {
 		this.addr2 = addr2;
 	}
+	public double getxPoint() {
+		return xPoint;
+	}
+	public void setxPoint(double xPoint) {
+		this.xPoint = xPoint;
+	}
+	public double getyPoint() {
+		return yPoint;
+	}
+	public void setyPoint(double yPoint) {
+		this.yPoint = yPoint;
+	}
+	public String getProgram() {
+		return program;
+	}
+	public void setProgram(String program) {
+		this.program = program;
+	}
+	public String getUsetime() {
+		return usetime;
+	}
+	public void setUsetime(String usetime) {
+		this.usetime = usetime;
+	}
 	public String getEventStartDate() {
 		return eventStartDate;
 	}
@@ -82,18 +105,6 @@ public class ContentsDetailDto extends ContentsDto {
 	}
 	public void setPlaytime(String playtime) {
 		this.playtime = playtime;
-	}
-	public String getProgram() {
-		return program;
-	}
-	public void setProgram(String program) {
-		this.program = program;
-	}
-	public String getUsetime() {
-		return usetime;
-	}
-	public void setUsetime(String usetime) {
-		this.usetime = usetime;
 	}
 	public String getSpendtime() {
 		return spendtime;
@@ -137,42 +148,17 @@ public class ContentsDetailDto extends ContentsDto {
 	public void setInfoText(String infoText) {
 		this.infoText = infoText;
 	}
-	public double getxPoint() {
-		return xPoint;
+	@Override
+	public String toString() {
+		return "ContentsDetailDto [homePage=" + homePage + ", telName=" + telName + ", tel=" + tel + ", zipCode="
+				+ zipCode + ", addr1=" + addr1 + ", addr2=" + addr2 + ", xPoint=" + xPoint + ", yPoint=" + yPoint
+				+ ", program=" + program + ", usetime=" + usetime + ", eventStartDate=" + eventStartDate
+				+ ", eventEndDate=" + eventEndDate + ", playtime=" + playtime + ", spendtime=" + spendtime
+				+ ", ageLimit=" + ageLimit + ", bookingPlace=" + bookingPlace + ", discountInfo=" + discountInfo
+				+ ", placeInfo=" + placeInfo + ", infoName=" + infoName + ", infoText=" + infoText + "]";
 	}
-	public void setxPoint(double xPoint) {
-		this.xPoint = xPoint;
-	}
-	public double getyPoint() {
-		return yPoint;
-	}
-	public void setyPoint(double yPoint) {
-		this.yPoint = yPoint;
-	}
-	public String getImgName() {
-		return imgName;
-	}
-	public void setImgName(String imgName) {
-		this.imgName = imgName;
-	}
-	public String getOriginImgurl() {
-		return originImgurl;
-	}
-	public void setOriginImgurl(String originImgurl) {
-		this.originImgurl = originImgurl;
-	}
-	public String getSerialNum() {
-		return serialNum;
-	}
-	public void setSerialNum(String serialNum) {
-		this.serialNum = serialNum;
-	}
-	public String getSmallImageUrl() {
-		return smallImageUrl;
-	}
-	public void setSmallImageUrl(String smallImageUrl) {
-		this.smallImageUrl = smallImageUrl;
-	}
+
+	
 	
 
 

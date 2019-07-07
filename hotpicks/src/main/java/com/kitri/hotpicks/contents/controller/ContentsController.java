@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.SidoDto;
 import com.kitri.hotpicks.contents.model.SigunguDto;
 import com.kitri.hotpicks.contents.service.ContentsService;
@@ -38,51 +39,46 @@ public class ContentsController {
 				//+ "&cat2=A0207";
 
 		
+		List<ContentsDto> contentsList = contentsService.selectContentsList();
+		
+		model.addAttribute("dbContentsList", contentsList);
+		
 		
 		// InsertApi@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		 contentsService.insertApiProcess(areaUrlStr);
+		// contentsService.insertApiProcess(areaUrlStr);
 
-		
-		
 		// InsertLocation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		//String resultMsg = locationProcess();
 		//System.out.println(resultMsg);
 		// model.addAttribute("msg", resultMsg);
 
-		
-		
-		System.out.println(areaUrlStr);
+		//System.out.println(areaUrlStr);
 		logger.info("set----------------------------------");
 
 		// PullApi@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		//List<Map<String, String>> list = contentsService.apiexc(areaUrlStr);
-		//model.addAttribute("json", list);
+		//model.addAttribute("apiContentsList", list);
 
 		// SelectLocation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//		List<SidoDto> sidoList = contentsService.selectSido();
-//		System.out.println("size" + sidoList.size());
-//		Map<Integer, List<SigunguDto>> sigunguMap = contentsService.selectSigungu(sidoList);
-//		System.out.println(sigunguMap.toString());
-//		System.out.println(sigunguMap.size());
-//		System.out.println(sigunguMap.get(1));
-//		model.addAttribute("sidoList", sidoList);
-//		model.addAttribute("sigunguMap", sigunguMap);
+		List<SidoDto> sidoList = contentsService.selectSido();
+		//System.out.println("size" + sidoList.size());
+		model.addAttribute("sidoList", sidoList);
 
 		return "contents/result";
 
 	}
-
-//	@RequestMapping(value = "/changelocation", method = RequestMethod.GET)
-//	public String changeLocation(@RequestParam int sdcode, Model model) {
-//	
-//		System.out.println(sdcode);
-//		List<SigunguDto> sigunguList = contentsService.selectSigungu(sdcode);
-//		System.out.println(sigunguList.toString());
-//		model.addAttribute("sigunguList", sigunguList);
-//		
-//		
-//		return "";
-//	}
+	
+	@RequestMapping(value = "/changesgg", method = RequestMethod.GET)
+	public @ResponseBody List<SigunguDto> changeLocation(@RequestParam int sdcode) {
+		
+		System.out.println("sdcode : " + sdcode);
+		List<SigunguDto> sigunguList = contentsService.selectSigungu(sdcode);
+		System.out.println(sigunguList.toString());
+		
+		
+		
+		return sigunguList;
+	}
 
 	
 	
