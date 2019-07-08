@@ -48,7 +48,7 @@ public class ContentsServiceImpl implements ContentsService {
 		// if(code ==행사코드)로 디비에 나눠저장. catType cateCode
 
 		// 축제공연행사만 검색하는 url이 따로 있음 추후 기본list뽑는 url 대신 활용가능할수도..
-		String FestivalUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival";
+		//String FestivalUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival";
 
 //		String ee = "&cat1=A02&" + "&cat2=A0207" + "&cat3=A02070100";
 
@@ -56,10 +56,10 @@ public class ContentsServiceImpl implements ContentsService {
 		// Insert Contents process
 		List<ContentsTypeDto> typeList = new ArrayList<ContentsTypeDto>();
 		typeList = sqlSession.getMapper(ContentsDao.class).selectContentsType();
-		// System.out.println("size : " + typeList.size());
+		System.out.println("typeListSize : " + typeList.size());
 
-		// List<Integer> contentsIdList = insertApiContents(urlStr, typeList);
 		List<Integer> contentsIdList = insertApiContents(urlStr, typeList);
+		System.out.println("contentsIdListSize : " + contentsIdList.size());
 		logger.info("insert contents complete");
 		insertApiContentsDetail(contentsIdList);
 		logger.info("insert contentsdetail complete");
@@ -71,11 +71,9 @@ public class ContentsServiceImpl implements ContentsService {
 
 		
 		BufferedReader br = null;
-		// List<ContentsDto> contentslist = null;
 		List<Integer> contentsIdList = null;
 		ContentsDto contentsDto = null;
 		URL url;
-		System.out.println(typeList.size());
 		for (int a = 0; a < typeList.size(); a++) {
 			String contentsUrlStr = urlStr + "&" + typeList.get(a).getCatType() + "=" + typeList.get(a).getCatCode();
 			System.out.println(contentsUrlStr);

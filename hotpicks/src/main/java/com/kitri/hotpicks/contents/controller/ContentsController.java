@@ -95,14 +95,13 @@ public class ContentsController {
 				+ "MobileApp=AppTest&" + "numOfRows=50&" + "_type=json&" + "ServiceKey=" + takapikey;
 		
 		System.out.println(locationUrl);
-		String resultMsg = contentsService.locationProcess(locationUrl);
+		//String resultMsg = contentsService.locationProcess(locationUrl);
 		logger.info("insert location process complete");
 	
 		//apiInsertProcess
 		String areaUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?"
 				+ "numOfRows=10000&" + "pageNo=1&" + "MobileOS=ETC&" + "MobileApp=AppTest&" + "listYN=Y&" + "arrange=A&"
 				+ "contentTypeId=15&" + "_type=json&" + "ServiceKey=" + takapikey;
-				//+ "&cat2=A0207";
 			//InsertApicontents
 		 contentsService.insertApiProcess(areaUrlStr);
 		 logger.info("insert api process complete");
