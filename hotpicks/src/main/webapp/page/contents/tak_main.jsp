@@ -31,7 +31,7 @@ $(function() {
 				pagerEvent: 'click',
     			pauseOnPagerHover: true,
     			cleartype: 1
-});
+		});
 			jQuery('#sliderholder-cycle').css("display", "block");
 			jQuery('.slidernav').css("display", "block");
 			
@@ -47,7 +47,32 @@ $(function() {
 				$('#main').html(result);
 				}
 		});
-
+		
+		
+		$("#apiInsert").click(function() {
+		$.ajax({
+			url : "${root}/contents/enter",
+			type : "get",
+			dataType : "HTML",
+			success :function(result){
+				console.log("넘어옴");
+				$('#main').html(result);
+				}
+			});
+		});
+		
+		$("#apiInsert").click(function() {
+			$.ajax({
+				url : "${root}/contents/apiinsert",
+				type : "get",
+				success :function(result){
+					alert("insert complete");
+					alert(result);
+				}
+			});
+			return;
+		});
+		
 }); 
 </script>
 <div id="main">

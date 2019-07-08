@@ -17,10 +17,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.kitri.hotpicks.contents.controller.ContentsController;
 import com.kitri.hotpicks.contents.dao.ContentsDao;
 import com.kitri.hotpicks.contents.model.ContentsDetailDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
@@ -31,6 +34,8 @@ import com.kitri.hotpicks.contents.model.SigunguDto;
 
 @Service
 public class ContentsServiceImpl implements ContentsService {
+
+	private static final Logger logger = LoggerFactory.getLogger(ContentsController.class);
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -47,105 +52,103 @@ public class ContentsServiceImpl implements ContentsService {
 
 //		String ee = "&cat1=A02&" + "&cat2=A0207" + "&cat3=A02070100";
 
-//		int len = sdList.size();
-//		for (int i = 0; i < len; i++) {
-//			sigunguUrl = sigunguUrlOrigin + "&areaCode=" + sdList.get(i);
-//			System.out.println(sdList.get(i));
-//		}
-
-		System.out.println("gheheh");
+		System.out.println("service contents insert process");
 		// Insert Contents process
 		List<ContentsTypeDto> typeList = new ArrayList<ContentsTypeDto>();
 		typeList = sqlSession.getMapper(ContentsDao.class).selectContentsType();
-		//System.out.println("size : " + typeList.size());
-		
-		List<Integer> contentsIdList = insertApiContents(urlStr, typeList);
+		// System.out.println("size : " + typeList.size());
 
+		// List<Integer> contentsIdList = insertApiContents(urlStr, typeList);
+		List<Integer> contentsIdList = insertApiContents(urlStr, typeList);
+		logger.info("insert contents complete");
 		insertApiContentsDetail(contentsIdList);
+		logger.info("insert contentsdetail complete");
 
 	}
 
 	@Override
 	public List<Integer> insertApiContents(String urlStr, List<ContentsTypeDto> typeList) {
 
-		String data = "";
+		
 		BufferedReader br = null;
 		// List<ContentsDto> contentslist = null;
 		List<Integer> contentsIdList = null;
 		ContentsDto contentsDto = null;
 		URL url;
-		
-		
-		//System.out.println(typeList.get(0).getCatType());
-		//System.out.println(typeList.get(0).getCatCode());
-		String contentsUrlStr = urlStr + "&" + typeList.get(0).getCatType() + "=" + typeList.get(0).getCatCode();
+		System.out.println(typeList.size());
+		for (int a = 0; a < typeList.size(); a++) {
+			String contentsUrlStr = urlStr + "&" + typeList.get(a).getCatType() + "=" + typeList.get(a).getCatCode();
+			System.out.println(contentsUrlStr);
+			System.out.println(a);
+			try {
+				url = new URL(contentsUrlStr);
+				HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+				urlConnection.setRequestMethod("GET");
+				br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+				String data = "";
+				String line;
+				while ((line = br.readLine()) != null) {
+					data = data.concat(line);
+				}
 
-		try {
-			url = new URL(contentsUrlStr);
-			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-			urlConnection.setRequestMethod("GET");
-			br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+				// 받은 데이터확인
+				// System.out.println("data : " + data);
+				// 문자열데이터 객체화
+				JSONParser parser = new JSONParser();
+				JSONObject obj = (JSONObject) parser.parse(data);
+				// System.out.println("obj : " + obj);
+				// top레벨의 response 키로 데이터 파싱
+				JSONObject parse_response = (JSONObject) obj.get("response");
+				JSONObject parse_body = (JSONObject) parse_response.get("body");
+				if (Integer.valueOf(parse_body.get("totalCount").toString()) == 0) {
+					continue;
+				}
+				// System.out.println("body : " + parse_body);
+				JSONObject parse_items = (JSONObject) parse_body.get("items");
+				JSONArray parse_itemlist = (JSONArray) parse_items.get("item");
+				JSONObject item = null;
 
-			String line;
-			while ((line = br.readLine()) != null) {
-				data = data.concat(line);
+				contentsIdList = new ArrayList<Integer>();
+				for (int i = 0; i < parse_itemlist.size(); i++) {
+					item = (JSONObject) parse_itemlist.get(i);
+					contentsDto = new ContentsDto();
+					int contentsId = Integer.valueOf(item.get("contentid").toString());
+					contentsDto.setContentsId(contentsId);
+					contentsIdList.add(contentsId);
+					contentsDto.setTitle(item.get("title").toString());
+					contentsDto.setCatId(typeList.get(0).getCatId());
+					contentsDto.setCatCode(typeList.get(0).getCatCode().toString());
+					contentsDto.setSdCode(Integer.valueOf(
+							(item.get("areacode") == null || item.get("sigungucode") == null ? 0 : item.get("areacode"))
+									.toString()));
+					contentsDto.setSggCode(
+							Integer.valueOf((item.get("areacode") == null || item.get("sigungucode") == null ? 0
+									: item.get("sigungucode")).toString()));
+					contentsDto.setImage1((item.get("firstimage1") == null || item.get("firstimage1").equals("") ? "-1"
+							: item.get("firstimage1").toString().replace("\\", "")));
+					contentsDto.setImage2(
+							(item.get("firstimage2") == null || item.get("firstimage2").equals("") ? "noImage_list.png"
+									: item.get("firstimage2").toString().replace("\\", "")));
+					contentsDto.setHit(0);
+
+					 sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
+
+				}
+
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-
-			// 받은 데이터확인
-			// System.out.println("data : " + data);
-			// 문자열데이터 객체화
-			JSONParser parser = new JSONParser();
-			JSONObject obj = (JSONObject) parser.parse(data);
-			// System.out.println("obj : " + obj);
-			// top레벨의 response 키로 데이터 파싱
-			JSONObject parse_response = (JSONObject) obj.get("response");
-			JSONObject parse_body = (JSONObject) parse_response.get("body");
-			//System.out.println("body : " + parse_body);
-			JSONObject parse_items = (JSONObject) parse_body.get("items");
-			JSONArray parse_itemlist = (JSONArray) parse_items.get("item");
-			JSONObject item = null;
-
-			contentsIdList = new ArrayList<Integer>();
-			for (int i = 0; i < parse_itemlist.size(); i++) {
-				item = (JSONObject) parse_itemlist.get(i);
-				contentsDto = new ContentsDto();
-				int contentsId = Integer.valueOf(item.get("contentid").toString());
-				contentsDto.setContentsId(contentsId);
-				contentsIdList.add(contentsId);
-				contentsDto.setTitle(item.get("title").toString());
-				contentsDto.setCatId(typeList.get(0).getCatId());
-				contentsDto.setCatCode(typeList.get(0).getCatCode().toString());
-//				contentsDto.setSdCode(Integer.valueOf(item.get("areacode").toString()));
-				contentsDto.setSdCode(
-						Integer.valueOf((item.get("areacode") != null && item.get("sigungucode") != null ? item.get("areacode") : 0).toString()));
-//				contentsDto.setSggCode(Integer.valueOf(item.get("sigungucode").toString()));
-				contentsDto.setSggCode(
-						Integer.valueOf((item.get("areacode") != null && item.get("sigungucode") != null ? item.get("sigungucode") : 0).toString()));
-				contentsDto.setImage1(
-						(item.get("firstimage1") != null ? item.get("firstimage1").toString().replace("\\", "") : "x"));
-				contentsDto.setImage2(
-						(item.get("firstimage2") != null ? item.get("firstimage2").toString().replace("\\", "") : "x"));
-				contentsDto.setHit(0);
-
-				// sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
-
-
-			}
-
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
 		return contentsIdList;
 
 	}
@@ -158,44 +161,45 @@ public class ContentsServiceImpl implements ContentsService {
 		URL url;
 		String detailUrlStr;
 		ContentsImageDto imageDto;
-		List<ContentsImageDto> imageList;
-		
+
 		// String contentsUrlStr = urlStr + "&cat2=" + typeList.get(0).getCatCode();
 
 		List<String> detailUrlList = new ArrayList<String>();
 
-		String detailCommonUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?" +
-				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "defaultYN=Y&" + "addrinfoYN=Y&" +
-				 "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + takapikey + "&"; // conid
-		
-		String detailIntroUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?" +
-				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey=" + takapikey + "&"; // "conid,typeid"
-		
-		String detailInfoUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailInfo?" +
-				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey=" + takapikey + "&"; // "conid,typeid"
-		
-		String detailImageUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?" +
-				 "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "imageYN=Y&" + "subImageYN=Y&" +
-				"ServiceKey=" + takapikey + "&"; // "conid";
+		String detailCommonUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?"
+				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "defaultYN=Y&" + "addrinfoYN=Y&"
+				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + takapikey + "&"; // conid
+
+		String detailIntroUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?"
+				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
+				+ takapikey + "&"; // "conid,typeid"
+
+		String detailInfoUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailInfo?"
+				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
+				+ takapikey + "&"; // "conid,typeid"
+
+		String detailImageUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?"
+				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "imageYN=Y&" + "subImageYN=Y&"
+				+ "ServiceKey=" + takapikey + "&"; // "conid";
 
 		detailUrlList.add(detailCommonUrlStr);
 		detailUrlList.add(detailIntroUrlStr);
 		detailUrlList.add(detailInfoUrlStr);
-		//detailUrlList.add(detailImageUrlStr);
-		
+		detailUrlList.add(detailImageUrlStr);
+
 		int lenCL = contentsIdList.size();
 		int lenDL = detailUrlList.size();
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < lenCL; i++) {
 
 			cdtDto = new ContentsDetailDto();
 			cdtDto.setContentsId(contentsIdList.get(i));
 			br = null;
-			
-			for (int j = 0 ; j < lenDL ; j++) {
 
-					detailUrlStr = detailUrlList.get(j) + "contentId=" +  contentsIdList.get(i);			
-				
+			for (int j = 0; j < lenDL; j++) {
+
+				detailUrlStr = detailUrlList.get(j) + "contentId=" + contentsIdList.get(i);
+
 				try {
 					url = new URL(detailUrlStr);
 					HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -209,7 +213,7 @@ public class ContentsServiceImpl implements ContentsService {
 					}
 
 					// 받은 데이터확인
-					//System.out.println("ddata : " + data);
+					// System.out.println("ddata : " + data);
 					// 문자열데이터 객체화
 					JSONParser parser = new JSONParser();
 					JSONObject obj = (JSONObject) parser.parse(data);
@@ -217,125 +221,169 @@ public class ContentsServiceImpl implements ContentsService {
 					// top레벨의 response 키로 데이터 파싱
 					JSONObject parse_response = (JSONObject) obj.get("response");
 					JSONObject parse_body = (JSONObject) parse_response.get("body");
-					if(Integer.valueOf(parse_body.get("totalCount").toString()) == 0) {
+					if (Integer.valueOf(parse_body.get("totalCount").toString()) == 0) {
 						break;
 					}
-					System.out.println(j+"/dbody : " + parse_body);
+					System.out.println(j + "/dbody : " + parse_body);
 					JSONObject parse_items = (JSONObject) parse_body.get("items");
 					JSONObject item = null;
-					switch(j) {
-					
-					case 0 :
+					switch (j) {
+
+					case 0:
 						item = (JSONObject) parse_items.get("item");
-						//0)detailCommonUrlStr
-						cdtDto.setHomePage((item.get("homepage") != null ? item.get("homepage").toString().replace("\\", "") : "-1"));
-						cdtDto.setTel((item.get("tel") != null ? item.get("tel").toString() : "-1"));
-						cdtDto.setTelName((item.get("telname") != null ? item.get("telname").toString() : "-1"));
-						cdtDto.setAddr1((item.get("addr1") != null ? item.get("addr1").toString() : "-1"));
-						cdtDto.setAddr2((item.get("addr2") != null ? item.get("addr2").toString() : "-1"));
-						cdtDto.setZipCode((item.get("zipcode") != null ? item.get("zipcode").toString() : "-1"));
-						cdtDto.setxPoint(Double.parseDouble((item.get("mapx") != null ? item.get("mapx").toString() : "-1")));
-						cdtDto.setyPoint(Double.parseDouble((item.get("mapy") != null ? item.get("mapy").toString() : "-1")));
+						// 0)detailCommonUrlStr
+						cdtDto.setHomePage((item.get("homepage") == null || item.get("homepage").equals("") ? "-1"
+								: item.get("homepage").toString().replace("\\", "")));
+						cdtDto.setTel((item.get("tel") == null || item.get("tel").equals("") ? "-1"
+								: item.get("tel").toString()));
+						cdtDto.setTelName((item.get("telname") == null || item.get("telname").equals("") ? "-1"
+								: item.get("telname").toString()));
+						cdtDto.setAddr1((item.get("addr1") == null || item.get("addr1").equals("") ? "-1"
+								: item.get("addr1").toString()));
+						cdtDto.setAddr2((item.get("addr2") == null || item.get("addr2").equals("") ? "-1"
+								: item.get("addr2").toString()));
+						cdtDto.setZipCode((item.get("zipcode") == null || item.get("zipcode").equals("") ? "-1"
+								: item.get("zipcode").toString()));
+						cdtDto.setxPoint(
+								Double.parseDouble((item.get("mapx") == null || item.get("mapx").equals("") ? "-1"
+										: item.get("mapx").toString())));
+						cdtDto.setyPoint(
+								Double.parseDouble((item.get("mapy") == null || item.get("mapy").equals("") ? "-1"
+										: item.get("mapy").toString())));
 						break;
-						
-					case 1 :
+
+					case 1:
 						item = (JSONObject) parse_items.get("item");
-						//1)detailIntroUrlStr
-						cdtDto.setAgeLimit((item.get("agelimit") != null ? item.get("agelimit").toString() : "-1"));
-						cdtDto.setBookingPlace((item.get("bookingplace") != null ? item.get("bookingplace").toString() : "-1"));
-						cdtDto.setDiscountInfo((item.get("discountinfofestival") != null ? item.get("discountinfofestival").toString() : "-1"));
-						cdtDto.setEventStartDate((item.get("eventstartdate") != null ? item.get("eventstartdate").toString() : "-1"));
-						cdtDto.setEventEndDate((item.get("eventenddate") != null ? item.get("eventenddate").toString() : "-1"));
-						cdtDto.setPlaceInfo((item.get("placeinfo") != null ? item.get("placeinfo").toString() : "-1"));
-						cdtDto.setPlaytime((item.get("playtime") != null ? item.get("playtime").toString().replace("\\", "") : "-1"));
-						cdtDto.setProgram((item.get("program") != null ? item.get("program").toString() : "-1"));
-						cdtDto.setSpendtime((item.get("spendtimefestival") != null ? item.get("spendtimefestival").toString() : "-1"));
-						//이거 이용요금인데 이름 이래도 괜찮음?
-						cdtDto.setUsetime((item.get("usetimefetival") != null ? item.get("usetimefetival").toString() : "-1"));
+						// 1)detailIntroUrlStr
+						cdtDto.setAgeLimit((item.get("agelimit") == null || item.get("agelimit").equals("") ? "-1"
+								: item.get("agelimit").toString()));
+						cdtDto.setBookingPlace(
+								(item.get("bookingplace") == null || item.get("bookingplace").equals("") ? "-1"
+										: item.get("bookingplace").toString()));
+						cdtDto.setDiscountInfo(
+								(item.get("discountinfofestival") == null || item.get("discountinfofestival").equals("")
+										? "-1"
+										: item.get("discountinfofestival").toString()));
+						cdtDto.setEventStartDate(
+								(item.get("eventstartdate") == null || item.get("eventstartdate").equals("") ? "-1"
+										: item.get("eventstartdate").toString()));
+						cdtDto.setEventEndDate(
+								(item.get("eventenddate") == null || item.get("eventenddate").equals("") ? "-1"
+										: item.get("eventenddate").toString()));
+						cdtDto.setPlaceInfo((item.get("placeinfo") == null || item.get("placeinfo").equals("") ? "-1"
+								: item.get("placeinfo").toString()));
+						cdtDto.setPlaytime((item.get("playtime") == null || item.get("playtime").equals("") ? "-1"
+								: item.get("playtime").toString().replace("\\", "")));
+						cdtDto.setProgram((item.get("program") == null || item.get("program").equals("") ? "-1"
+								: item.get("program").toString()));
+						cdtDto.setSpendtime(
+								(item.get("spendtimefestival") == null || item.get("spendtimefestival").equals("")
+										? "-1"
+										: item.get("spendtimefestival").toString()));
+						// 이거 이용요금인데 이름 이래도 괜찮음?
+						cdtDto.setUsetime(
+								(item.get("usetimefetival") == null || item.get("usetimefetival").equals("") ? "-1"
+										: item.get("usetimefetival").toString()));
 						break;
-						
-					case 2 :
-						int condition = (Integer.valueOf(parse_body.get("totalCount").toString()));
-						if(condition > 1) {
-							JSONArray infoitemList = (JSONArray) parse_items.get("item");
-							JSONObject sogaeItem = (JSONObject) infoitemList.get(0);
-							JSONObject naeyongItem = (JSONObject) infoitemList.get(1);
-							//3)detailInfoUrlStr
-							cdtDto.setInfoName((sogaeItem.get("infotext") != null ? sogaeItem.get("infotext").toString().replace("\\", "") : "-1"));
-							cdtDto.setInfoText((naeyongItem.get("infotext") != null ? naeyongItem.get("infotext").toString().replace("\\", "") : "-1"));
-							
-							//System.out.println("id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString() );
+
+					case 2:
+						int condition1 = (Integer.valueOf(parse_body.get("totalCount").toString()));
+						if (condition1 > 1) {
+							JSONArray infoItemList = (JSONArray) parse_items.get("item");
+							JSONObject sogaeItem = (JSONObject) infoItemList.get(0);
+							JSONObject naeyongItem = (JSONObject) infoItemList.get(1);
+							// 3)detailInfoUrlStr
+							cdtDto.setInfoSogae(
+									(sogaeItem.get("infotext") == null || sogaeItem.get("infotext").equals("") ? "-1"
+											: sogaeItem.get("infotext").toString().replace("\\", "")));
+							cdtDto.setInfoNaeyong(
+									(naeyongItem.get("infotext") == null || naeyongItem.get("infotext").equals("")
+											? "-1"
+											: naeyongItem.get("infotext").toString().replace("\\", "")));
+
+							// System.out.println("id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString()
+							// );
 							sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
-						
-						
-						}else {
+
+						} else {
 							JSONObject infoItem = (JSONObject) parse_items.get("item");
-							
-							//3)detailInfoUrlStr
-							cdtDto.setInfoName((infoItem.get("infotext") != null ? infoItem.get("infotext").toString().replace("\\", "") : "-1"));
-							cdtDto.setInfoText("-1");
-							
-							System.out.println("id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString() );
+
+							// 3)detailInfoUrlStr
+							cdtDto.setInfoSogae(
+									(infoItem.get("infotext") == null || infoItem.get("infotext").equals("") ? "-1"
+											: infoItem.get("infotext").toString().replace("\\", "")));
+							cdtDto.setInfoNaeyong("-1");
+
+							System.out.println("id : " + cdtDto.getContentsId() + " /c :" + cdtDto.toString());
 							sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
 						}
 						break;
-						
-						
-//					case 3 :
-						//contentsid set해줘야함
-						
-//						int condition = (Integer.valueOf(parse_body.get("totalCount").toString()));
-//						if(condition > 1) {
-//						
-//							JSONArray imageItemList = (JSONArray) parse_items.get("item");
-//							imageList = new ArrayList<ContentsImageDto>();
-//							for(int k = 0 ; k < imageItemList.size() ; k++) {
-//							JSONObject imageItem = (JSONObject)imageItemList.get(k);
-//							imageDto = new ContentsImageDto();
-//							//3)detailImageUrlStr
-//							imageDto.setImgName((imageItem.get("imgname") != null ? imageItem.get("imgname").toString() : "-1"));
-//							imageDto.setOriginImgurl((imageItem.get("originimgurl") != null ? imageItem.get("originimgurl").toString().replace("\\", "") : "-1"));
-//							imageDto.setSerialNum((imageItem.get("serialnum") != null ? imageItem.get("serialnum").toString() : "-1"));
-//							imageDto.setSmallImageUrl((imageItem.get("smallimageurl") != null ? imageItem.get("smallimageurl").toString().replace("\\", "") : "-1"));
-//							imageList.add(imageDto);
-//							}
-//							System.out.println("imgList : " + imageList.toString());
-//							//insert
-//						}else {
-//							JSONObject imageItem = (JSONObject) parse_items.get("item");
-//							imageList = new ArrayList<ContentsImageDto>();
-//							imageDto = new ContentsImageDto();
-//							//3)detailImageUrlStr
-//							imageDto.setImgName((imageItem.get("imgname") != null ? imageItem.get("imgname").toString() : "-1"));
-//							imageDto.setOriginImgurl((imageItem.get("originimgurl") != null ? imageItem.get("originimgurl").toString().replace("\\", "") : "-1"));
-//							imageDto.setSerialNum((imageItem.get("serialnum") != null ? imageItem.get("serialnum").toString() : "-1"));
-//							imageDto.setSmallImageUrl((imageItem.get("smallimageurl") != null ? imageItem.get("smallimageurl").toString().replace("\\", "") : "-1"));
-//							
-//							
-//							//insert
-//							
-//							System.out.println("img : " + imageDto.toString());
-//						}
-//						
-//						break;
-						
+
+					case 3:
+						// contentsid set해줘야함
+
+						int condition2 = (Integer.valueOf(parse_body.get("totalCount").toString()));
+						if (Integer.valueOf(parse_body.get("totalCount").toString()) == 0) {
+							System.out.println("이미지가 0인게 말이돼?");
+							System.out.println("이미지가 0인게 말이돼?");
+							System.out.println("이미지가 0인게 말이돼?");
+							return;
+						}
+						if (condition2 > 1) {
+
+							JSONArray imageItemList = (JSONArray) parse_items.get("item");
+							for (int k = 0; k < imageItemList.size(); k++) {
+								JSONObject imageItem = (JSONObject) imageItemList.get(k);
+								imageDto = new ContentsImageDto();
+								// 3)detailImageUrlStr
+								imageDto.setContentsId(contentsIdList.get(i));
+								imageDto.setImgName(
+										(imageItem.get("imgname") == null || imageItem.get("imgname").equals("") ? "-1"
+												: imageItem.get("imgname").toString()));
+								imageDto.setOriginImgurl((imageItem.get("originimgurl") == null
+										|| imageItem.get("originimgurl").equals("") ? "-1"
+												: imageItem.get("originimgurl").toString().replace("\\", "")));
+								imageDto.setSerialNum(
+										(imageItem.get("serialnum") == null || imageItem.get("serialnum").equals("")
+												? "-1"
+												: imageItem.get("serialnum").toString()));
+								imageDto.setSmallImageUrl((imageItem.get("smallimageurl") == null
+										|| imageItem.get("smallimageurl").equals("") ? "-1"
+												: imageItem.get("smallimageurl").toString().replace("\\", "")));
+
+								// insert
+								sqlSession.getMapper(ContentsDao.class).insertApiContentsimage(imageDto);
+							}
+						} else {
+							JSONObject imageItem = (JSONObject) parse_items.get("item");
+							// imageList = new ArrayList<ContentsImageDto>();
+							imageDto = new ContentsImageDto();
+							// 3)detailImageUrlStr
+							imageDto.setContentsId(contentsIdList.get(i));
+							imageDto.setImgName(
+									(imageItem.get("imgname") == null || imageItem.get("imgname").equals("") ? "-1"
+											: imageItem.get("imgname").toString()));
+							imageDto.setOriginImgurl(
+									(imageItem.get("originimgurl") == null || imageItem.get("originimgurl").equals("")
+											? "-1"
+											: imageItem.get("originimgurl").toString().replace("\\", "")));
+							imageDto.setSerialNum(
+									(imageItem.get("serialnum") == null || imageItem.get("serialnum").equals("") ? "-1"
+											: imageItem.get("serialnum").toString()));
+							imageDto.setSmallImageUrl(
+									(imageItem.get("smallimageurl") == null || imageItem.get("smallimageurl").equals("")
+											? "-1"
+											: imageItem.get("smallimageurl").toString().replace("\\", "")));
+
+							// insert
+							sqlSession.getMapper(ContentsDao.class).insertApiContentsimage(imageDto);
+
+							System.out.println("img : " + imageDto.toString());
+						}
+
+						break;
 
 					}
-					
-
-//				contentsDto.setTitle(item.get("title").toString());
-//				contentsDto.setCatId(typeList.get(0).getCatId());
-//				contentsDto.setCatCode(typeList.get(0).getCatCode().toString());
-///				contentsDto.setSdCode(Integer.valueOf(item.get("areacode").toString()));
-//				contentsDto.setSdCode(Integer.valueOf((item.get("areacode") != null ? item.get("areacode") : 0).toString()));
-//				contentsDto.setSggCode(Integer.valueOf(item.get("sigungucode").toString()));
-//				contentsDto.setSggCode(Integer.valueOf((item.get("sigungucode") != null ? item.get("sigungucode") : 0).toString()));
-//				contentsDto.setImage1(
-//						(item.get("firstimage1") != null ? item.get("firstimage1").toString().replace("\\", "") : "x"));
-//				contentsDto.setImage2(
-//						(item.get("firstimage2") != null ? item.get("firstimage2").toString().replace("\\", "") : "x"));
-//				contentsDto.setHit(0);
-
 
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
@@ -351,7 +399,7 @@ public class ContentsServiceImpl implements ContentsService {
 					e.printStackTrace();
 				}
 			}
-			System.out.println(i+"/cdt : " + cdtDto.toString());
+			//System.out.println(i + "/cdt : " + cdtDto.toString());
 		}
 	}
 
@@ -396,11 +444,12 @@ public class ContentsServiceImpl implements ContentsService {
 				item = (JSONObject) parse_itemlist.get(i);
 				map.put("title", item.get("title").toString());
 				map.put("contentid", item.get("contentid").toString());
-				map.put("addr1", (item.get("addr1") != null ? item.get("addr1").toString() : "x"));
-				map.put("firstimage1",
-						(item.get("firstimage1") != null ? item.get("firstimage1").toString().replace("\\", "") : "x"));
-				map.put("firstimage2",
-						(item.get("firstimage2") != null ? item.get("firstimage2").toString().replace("\\", "") : "x"));
+				map.put("addr1", (item.get("addr1") != null || item.get("addr1").equals("") ? "-1"
+						: item.get("addr1").toString()));
+				map.put("firstimage1", (item.get("firstimage1") != null || item.get("firstimage1").equals("") ? "-1"
+						: item.get("firstimage1").toString().replace("\\", "")));
+				map.put("firstimage2", (item.get("firstimage2") != null || item.get("firstimage2").equals("") ? "-1"
+						: item.get("firstimage2").toString().replace("\\", "")));
 				list.add(map);
 			}
 
@@ -579,17 +628,6 @@ public class ContentsServiceImpl implements ContentsService {
 	@Override
 	public List<SigunguDto> selectSigungu(int sdcode) {
 
-//		Map<Integer, List<SigunguDto>> sidogunguMap = new HashMap<Integer, List<SigunguDto>>();
-//		for (int i = 0; i < sidoList.size(); i++) {
-//			System.out.println("list" + sidoList.get(i).getSdCode());
-//		}
-//
-//		for (SidoDto sido : sidoList) {
-//			System.out.println("code" + sido.getSdCode());
-//			sidogunguMap.put(sido.getSdCode(), sqlSession.getMapper(ContentsDao.class).selectSigungu(sido.getSdCode()));
-//		}
-		
-		
 		return sqlSession.getMapper(ContentsDao.class).selectSigungu(sdcode);
 	}
 
@@ -598,5 +636,4 @@ public class ContentsServiceImpl implements ContentsService {
 		return sqlSession.getMapper(ContentsDao.class).contentslist();
 	}
 
-	
 }

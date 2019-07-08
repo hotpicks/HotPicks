@@ -1,39 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<c:set var="root" value="${pageContext.request.contextPath }"/>
 <script type="text/javascript">
 $(function() {
-	var sigunguList = 
+	setSigungu();
 	
-
+	
 	 $("#sido").change(function(){
-			var sdcode = $('#sido').val();
+		 setSigungu();
+			/* var sdcode = $('#sido').val();
 				alert(sdcode);
 		 	$.ajax({
 				url: '${root}/contents/changesgg',
 				type: 'GET',
+				dataType: 'json',
 				data: {"sdcode" : sdcode},
 				success: function(result){
-					alert("돌아옴");
-
+					console.log(result);
+					var sigunguJson = result.sigunguJson;
 					var sigunguStr = "";
-					sigunguStr += "<c:forEach var='sigungu' items='${sigunguList}'>";
-					sigunguStr += "<option value='${sigungu.sggCode}'>${sigungu.sggName}</option>";
-					sigunguStr += "</c:forEach>";
-					
-					//$('#sigungu').html(sigunguStr);
-					}
+					var len = sigunguJson.length;
+					console.log(len);
+					for(var i=0; i<len ;i++){
+					sigunguStr += "<option value='"+ sigunguJson[i].sggCode +"'>"+ sigunguJson[i].sggName +"</option>";
+					} 
+					$('#sigungu').html(sigunguStr);
+				}
 				
-				}); 
-		
-
-			
+			}); 
+			return; */
 		});
 			
- 
- 	
- 	
+function setSigungu(){
+	var sdcode = $('#sido').val();
+	$.ajax({
+	url: '${root}/contents/changesgg',
+	type: 'GET',
+	dataType: 'json',
+	data: {"sdcode" : sdcode},
+	success: function(result){
+		console.log(result);
+		var sigunguJson = result.sigunguJson;
+		var sigunguStr = "";
+		var len = sigunguJson.length;
+		for(var i=0; i<len ;i++){
+		sigunguStr += "<option value='"+ sigunguJson[i].sggCode +"'>"+ sigunguJson[i].sggName +"</option>";
+		} 
+		$('#sigungu').html(sigunguStr);
+	}
+	
+}); 
+return;
+	
+}
  	
 });
 </script>
@@ -75,9 +95,6 @@ $(function() {
  <!-- End About --> 
 
    </div>  --%>
-<!-- -------------------------------------------------------------------------- --> 
-<!-- -------------------------------------------------------------------------- --> 
-<!-- -------------------------------------------------------------------------- --> 
 
 	
 
@@ -101,16 +118,12 @@ $(function() {
      	
      	<select id="sigungu">
      	
-		<c:set var="sigunguList" value="${sigunguMap.get(1)}"/>
-		</div>
      	<%-- <c:forEach var="sigungu" items="${sigunguList}">
      			<option value="${sigungu.sggCode}">${sigungu.sggName}</option>
      			
 		</c:forEach> --%>
-		<div>
      	</select>
-
-    </div>
+	</div>
     <!-- End Intro --> 
     
     <!-- favorite -->
@@ -124,7 +137,7 @@ $(function() {
 			<div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
 	    </c:otherwise>
 </c:choose>
-		<img src="${list.image1 != 'x' ? list.image1 : (list.image2 != 'x' ? list.image2 : '') }" width="200" alt="" /></a>
+		<img src="${list.image1 != '-1' ? list.image1 : (list.image2 != '-1' ? list.image2 : '') }" width="200" alt="" /></a>
         <h4>${list.title}</h4>
         <p>${list.title}</p>
       </div>
@@ -132,4 +145,3 @@ $(function() {
     </div> 
     <!-- End About --> 
     
- </div>

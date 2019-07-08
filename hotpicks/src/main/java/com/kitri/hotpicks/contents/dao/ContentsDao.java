@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kitri.hotpicks.contents.model.ContentsDetailDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
+import com.kitri.hotpicks.contents.model.ContentsImageDto;
 import com.kitri.hotpicks.contents.model.ContentsTypeDto;
 import com.kitri.hotpicks.contents.model.SidoDto;
 import com.kitri.hotpicks.contents.model.SigunguDto;
@@ -14,6 +15,10 @@ public interface ContentsDao {
 	
 //select contents list process
 	List<ContentsDto>contentslist();
+	/*<![CDATA[
+ 	WHERE ROWNUM < 20
+ 	]]>*/
+	
 	//select detail	
 	ContentsDetailDto contentsdetail();
 	
@@ -37,6 +42,7 @@ public interface ContentsDao {
 	List<ContentsTypeDto> selectContentsType();
 	void insertApiContents(ContentsDto contentsDto);	
 	void insertApiContentsDetail(ContentsDetailDto contentsDetailDto);
+	void insertApiContentsimage(ContentsImageDto contentsImageDto);
 	
 
 	

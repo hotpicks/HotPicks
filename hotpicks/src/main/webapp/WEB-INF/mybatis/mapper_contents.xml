@@ -57,16 +57,20 @@
  	
 	<insert id="insertApiContentsDetail" parameterType="contentsDetailDto">
  	INSERT INTO contentsDetail(contentsid, homepage, telname, tel, playtime, program, usetime,
- 	 spendtime, agelimit, bookingplace, discountinfo, placeinfo, infoname, infotext,
+ 	 spendtime, agelimit, bookingplace, discountinfo, placeinfo, infosogae, infonaeyong,
  	 eventstartdate, eventenddate, xpoint, ypoint, zipcode, addr1, addr2)
  	VALUES(#{contentsId}, #{homePage}, #{telName}, #{tel}, #{playtime}, #{program}, #{usetime},
- 	 #{spendtime}, #{ageLimit},	#{bookingPlace}, #{discountInfo}, #{placeInfo}, #{infoName}, #{infoText},
+ 	 #{spendtime}, #{ageLimit},	#{bookingPlace}, #{discountInfo}, #{placeInfo}, #{infoSogae}, #{infoNaeyong},
  	 #{eventStartDate}, #{eventEndDate}, #{xPoint}, #{yPoint}, #{zipCode}, #{addr1}, #{addr2})
+ 	</insert>
+ 
+	<insert id="insertApiContentsimage" parameterType="contentsImageDto">
+ 	INSERT INTO contentsImage(contentsid, serialnum, imgname, originimgurl, smallimageurl)
+ 	VALUES(#{contentsId}, #{serialNum}, #{imgName}, #{originImgurl}, #{smallImageUrl})
  	</insert>
 	
 	<select id="contentslist" resultType="contentsDto">
 	SELECT *
 	FROM contents
 	</select>
-	
  </mapper>
