@@ -86,17 +86,17 @@ public class ContentsController {
 	
 	
 	@RequestMapping(value = "/apiinsert", method = RequestMethod.GET)
-	public String apiInsertProcess() {
+	public @ResponseBody String apiInsertProcess() {
 
 		String takapikey = "qldeV%2BL5Ff%2BFi%2BJisZxRFyc1KDitxcPmNkhuwOjk6c7xQDVITEe0oDrh3XFd98iqnW89ky8RMDhQkQIb48h3%2BQ%3D%3D";
 
 		//locationInsertProcess
-//		String locationUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaCode?" + "MobileOS=ETC&"
-//				+ "MobileApp=AppTest&" + "numOfRows=50&" + "_type=json&" + "ServiceKey=" + takapikey;
-//		
-//		System.out.println(locationUrl);
-//		String resultMsg = contentsService.locationProcess(locationUrl);
-//		logger.info("insert location process complete");
+		String locationUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaCode?" + "MobileOS=ETC&"
+				+ "MobileApp=AppTest&" + "numOfRows=50&" + "_type=json&" + "ServiceKey=" + takapikey;
+		
+		System.out.println(locationUrl);
+		String resultMsg = contentsService.locationProcess(locationUrl);
+		logger.info("insert location process complete");
 	
 		//apiInsertProcess
 		String areaUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?"

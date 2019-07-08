@@ -1,3 +1,11 @@
 1) db contents imagetable add
 2) zipcode datatype num -> varchar2
 3) info text and info name -> infosogae and infonaeyong...
+
+검색
+검색어 : "동대문구 축제"
+.trim() 후
+띄어쓰기가 몇개 들어가있는지 찾아야함.
+string keyword = 검색어.split("");
+for(띄어쓰기만큼 포문으로 keyword 분리
+like %동대문구% or like %축제%

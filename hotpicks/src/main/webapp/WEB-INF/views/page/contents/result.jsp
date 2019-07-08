@@ -4,11 +4,12 @@
 <c:set var="root" value="${pageContext.request.contextPath }"/>
 <script type="text/javascript">
 $(function() {
-	/* var sigunguList =  */
+	setSigungu();
 	
-
+	
 	 $("#sido").change(function(){
-			var sdcode = $('#sido').val();
+		 setSigungu();
+			/* var sdcode = $('#sido').val();
 				alert(sdcode);
 		 	$.ajax({
 				url: '${root}/contents/changesgg',
@@ -17,23 +18,42 @@ $(function() {
 				data: {"sdcode" : sdcode},
 				success: function(result){
 					console.log(result);
-					console.log(result.sigunguJson);
 					var sigunguJson = result.sigunguJson;
 					var sigunguStr = "";
-					for(var i=0; i<sigunguJson.length();i++){
+					var len = sigunguJson.length;
+					console.log(len);
+					for(var i=0; i<len ;i++){
 					sigunguStr += "<option value='"+ sigunguJson[i].sggCode +"'>"+ sigunguJson[i].sggName +"</option>";
 					} 
-					
 					$('#sigungu').html(sigunguStr);
-					}
+				}
 				
-				}); 
-			return;
+			}); 
+			return; */
 		});
 			
- 
- 	
- 	
+function setSigungu(){
+	var sdcode = $('#sido').val();
+	$.ajax({
+	url: '${root}/contents/changesgg',
+	type: 'GET',
+	dataType: 'json',
+	data: {"sdcode" : sdcode},
+	success: function(result){
+		console.log(result);
+		var sigunguJson = result.sigunguJson;
+		var sigunguStr = "";
+		var len = sigunguJson.length;
+		for(var i=0; i<len ;i++){
+		sigunguStr += "<option value='"+ sigunguJson[i].sggCode +"'>"+ sigunguJson[i].sggName +"</option>";
+		} 
+		$('#sigungu').html(sigunguStr);
+	}
+	
+}); 
+return;
+	
+}
  	
 });
 </script>

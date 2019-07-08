@@ -31,7 +31,7 @@ $(function() {
 				pagerEvent: 'click',
     			pauseOnPagerHover: true,
     			cleartype: 1
-});
+		});
 			jQuery('#sliderholder-cycle').css("display", "block");
 			jQuery('.slidernav').css("display", "block");
 			
