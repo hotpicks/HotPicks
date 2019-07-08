@@ -77,7 +77,11 @@ $(document).ready(function() {
 			reviewstr += '				<h3><a>'+review.subject+'</a></h3>';
 			reviewstr += '				<span class="date">  - '+review.date+'</span>';
 			reviewstr += '			</div>';
-			reviewstr += '			<p>'+review.starPoint+'</p>';
+			reviewstr += '			<p>';
+			for(var j=0; j<review.starPoint; j++) {
+				★	
+			}
+			reviewstr += '			</p>';
 			reviewstr += '			<p>'+review.hashTag+'</p>';
 			reviewstr += '		</div>';
 			reviewstr += '	</div>';
