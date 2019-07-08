@@ -1,6 +1,7 @@
 package com.kitri.hotpicks.contents.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -14,9 +15,8 @@ public class ContentsDetailController {
 ////		return "/contents/contentdetail";
 //	}
 	@RequestMapping(value = "/contentdetail", method = RequestMethod.GET)
-	public String contentdetail() {
-//		System.out.println("상세일정들어옴");
-//		return "/contents/contentdetail";
+	public String contentdetail(Model model) {
+		model.addAttribute("contentsid", "이게바로 컨텐츠다");
 		String path = "contents/tpguscontentdetail";
 		return path;
 	}

@@ -37,38 +37,44 @@ public class ReviewController {
 	
 	@Autowired
 	private ReviewService reviewService;
+
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String write(ReviewDto reviewDto, @RequestParam(value = "hstg" , defaultValue = "") List<String> hstg,
 						@RequestParam Map<String, String> parameter, 
 						Model model, HttpSession session,
-						@RequestParam("picture") MultipartFile multipartFile) {
+						@RequestParam("picture") MultipartFile multipartFile) { 
 		System.out.println("hstg : " + hstg);
 		System.out.println("map : " + parameter);
 		System.out.println("ReviewController 들어왔다!!");
 		String path = "";
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		if(memberDto != null) {
-			int seq = commonService.getReNextSeq();
-			reviewDto.setSeq(seq);
+			int rseq = commonService.getReNextSeq();
+			System.out.println("resq : " + rseq);
+			reviewDto.setRseq(rseq);
 			reviewDto.setUserId(memberDto.getUserId());
 			
 			//contents아이디/별점
-			reviewDto.setContentsId(1);
+			reviewDto.setContentsId(140682);
 			
 			//
-			
+			String realPath = "";
+			String saveFolder = "";
+			String realSaveFolder ="";
+			String orignPicture = "";
+			String savePicture = "";
 			if(multipartFile != null && !multipartFile.isEmpty()) {
-				String orignPicture = multipartFile.getOriginalFilename();
+				orignPicture = multipartFile.getOriginalFilename();
 				
-				String realPath = servletContext.getRealPath("/upload/review");
+				realPath = servletContext.getRealPath("/upload/review");
 				DateFormat df = new SimpleDateFormat("yyMMdd");
-				String saveFolder = df.format(new Date());
-				String realSaveFolder = realPath + File.separator + saveFolder;
+				saveFolder = df.format(new Date());
+				realSaveFolder = realPath + File.separator + saveFolder;
 				File dir = new File(realSaveFolder);
 				if(!dir.exists()) {
 					dir.mkdirs();
 				}
-				String savePicture = UUID.randomUUID().toString() + orignPicture.substring(orignPicture.lastIndexOf('.'));
+				savePicture = UUID.randomUUID().toString() + orignPicture.substring(orignPicture.lastIndexOf('.'));
 				
 				File file = new File(realSaveFolder, savePicture);
 				
@@ -85,11 +91,15 @@ public class ReviewController {
 				reviewDto.setOrignPicture(orignPicture);
 				reviewDto.setSavePicture(savePicture);
 				reviewDto.setSaveFolder(saveFolder);
+			} else {
+				reviewDto.setOrignPicture(orignPicture);
+				reviewDto.setSavePicture(savePicture);
+				reviewDto.setSaveFolder(saveFolder);
 			}
-			seq = reviewService.writeArticle(reviewDto);
+			rseq = reviewService.writeArticle(reviewDto, hstg);
 			
-			if(seq != 0) {
-				model.addAttribute("seq", seq);
+			if(rseq != 0) {
+				model.addAttribute("rseq", rseq);
 				path = "contents/writeok";
 			} else {
 				path = "contents/writefail";

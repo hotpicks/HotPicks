@@ -1,7 +1,7 @@
 package com.kitri.hotpicks.contents.model;
 
 public class ReviewDto {
-	private int seq;
+	private int rseq;
 	private String userId;
 	private int contentsId;
 	private String hashTag;
@@ -14,11 +14,11 @@ public class ReviewDto {
 	private String savePicture;
 	
 	
-	public int getSeq() {
-		return seq;
+	public int getRseq() {
+		return rseq;
 	}
-	public void setSeq(int seq) {
-		this.seq = seq;
+	public void setRseq(int seq) {
+		this.rseq = seq;
 	}
 	public String getUserId() {
 		return userId;

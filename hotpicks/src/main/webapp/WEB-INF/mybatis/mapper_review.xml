@@ -4,11 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.kitri.hotpicks.contents.dao.ReviewDao">
  	
- 	<insert id="writeArticle" parameterType="reviewDto">
+ 	<insert id="writeArticle" parameterType="map">
 	insert all
-		into review (seq, userId,contentsId,hashTag,subject,starPoint,content,logTime,saveFolder,orignPicture,savePicture)
-		values (#{seq}, #{userId}, #{contentsId}, #{hashTag}, #{subject}, #{starPoint}, #{content}, sysdate, #{saveFolder}, #{orignPicture},#{savePicture})
+		into review (rseq, userId,contentsId,hashTag,subject,starPoint,content,logTime,saveFolder,orignPicture,savePicture)
+		values (#{ReviewDto.rseq}, #{ReviewDto.userId}, #{ReviewDto.contentsId}, #{ReviewDto.hashTag}, #{ReviewDto.subject}, #{ReviewDto.starPoint}, #{ReviewDto.content}, sysdate, #{ReviewDto.saveFolder}, #{ReviewDto.orignPicture},#{ReviewDto.savePicture})
+	<if test="hstg.size() != 0">
+	<foreach collection="hstg" item="item" index="index">
+		into hashtag (hashTag, resq, tagCount) 
+ 		values (#{item}, #{ReviewDto.rseq}, 0)
+	</foreach>
+	</if>
 	select * from dual
 	</insert>
- 
  </mapper>
