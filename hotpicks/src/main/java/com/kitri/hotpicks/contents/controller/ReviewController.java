@@ -44,7 +44,7 @@ public class ReviewController {
 	public String list(int contentsId) {
 //		System.out.println("리스트뽑으러 컨트롤러 도착");
 		String json = reviewService.reviewlist(contentsId);
-		System.out.println("json : " + json);
+		//System.out.println("json : " + json);
 		return json;
 	}
 	
@@ -53,7 +53,7 @@ public class ReviewController {
 						@RequestParam Map<String, String> parameter, 
 						Model model, HttpSession session,
 						@RequestParam("picture") MultipartFile multipartFile) {
-		System.out.println("ReviewController 들어왔다!!");
+		//System.out.println("ReviewController 들어왔다!!");
 		String path = "";
 		
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");

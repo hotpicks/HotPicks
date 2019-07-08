@@ -79,7 +79,7 @@ $(document).ready(function() {
 			reviewstr += '			</div>';
 			reviewstr += '			<p>';
 			for(var j=0; j<review.starPoint; j++) {
-				★	
+				reviewstr += '★';
 			}
 			reviewstr += '			</p>';
 			reviewstr += '			<p>'+review.hashTag+'</p>';
@@ -88,8 +88,8 @@ $(document).ready(function() {
 			reviewstr += '	<div class="togglebox">';
 			reviewstr += '		<div>'+review.content+'</div>';
 			reviewstr += '		<div>';
-			reviewstr += '			<textarea id="mcontent" cols="68" rows="5"></textarea>';
-			reviewstr += '			<input type="button" id="memoBtn" value="글작성">';
+			reviewstr += '			<textarea class="mcontent" cols="68" rows="5"></textarea>';
+			reviewstr += '			<input type="button" class="memoBtn" value="글작성">';
 			reviewstr += '		</div>';
 			reviewstr += '	</div>';
 			reviewstr += '</div>';
@@ -103,8 +103,8 @@ $(document).ready(function() {
 </script>
 <style>
 .detailimg {
-	width: 600px;
-	height: 300px;
+	width: 560px;
+	height: 270px;
 }
 
 
@@ -134,6 +134,16 @@ li.clearfix {
 #commenth3{
 	margin-bottom: 50px !important;
 }
+.mcontent{
+	width: 80%;
+	float: left;
+}
+.memoBtn{
+	margin-right: 20px;
+	margin-top: 35px;
+	float: right;
+}
+
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -231,43 +241,7 @@ li.clearfix {
 			
 			<!-- Begin 후기 리스트 -->	
 			<div id="comments">
-				<ol id="singlecomments" class="commentlist">
-					<%-- <li class="clearfix">
-						<div class="toggle">
-							<div class="trigger">
-							<div class="user">
-								<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> 
-							</div>
-							<div class="message">
-								<div class="info">
-									<h3><a>부산축제 완전추천!!</a></h3>
-									<span class="date">  - 2019.07.11</span>
-								</div>
-								<p>★★★★★</p>
-								<p>#부산 #여행 #나홀로 #축제 #부산축제</p>
-							</div>
-							</div>
-							<div class="togglebox">
-								<div>
-								fffffff
-								fdf
-								fd
-								fdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-								fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-								fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-								fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-								fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-								fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-								fdkjf;lakjdf;kljda;kldjf;kjdf
-								</div>
-								<div>
-									<textarea id="mcontent" cols="68" rows="5"></textarea>
-									<input type="button" id="memoBtn" value="글작성">
-								</div>
-							</div>
-						</div>
-					</li> --%>
-				</ol>
+				<ol id="singlecomments" class="commentlist"></ol>
 			</div>
 			<!-- End 후기 리스트 -->	
 
