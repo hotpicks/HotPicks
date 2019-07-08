@@ -26,6 +26,11 @@
 <script type="text/javascript" src="${root}/resources/scripts/swfobject/swfobject.js"></script>
 <script type="text/javascript" src="${root}/resources/style/js/twitter.min.js"></script>
 
+<!-- 카카오톡 로그인 API -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
 <style>
 #search{
 	float: left;
@@ -75,7 +80,29 @@
                 </ul>
               </li>
               <li><a href="${root}/member/mypage">My Page</a></li>
-			  <li><a href="${root}/member/logout">Logout</a></li>
+			  <li><a id="logoutBtn" data-pass="${userInfo.pass}">Logout</a></li>
+			   <script>
+				  
+	Kakao.init('9735071d5888d9bfbab24b41f01958c2');
+
+	$("#logoutBtn").click(function(){
+							
+			var isKakao = $(this).attr("data-pass");
+			if(isKakao == 'kakao'){
+
+				Kakao.Auth.logout(function(){				
+					$("#logoutBtn").attr("href", "${root}/member/logout");
+							
+				});
+			} else {
+				alert("일반 로그아웃 처리함!");
+				$(this).attr("href", "${root}/member/logout");
+			}
+				
+	});
+
+				
+</script>
 </c:if>
 <c:if test="${userInfo == null}">
               	   <li><a href="${root}/member/login">Login/Join</a></li>
