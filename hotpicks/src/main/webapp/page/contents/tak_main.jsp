@@ -49,7 +49,7 @@ $(function() {
 		});
 		
 		
-		$("#apiInsert").click(function() {
+/* 		$("#apiInsert").click(function() {
 		$.ajax({
 			url : "${root}/contents/enter",
 			type : "get",
@@ -60,8 +60,8 @@ $(function() {
 				}
 			});
 		});
-		
-		$("#apiInsert").click(function() {
+ */		
+ 		$("#apiInsert").click(function() {
 			$.ajax({
 				url : "${root}/contents/apiinsert",
 				type : "get",
