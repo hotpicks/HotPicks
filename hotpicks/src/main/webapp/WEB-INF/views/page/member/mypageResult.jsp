@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
 <c:if test="${reviews.size() == 0}">
-	<div align="center" style="height: 300px; font-size: 20px; font-weight: 700;">
+	<div id="reviewCnt" data-rcnt="${reviews.size()}" align="center" style="height: 300px; font-size: 20px; font-weight: 700;">
 	<br><br><br><br><br>
 		<p>리뷰가 존재하지 않습니다.&nbsp;<font color="#ff99bb"><i class="fas fa-sad-tear"></i></font>
 		<br><br>
@@ -15,7 +15,7 @@
 
 <c:if test="${reviews.size() != 0}">
 
-<ul>
+<ul id="reviewCnt" data-rcnt="${reviews.size()}">
 <c:forEach var="review" items="${reviews}">
 	<!-- Begin 리뷰 글 -->
 <c:if test="${review.IMGDIR2 == null}">

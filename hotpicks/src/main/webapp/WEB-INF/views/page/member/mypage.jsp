@@ -60,6 +60,7 @@ function getReview(selected){
 	    success : function(result){
 	        $("#newslist").html(result);
 	        $(".cate").text(selected);
+	        $("#reviewCntSpan").text($("#reviewCnt").attr("data-rcnt"));
 	    }
 	});
 }
@@ -89,7 +90,7 @@ function getReview(selected){
                  </div>
                  <br><br><br>
                  <!-- ***************** 리뷰 개수 **************** -->
-                <p style="font-weight:700; font-size:15px; margin-top: 10px;">리뷰 개수 : 10
+                <p style="font-weight:700; font-size:15px; margin-top: 10px;">리뷰 개수 : <span id="reviewCntSpan"></span>
                 <br>
                 <a href="${root}/member/modify" style="font-size:10px; margin-top: 5px;" class="button light-teal btns">정보 수정<span></span></a></p>
               </div>
