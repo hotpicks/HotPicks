@@ -7,13 +7,13 @@
 <mapper namespace="com.kitri.hotpicks.common.dao.CommonDao">	<!-- mapper라는 루트 엘리먼트가 꼭 들어가야 에러가 안 남 -->
 
 	<select id="getNextSeq" resultType="int">
-		select picklist_seq.nextval
-		from dual
+		select seq.nextval
+		from picklist;
 	</select>
 	
 	<select id="getReNextSeq" resultType="int">
-		select review_seq.nextval
-		from dual
+		select seq.nextval
+		from picklist;
 	</select>
 
 	<select id="getNewArticleCount" parameterType="int" resultType="int">
