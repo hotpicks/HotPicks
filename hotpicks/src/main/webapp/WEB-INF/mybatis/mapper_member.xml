@@ -47,4 +47,15 @@
  		where userId = #{userId}
  	</update>
  
+	<select id="getReview" parameterType="map" resultType="map">
+ 		select r.seq rseq, c.t title, to_char(r.logtime,'yyyy-mm-dd') logtime, r.subject subject, r.savefolder imgdir1, r.savepicture imgdir2
+		from review r, (select title t, contentsid ci, catname cn
+                        from contents c, contentscate ct
+                        where c.catcode = ct.catcode) c
+		where r.contentsid = c.ci
+		and r.userid= #{userId}
+		and c.cn = #{category}
+		order by r.logtime desc
+ 	</select>
+ 
  </mapper>
