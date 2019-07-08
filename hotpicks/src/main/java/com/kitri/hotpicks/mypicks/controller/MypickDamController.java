@@ -29,13 +29,14 @@ public class MypickDamController {
 	@Autowired
 	private CommonService commonService;
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)	// 단순 페이지 이동 (void 시, 클래스의 Mapping/메소드의Mapping으로 감)
-	public String list(Model model, HttpSession session) {
+	@RequestMapping(value = "/list", method = RequestMethod.GET)	
+	public String list(Model model,HttpSession session) {
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		String userid = memberDto.getUserId();
 		List<PickListDto> list = mypickDamService.listArticle(userid);
+		System.out.println(list);
 		model.addAttribute("articleList", list);
-		return  "mypicks/mypicklist";
+		return  "mypicks/listresult";
 				
 //		List<PickListDto> list= mypickDamService.listArticle(parameter);
 //		PageNavigation pageNavigation = commonService.getPageNavigation(parameter);
@@ -45,7 +46,7 @@ public class MypickDamController {
 //		model.addAttribute("navigator", pageNavigation);
 	}
 	
-	@RequestMapping(value = "/cal", method = RequestMethod.GET)	// 단순 페이지 이동 (void 시, 클래스의 Mapping/메소드의Mapping으로 감)
+	@RequestMapping(value = "/cal", method = RequestMethod.GET)	
 	public String calendar(Model model, HttpSession session) {
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		String userid = memberDto.getUserId();

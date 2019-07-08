@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/page/template/header.jsp"%>
+
+<c:set var="root" value="${pageContext.request.contextPath}" />
 <style>
 #about .one-fourth img {
 	-moz-box-shadow: 0px 1px 2px #656565;
@@ -14,7 +15,22 @@
 }
 
 </style>
-<c:set var="root" value="${pageContext.request.contextPath}" />
+<script>
+$(function() {
+	
+	$.ajax({
+		url : "${root}/mypicklist/list",
+		type : "get",
+		dataType : "html",
+		success :function(result){
+			console.log("넘어옴");
+			$('#about').html(result);
+			}
+	});
+	
+});
+</script>
+
 
 <%-- <c:set var="title" value="${parameter.title}" />
 <c:set var="info" value="${parameter.infoName}" />
@@ -52,34 +68,13 @@
 	</div>
 
     <div id="about">
-    <c:forEach var="article" items="${articleList}">
-      <div class="one-fourth went" style="margin:0 1% 1% 0; width:24%;"data-wan='${article.wanna}'> <a href="#"><img src="${root}/resources/style/images/img_dog/007.jpg" alt="" /></a>
-        <h4>${article.title}</h4>
-         <p><input type="checkbox"></p>
-      </div>
-     </c:forEach>
    
      
     </div>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
+     </div>
+     
+     </div>
+     </div>
 
 
 
