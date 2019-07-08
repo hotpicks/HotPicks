@@ -1,4 +1,4 @@
-ï»¿ALTER TABLE review
+ALTER TABLE review
 	DROP
 		CONSTRAINT FK_member_TO_review
 		CASCADE;
@@ -21,11 +21,6 @@ ALTER TABLE pickList
 ALTER TABLE pickList
 	DROP
 		CONSTRAINT FK_contents_TO_pickList
-		CASCADE;
-
-ALTER TABLE contents
-	DROP
-		CONSTRAINT FK_sido_TO_contents
 		CASCADE;
 
 ALTER TABLE contents
@@ -58,6 +53,11 @@ ALTER TABLE contentsDetail
 		CONSTRAINT FK_contents_TO_contentsDetail
 		CASCADE;
 
+ALTER TABLE contentsImage
+	DROP
+		CONSTRAINT FK_contents_TO_contentsImage
+		CASCADE;
+
 ALTER TABLE member
 	DROP
 		PRIMARY KEY
@@ -112,23 +112,29 @@ ALTER TABLE contentsDetail
 		CASCADE
 		KEEP INDEX;
 
-/* íšŒì› */
+ALTER TABLE contentsImage
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+/* È¸¿ø */
 DROP TABLE member 
 	CASCADE CONSTRAINTS;
 
-/* í•´ì‹œí…Œê·¸ */
+/* ÇØ½ÃÅ×±× */
 DROP TABLE hashTag 
 	CASCADE CONSTRAINTS;
 
-/* ë¦¬ë·° */
+/* ¸®ºä */
 DROP TABLE review 
 	CASCADE CONSTRAINTS;
 
-/* ì¹´í…Œê³ ë¦¬ */
+/* Ä«Å×°í¸® */
 DROP TABLE contentsCate 
 	CASCADE CONSTRAINTS;
 
-/* ëŒ“ê¸€ */
+/* ´ñ±Û */
 DROP TABLE comments 
 	CASCADE CONSTRAINTS;
 
@@ -136,62 +142,59 @@ DROP TABLE comments
 DROP TABLE pickList 
 	CASCADE CONSTRAINTS;
 
-/* ì»¨í…ì¸  */
+/* ÄÁÅÙÃ÷ */
 DROP TABLE contents 
 	CASCADE CONSTRAINTS;
 
-/* ì‹ ê³ ë‚´ì—­ */
+/* ½Å°í³»¿ª */
 DROP TABLE blackreview 
 	CASCADE CONSTRAINTS;
 
-/* ì‹œ/ë„ì½”ë“œ */
+/* ½Ã/µµÄÚµå */
 DROP TABLE sido 
 	CASCADE CONSTRAINTS;
 
-/* ì‹œêµ°êµ¬ì½”ë“œ */
+/* ½Ã±º±¸ÄÚµå */
 DROP TABLE sigungu 
 	CASCADE CONSTRAINTS;
 
 /* contents_detail */
 DROP TABLE contentsDetail 
 	CASCADE CONSTRAINTS;
-    
-	/* sequence1 */
-DROP SEQUENCE seq;
 
-/* sequence1 */
-CREATE SEQUENCE seq
-	start with 100;    
+/* ÄÁÅÙÃ÷ÀÌ¹ÌÁö */
+DROP TABLE contentsImage 
+	CASCADE CONSTRAINTS;
 
-/* íšŒì› */
+/* È¸¿ø */
 CREATE TABLE member (
-	userId VARCHAR2(100) NOT NULL, /* íšŒì›ì•„ì´ë”” */
-	pass VARCHAR2(16) NOT NULL, /* ë¹„ë°€ë²ˆí˜¸ */
-	name VARCHAR2(40) NOT NULL, /* ì´ë¦„ */
-	age NUMBER, /* ë‚˜ì´ */
-	gender VARCHAR2(3), /* ì„±ë³„ */
-	joinDate DATE DEFAULT sysdate, /* ê°€ì…ì¼ */
-	profile VARCHAR2(100), /* í”„ë¡œí•„ì‚¬ì§„ */
-	enable NUMBER(3) DEFAULT 1 /* ìƒíƒœ */
+	userId VARCHAR2(100) NOT NULL, /* È¸¿ø¾ÆÀÌµğ */
+	pass VARCHAR2(16) NOT NULL, /* ºñ¹Ğ¹øÈ£ */
+	name VARCHAR2(40) NOT NULL, /* ÀÌ¸§ */
+	age NUMBER, /* ³ªÀÌ */
+	gender VARCHAR2(3), /* ¼ºº° */
+	joinDate DATE DEFAULT sysdate, /* °¡ÀÔÀÏ */
+	profile VARCHAR2(100), /* ÇÁ·ÎÇÊ»çÁø */
+	enable NUMBER(3) DEFAULT 1 /* »óÅÂ */
 );
 
-COMMENT ON TABLE member IS 'íšŒì›';
+COMMENT ON TABLE member IS 'È¸¿ø';
 
-COMMENT ON COLUMN member.userId IS 'íšŒì›ì•„ì´ë””';
+COMMENT ON COLUMN member.userId IS 'È¸¿ø¾ÆÀÌµğ';
 
-COMMENT ON COLUMN member.pass IS 'ë¹„ë°€ë²ˆí˜¸';
+COMMENT ON COLUMN member.pass IS 'ºñ¹Ğ¹øÈ£';
 
-COMMENT ON COLUMN member.name IS 'ì´ë¦„';
+COMMENT ON COLUMN member.name IS 'ÀÌ¸§';
 
-COMMENT ON COLUMN member.age IS 'ë‚˜ì´';
+COMMENT ON COLUMN member.age IS '³ªÀÌ';
 
-COMMENT ON COLUMN member.gender IS 'ì„±ë³„';
+COMMENT ON COLUMN member.gender IS '¼ºº°';
 
-COMMENT ON COLUMN member.joinDate IS 'ê°€ì…ì¼';
+COMMENT ON COLUMN member.joinDate IS '°¡ÀÔÀÏ';
 
-COMMENT ON COLUMN member.profile IS 'í”„ë¡œí•„ì‚¬ì§„';
+COMMENT ON COLUMN member.profile IS 'ÇÁ·ÎÇÊ»çÁø';
 
-COMMENT ON COLUMN member.enable IS 'ìƒíƒœ';
+COMMENT ON COLUMN member.enable IS '»óÅÂ';
 
 ALTER TABLE member
 	ADD
@@ -200,88 +203,92 @@ ALTER TABLE member
 			userId
 		);
 
-/* í•´ì‹œí…Œê·¸ */
+/* ÇØ½ÃÅ×±× */
 CREATE TABLE hashTag (
-	hashTag VARCHAR2(100) NOT NULL, /* íƒœê·¸ì´ë¦„ */
-	tagCount NUMBER /* ì‚¬ìš©íšŸìˆ˜ */
+	hashTag VARCHAR2(100) NOT NULL, /* ÅÂ±×ÀÌ¸§ */
+	rseq NUMBER(12) NOT NULL, /* ¸®ºä±Û¹øÈ£ */
+	tagCount NUMBER /* »ç¿ëÈ½¼ö */
 );
 
-COMMENT ON TABLE hashTag IS 'í•´ì‹œí…Œê·¸';
+COMMENT ON TABLE hashTag IS 'ÇØ½ÃÅ×±×';
 
-COMMENT ON COLUMN hashTag.hashTag IS 'íƒœê·¸ì´ë¦„';
+COMMENT ON COLUMN hashTag.hashTag IS 'ÅÂ±×ÀÌ¸§';
 
-COMMENT ON COLUMN hashTag.tagCount IS 'ì‚¬ìš©íšŸìˆ˜';
+COMMENT ON COLUMN hashTag.rseq IS '¸®ºä±Û¹øÈ£';
+
+COMMENT ON COLUMN hashTag.tagCount IS '»ç¿ëÈ½¼ö';
 
 ALTER TABLE hashTag
 	ADD
 		CONSTRAINT PK_hashTag
 		PRIMARY KEY (
-			hashTag
+			hashTag,
+			rseq
 		);
 
-/* ë¦¬ë·° */
+/* ¸®ºä */
 CREATE TABLE review (
-	seq NUMBER NOT NULL, /* ê¸€ë²ˆí˜¸ */
-	userId VARCHAR2(100), /* íšŒì›ì•„ì´ë”” */
-	contentsId NUMBER(12), /* ì»¨í…ì¸ ì•„ì´ë”” */
-	hashTag VARCHAR2(4000), /* íƒœê·¸ì´ë¦„ */
-	subject VARCHAR2(100), /* ì œëª© */
-	starPoint NUMBER, /* ë³„ì  */
-	content CLOB, /* ë‚´ìš© */
-	logTime DATE, /* ì‘ì„±ì‹œê°„ */
-	saveFolder VARCHAR2(8), /* ì €ì¥í´ë” */
-	orignPicture VARCHAR2(100), /* ì›ë³¸ì‚¬ì§„ì´ë¦„ */
-	savePicture VARCHAR2(100) /* ì €ì¥ì‚¬ì§„ì´ë¦„ */
+	rseq NUMBER NOT NULL, /* ¸®ºä±Û¹øÈ£ */
+	userId VARCHAR2(100), /* È¸¿ø¾ÆÀÌµğ */
+	contentsId NUMBER(12), /* ÄÁÅÙÃ÷¾ÆÀÌµğ */
+	hashTag VARCHAR2(4000), /* ÅÂ±×ÀÌ¸§ */
+	subject VARCHAR2(100), /* Á¦¸ñ */
+	starPoint NUMBER, /* º°Á¡ */
+	content CLOB, /* ³»¿ë */
+	logTime DATE, /* ÀÛ¼º½Ã°£ */
+	saveFolder VARCHAR2(8), /* ÀúÀåÆú´õ */
+	orignPicture VARCHAR2(100), /* ¿øº»»çÁøÀÌ¸§ */
+	savePicture VARCHAR2(100) /* ÀúÀå»çÁøÀÌ¸§ */
 );
 
-COMMENT ON TABLE review IS 'ë¦¬ë·°';
+COMMENT ON TABLE review IS '¸®ºä';
 
-COMMENT ON COLUMN review.seq IS 'ê¸€ë²ˆí˜¸';
+COMMENT ON COLUMN review.rseq IS '¸®ºä±Û¹øÈ£';
 
-COMMENT ON COLUMN review.userId IS 'íšŒì›ì•„ì´ë””';
+COMMENT ON COLUMN review.userId IS 'È¸¿ø¾ÆÀÌµğ';
 
-COMMENT ON COLUMN review.contentsId IS 'ì»¨í…ì¸ ì•„ì´ë””';
+COMMENT ON COLUMN review.contentsId IS 'ÄÁÅÙÃ÷¾ÆÀÌµğ';
 
-COMMENT ON COLUMN review.hashTag IS 'íƒœê·¸ì´ë¦„';
+COMMENT ON COLUMN review.hashTag IS 'ÅÂ±×ÀÌ¸§';
 
-COMMENT ON COLUMN review.subject IS 'ì œëª©';
+COMMENT ON COLUMN review.subject IS 'Á¦¸ñ';
 
-COMMENT ON COLUMN review.starPoint IS 'ë³„ì ';
+COMMENT ON COLUMN review.starPoint IS 'º°Á¡';
 
-COMMENT ON COLUMN review.content IS 'ë‚´ìš©';
+COMMENT ON COLUMN review.content IS '³»¿ë';
 
-COMMENT ON COLUMN review.logTime IS 'ì‘ì„±ì‹œê°„';
+COMMENT ON COLUMN review.logTime IS 'ÀÛ¼º½Ã°£';
 
-COMMENT ON COLUMN review.saveFolder IS 'ì €ì¥í´ë”';
+COMMENT ON COLUMN review.saveFolder IS 'ÀúÀåÆú´õ';
 
-COMMENT ON COLUMN review.orignPicture IS 'ì›ë³¸ì‚¬ì§„ì´ë¦„';
+COMMENT ON COLUMN review.orignPicture IS '¿øº»»çÁøÀÌ¸§';
 
-COMMENT ON COLUMN review.savePicture IS 'ì €ì¥ì‚¬ì§„ì´ë¦„';
+COMMENT ON COLUMN review.savePicture IS 'ÀúÀå»çÁøÀÌ¸§';
 
 ALTER TABLE review
 	ADD
 		CONSTRAINT PK_review
 		PRIMARY KEY (
-			seq
+			rseq
 		);
 
-/* ì¹´í…Œê³ ë¦¬ */
+/* Ä«Å×°í¸® */
 CREATE TABLE contentsCate (
-	catCode VARCHAR2(12) NOT NULL, /* ë¶„ë¥˜ì½”ë“œ */
-	catId NUMBER NOT NULL, /* ì¹´í…Œê³ ë¦¬id */
-	catName VARCHAR2(600), /* ì¹´í…Œê³ ë¦¬name */
-	catType VARCHAR2(8) /* ë¶„ë¥˜íƒ€ì… */
+	catCode VARCHAR2(12) NOT NULL, /* ºĞ·ùÄÚµå */
+	catId NUMBER NOT NULL, /* Ä«Å×°í¸®id */
+	catName VARCHAR2(600), /* Ä«Å×°í¸®name */
+	catType VARCHAR2(8) /* ºĞ·ùÅ¸ÀÔ */
 );
 
-COMMENT ON TABLE contentsCate IS 'ì¹´í…Œê³ ë¦¬';
+COMMENT ON TABLE contentsCate IS 'Ä«Å×°í¸®';
 
-COMMENT ON COLUMN contentsCate.catCode IS 'ë¶„ë¥˜ì½”ë“œ';
+COMMENT ON COLUMN contentsCate.catCode IS 'ºĞ·ùÄÚµå';
 
-COMMENT ON COLUMN contentsCate.catId IS 'ì¹´í…Œê³ ë¦¬id';
+COMMENT ON COLUMN contentsCate.catId IS 'Ä«Å×°í¸®id';
 
-COMMENT ON COLUMN contentsCate.catName IS 'ì¹´í…Œê³ ë¦¬name';
+COMMENT ON COLUMN contentsCate.catName IS 'Ä«Å×°í¸®name';
 
-COMMENT ON COLUMN contentsCate.catType IS 'ë¶„ë¥˜íƒ€ì…';
+COMMENT ON COLUMN contentsCate.catType IS 'ºĞ·ùÅ¸ÀÔ';
 
 ALTER TABLE contentsCate
 	ADD
@@ -291,81 +298,81 @@ ALTER TABLE contentsCate
 			catId
 		);
 
-/* ëŒ“ê¸€ */
+/* ´ñ±Û */
 CREATE TABLE comments (
-	seq NUMBER NOT NULL, /* ê¸€ë²ˆí˜¸ */
-	logId VARCHAR2(40), /* ì‘ì„±ìì•„ì´ë”” */
-	logTime DATE, /* ì‘ì„±ì‹œê°„ */
-	content VARCHAR2(200) /* ê¸€ë‚´ìš© */
+	rceq NUMBER NOT NULL, /* ¸®ºä±Û¹øÈ£ */
+	logId VARCHAR2(40), /* ÀÛ¼ºÀÚ¾ÆÀÌµğ */
+	logTime DATE, /* ÀÛ¼º½Ã°£ */
+	content VARCHAR2(200) /* ±Û³»¿ë */
 );
 
-COMMENT ON TABLE comments IS 'ëŒ“ê¸€';
+COMMENT ON TABLE comments IS '´ñ±Û';
 
-COMMENT ON COLUMN comments.seq IS 'ê¸€ë²ˆí˜¸';
+COMMENT ON COLUMN comments.rceq IS '¸®ºä±Û¹øÈ£';
 
-COMMENT ON COLUMN comments.logId IS 'ì‘ì„±ìì•„ì´ë””';
+COMMENT ON COLUMN comments.logId IS 'ÀÛ¼ºÀÚ¾ÆÀÌµğ';
 
-COMMENT ON COLUMN comments.logTime IS 'ì‘ì„±ì‹œê°„';
+COMMENT ON COLUMN comments.logTime IS 'ÀÛ¼º½Ã°£';
 
-COMMENT ON COLUMN comments.content IS 'ê¸€ë‚´ìš©';
+COMMENT ON COLUMN comments.content IS '±Û³»¿ë';
 
 /* pickList */
 CREATE TABLE pickList (
-	seq NUMBER NOT NULL, /* ê¸€ë²ˆí˜¸ */
-	userId VARCHAR2(100), /* íšŒì›ì•„ì´ë”” */
-	contentsId NUMBER(12), /* ì•„ì´ë”” */
-	wanna NUMBER /* ê°€ë³´ê³ ì‹¶ì€ê³³/ë‹¤ë…€ì˜¨ê³³ */
+	contentsId NUMBER(12) NOT NULL, /* ¾ÆÀÌµğ */
+	userId VARCHAR2(100), /* È¸¿ø¾ÆÀÌµğ */
+	wanna NUMBER, /* °¡º¸°í½ÍÀº°÷/´Ù³à¿Â°÷ */
+	distence NUMBER /* °Å¸®°è»ê¿ë */
 );
 
 COMMENT ON TABLE pickList IS 'pickList';
 
-COMMENT ON COLUMN pickList.seq IS 'ê¸€ë²ˆí˜¸';
+COMMENT ON COLUMN pickList.contentsId IS '¾ÆÀÌµğ';
 
-COMMENT ON COLUMN pickList.userId IS 'íšŒì›ì•„ì´ë””';
+COMMENT ON COLUMN pickList.userId IS 'È¸¿ø¾ÆÀÌµğ';
 
-COMMENT ON COLUMN pickList.contentsId IS 'ì•„ì´ë””';
+COMMENT ON COLUMN pickList.wanna IS '°¡º¸°í½ÍÀº°÷/´Ù³à¿Â°÷';
 
-COMMENT ON COLUMN pickList.wanna IS 'ê°€ë³´ê³ ì‹¶ì€ê³³/ë‹¤ë…€ì˜¨ê³³';
+COMMENT ON COLUMN pickList.distence IS '°Å¸®°è»ê¿ë';
 
 ALTER TABLE pickList
 	ADD
 		CONSTRAINT PK_pickList
 		PRIMARY KEY (
-			seq
+			contentsId
 		);
 
-/* ì»¨í…ì¸  */
+/* ÄÁÅÙÃ÷ */
 CREATE TABLE contents (
-	contentsId NUMBER(12) NOT NULL, /* ì•„ì´ë”” */
-	catCode VARCHAR2(12), /* ë¶„ë¥˜ì½”ë“œ */
-	catId NUMBER, /* ì¹´í…Œê³ ë¦¬id */
-	sggCode NUMBER(5), /* ì‹œêµ°êµ¬ì½”ë“œ */
-	sdCode NUMBER(5), /* ì‹œë„ì½”ë“œ */
-	title VARCHAR(600), /* ì œëª© */
-	hit NUMBER, /* ì¡°íšŒìˆ˜ */
-	image1 CLOB, /* ì´ë¯¸ì§€1 */
-	image2 CLOB /* ì´ë¯¸ì§€2 */
+	contentsId NUMBER(12) NOT NULL, /* ¾ÆÀÌµğ */
+	catCode VARCHAR2(12), /* ºĞ·ùÄÚµå */
+	catId NUMBER, /* Ä«Å×°í¸®id */
+	sggCode NUMBER(5), /* ½Ã±º±¸ÄÚµå */
+	sdCode NUMBER(5), /* ½ÃµµÄÚµå */
+	title VARCHAR2(600), /* Á¦¸ñ */
+	hit NUMBER, /* Á¶È¸¼ö */
+	image1 CLOB, /* ÀÌ¹ÌÁö1 */
+	image2 CLOB /* ÀÌ¹ÌÁö2 */
 );
 
-COMMENT ON TABLE contents IS 'ì»¨í…ì¸ ';
+COMMENT ON TABLE contents IS 'ÄÁÅÙÃ÷';
 
-COMMENT ON COLUMN contents.contentsId IS 'ì•„ì´ë””';
+COMMENT ON COLUMN contents.contentsId IS '¾ÆÀÌµğ';
 
-COMMENT ON COLUMN contents.catCode IS 'ë¶„ë¥˜ì½”ë“œ';
+COMMENT ON COLUMN contents.catCode IS 'ºĞ·ùÄÚµå';
 
-COMMENT ON COLUMN contents.catId IS 'ì¹´í…Œê³ ë¦¬id';
+COMMENT ON COLUMN contents.catId IS 'Ä«Å×°í¸®id';
 
-COMMENT ON COLUMN contents.sggCode IS 'ì‹œêµ°êµ¬ì½”ë“œ';
+COMMENT ON COLUMN contents.sggCode IS '½Ã±º±¸ÄÚµå';
 
-COMMENT ON COLUMN contents.sdCode IS 'ì‹œë„ì½”ë“œ';
+COMMENT ON COLUMN contents.sdCode IS '½ÃµµÄÚµå';
 
-COMMENT ON COLUMN contents.title IS 'ì œëª©';
+COMMENT ON COLUMN contents.title IS 'Á¦¸ñ';
 
-COMMENT ON COLUMN contents.hit IS 'ì¡°íšŒìˆ˜';
+COMMENT ON COLUMN contents.hit IS 'Á¶È¸¼ö';
 
-COMMENT ON COLUMN contents.image1 IS 'ì´ë¯¸ì§€1';
+COMMENT ON COLUMN contents.image1 IS 'ÀÌ¹ÌÁö1';
 
-COMMENT ON COLUMN contents.image2 IS 'ì´ë¯¸ì§€2';
+COMMENT ON COLUMN contents.image2 IS 'ÀÌ¹ÌÁö2';
 
 ALTER TABLE contents
 	ADD
@@ -374,35 +381,35 @@ ALTER TABLE contents
 			contentsId
 		);
 
-/* ì‹ ê³ ë‚´ì—­ */
+/* ½Å°í³»¿ª */
 CREATE TABLE blackreview (
-	seq NUMBER NOT NULL, /* ê¸€ë²ˆí˜¸ */
-	userId VARCHAR2(100), /* íšŒì›ì•„ì´ë”” */
-	reportContent VARCHAR2(200), /* ì‹ ê³ ë‚´ìš© */
-	reportDate DATE /* ì‹ ê³ ì¼ì */
+	rseq NUMBER NOT NULL, /* ¸®ºä±Û¹øÈ£ */
+	userId VARCHAR2(100), /* È¸¿ø¾ÆÀÌµğ */
+	reportContent VARCHAR2(200), /* ½Å°í³»¿ë */
+	reportDate DATE /* ½Å°íÀÏÀÚ */
 );
 
-COMMENT ON TABLE blackreview IS 'ì‹ ê³ ë‚´ì—­';
+COMMENT ON TABLE blackreview IS '½Å°í³»¿ª';
 
-COMMENT ON COLUMN blackreview.seq IS 'ê¸€ë²ˆí˜¸';
+COMMENT ON COLUMN blackreview.rseq IS '¸®ºä±Û¹øÈ£';
 
-COMMENT ON COLUMN blackreview.userId IS 'íšŒì›ì•„ì´ë””';
+COMMENT ON COLUMN blackreview.userId IS 'È¸¿ø¾ÆÀÌµğ';
 
-COMMENT ON COLUMN blackreview.reportContent IS 'ì‹ ê³ ë‚´ìš©';
+COMMENT ON COLUMN blackreview.reportContent IS '½Å°í³»¿ë';
 
-COMMENT ON COLUMN blackreview.reportDate IS 'ì‹ ê³ ì¼ì';
+COMMENT ON COLUMN blackreview.reportDate IS '½Å°íÀÏÀÚ';
 
-/* ì‹œ/ë„ì½”ë“œ */
+/* ½Ã/µµÄÚµå */
 CREATE TABLE sido (
-	sdCode NUMBER(5) NOT NULL, /* ì‹œë„ì½”ë“œ */
-	sdName VARCHAR2(100) /* ì‹œë„ì´ë¦„ */
+	sdCode NUMBER(5) NOT NULL, /* ½ÃµµÄÚµå */
+	sdName VARCHAR2(100) /* ½ÃµµÀÌ¸§ */
 );
 
-COMMENT ON TABLE sido IS 'ì‹œ/ë„ì½”ë“œ';
+COMMENT ON TABLE sido IS '½Ã/µµÄÚµå';
 
-COMMENT ON COLUMN sido.sdCode IS 'ì‹œë„ì½”ë“œ';
+COMMENT ON COLUMN sido.sdCode IS '½ÃµµÄÚµå';
 
-COMMENT ON COLUMN sido.sdName IS 'ì‹œë„ì´ë¦„';
+COMMENT ON COLUMN sido.sdName IS '½ÃµµÀÌ¸§';
 
 ALTER TABLE sido
 	ADD
@@ -411,20 +418,20 @@ ALTER TABLE sido
 			sdCode
 		);
 
-/* ì‹œêµ°êµ¬ì½”ë“œ */
+/* ½Ã±º±¸ÄÚµå */
 CREATE TABLE sigungu (
-	sggCode NUMBER(5) NOT NULL, /* ì‹œêµ°êµ¬ì½”ë“œ */
-	sdCode NUMBER(5) NOT NULL, /* ì‹œë„ì½”ë“œ */
-	sggName VARCHAR2(100) /* ì‹œêµ°êµ¬ì´ë¦„ */
+	sggCode NUMBER(5) NOT NULL, /* ½Ã±º±¸ÄÚµå */
+	sdCode NUMBER(5) NOT NULL, /* ½ÃµµÄÚµå */
+	sggName VARCHAR2(100) /* ½Ã±º±¸ÀÌ¸§ */
 );
 
-COMMENT ON TABLE sigungu IS 'ì‹œêµ°êµ¬ì½”ë“œ';
+COMMENT ON TABLE sigungu IS '½Ã±º±¸ÄÚµå';
 
-COMMENT ON COLUMN sigungu.sggCode IS 'ì‹œêµ°êµ¬ì½”ë“œ';
+COMMENT ON COLUMN sigungu.sggCode IS '½Ã±º±¸ÄÚµå';
 
-COMMENT ON COLUMN sigungu.sdCode IS 'ì‹œë„ì½”ë“œ';
+COMMENT ON COLUMN sigungu.sdCode IS '½ÃµµÄÚµå';
 
-COMMENT ON COLUMN sigungu.sggName IS 'ì‹œêµ°êµ¬ì´ë¦„';
+COMMENT ON COLUMN sigungu.sggName IS '½Ã±º±¸ÀÌ¸§';
 
 ALTER TABLE sigungu
 	ADD
@@ -436,78 +443,107 @@ ALTER TABLE sigungu
 
 /* contents_detail */
 CREATE TABLE contentsDetail (
-	contentsId NUMBER(12) NOT NULL, /* ì•„ì´ë”” */
-	homePage VARCHAR(4000), /* í™ˆí˜ì´ì§€ */
-	telName VARCHAR(1000), /* ì£¼ìµœì ëª… */
-	tel VARCHAR(300), /* ì£¼ìµœì ì „í™”ë²ˆí˜¸ */
-	playTime CLOB, /* ê³µì—°ì‹œê°„ */
-	program CLOB, /* í–‰ì‚¬í”„ë¡œê·¸ë¨ */
-	useTime CLOB, /* ì´ìš©ìš”ê¸ˆ */
-	spendTime CLOB, /* ê´€ëŒì†Œìš”ì‹œê°„ */
-	ageLimit VARCHAR(2000), /* ê´€ëŒê°€ëŠ¥ì—°ë ¹ */
-	bookingPlace CLOB, /* ì˜ˆë§¤ì²˜ */
-	discountInfo CLOB, /* í• ì¸ì •ë³´ */
-	placeInfo CLOB, /* í–‰ì‚¬ì¥ìœ„ì¹˜ì•ˆë‚´ */
-	infoName CLOB, /* í–‰ì‚¬ì†Œê°œ */
-	infoText CLOB, /* í–‰ì‚¬ë‚´ìš© */
-	eventStartDate NUMBER(8), /* í–‰ì‚¬ì‹œì‘ì¼ */
-	eventEndDate NUMBER(8), /* í–‰ì‚¬ì¢…ë£Œì¼ */
-	xPoint NUMBER, /* xì¢Œí‘œ */
-	yPoint NUMBER, /* yì¢Œí‘œ */
-	zipCode NUMBER(12), /* ìš°í¸ë²ˆí˜¸ */
-	addr1 VARCHAR(400), /* ì£¼ì†Œ */
-	addr2 VARCHAR(400) /* ìƒì„¸ì£¼ì†Œ */
+	contentsId NUMBER(12) NOT NULL, /* ¾ÆÀÌµğ */
+	homePage VARCHAR2(4000), /* È¨ÆäÀÌÁö */
+	telName VARCHAR2(1000), /* ÁÖÃÖÀÚ ¸í */
+	tel VARCHAR2(300), /* ÁÖÃÖÀÚ ÀüÈ­¹øÈ£ */
+	playTime CLOB, /* °ø¿¬½Ã°£ */
+	program CLOB, /* Çà»çÇÁ·Î±×·¥ */
+	useTime CLOB, /* ÀÌ¿ë¿ä±İ */
+	spendTime CLOB, /* °ü¶÷¼Ò¿ä½Ã°£ */
+	ageLimit VARCHAR2(2000), /* °ü¶÷°¡´É¿¬·É */
+	bookingPlace CLOB, /* ¿¹¸ÅÃ³ */
+	discountInfo CLOB, /* ÇÒÀÎÁ¤º¸ */
+	placeInfo CLOB, /* Çà»çÀåÀ§Ä¡¾È³» */
+	infoSogae CLOB, /* Çà»ç¼Ò°³ */
+	infoNaeyong CLOB, /* Çà»ç³»¿ë */
+	eventStartDate NUMBER(8), /* Çà»ç½ÃÀÛÀÏ */
+	eventEndDate NUMBER(8), /* Çà»çÁ¾·áÀÏ */
+	xPoint NUMBER, /* xÁÂÇ¥ */
+	yPoint NUMBER, /* yÁÂÇ¥ */
+	zipCode VARCHAR2(20), /* ¿ìÆí¹øÈ£ */
+	addr1 VARCHAR2(400), /* ÁÖ¼Ò */
+	addr2 VARCHAR2(400) /* »ó¼¼ÁÖ¼Ò */
 );
 
 COMMENT ON TABLE contentsDetail IS 'contents_detail';
 
-COMMENT ON COLUMN contentsDetail.contentsId IS 'ì•„ì´ë””';
+COMMENT ON COLUMN contentsDetail.contentsId IS '¾ÆÀÌµğ';
 
-COMMENT ON COLUMN contentsDetail.homePage IS 'í™ˆí˜ì´ì§€';
+COMMENT ON COLUMN contentsDetail.homePage IS 'È¨ÆäÀÌÁö';
 
-COMMENT ON COLUMN contentsDetail.telName IS 'ì£¼ìµœì ëª…';
+COMMENT ON COLUMN contentsDetail.telName IS 'ÁÖÃÖÀÚ ¸í';
 
-COMMENT ON COLUMN contentsDetail.tel IS 'ì£¼ìµœì ì „í™”ë²ˆí˜¸';
+COMMENT ON COLUMN contentsDetail.tel IS 'ÁÖÃÖÀÚ ÀüÈ­¹øÈ£';
 
-COMMENT ON COLUMN contentsDetail.playTime IS 'ê³µì—°ì‹œê°„';
+COMMENT ON COLUMN contentsDetail.playTime IS '°ø¿¬½Ã°£';
 
-COMMENT ON COLUMN contentsDetail.program IS 'í–‰ì‚¬í”„ë¡œê·¸ë¨';
+COMMENT ON COLUMN contentsDetail.program IS 'Çà»çÇÁ·Î±×·¥';
 
-COMMENT ON COLUMN contentsDetail.useTime IS 'ì´ìš©ìš”ê¸ˆ';
+COMMENT ON COLUMN contentsDetail.useTime IS 'ÀÌ¿ë¿ä±İ';
 
-COMMENT ON COLUMN contentsDetail.spendTime IS 'ê´€ëŒì†Œìš”ì‹œê°„';
+COMMENT ON COLUMN contentsDetail.spendTime IS '°ü¶÷¼Ò¿ä½Ã°£';
 
-COMMENT ON COLUMN contentsDetail.ageLimit IS 'ê´€ëŒê°€ëŠ¥ì—°ë ¹';
+COMMENT ON COLUMN contentsDetail.ageLimit IS '°ü¶÷°¡´É¿¬·É';
 
-COMMENT ON COLUMN contentsDetail.bookingPlace IS 'ì˜ˆë§¤ì²˜';
+COMMENT ON COLUMN contentsDetail.bookingPlace IS '¿¹¸ÅÃ³';
 
-COMMENT ON COLUMN contentsDetail.discountInfo IS 'í• ì¸ì •ë³´';
+COMMENT ON COLUMN contentsDetail.discountInfo IS 'ÇÒÀÎÁ¤º¸';
 
-COMMENT ON COLUMN contentsDetail.placeInfo IS 'í–‰ì‚¬ì¥ìœ„ì¹˜ì•ˆë‚´';
+COMMENT ON COLUMN contentsDetail.placeInfo IS 'Çà»çÀåÀ§Ä¡¾È³»';
 
-COMMENT ON COLUMN contentsDetail.infoName IS 'í–‰ì‚¬ì†Œê°œ';
+COMMENT ON COLUMN contentsDetail.infoSogae IS 'Çà»ç¼Ò°³';
 
-COMMENT ON COLUMN contentsDetail.infoText IS 'í–‰ì‚¬ë‚´ìš©';
+COMMENT ON COLUMN contentsDetail.infoNaeyong IS 'Çà»ç³»¿ë';
 
-COMMENT ON COLUMN contentsDetail.eventStartDate IS 'í–‰ì‚¬ì‹œì‘ì¼';
+COMMENT ON COLUMN contentsDetail.eventStartDate IS 'Çà»ç½ÃÀÛÀÏ';
 
-COMMENT ON COLUMN contentsDetail.eventEndDate IS 'í–‰ì‚¬ì¢…ë£Œì¼';
+COMMENT ON COLUMN contentsDetail.eventEndDate IS 'Çà»çÁ¾·áÀÏ';
 
-COMMENT ON COLUMN contentsDetail.xPoint IS 'xì¢Œí‘œ';
+COMMENT ON COLUMN contentsDetail.xPoint IS 'xÁÂÇ¥';
 
-COMMENT ON COLUMN contentsDetail.yPoint IS 'yì¢Œí‘œ';
+COMMENT ON COLUMN contentsDetail.yPoint IS 'yÁÂÇ¥';
 
-COMMENT ON COLUMN contentsDetail.zipCode IS 'ìš°í¸ë²ˆí˜¸';
+COMMENT ON COLUMN contentsDetail.zipCode IS '¿ìÆí¹øÈ£';
 
-COMMENT ON COLUMN contentsDetail.addr1 IS 'ì£¼ì†Œ';
+COMMENT ON COLUMN contentsDetail.addr1 IS 'ÁÖ¼Ò';
 
-COMMENT ON COLUMN contentsDetail.addr2 IS 'ìƒì„¸ì£¼ì†Œ';
+COMMENT ON COLUMN contentsDetail.addr2 IS '»ó¼¼ÁÖ¼Ò';
 
 ALTER TABLE contentsDetail
 	ADD
 		CONSTRAINT PK_contentsDetail
 		PRIMARY KEY (
 			contentsId
+		);
+
+/* ÄÁÅÙÃ÷ÀÌ¹ÌÁö */
+CREATE TABLE contentsImage (
+	contentsId NUMBER(12) NOT NULL, /* ÄÁÅÙÃ÷¾ÆÀÌµğ */
+	serialNum VARCHAR2(500) NOT NULL, /* ½Ã¸®¾ó¼ıÀÚ */
+	imgName VARCHAR2(500), /* ÀÌ¹ÌÁö¸í */
+	originImgurl VARCHAR2(500), /* ÀÌ¹ÌÁöurl */
+	smallImageUrl VARCHAR2(500) /* ÀÛÀºÀÌ¹ÌÁöurl */
+);
+
+COMMENT ON TABLE contentsImage IS 'ÄÁÅÙÃ÷ÀÌ¹ÌÁö';
+
+COMMENT ON COLUMN contentsImage.contentsId IS 'ÄÁÅÙÃ÷¾ÆÀÌµğ';
+
+COMMENT ON COLUMN contentsImage.serialNum IS '½Ã¸®¾ó¼ıÀÚ';
+
+COMMENT ON COLUMN contentsImage.imgName IS 'ÀÌ¹ÌÁö¸í';
+
+COMMENT ON COLUMN contentsImage.originImgurl IS 'ÀÌ¹ÌÁöurl';
+
+COMMENT ON COLUMN contentsImage.smallImageUrl IS 'ÀÛÀºÀÌ¹ÌÁöurl';
+
+ALTER TABLE contentsImage
+	ADD
+		CONSTRAINT PK_contentsImage
+		PRIMARY KEY (
+			contentsId,
+			serialNum
 		);
 
 ALTER TABLE review
@@ -534,10 +570,10 @@ ALTER TABLE comments
 	ADD
 		CONSTRAINT FK_review_TO_comments
 		FOREIGN KEY (
-			seq
+			rceq
 		)
 		REFERENCES review (
-			seq
+			rseq
 		);
 
 ALTER TABLE pickList
@@ -558,16 +594,6 @@ ALTER TABLE pickList
 		)
 		REFERENCES contents (
 			contentsId
-		);
-
-ALTER TABLE contents
-	ADD
-		CONSTRAINT FK_sido_TO_contents
-		FOREIGN KEY (
-			sdCode
-		)
-		REFERENCES sido (
-			sdCode
 		);
 
 ALTER TABLE contents
@@ -598,10 +624,10 @@ ALTER TABLE blackreview
 	ADD
 		CONSTRAINT FK_review_TO_blackreview
 		FOREIGN KEY (
-			seq
+			rseq
 		)
 		REFERENCES review (
-			seq
+			rseq
 		);
 
 ALTER TABLE blackreview
@@ -633,3 +659,19 @@ ALTER TABLE contentsDetail
 		REFERENCES contents (
 			contentsId
 		);
+
+ALTER TABLE contentsImage
+	ADD
+		CONSTRAINT FK_contents_TO_contentsImage
+		FOREIGN KEY (
+			contentsId
+		)
+		REFERENCES contents (
+			contentsId
+		);
+
+drop sequence review_seq;
+
+create sequence review_seq
+	start with 100
+	increment by 1;

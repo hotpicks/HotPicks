@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
+<%@ include file = "/WEB-INF/views/page/template/logincheck.jsp" %>
+
 <!-- icon 사용 위함 -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
@@ -150,20 +152,38 @@ $(function(){
 	
 	// 탈퇴 요청
 	$("#exitBtn").click(function(){
-		var userInput = prompt('탈퇴를 위해 현재 비밀번호를 입력해주세요.');
+		
 		var pass = $(this).attr("data-pass");
-		if(userInput != pass){
-			alert("비밀번호가 일치하지 않습니다.");
-		} else{
-			var result = confirm('정말 탈퇴하시겠습니까?');
-			
+		
+		// 카카오톡 로그인 경우, 바로 탈퇴 (이유 : 카톡로그인 사용자의 비번 알 수 없음)
+		if(pass == 'kakao'){
+			var result = confirm('정말 탈퇴하시겠습니까?');			
 			if(result){
-				alert("탈퇴가 완료되었습니다.");		
-				$(this).attr("href", "${root}/member/exit");
+				alert("응");
+				// 앱 연결 해제 요청
+				Kakao.API.request({
+					url : '/v1/user/unlink',
+					success : function(){
+						alert("탈퇴가 완료되었습니다.");		
+						$("#exitBtn").attr("href", "${root}/member/exit");		
+					}
+				});
 			}
+		}else{ // 일반 로그인 경우, 현재 비밀번호 일치시 탈퇴
+		
+			var userInput = prompt('탈퇴를 위해 현재 비밀번호를 입력해주세요.');
+			if(userInput != pass){
+				alert("비밀번호가 일치하지 않습니다.");
+			} else{
+				var result = confirm('정말 탈퇴하시겠습니까?');
+				
+				if(result){
+					alert("탈퇴가 완료되었습니다.");		
+					$(this).attr("href", "${root}/member/exit");
+				}
+			}
+		
 		}
-		
-		
 	});
 	
 });
@@ -197,8 +217,16 @@ $(function(){
                 <!-- ******** profile ******** -->
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
+<c:if test="${userInfo.pass=='kakao'&&userInfo.profile!='user.png'}">
+              	<img id="profileImg" alt="사용자프로필사진" src="${userInfo.profile}" height="150px" width="150px"/>
+</c:if>
+<c:if test="${userInfo.pass=='kakao'&&userInfo.profile=='user.png'}">
               	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
-              	<input type="file" id="profileBtn" name="profile_file" style="width:200px; background-color: white"/>
+</c:if>
+<c:if test="${userInfo.pass!='kakao'}">
+              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+</c:if>
+               	<input type="file" id="profileBtn" name="profile_file" style="width:200px; background-color: white"/>
               	</div>
               </p>
               <br><br>
@@ -272,7 +300,7 @@ $(function(){
             <br>
             <p>
             	<span>
-            		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" href="" data-pass="${userInfo.pass}"><strong>여기</strong></a>를 눌러주세요.</font>
+            		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" data-pass="${userInfo.pass}" href=""><strong>여기</strong></a>를 눌러주세요.</font>
             	</span>
             </p>
           </form>

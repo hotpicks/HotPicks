@@ -23,16 +23,12 @@ $(function(){
 		
 			$(".loginForm").attr("method", "POST").attr("action", "${root}/member/login").submit();
 		}
+		
 	});
 	
 	
 });
 </script>
-
-<!-- 카카오톡 로그인 API -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 <!-- icon 사용 위함 -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -115,7 +111,6 @@ height: auto;
                         	
             	<!-- *************************** 카카오톡 로그인 버튼 *************************** -->
             	<a id="kakao-login-btn"></a>
-				<input type="button" value="로그아웃" onclick="ktout()"/>
 				<script type='text/javascript'>
 					var token;
 				    // 사용할 앱의 JavaScript 키를 설정해 주세요.
@@ -123,7 +118,6 @@ height: auto;
 				    // 카카오 로그인 버튼을 생성합니다.
 				    Kakao.Auth.createLoginButton({
 				      container: '#kakao-login-btn',
-				      
 				      // 1 로그인 성공
 				      success: function(authObj) {
 				    	  
@@ -133,7 +127,7 @@ height: auto;
 				    	  Kakao.API.request({
 				    		 url : '/v2/user/me',
 				    		 success: function(res){
-				    			 alert("정보 요청 성공")
+				    			 //alert("정보 요청 성공")
 				    			 console.log(res);
 				    			 
 				    			 var userId = res.id;
@@ -151,14 +145,20 @@ height: auto;
 				    			 
 				    			 if(has_email){
 				    				 userEmail = res.kakao_account.email;
+				    			 }else {
+				    				 userEmail = "";
 				    			 }
 				    			 if(has_age_range){
 				    				 age = res.kakao_account.age_range;
 				    				 var idx = age.lastIndexOf("~");
 				    				 age = age.substring(0, idx);
+				    			 }else {
+				    				 age = 0;
 				    			 }
 				    			 if(has_gender){
 				    				 gender = (res.kakao_account.gender == "female") ? "여" : "남";
+				    			 }else {
+				    				 gender = "";
 				    			 }
 				    			 
 				    			 if(profile_image != null){
@@ -169,33 +169,63 @@ height: auto;
 				    				 profile_image = "user.png";
 				    			 }
 				    			 
-				    			 // 로그인 처음인 경우, 회원가입 처리
+				    			 // 가입 여부 확인
 				    			 $.ajax({
-				    					type: 'POST',
-				    					url : '${root}/member/kakaojoin',
+				    					type: 'GET',
+				    					url : '${root}/member/idcheck',
 				    					dataType : 'json',
-				    					data : {
-				    							'userId' : userId,
-				    							'pass' : 'kakao',
-				    							'name' : userNickName,
-				    							'age' : age,
-				    							'gender' : gender,
-				    							'profile' : profile_image
-				    						   },
-				    					success : function(json){
-				    						alert("카톡 회원가입 성공");
-				    						
-				    						$("#ui").val(userId);
-				    						$("#pw").val('kakao');
-				    						$("#name").val(userNickName);
-				    						$("#age").val(age);
-				    						$("#gender").val(gender);
-				    						$("#kakao_profile").val(profile_image);
-				    						
-				    						$("#kakaologin").attr("action", "${root}/member/login").submit();
-				    						
+				    					data : {'checkid' : userId},
+				    					success : function(data){
+				    						idcnt = parseInt(data.idcount);
+
+				    						// 아이디 존재 여부 x
+				    						if(idcnt == 0){
+				    							// 로그인 처음인 경우, 회원가입 처리
+								    			 $.ajax({
+								    					type: 'POST',
+								    					url : '${root}/member/kakaojoin',
+								    					dataType : 'json',
+								    					data : {
+								    							'userId' : userId,
+								    							'pass' : 'kakao',
+								    							'name' : userNickName,
+								    							'age' : age,
+								    							'gender' : gender,
+								    							'profile' : profile_image
+								    						   },
+								    					success : function(json){
+								    						alert("카톡 회원가입 성공");
+								    						
+								    						// 카톡 id로 로그인
+								    						$("#ui").val(userId);
+								    						$("#pw").val('kakao');
+								    						$("#name").val(userNickName);
+								    						$("#age").val(age);
+								    						$("#gender").val(gender);
+								    						$("#kakao_profile").val(profile_image);
+								    						
+								    						$("#kakaologin").attr("action", "${root}/member/login").submit();
+								    						
+								    					}
+								    				});
+				    						} else { // 아이디 존재 여부 o
+								    			alert("카톡 바로 로그인");
+				    							
+				    							// 카톡 id로 로그인
+				    							$("#ui").val(userId);
+					    						$("#pw").val('kakao');
+					    						$("#name").val(userNickName);
+					    						$("#age").val(age);
+					    						$("#gender").val(gender);
+					    						$("#kakao_profile").val(profile_image);
+					    						
+					    						$("#kakaologin").attr("action", "${root}/member/login").submit();
+					    						
+				    						}
 				    					}
 				    				});
+				    			 
+				    			 
 				    			 
 				    		 },
 				    		 fail : function(error){
@@ -210,12 +240,7 @@ height: auto;
 				      }
 				    });
 				    
-				    // 로그아웃
-				    function ktout(){
-				    	Kakao.Auth.logout(function(){
-				    		setTimeout(function(){location.href="${root}/index.jsp"}, 1000);
-				    	});
-				    }
+				    
 				    
 			
 				</script>
