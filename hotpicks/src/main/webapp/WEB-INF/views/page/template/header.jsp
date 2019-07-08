@@ -81,9 +81,9 @@
                 </ul>
               </li>
 <c:if test="${userInfo != null}">
-              <li><a href="${root}/mypicklist/list">My Picks</a>
+              <li><a href="${root}/mypicklist/enter">My Picks</a>
                 <ul>
-                  <li><a href="${root}/mypicklist/list">Pick 목록</a></li>
+                  <li><a href="${root}/mypicklist/enter">Pick 목록</a></li>
                   <li><a href="${root}/mypickmap/mvmypickmap">Pick 지도</a></li>
                   <li><a href="${root}/mypicklist/cal">Pick 달력</a></li>
                 </ul>

@@ -16,16 +16,30 @@
 
 </style>
 <script>
-$(function() {
+$(function(){
+			alert("page on");
+
+			loading();
+	
+			alert("page off");
+
+	
+});
+	
+function loading(){
+	alert("ere");
 	$.ajax({
 		url : "${root}/mypicklist/list",
 		type : "get",
 		success :function(result){
 			console.log("넘어옴");
 			$("#about").html(result);
+			return;
 			}
 	});
-});
+	
+}
+	
 </script>
 
 

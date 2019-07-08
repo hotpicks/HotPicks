@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kitri.hotpicks.common.service.CommonService;
@@ -32,9 +33,13 @@ public class MypickDamController {
 	@Autowired
 	private CommonService commonService;
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+
 	public String list(Model model,HttpSession session) {
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
+		if(memberDto == null) {
+			memberDto.setUserId("dam@naver.com");
+		}
 		String userid = memberDto.getUserId();
 		List<PickListDto> list = mypickDamService.listArticle(userid);
 		System.out.println(list);
@@ -49,6 +54,10 @@ public class MypickDamController {
 //		model.addAttribute("navigator", pageNavigation);
 	}
 	
+	@RequestMapping(value = "/enter", method = RequestMethod.GET)	
+	public String enter() {
+		return  "mypicks/mypicklist";
+	}
 	
 	@RequestMapping(value = "/cal", method = RequestMethod.GET)	
 	public String calendar(Model model, HttpSession session) {
