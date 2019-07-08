@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,15 +37,15 @@ public class ReviewController {
 	
 	@Autowired
 	private ReviewService reviewService;
-	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(ReviewDto reviewDto, 
+	public String write(ReviewDto reviewDto, @RequestParam(value = "hstg" , defaultValue = "") List<String> hstg,
 						@RequestParam Map<String, String> parameter, 
 						Model model, HttpSession session,
 						@RequestParam("picture") MultipartFile multipartFile) {
+		System.out.println("hstg : " + hstg);
+		System.out.println("map : " + parameter);
 		System.out.println("ReviewController 들어왔다!!");
 		String path = "";
-		
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		if(memberDto != null) {
 			int seq = commonService.getReNextSeq();
@@ -99,5 +100,67 @@ public class ReviewController {
 		model.addAttribute("parameter", parameter);
 		return path;
 	}
+//	@RequestMapping(value = "/write", method = RequestMethod.POST)
+//	public String write(ReviewDto reviewDto, 
+//						@RequestParam Map<String, String> parameter, 
+//						Model model, HttpSession session,
+//						@RequestParam("picture") MultipartFile multipartFile) {
+//		System.out.println("ReviewController 들어왔다!!");
+//		String path = "";
+//		
+//		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
+//		if(memberDto != null) {
+//			int seq = commonService.getReNextSeq();
+//			reviewDto.setSeq(seq);
+//			reviewDto.setUserId(memberDto.getUserId());
+//			
+//			//contents아이디/별점
+//			reviewDto.setContentsId(1);
+//			
+//			//
+//			
+//			if(multipartFile != null && !multipartFile.isEmpty()) {
+//				String orignPicture = multipartFile.getOriginalFilename();
+//				
+//				String realPath = servletContext.getRealPath("/upload/review");
+//				DateFormat df = new SimpleDateFormat("yyMMdd");
+//				String saveFolder = df.format(new Date());
+//				String realSaveFolder = realPath + File.separator + saveFolder;
+//				File dir = new File(realSaveFolder);
+//				if(!dir.exists()) {
+//					dir.mkdirs();
+//				}
+//				String savePicture = UUID.randomUUID().toString() + orignPicture.substring(orignPicture.lastIndexOf('.'));
+//				
+//				File file = new File(realSaveFolder, savePicture);
+//				
+//				try {
+//					multipartFile.transferTo(file);
+//				} catch (IllegalStateException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				
+//				reviewDto.setOrignPicture(orignPicture);
+//				reviewDto.setSavePicture(savePicture);
+//				reviewDto.setSaveFolder(saveFolder);
+//			}
+//			seq = reviewService.writeArticle(reviewDto);
+//			
+//			if(seq != 0) {
+//				model.addAttribute("seq", seq);
+//				path = "contents/writeok";
+//			} else {
+//				path = "contents/writefail";
+//			}
+//		} else {
+//			path = "contents/writefail";
+//		}
+//		model.addAttribute("parameter", parameter);
+//		return path;
+//	}
 
 }

@@ -8,9 +8,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/contents")
 public class ContentsDetailController {
 	
+//	@RequestMapping(value = "/contentdetail", method = RequestMethod.GET)
+//	public void contentdetail() {
+////		System.out.println("상세일정들어옴");
+////		return "/contents/contentdetail";
+//	}
 	@RequestMapping(value = "/contentdetail", method = RequestMethod.GET)
-	public void contentdetail() {
+	public String contentdetail() {
 //		System.out.println("상세일정들어옴");
 //		return "/contents/contentdetail";
+		String path = "contents/tpguscontentdetail";
+		return path;
 	}
 }
