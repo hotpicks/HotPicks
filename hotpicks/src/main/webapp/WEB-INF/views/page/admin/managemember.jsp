@@ -14,9 +14,29 @@ $(function(){
 			$(".ch").attr("checked", false);			
 		}
 	});
-
+	
+	// 회원관리 접속 시, 기본 전체 회원 목록을 불러옴
+	var selected = $("#memberType").val();
+	getMember(selected);
+	
+	// 셀렉트 박스 변경 시마다, 맞는 회원 목록을 불러옴
+	$("#memberType").change(function() {
+		getMember($(this).val());
+	});
 	
 });
+
+// 회원분류에 따른 회원 목록 불러오기 메소드
+function getMember(selected){
+	$.ajax({
+		type : 'GET',
+		url : '${root}/admin/mgmember/' + selected,
+		success : function(result){
+			$("#memberList").html(result);
+		}
+	});
+}
+
 </script>
 
   <!-- Begin Wrapper -->
@@ -63,15 +83,15 @@ $(function(){
           <!-- ********** 회원 관리 테이블 ********** -->
           	<a href="#" class="button red btns" style="margin-right:30px; font-weight: 700;">활동중지<span></span></a>
           	<a href="#" class="button red btns" style="font-weight: 700;">강제탈퇴<span></span></a>
-          	<select>
-          		<option>전체 회원</option>
-          		<option>신고 회원</option>
+          	<select id="memberType">
+          		<option value="전체회원">전체 회원</option>
+          		<option value="신고회원">신고 회원</option>
           	</select>
           	<div class="clear"></div>
  
           <div style="float:none; height: 600px; overflow-y:auto">
           
-          <p class="list">
+          <p class="list" id="memberList">
           	
           	<table>
           		<tr align="center">
