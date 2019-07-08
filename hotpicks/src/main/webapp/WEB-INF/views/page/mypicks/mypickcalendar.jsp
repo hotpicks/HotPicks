@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 
 <link href='${root}/resources/packages/core/main.css' rel='stylesheet' />
@@ -43,11 +41,6 @@
       editable: true,
       eventLimit: true, // allow "more" link when too many events
       events: [
-        {
-          title: '${article.title}',
-          start: '${article.eventStartDate}',
-          end: '${article.eventEndDate}'
-        },
         {
           title: 'Long Event',
           start: '2019-06-07',

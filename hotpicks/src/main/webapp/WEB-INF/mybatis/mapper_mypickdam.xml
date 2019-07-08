@@ -5,11 +5,19 @@
  <mapper namespace="com.kitri.hotpicks.mypicks.dao.MypicksDamDao">
  	
 	<select id="listArticle" parameterType="String" resultType="pickListDto">
-		select A.seq, A.userid, A.contentsId, A.title, A.image1,A.catId ,to_char(to_date(to_char(eventstartdate,'99999999'),'yyyy.mm.dd'),'yyyy-mm-dd'),to_char(to_date(to_char(cD.eventEndDate,'99999999'),'yyyy.mm.dd'),'yyyy-mm-dd'), cD.spendTime
-		from(select pL.seq,pL.userid, pL.contentsId,C.title,C.image1,C.catId
+		select  A.userid, A.contentsId,A.wanna, A.title, A.image1,A.catId
+		from(select pL.userid, pL.contentsId,pL.wanna,C.title,C.image1,C.catId
+		 	 from pickList pL, contents C
+			 where pL.contentsId=C.contentsId
+			 and pL.userid = #{userid}) A
+	</select>
+	
+	<!-- <select id="listArticle" parameterType="String" resultType="pickListDto">
+		select  A.userid, A.contentsId,A.wanna, A.title, A.image1,A.catId ,to_char(to_date(to_char(eventstartdate,'99999999'),'yyyy.mm.dd'),'yyyy-mm-dd'),to_char(to_date(to_char(cD.eventEndDate,'99999999'),'yyyy.mm.dd'),'yyyy-mm-dd'), cD.spendTime
+		from(select pL.userid, pL.contentsId,pL.wanna,C.title,C.image1,C.catId
 		 	 from pickList pL, contents C
 			 where pL.contentsId=C.contentsId
 			 and pL.userid = #{userid}) A, contentsDetail cD
-	</select>
+	</select> -->
 
  </mapper>
