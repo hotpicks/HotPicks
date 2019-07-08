@@ -71,13 +71,12 @@ public class ContentsServiceImpl implements ContentsService {
 
 		
 		BufferedReader br = null;
-		List<Integer> contentsIdList = null;
+		List<Integer> contentsIdList = new ArrayList<Integer>();;
 		ContentsDto contentsDto = null;
 		URL url;
 		for (int a = 0; a < typeList.size(); a++) {
 			String contentsUrlStr = urlStr + "&" + typeList.get(a).getCatType() + "=" + typeList.get(a).getCatCode();
 			System.out.println(contentsUrlStr);
-			System.out.println(a);
 			try {
 				url = new URL(contentsUrlStr);
 				HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -106,7 +105,7 @@ public class ContentsServiceImpl implements ContentsService {
 				JSONArray parse_itemlist = (JSONArray) parse_items.get("item");
 				JSONObject item = null;
 
-				contentsIdList = new ArrayList<Integer>();
+				
 				for (int i = 0; i < parse_itemlist.size(); i++) {
 					item = (JSONObject) parse_itemlist.get(i);
 					contentsDto = new ContentsDto();
@@ -218,11 +217,13 @@ public class ContentsServiceImpl implements ContentsService {
 					// System.out.println("obj : " + obj);
 					// top레벨의 response 키로 데이터 파싱
 					JSONObject parse_response = (JSONObject) obj.get("response");
+					System.out.println(j +"/" + contentsIdList.get(i) + "/detailresponse : " + parse_response);
 					JSONObject parse_body = (JSONObject) parse_response.get("body");
+					//System.out.println(j +"/" + contentsIdList.get(i) + "/detailbody : " + parse_body);
 					if (Integer.valueOf(parse_body.get("totalCount").toString()) == 0) {
+						System.out.println("break");
 						break;
 					}
-					System.out.println(j + "/dbody : " + parse_body);
 					JSONObject parse_items = (JSONObject) parse_body.get("items");
 					JSONObject item = null;
 					switch (j) {
@@ -376,7 +377,7 @@ public class ContentsServiceImpl implements ContentsService {
 							// insert
 							sqlSession.getMapper(ContentsDao.class).insertApiContentsimage(imageDto);
 
-							System.out.println("img : " + imageDto.toString());
+							//System.out.println("img : " + imageDto.toString());
 						}
 
 						break;
