@@ -17,17 +17,14 @@
 </style>
 <script>
 $(function() {
-	
 	$.ajax({
 		url : "${root}/mypicklist/list",
 		type : "get",
-		dataType : "html",
 		success :function(result){
 			console.log("넘어옴");
-			$('#about').html(result);
+			$("#about").html(result);
 			}
 	});
-	
 });
 </script>
 

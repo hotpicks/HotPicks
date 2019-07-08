@@ -9,9 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kitri.hotpicks.common.service.CommonService;
 import com.kitri.hotpicks.member.model.MemberDto;
@@ -21,6 +23,7 @@ import com.kitri.hotpicks.util.PageNavigation;
 
 @Controller
 @RequestMapping("/mypicklist")
+@SessionAttributes("userInfo")
 public class MypickDamController {
 	
 	@Autowired
@@ -45,6 +48,7 @@ public class MypickDamController {
 //		model.addAttribute("parameter", parameter);
 //		model.addAttribute("navigator", pageNavigation);
 	}
+	
 	
 	@RequestMapping(value = "/cal", method = RequestMethod.GET)	
 	public String calendar(Model model, HttpSession session) {
