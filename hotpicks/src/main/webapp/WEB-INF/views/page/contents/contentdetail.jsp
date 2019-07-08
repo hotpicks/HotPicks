@@ -14,6 +14,16 @@ $(document).ready(function() {
 			$("#writeForm").attr("action","${root}/review/write").submit();
 		}
 	});
+	
+	$("#pick").click(function () {
+		var result = confirm("가고싶은곳 확인) , 다녀온곳 취소)");
+		if(result){
+			alert("가고싶은곳에 등록되었습니다.");
+		}else{
+			alert("다녀온곳에 등록되었습니다.")
+		}
+		
+	});
 });
 </script>
 <style>
@@ -65,7 +75,7 @@ li.clearfix {
 				<h1 class="title" style="margin-top: 20px;">부산 다함께 축제</h1>
 			</div>
 			<div style="float: right;">
-				<img src="${root}/resources/style/images/heart64.png">
+				<img id="pick" src="${root}/resources/style/images/heart64.png">
 			</div>
 			<div style="clear: both;"></div>
 			<div class="meta">
