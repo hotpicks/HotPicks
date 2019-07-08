@@ -180,23 +180,11 @@ public class MemberController {
 					   Map<String, String> parameter,
 					   Model model) {
 		System.out.println("member_c : 마이페이지 리뷰 포함 이동 메소드 들어옴");
-		// TODO 마이페이지 이동 이벤트 수정
-		// : memberDto의 id값이 가진, 리뷰개수, 리뷰 정보들을 model에 add해주기
-		// 리뷰 가져오기
-		// parameter : userInfo
-		System.out.println("category 뭘 받아오니 ? " + category);
-		System.out.println("유저인포 뭘 받아오니 ? " + memberDto);
-		System.out.println("파라미터 뭘 받아오니 ? " + parameter);
 		
 		parameter.put("category", category);
 		parameter.put("userId", memberDto.getUserId());
 		
 		List<Map<String, String>> userReviews = memberService.getReview(parameter);
-//		System.out.println("받아 온 리뷰? : " + userReviews);
-//		System.out.println("리뷰 개수 : " + userReviews.size());
-//		System.out.println("첫번째 리뷰 제목 : " + userReviews.get(0).get("SUBJECT"));
-	
-		System.out.println("뭘 보내니? " + userReviews);
 		
 		model.addAttribute("reviews", userReviews);
 		return "member/mypageResult";
