@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kitri.hotpicks.common.service.CommonService;
+import com.kitri.hotpicks.contents.model.HashTagDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
 import com.kitri.hotpicks.contents.service.ReviewService;
 import com.kitri.hotpicks.member.model.MemberDto;
@@ -39,6 +42,7 @@ public class ReviewController {
 	private ReviewService reviewService;
 
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	@Transactional
 	public String write(ReviewDto reviewDto, @RequestParam(value = "hstg" , defaultValue = "") List<String> hstg,
 						@RequestParam Map<String, String> parameter, 
 						Model model, HttpSession session,
@@ -47,6 +51,7 @@ public class ReviewController {
 		System.out.println("map : " + parameter);
 		System.out.println("ReviewController 들어왔다!!");
 		String path = "";
+		int contentsid = 140682;
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		if(memberDto != null) {
 			int rseq = commonService.getReNextSeq();
@@ -55,7 +60,7 @@ public class ReviewController {
 			reviewDto.setUserId(memberDto.getUserId());
 			
 			//contents아이디/별점
-			reviewDto.setContentsId(140682);
+			reviewDto.setContentsId(contentsid);
 			
 			//
 			String realPath = "";
@@ -97,6 +102,26 @@ public class ReviewController {
 				reviewDto.setSaveFolder(saveFolder);
 			}
 			rseq = reviewService.writeArticle(reviewDto, hstg);
+			
+			List<HashTagDto> hashList = new ArrayList<HashTagDto>();
+			List<String> nonHashList = new ArrayList<String>();
+			for (int i = 0; i < hstg.size(); i++) {
+				HashTagDto hashTagDto = reviewService.getHashList(hstg.get(i), rseq);
+				if (hashTagDto != null) {
+					hashList.add(hashTagDto);
+				} else {
+					nonHashList.add(hstg.get(i));
+				}
+			}
+			if (hashList.size() != 0) {
+				System.out.println(hashList.get(0).getHashTag());
+				reviewService.updHashList(hashList);
+			}
+			if (nonHashList.size() != 0) {
+				reviewService.insNonHashList(nonHashList, contentsid);
+			}
+			
+			
 			
 			if(rseq != 0) {
 				model.addAttribute("rseq", rseq);
