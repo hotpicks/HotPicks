@@ -14,9 +14,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kitri.hotpicks.common.service.CommonService;
@@ -37,6 +39,15 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@ResponseBody
+	public String list(int contentsId) {
+//		System.out.println("리스트뽑으러 컨트롤러 도착");
+		String json = reviewService.reviewlist(contentsId);
+		System.out.println("json : " + json);
+		return json;
+	}
+	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String write(ReviewDto reviewDto, 
 						@RequestParam Map<String, String> parameter, 
@@ -47,12 +58,12 @@ public class ReviewController {
 		
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		if(memberDto != null) {
-			int seq = commonService.getReNextSeq();
-			reviewDto.setSeq(seq);
+			int rseq = commonService.getReNextSeq();
+			reviewDto.setSeq(rseq);
 			reviewDto.setUserId(memberDto.getUserId());
 			
-			//contents아이디/별점
-			reviewDto.setContentsId(1);
+			//contents아이디
+			reviewDto.setContentsId(630609);
 			
 			
 			if(multipartFile != null && !multipartFile.isEmpty()) {
@@ -84,10 +95,10 @@ public class ReviewController {
 				reviewDto.setSavePicture(savePicture);
 				reviewDto.setSaveFolder(saveFolder); 
 			}
-			seq = reviewService.writeArticle(reviewDto);
+			rseq = reviewService.writeArticle(reviewDto);
 			
-			if(seq != 0) {
-				model.addAttribute("seq", seq);
+			if(rseq != 0) {
+				model.addAttribute("rseq", rseq);
 				path = "contents/writeok";
 			} else {
 				path = "contents/writefail";

@@ -6,9 +6,15 @@
  	
  	<insert id="writeArticle" parameterType="reviewDto">
 	insert all
-		into review (seq, userId,contentsId,hashTag,subject,starPoint,content,logTime,saveFolder,orignPicture,savePicture)
-		values (#{seq}, #{userId}, #{contentsId}, #{hashTag}, #{subject}, #{starPoint}, #{content}, sysdate, #{saveFolder}, #{orignPicture},#{savePicture})
+		into review (rseq, userId,contentsId,hashTag,subject,starPoint,content,logTime,saveFolder,orignPicture,savePicture)
+		values (#{rseq}, #{userId}, #{contentsId}, #{hashTag}, #{subject}, #{starPoint}, #{content}, sysdate, #{saveFolder}, #{orignPicture},#{savePicture})
 	select * from dual
 	</insert>
+	
+	<select id="reviewlist" parameterType="int" resultType="reviewDto">
+	select *
+	from review
+	where contentsId = #{contentsId}
+	</select>
  
  </mapper>

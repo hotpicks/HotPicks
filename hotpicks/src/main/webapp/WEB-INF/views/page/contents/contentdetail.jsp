@@ -3,18 +3,6 @@
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
 <script>
 $(document).ready(function() {
-	$("#writeBtn").click(function() {
-		if($("#subject").val() == "") {
-			alert("제목 입력!!!");
-			return;
-		} else if($("#content").val() == "") {
-			alert("내용 입력!!!");
-			return;
-		} else {
-			$("#writeForm").attr("action","${root}/review/write").submit();
-		}
-	});
-	
 	$("#pick").click(function () {
 		var result = confirm("가고싶은곳 확인) , 다녀온곳 취소)");
 		if(result){
@@ -24,6 +12,89 @@ $(document).ready(function() {
 		}
 		
 	});
+	
+	//리뷰작성
+	getWriteList();
+	
+	function getWriteList() {
+		$.ajax({
+			url : '${root}/review/list',
+			type : 'GET',
+			dataType : 'json',
+			data : {contentsId : '630609'},
+			success : function(response){
+				makeWriteList(response);
+			}
+		});
+	}
+	
+	$("#writeBtn").click(function() {
+		 //var writeForm = $("#writeForm").serialize();
+
+		if ('${userInfo == null}' == 'true'){
+			alert("로그인하세요.");
+			
+		} else if($("#subject").val() == "") {
+			alert("제목 입력!!!");
+			return;
+		} else if($("#content").val() == "") {
+			alert("내용 입력!!!");
+			return;
+		} else {
+			$("#writeForm").attr("action","${root}/review/write").submit();
+			/* $.ajax({
+				url : '${root}/review/write',
+				type : 'POST',
+				
+				dataType : 'json',
+				data : writeForm,
+				success : function(response) {
+					makeWriteList(response);
+					$("#subject").val('');
+					$("#hashtag").val('');
+					$("#picture").val('');
+					$("#content").val('');
+				}
+			}); */
+		}
+	});
+	
+	function makeWriteList(reviews) {
+		var reviewcnt = reviews.reviewlist.length;
+		console.log(reviews);
+		var reviewstr = '';
+		for(var i=0; i<reviewcnt; i++) {
+			var review = reviews.reviewlist[i];
+			console.log("1 : " + review);
+			reviewstr += '<li class="clearfix">';
+			reviewstr += '<div class="toggle">';
+			reviewstr += '	<div class="trigger">';
+			reviewstr += '		<div class="user">';
+			reviewstr += '			<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> ';
+			reviewstr += '		</div>';
+			reviewstr += '		<div class="message">';
+			reviewstr += '			<div class="info">';
+			reviewstr += '				<h3><a>'+review.subject+'</a></h3>';
+			reviewstr += '				<span class="date">  - '+review.date+'</span>';
+			reviewstr += '			</div>';
+			reviewstr += '			<p>'+review.starPoint+'</p>';
+			reviewstr += '			<p>'+review.hashTag+'</p>';
+			reviewstr += '		</div>';
+			reviewstr += '	</div>';
+			reviewstr += '	<div class="togglebox">';
+			reviewstr += '		<div>'+review.content+'</div>';
+			reviewstr += '		<div>';
+			reviewstr += '			<textarea id="mcontent" cols="68" rows="5"></textarea>';
+			reviewstr += '			<input type="button" id="memoBtn" value="글작성">';
+			reviewstr += '		</div>';
+			reviewstr += '	</div>';
+			reviewstr += '</div>';
+			reviewstr += '</li>';
+		}
+		$("#singlecomments").empty();
+		$("#singlecomments").append(reviewstr);
+	}
+	
 });
 </script>
 <style>
@@ -117,6 +188,7 @@ li.clearfix {
 					<div class="togglebox">
           				<div>
           				<form id="writeForm" name="writeForm" method="post" action="" enctype="multipart/form-data">
+          					<input type="hidden" name="rseq" value="1">
           					<input type="hidden" name="pg" value="1">
           					<input type="hidden" name="key" value="">
           					<input type="hidden" name="word" value="">
@@ -156,7 +228,7 @@ li.clearfix {
 			<!-- Begin 후기 리스트 -->	
 			<div id="comments">
 				<ol id="singlecomments" class="commentlist">
-					<li class="clearfix">
+					<%-- <li class="clearfix">
 						<div class="toggle">
 							<div class="trigger">
 							<div class="user">
@@ -190,7 +262,7 @@ li.clearfix {
 								</div>
 							</div>
 						</div>
-					</li>
+					</li> --%>
 				</ol>
 			</div>
 			<!-- End 후기 리스트 -->	
