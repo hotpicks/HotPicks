@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<c:set var="root" value="${pageContext.request.contextPath }"/>
 <script type="text/javascript">
 $(function() {
-	var sigunguList = 
+	/* var sigunguList =  */
 	
 
 	 $("#sido").change(function(){
@@ -13,22 +13,22 @@ $(function() {
 		 	$.ajax({
 				url: '${root}/contents/changesgg',
 				type: 'GET',
+				dataType: 'json',
 				data: {"sdcode" : sdcode},
 				success: function(result){
-					alert("돌아옴");
-
+					console.log(result);
+					console.log(result.sigunguJson);
+					var sigunguJson = result.sigunguJson;
 					var sigunguStr = "";
-					sigunguStr += "<c:forEach var='sigungu' items='${sigunguList}'>";
-					sigunguStr += "<option value='${sigungu.sggCode}'>${sigungu.sggName}</option>";
-					sigunguStr += "</c:forEach>";
+					for(var i=0; i<sigunguJson.length();i++){
+					sigunguStr += "<option value='"+ sigunguJson[i].sggCode +"'>"+ sigunguJson[i].sggName +"</option>";
+					} 
 					
-					//$('#sigungu').html(sigunguStr);
+					$('#sigungu').html(sigunguStr);
 					}
 				
 				}); 
-		
-
-			
+			return;
 		});
 			
  
@@ -75,9 +75,6 @@ $(function() {
  <!-- End About --> 
 
    </div>  --%>
-<!-- -------------------------------------------------------------------------- --> 
-<!-- -------------------------------------------------------------------------- --> 
-<!-- -------------------------------------------------------------------------- --> 
 
 	
 
@@ -101,16 +98,12 @@ $(function() {
      	
      	<select id="sigungu">
      	
-		<c:set var="sigunguList" value="${sigunguMap.get(1)}"/>
-		</div>
      	<%-- <c:forEach var="sigungu" items="${sigunguList}">
      			<option value="${sigungu.sggCode}">${sigungu.sggName}</option>
      			
 		</c:forEach> --%>
-		<div>
      	</select>
-
-    </div>
+	</div>
     <!-- End Intro --> 
     
     <!-- favorite -->
@@ -124,7 +117,7 @@ $(function() {
 			<div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
 	    </c:otherwise>
 </c:choose>
-		<img src="${list.image1 != 'x' ? list.image1 : (list.image2 != 'x' ? list.image2 : '') }" width="200" alt="" /></a>
+		<img src="${list.image1 != '-1' ? list.image1 : (list.image2 != '-1' ? list.image2 : '') }" width="200" alt="" /></a>
         <h4>${list.title}</h4>
         <p>${list.title}</p>
       </div>
@@ -132,4 +125,3 @@ $(function() {
     </div> 
     <!-- End About --> 
     
- </div>
