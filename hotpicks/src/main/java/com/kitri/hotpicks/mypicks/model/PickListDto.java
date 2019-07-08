@@ -4,17 +4,10 @@ import com.kitri.hotpicks.contents.model.ContentsDto;
 
 public class PickListDto extends ContentsDto{
 
-	private int seq;
 	private String userId;
 	private int contentsId;
 	private int wanna;
-	
-	public int getSeq() {
-		return seq;
-	}
-	public void setSeq(int seq) {
-		this.seq = seq;
-	}
+	private int distence;
 	public String getUserId() {
 		return userId;
 	}
@@ -33,11 +26,19 @@ public class PickListDto extends ContentsDto{
 	public void setWanna(int wanna) {
 		this.wanna = wanna;
 	}
+	public int getDistence() {
+		return distence;
+	}
+	public void setDistence(int distence) {
+		this.distence = distence;
+	}
 	@Override
 	public String toString() {
-		return "PickListDto [seq=" + seq + ", userId=" + userId + ", contentsId=" + contentsId + ", wanna=" + wanna
-				+ "]";
+		return "PickListDto [userId=" + userId + ", contentsId=" + contentsId + ", wanna=" + wanna + ", distence="
+				+ distence + "]";
 	}
+	
+	
 	
 }
 	
