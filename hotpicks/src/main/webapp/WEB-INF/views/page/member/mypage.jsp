@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
+<%@ include file = "/WEB-INF/views/page/template/logincheck.jsp" %>
 
 <style>
 
@@ -38,18 +39,53 @@ margin-bottom: 20px;
 
 </style>
 
+<script>
+
+$(function(){
+	
+	// 메인페이지 실행 시, 기본 축제 카테고리 리뷰들 불러옴
+	var selected = $("#category").val();
+	getReview(selected);
+	
+	$("#category").change(function(){
+		getReview($(this).val());
+	});
+	
+});
+
+function getReview(selected){
+	$.ajax({
+	    type: 'GET',
+	    url : '${root}/member/mypage/'+selected,
+	    success : function(result){
+	        $("#newslist").html(result);
+	        $(".cate").text(selected);
+	    }
+	});
+}
+
+</script>
+
         <!-- Begin Profile -->
         <div id="comments">
           <ol id="singlecomments" class="commentlist">
             <li class= "clearfix">
               <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
+<c:if test="${userInfo.pass=='kakao'&&userInfo.profile!='user.png'}">
+              	<img alt="사용자프로필사진" src="${userInfo.profile}" height="150px" width="150px"/>
+</c:if>
+<c:if test="${userInfo.pass=='kakao'&&userInfo.profile=='user.png'}">
               	<img alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+</c:if>
+<c:if test="${userInfo.pass!='kakao'}">
+              	<img alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+</c:if>
               </div>
               <div class="message">
                 <div class="info">
-                 <!-- ***************** 이메일 id **************** -->
-                  <h3 style="font-weight:700; font-size:30px;">${userInfo.userId}</h3>
+                 <!-- ***************** 이름 (id) **************** -->
+                  <h3 style="font-weight:700; font-size:30px;">${userInfo.name}님 (${userInfo.userId})</h3>
                  </div>
                  <br><br><br>
                  <!-- ***************** 리뷰 개수 **************** -->
@@ -74,9 +110,9 @@ margin-bottom: 20px;
           
           <div style="float:right">
           <select id="category" name="category">
-             <option value="123" selected>공연</option>
-             <option value="123">전시</option>
-             <option value="123">행사</option>
+             <option value="축제" selected>축제</option>
+             <option value="공연">공연</option>
+             <option value="행사">행사</option>
           </select>
           </div>
           
@@ -84,53 +120,14 @@ margin-bottom: 20px;
           
         <div id="news"> 
 	      <!-- Begin News Navigation -->
-	      <div id="newslist">
-	        <ul>
-	          <!-- Begin 리뷰 글 -->
-	          <li><img src="${root}/resources/style/images/art/blog-th1.jpg" alt="" class="left" />
-	            <h4 class="title"><a href="">[공연] - 쉬어매드니스</a><span>- January 29, 2011</span></h4>
-	            <p>정말 인생 공연...<br>
-	            <a href="" class="more">내용 보기 &raquo;</a> </p>
-	          </li>
-	          <!-- End 리뷰 글--> 
-	          
-	          <!-- Begin 리뷰 글 -->
-	          <li><img src="${root}/resources/style/images/art/blog-th1.jpg" alt="" class="left" />
-	            <h4 class="title"><a href="">[공연] - 쉬어매드니스</a><span>- January 29, 2011</span></h4>
-	            <p>정말 인생 공연...<br>
-	            <a href="" class="more">내용 보기 &raquo;</a> </p>
-	          </li>
-	          <!-- End 리뷰 글-->
-	          
-	          <!-- Begin 리뷰 글 -->
-	          <li><img src="${root}/resources/style/images/art/blog-th1.jpg" alt="" class="left" />
-	            <h4 class="title"><a href="">[공연] - 쉬어매드니스</a><span>- January 29, 2011</span></h4>
-	            <p>정말 인생 공연...<br>
-	            <a href="" class="more">내용 보기 &raquo;</a> </p>
-	          </li>
-	          <!-- End 리뷰 글-->  
-	          
-	          <!-- Begin 리뷰 글 -->
-	          <li><img src="${root}/resources/style/images/art/blog-th1.jpg" alt="" class="left" />
-	            <h4 class="title"><a href="">[공연] - 쉬어매드니스</a><span>- January 29, 2011</span></h4>
-	            <p>정말 인생 공연...<br>
-	            <a href="" class="more">내용 보기 &raquo;</a> </p>
-	          </li>
-	          <!-- End 리뷰 글-->  
-	          
-	          <!-- Begin 리뷰 글 -->
-	          <li><img src="${root}/resources/style/images/art/blog-th1.jpg" alt="" class="left" />
-	            <h4 class="title"><a href="">[공연] - 쉬어매드니스</a><span>- January 29, 2011</span></h4>
-	            <p>정말 인생 공연...<br>
-	            <a href="" class="more">내용 보기 &raquo;</a> </p>
-	          </li>
-	          <!-- End 리뷰 글-->  
-	          
-	        </ul>
+	      <div id="newslist" style="float:none; height: 650px; overflow-y:auto">
+	        
+	        <!-- 동적 리뷰 페이지 -->
+	        
 	      </div>
+	      
 	      <div class="clearfix"></div>
-	      <div id="scroll"> <a href="#" id="newslist-prev" class="jbutton"></a> <a href="#" id="newslist-next" class="jbutton"></a> </div>
-	      <div class="clearfix"></div>
+	      
     	</div>
         
         <!-- End My Review 목록 -->
