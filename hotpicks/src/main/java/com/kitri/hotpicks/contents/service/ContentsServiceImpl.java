@@ -40,10 +40,15 @@ public class ContentsServiceImpl implements ContentsService {
 	@Autowired
 	private SqlSession sqlSession;
 
-	String takapikey = "qldeV%2BL5Ff%2BFi%2BJisZxRFyc1KDitxcPmNkhuwOjk6c7xQDVITEe0oDrh3XFd98iqnW89ky8RMDhQkQIb48h3%2BQ%3D%3D";
-
+	//조원 api키
+		String takapikey = "qldeV%2BL5Ff%2BFi%2BJisZxRFyc1KDitxcPmNkhuwOjk6c7xQDVITEe0oDrh3XFd98iqnW89ky8RMDhQkQIb48h3%2BQ%3D%3D";
+		String shzyapikey = "V4CdZIa4lvepCWdXBIawOOghJwjrvjCI5fHDGnlILqJR4oVDLlEj8KRQYj19EM6l72okVEcfDPBbAtFdkokM4Q%3D%3D";
+		String pshapikey = "YE3kxGJ%2FLwnnhz1ZCffuLBsyh1RuRshI6USdUAbCfggj5%2B8AwdEt7WV8MW%2FhbUDrRWOEGXHW53TeOiZggnqCNw%3D%3D";
+		String lsdapikey = "W%2BjXnjTFTna8E3xfLQFWfoM5qwBKjUVr8lOiM5snThqHGHwxJas1l1hoZXADRDRD4smrfWhiBtFxfORMgAyYxg%3D%3D";
+	
 	@Override
 	public void insertApiProcess(String urlStr) {
+		System.out.println("service contents insert process");
 		// 삽입할때 공연/행사를 한번에 불러와서 catcode를 가지고 뒷부분 짤라서 행사는 종류가 적으니
 		// if(code ==행사코드)로 디비에 나눠저장. catType cateCode
 
@@ -52,7 +57,7 @@ public class ContentsServiceImpl implements ContentsService {
 
 //		String ee = "&cat1=A02&" + "&cat2=A0207" + "&cat3=A02070100";
 
-		System.out.println("service contents insert process");
+		
 		// Insert Contents process
 		List<ContentsTypeDto> typeList = new ArrayList<ContentsTypeDto>();
 		typeList = sqlSession.getMapper(ContentsDao.class).selectContentsType();
@@ -113,8 +118,8 @@ public class ContentsServiceImpl implements ContentsService {
 					contentsDto.setContentsId(contentsId);
 					contentsIdList.add(contentsId);
 					contentsDto.setTitle(item.get("title").toString());
-					contentsDto.setCatId(typeList.get(0).getCatId());
-					contentsDto.setCatCode(typeList.get(0).getCatCode().toString());
+					contentsDto.setCatId(typeList.get(a).getCatId());
+					contentsDto.setCatCode(typeList.get(a).getCatCode().toString());
 					contentsDto.setSdCode(Integer.valueOf(
 							(item.get("areacode") == null || item.get("sigungucode") == null ? 0 : item.get("areacode"))
 									.toString()));
@@ -165,19 +170,19 @@ public class ContentsServiceImpl implements ContentsService {
 
 		String detailCommonUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "defaultYN=Y&" + "addrinfoYN=Y&"
-				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + takapikey + "&"; // conid
+				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + shzyapikey + "&"; // conid
 
 		String detailIntroUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ takapikey + "&"; // "conid,typeid"
+				+ shzyapikey + "&"; // "conid,typeid"
 
 		String detailInfoUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailInfo?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ takapikey + "&"; // "conid,typeid"
+				+ shzyapikey + "&"; // "conid,typeid"
 
 		String detailImageUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "imageYN=Y&" + "subImageYN=Y&"
-				+ "ServiceKey=" + takapikey + "&"; // "conid";
+				+ "ServiceKey=" + shzyapikey + "&"; // "conid";
 
 		detailUrlList.add(detailCommonUrlStr);
 		detailUrlList.add(detailIntroUrlStr);
@@ -467,11 +472,15 @@ public class ContentsServiceImpl implements ContentsService {
 	}
 
 	public String locationProcess(String locationUrl) {
+		System.out.println("service Location insert process");
 		/*
-		 * 로케이션 추가 프로세스 setsido() : 시도 process(primary key 때문에 선 시도 후 시군구 해야함) 1. api
-		 * 시도자료 get 및 list에 담기 2. 코드는 리스트에 추가 및 DB에 list.size() 만큼 insert(1,2번을 한
-		 * process로 for문 사용) (1,2)에서 만든 리스트의 contentid 들을 인자값으로 3. api 군구자료 get하고
-		 * detailDto에 담기 4. DB에 list.size() 만큼 insert(3,4번을 한 process로 for문)
+		 * 로케이션 추가 프로세스 setsido() : 시도 process(primary key 때문에 선 시도 후 시군구 해야함) 
+		 * 0. basicdata insert or sido sigungu data insert 때 전체지역명시용 data 함께 insert
+		 * 1. api 시도자료 get 및 list에 담기 
+		 * 2. 코드는 리스트에 추가 및 DB에 list.size() 만큼 insert(1,2번을 한 process로 for문 사용)
+		 *  (1,2)에서 만든 리스트의 contentid 들을 인자값으로
+		 *  3. api 군구자료 get하고 detailDto에 담기 
+		 * 4. DB에 list.size() 만큼 insert(3,4번을 한 process로 for문)
 		 */
 		List<Integer> sdList = insertSido(locationUrl);
 		if (sdList != null) {
@@ -528,7 +537,7 @@ public class ContentsServiceImpl implements ContentsService {
 
 			}
 			sqlSession.getMapper(ContentsDao.class).insertSido(sidoData);
-
+			sdList.add(0);
 			return sdList;
 
 		} catch (MalformedURLException e) {
@@ -545,15 +554,19 @@ public class ContentsServiceImpl implements ContentsService {
 		return null;
 	}
 
+
+	
 	public void insertSigungu(String sigunguUrlOrigin, List<Integer> sdList) {
 
 		BufferedReader br;
 		URL url;
 		SigunguDto sigungu;
 		String sigunguUrl;
-
+		
+		sqlSession.getMapper(ContentsDao.class).insertSigunguEx(sdList);
+		
 		int len = sdList.size();
-		for (int i = 0; i < len; i++) {
+		for (int i = 0; i < len-1; i++) {
 			sigunguUrl = sigunguUrlOrigin + "&areaCode=" + sdList.get(i);
 			System.out.println(sdList.get(i));
 
@@ -625,14 +638,23 @@ public class ContentsServiceImpl implements ContentsService {
 	}
 
 	@Override
-	public List<SigunguDto> selectSigungu(int sdcode) {
+	public List<SigunguDto> selectSigungu(int sdCode) {
 
-		return sqlSession.getMapper(ContentsDao.class).selectSigungu(sdcode);
+		return sqlSession.getMapper(ContentsDao.class).selectSigungu(sdCode);
 	}
 
 	@Override
-	public List<ContentsDto> selectContentsList() {
-		return sqlSession.getMapper(ContentsDao.class).contentslist();
+	public List<ContentsDto> selectContentsList(Map<String,Integer> parameter) {
+		if(parameter != null) {
+			return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);			
+		}else {
+			return sqlSession.getMapper(ContentsDao.class).contentslist(null);			
+		}
+	}
+
+	@Override
+	public void insertContentsCate() {
+		sqlSession.getMapper(ContentsDao.class).insertContentsCate();
 	}
 
 }
