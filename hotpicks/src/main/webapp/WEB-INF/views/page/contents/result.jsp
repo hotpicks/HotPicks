@@ -5,57 +5,80 @@
 <script type="text/javascript">
 $(function() {
 	setSigungu();
-	
-	
+	var sdCode;
+	var sggCode;
+	var catId;
 	 $("#sido").change(function(){
 		 setSigungu();
-			/* var sdcode = $('#sido').val();
-				alert(sdcode);
-		 	$.ajax({
-				url: '${root}/contents/changesgg',
-				type: 'GET',
-				dataType: 'json',
-				data: {"sdcode" : sdcode},
-				success: function(result){
-					console.log(result);
-					var sigunguJson = result.sigunguJson;
-					var sigunguStr = "";
-					var len = sigunguJson.length;
-					console.log(len);
-					for(var i=0; i<len ;i++){
-					sigunguStr += "<option value='"+ sigunguJson[i].sggCode +"'>"+ sigunguJson[i].sggName +"</option>";
-					} 
-					$('#sigungu').html(sigunguStr);
-				}
-				
-			}); 
-			return; */
+		//selectcontents
+			sdCode = $('#sido').val();
+			sggCode = $('#sigungu').val();
+			catId = $(this).attr("data-catid");
+			console.log(catId + '/' + sdCode + '/' + sggCode);
+			reSelectcontentsList(sdCode, sggCode, catId); 
 		});
+	 
+	 $("#sigungu").change(function(){
+		//selectcontents
+			sdCode = $('#sido').val();
+			sggCode = $('#sigungu').val();
+			catId = $(this).attr("data-catid");
+			console.log(catId + '/' + sdCode + '/' + sggCode);
+			reSelectcontentsList(sdCode, sggCode, catId); 
+	 });
+	 
 			
-function setSigungu(){
-	var sdcode = $('#sido').val();
-	$.ajax({
-	url: '${root}/contents/changesgg',
-	type: 'GET',
-	dataType: 'json',
-	data: {"sdcode" : sdcode},
-	success: function(result){
-		console.log(result);
-		var sigunguJson = result.sigunguJson;
-		var sigunguStr = "";
-		var len = sigunguJson.length;
-		for(var i=0; i<len ;i++){
-		sigunguStr += "<option value='"+ sigunguJson[i].sggCode +"'>"+ sigunguJson[i].sggName +"</option>";
-		} 
-		$('#sigungu').html(sigunguStr);
-	}
-	
-}); 
-return;
-	
-}
+	 var tArr = $(".catsearch");
+	 $(tArr).click(function(){
+		$('#sido').val("0").attr("selected", true);
+		$('#sigungu').html('<option value="0">전체지역</option>');
+		//selectcontents
+		sdCode = $('#sido').val();
+		sggCode = $('#sigungu').val();
+		catId = $(this).attr("data-catid");
+		console.log(catId + '/' + sdCode + '/' + sggCode);
+		reSelectcontentsList(sdCode, sggCode, catId);
+	 });
+	 
+
  	
 });
+
+function setSigungu(){
+	var sdCode = $('#sido').val();
+	$.ajax({
+		url: '${root}/contents/changesgg',
+		type: 'GET',
+		dataType: 'json',
+		data: {"sdCode" : sdCode},
+		success: function(result){
+			console.log(result);
+			var sigunguStr = "";
+			var sigunguJson = result.sigunguJson;
+			var len = sigunguJson.length;
+			for(var i = 0 ; i < len ; i++){
+			sigunguStr += '<option value="'+ sigunguJson[i].sggCode +'">'+sigunguJson[i].sggName +'</option>';
+			}
+			$('#sigungu').html(sigunguStr);
+			
+		}
+	}); 	
+}
+
+//selectcontents
+function reSelectcontentsList(sdCode, sggCode, catId){
+ 	$.ajax({
+	url: '${root}/contents/contentsbylocation',
+	type: 'GET',
+	dataType: 'json',
+	data: {"sdCode" : sdCode, "sggCode" : sggCode , "catId" : catId},
+	success: function(result){
+		console.log(result);
+	}
+}); 
+
+	 
+}
 </script>
 
 
@@ -104,10 +127,10 @@ return;
     <!-- Begin Intro -->
     <div class="intro" align="center">
       <h1 >
-      	<a href="#" style="color: purple;font-style: bold;">전체</a> |
-      	<a href="#" style="color: purple;">공연</a> |
-      	<a href="#" style="color: purple;">전시</a> |
-      	<a href="#" style="color: purple;">행사</a>
+      	<label class="catsearch" data-catid="0" style="color: purple;font-style: bold;">전체</label> |
+      	<label class="catsearch" data-catid="1" style="color: purple;">축제</label> |
+      	<label class="catsearch" data-catid="2" style="color: purple;">공연</label> |
+      	<label class="catsearch" data-catid="3" style="color: purple;">행사</label> 
       </h1>
       
      	<select id="sido">
@@ -117,7 +140,6 @@ return;
      	</select>
      	
      	<select id="sigungu">
-     	
      	<%-- <c:forEach var="sigungu" items="${sigunguList}">
      			<option value="${sigungu.sggCode}">${sigungu.sggName}</option>
      			
@@ -128,7 +150,7 @@ return;
     
     <!-- favorite -->
     <div id="about">
- <c:forEach var="list" items="${dbContentsList}" varStatus="status" end="13">
+ <c:forEach var="list" items="${contentsList}" varStatus="status" end="13">
 <c:choose>
 		<c:when test="${status.last == true || status.count % 4 == 0}">
 	    	<div class="one-fourth last"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
