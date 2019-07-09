@@ -1,6 +1,8 @@
 package com.kitri.hotpicks.contents.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONArray;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kitri.hotpicks.contents.dao.ReviewDao;
+import com.kitri.hotpicks.contents.model.CommentDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
 
@@ -22,7 +25,7 @@ public class ReviewServiceImpl implements ReviewService {
 	public int writeArticle(ReviewDto reviewDto) {
 		System.out.println("ReviewService 들어옴");
 		int cnt = sqlSession.getMapper(ReviewDao.class).writeArticle(reviewDto);
-		return cnt != 0 ? reviewDto.getSeq() : 0;
+		return cnt != 0 ? reviewDto.getRseq() : 0;
 	}
 
 	@Override
@@ -40,6 +43,32 @@ public class ReviewServiceImpl implements ReviewService {
 		json.put("reviewlist", array);
 		
 		return json.toString();
+	}
+
+	@Override
+	public void writeMemo(CommentDto commentDto) {
+		sqlSession.getMapper(ReviewDao.class).writeMemo(commentDto);
+		
+	}
+
+	@Override
+	public String listMemo(int rceq) {
+		List<CommentDto> list =  sqlSession.getMapper(ReviewDao.class).listMemo(rceq);
+		JSONArray array = new JSONArray(list);
+		JSONObject json = new JSONObject();
+		json.put("memolist", array);
+		
+		return json.toString();
+	}
+	
+	@Override
+	public void insHashList(List<String> nonHashList, int rseq, int contentsid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("nonHashList", nonHashList);
+		map.put("rseq", rseq);
+		map.put("contentsid", contentsid);
+		sqlSession.getMapper(ReviewDao.class).insHashList(map);
+		
 	}
 	
 	

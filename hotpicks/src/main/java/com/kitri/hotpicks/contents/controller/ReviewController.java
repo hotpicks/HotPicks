@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kitri.hotpicks.common.service.CommonService;
+import com.kitri.hotpicks.contents.model.CommentDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
 import com.kitri.hotpicks.contents.service.ReviewService;
 import com.kitri.hotpicks.member.model.MemberDto;
@@ -50,20 +52,23 @@ public class ReviewController {
 	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String write(ReviewDto reviewDto, 
+						@RequestParam(value = "hstg" , defaultValue = "") List<String> hstg,
 						@RequestParam Map<String, String> parameter, 
 						Model model, HttpSession session,
 						@RequestParam("picture") MultipartFile multipartFile) {
 		//System.out.println("ReviewController 들어왔다!!");
 		String path = "";
+		int contentsid = Integer.parseInt(parameter.get("contentsid"));
+		
 		
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		if(memberDto != null) {
 			int rseq = commonService.getReNextSeq();
-			reviewDto.setSeq(rseq);
+			reviewDto.setRseq(rseq);
 			reviewDto.setUserId(memberDto.getUserId());
 			
 			//contents아이디
-			reviewDto.setContentsId(630609);
+			reviewDto.setContentsId(contentsid);
 			
 			
 			if(multipartFile != null && !multipartFile.isEmpty()) {
@@ -90,13 +95,16 @@ public class ReviewController {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+				 
 				reviewDto.setOrignPicture(orignPicture);
 				reviewDto.setSavePicture(savePicture);
 				reviewDto.setSaveFolder(saveFolder); 
 			}
 			rseq = reviewService.writeArticle(reviewDto);
-			
+			if (hstg.size() != 0) {
+				System.out.println("nonHashList : " + hstg.size());
+				reviewService.insHashList(hstg, rseq, contentsid);
+			}
 			if(rseq != 0) {
 				model.addAttribute("rseq", rseq);
 				path = "contents/writeok";
@@ -108,6 +116,32 @@ public class ReviewController {
 		}
 		model.addAttribute("parameter", parameter);
 		return path;
+	}
+	
+	@RequestMapping(value = "/memo", method = RequestMethod.POST)
+	public String writeMemo(@RequestBody CommentDto commentDto, HttpSession session) {
+		//Json으로 받아온거는 @RequestBody로 받는다.
+		//consumes="application/json"
+		//headers={Content-type=application/jacson}
+//		System.out.println(memoDto.getMcontent());
+		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
+		if(memberDto != null) {
+			commentDto.setLogId(memberDto.getUserId());
+			reviewService.writeMemo(commentDto);
+			String json = reviewService.listMemo(commentDto.getRceq());
+			return json;
+		}
+		
+		return "";
+	}
+	
+	@RequestMapping(value = "/memo", method = RequestMethod.GET)
+	public String listMemo(int rceq) {
+		System.out.println(rceq);
+		//, consumes="application/json", headers = "{Content-type=application/jacson}"
+		String json = reviewService.listMemo(rceq);
+		System.out.println("memo json : " + json);
+		return json;
 	}
 
 }

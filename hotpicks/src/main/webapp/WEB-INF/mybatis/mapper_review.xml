@@ -5,10 +5,8 @@
  <mapper namespace="com.kitri.hotpicks.contents.dao.ReviewDao">
  	
  	<insert id="writeArticle" parameterType="reviewDto">
-	insert all
-		into review (rseq, userId,contentsId,hashTag,subject,starPoint,content,logTime,saveFolder,orignPicture,savePicture)
-		values (#{rseq}, #{userId}, #{contentsId}, #{hashTag}, #{subject}, #{starPoint}, #{content}, sysdate, #{saveFolder}, #{orignPicture},#{savePicture})
-	select * from dual
+	insert into review (rseq, userId,contentsId,hashTag,subject,starPoint,content,logTime,saveFolder,orignPicture,savePicture)
+	values (#{rseq}, #{userId}, #{contentsId}, #{hashTag}, #{subject}, #{starPoint}, #{content}, sysdate, #{saveFolder}, #{orignPicture},#{savePicture})
 	</insert>
 	
 	<select id="reviewlist" parameterType="int" resultType="reviewDto">
@@ -16,5 +14,28 @@
 	from review
 	where contentsId = #{contentsId}
 	</select>
+	
+	<insert id="writeMemo" parameterType="commentDto">
+	insert into comments (rceq,logId,logTime,content)
+	values (#{rceq}, #{logId}, #{logTime}, #{content})
+	</insert>
+	
+	<select id="listMemo" parameterType="int" resultType="commentDto">
+	select *
+	from comments
+	where rceq = #{rceq}
+	</select>
+	
+	<insert id="insHashList" parameterType="map">
+	   <if test="nonHashList.size() != 0">
+	   insert all
+	   
+	   <foreach collection="nonHashList" item="item" separator=" ">
+	   into hashtag (hashTag, rseq, contentsid,logtime)
+	   values (#{item},#{rseq} ,#{contentsid},sysdate)
+	   </foreach>
+	   select * from dual
+	   </if>
+   	</insert>
  
  </mapper>
