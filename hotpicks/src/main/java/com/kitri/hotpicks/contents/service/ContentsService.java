@@ -14,8 +14,11 @@ public interface ContentsService {
 	List<Map<String, String>> apiexc(String urlStr);
 
 	//api select
-	List<ContentsDto> selectContentsList();
+	List<ContentsDto> selectContentsList(Map<String,Integer> parameter);
 	
+	
+	//contentscate insert
+	void insertContentsCate();
 	
 	//api insert
 	void insertApiProcess(String urlStr);
@@ -26,7 +29,7 @@ public interface ContentsService {
 	//view 단에 sido, sigungu selecter
 	//sido
 	List<SidoDto> selectSido();
-	List<SigunguDto> selectSigungu(int sdcode);
+	List<SigunguDto> selectSigungu(int sdCode);
 	
 	
 	//시도,시군구 api 자료 DB에 insert
