@@ -47,15 +47,13 @@ public class ReviewController {
 						@RequestParam Map<String, String> parameter, 
 						Model model, HttpSession session,
 						@RequestParam("picture") MultipartFile multipartFile) { 
-		System.out.println("hstg : " + hstg);
 		System.out.println("map : " + parameter);
 		System.out.println("ReviewController 들어왔다!!");
 		String path = "";
-		int contentsid = 140682;
+		int contentsid = Integer.parseInt(parameter.get("contentsid"));
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		if(memberDto != null) {
 			int rseq = commonService.getReNextSeq();
-			System.out.println("resq : " + rseq);
 			reviewDto.setRseq(rseq);
 			reviewDto.setUserId(memberDto.getUserId());
 			
@@ -103,22 +101,20 @@ public class ReviewController {
 			}
 			rseq = reviewService.writeArticle(reviewDto, hstg);
 			
-			List<HashTagDto> hashList = new ArrayList<HashTagDto>();
-			List<String> nonHashList = new ArrayList<String>();
-			for (int i = 0; i < hstg.size(); i++) {
-				HashTagDto hashTagDto = reviewService.getHashList(hstg.get(i), rseq);
-				if (hashTagDto != null) {
-					hashList.add(hashTagDto);
-				} else {
-					nonHashList.add(hstg.get(i));
-				}
-			}
-			if (hashList.size() != 0) {
-				System.out.println(hashList.get(0).getHashTag());
-				reviewService.updHashList(hashList);
-			}
-			if (nonHashList.size() != 0) {
-				reviewService.insNonHashList(nonHashList, contentsid);
+			/*
+			 * List<String> nonHashList = new ArrayList<String>();
+			 * List<HashTagDto> hashList = new ArrayList<HashTagDto>();
+			 * for (int i = 0; i < hstg.size(); i++) { HashTagDto hashTagDto =
+			 * reviewService.getHashList(hstg.get(i), rseq, contentsid);
+			 * 
+			 * System.out.println(rseq +","+hstg.get(i)+" , " + hashTagDto); if (hashTagDto
+			 * != null) { hashList.add(hashTagDto); } else { nonHashList.add(hstg.get(i)); }
+			 * } if (hashList.size() != 0) { System.out.println("hashList : " +
+			 * hashList.size()); reviewService.updHashList(hashList); }
+			 */
+			if (hstg.size() != 0) {
+				System.out.println("nonHashList : " + hstg.size());
+				reviewService.insHashList(hstg, rseq, contentsid);
 			}
 			
 			

@@ -8,9 +8,9 @@ import com.kitri.hotpicks.contents.model.ReviewDto;
 public interface ReviewService {
 	int writeArticle(ReviewDto reviewDto,List<String> hstg);
 
-	HashTagDto getHashList(String tag, int rseq);
+	HashTagDto getHashList(String tag, int rseq, int contentsid);
 
 	void updHashList(List<HashTagDto> hashList);
 
-	void insNonHashList(List<String> nonHashList,int contentsid);
+	void insHashList(List<String> nonHashList, int rseq, int contentsid);
 }

@@ -10,5 +10,5 @@ public interface ReviewDao {
 	int writeArticle(ReviewDto reviewDto);
 	HashTagDto getHashTag(Map<String, Object> map);
 	void updHashList(Map<String, Object> map);
-	void insNonHashList(Map<String, Object> map);
+	void insHashList(Map<String, Object> map);
 }

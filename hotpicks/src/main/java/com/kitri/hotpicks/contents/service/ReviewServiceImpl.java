@@ -32,10 +32,11 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public HashTagDto getHashList(String hashtag, int rseq) {
+	public HashTagDto getHashList(String hashtag, int rseq, int contentsid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("hashtag", hashtag);
 		map.put("rseq", rseq);
+		map.put("contentsid", contentsid);
 		HashTagDto hashTagDto = sqlSession.getMapper(ReviewDao.class).getHashTag(map);
 		return hashTagDto;
 	}
@@ -49,11 +50,12 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public void insNonHashList(List<String> nonHashList,int contentsid) {
+	public void insHashList(List<String> nonHashList, int rseq, int contentsid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("nonHashList", nonHashList);
+		map.put("rseq", rseq);
 		map.put("contentsid", contentsid);
-		sqlSession.getMapper(ReviewDao.class).insNonHashList(map);
+		sqlSession.getMapper(ReviewDao.class).insHashList(map);
 		
 	}
 }

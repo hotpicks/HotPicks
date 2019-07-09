@@ -3,7 +3,7 @@ package com.kitri.hotpicks.contents.model;
 public class HashTagDto {
 	private String hashTag;
 	private int rseq;
-	private int tagCount;
+	private int contentsid;
 	
 	public String getHashTag() {
 		return hashTag;
@@ -17,11 +17,11 @@ public class HashTagDto {
 	public void setRseq(int rseq) {
 		this.rseq = rseq;
 	}
-	public int getTagCount() {
-		return tagCount;
+	public int getContentsid() {
+		return contentsid;
 	}
-	public void setTagCount(int tagCount) {
-		this.tagCount = tagCount;
+	public void setContentsid(int contentsid) {
+		this.contentsid = contentsid;
 	}
 	
 	

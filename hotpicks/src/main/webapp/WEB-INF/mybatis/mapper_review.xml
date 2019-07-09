@@ -26,13 +26,13 @@
 		</if>
 	</update>
 	
-	<insert id="insNonHashList" parameterType="map">
+	<insert id="insHashList" parameterType="map">
 	<if test="nonHashList.size() != 0">
 	insert all
 	
 	<foreach collection="nonHashList" item="item" separator=" ">
-	into hashtag (hashTag, rseq, tagCount)
-	values (#{item}, #{contentsid}, 0)
+	into hashtag (hashTag, rseq, contentsid,logtime)
+	values (#{item},#{rseq} ,#{contentsid},sysdate)
 	</foreach>
 	select * from dual
 	</if>

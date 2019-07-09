@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
-${contentsid}
+
 <style>
 .hstg{
 	height: 20px;
@@ -28,8 +28,6 @@ ${contentsid}
 }
 </style>
 <script>
-
-	
 $(document).ready(function() {
 	$('.hstgcancel').live('click', function(e){
 		e.preventDefault();
@@ -38,14 +36,19 @@ $(document).ready(function() {
 	
 	$('#hashTag').keypress(function(e){
 		if(e.keyCode==32){
-			console.log('스페이스바 눌림');
-			var hstg = "<div class='hstgdiv'><input type='hidden' name='hstg' value="
-				+ $('#hashTag').val().trim()+"><label class='hstg'>"
-				+ $('#hashTag').val().trim() 
-				+"<a class='hstgcancel' href='#'>"
-				+"<img class='hstgimg' src='${root}/resources/style/images/icon_x.png'></a></label></div>";
-			$('.hsgroup').append(hstg);
-			$('#hashTag').val('');
+			if ($('.hstg').length <= 4) {
+				console.log('스페이스바 눌림');
+				var hstg = "<div class='hstgdiv'><input type='hidden' name='hstg' value="
+					+ $('#hashTag').val().trim()+"><label class='hstg'>"
+					+ $('#hashTag').val().trim() 
+					+"<a class='hstgcancel' href='#'>"
+					+"<img class='hstgimg' src='${root}/resources/style/images/icon_x.png'></a></label></div>";
+				$('.hsgroup').append(hstg);
+				$('#hashTag').val('');
+			} else {
+				alert('안됨');
+			}
+			
 		}
 	});
 	
@@ -166,6 +169,7 @@ li.clearfix {
           					<input type="hidden" name="pg" value="1">
           					<input type="hidden" name="key" value="">
           					<input type="hidden" name="word" value="">
+          					<input type="hidden" name="contentsid" value="${contentsid}">
           					<div class="reviewInput">
           						<div>리뷰 작성</div>
           						<label style="font-size:15px;">제목</label>
