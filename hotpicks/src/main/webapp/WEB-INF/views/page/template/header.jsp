@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
-
+<c:set var="userInfo" value="${sessionScope.userInfo}"/>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -39,7 +39,72 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script>
+$(document).ready(function(){
+	var d = new Date();
+	var day = parseInt(d.getTime()/(1000*60*60*24));
+	var expireday = parseInt(d.getTime()/(1000*60*60*24))+1;
+	var expireTime = d.getTime()+ expireday*(1000*60*60*24)-d.getTime();
+	console.log('${userInfo}');
+	if ('${userInfo}' == '') {
+		var cookie = getCookie('visitCount');
+		if (cookie == "") {
+			setCookie('visitCount', 'no', expireTime);
+			
+		}else {
+			console.log('이미 있다고');
+		}
+		var x = document.cookie;
+		console.log(x);
+	} else {
+		var cookie = getCookie('${userInfo.name}');
+		if (cookie == '') {
+			setCookie('${userInfo.name}','${userInfo.name}', expireTime);
+		} else {
+			console.log('이미 있다고');
+		}
+		var x = document.cookie;
+		console.log(x);
+	}
+});
+function checkCookie(expireTime) {
+	var cookie = getCookie('visitor');
+	if (cookie != null) {
+		
+		 setCookie("visitor", "no", expireTime);
+	} /*  var userid = getCookie("visitor");
+	  if (userid != "") {
+	   alert("Welcome again " + userid);
+	  } else {
+	    if (userid != "" && userid != null) {
+	      setCookie("visitor", "no", expireTime);
+	    }
+	  } */
+	}
+	
+function getCookie(cname) {
+	  var name = cname + "=";
+	  var decodedCookie = decodeURIComponent(document.cookie);
+	  var ca = decodedCookie.split(';');
+	  for(var i = 0; i <ca.length; i++) {
+	    var c = ca[i];
+	    while (c.charAt(0) == ' ') {
+	      c = c.substring(1);
+	    }
+	    if (c.indexOf(name) == 0) {
+	      return c.substring(name.length, c.length);
+	    }
+	  }
+	  return "";
+}
+function setCookie(cname, cvalue, exdays) {
+	  var d = new Date();
+	  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	  var expires = "expires="+ d.toUTCString();
+	  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
 
+</script>
 <style>
 #search{
 	float: left;
