@@ -118,6 +118,12 @@ ALTER TABLE contentsImage
 		CASCADE
 		KEEP INDEX;
 
+ALTER TABLE visitCount
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
 /* 회원 */
 DROP TABLE member 
 	CASCADE CONSTRAINTS;
@@ -166,6 +172,10 @@ DROP TABLE contentsDetail
 DROP TABLE contentsImage 
 	CASCADE CONSTRAINTS;
 
+/* 방문 */
+DROP TABLE visitCount 
+	CASCADE CONSTRAINTS;
+
 /* 회원 */
 CREATE TABLE member (
 	userId VARCHAR2(100) NOT NULL, /* 회원아이디 */
@@ -207,7 +217,8 @@ ALTER TABLE member
 CREATE TABLE hashTag (
 	hashTag VARCHAR2(100) NOT NULL, /* 태그이름 */
 	rseq NUMBER(12) NOT NULL, /* 리뷰글번호 */
-	tagCount NUMBER /* 사용횟수 */
+	contentsId NUMBER(12), /* 컨텐츠아이디 */
+	logTime DATE /* 사용날짜 */
 );
 
 COMMENT ON TABLE hashTag IS '해시테그';
@@ -216,7 +227,9 @@ COMMENT ON COLUMN hashTag.hashTag IS '태그이름';
 
 COMMENT ON COLUMN hashTag.rseq IS '리뷰글번호';
 
-COMMENT ON COLUMN hashTag.tagCount IS '사용횟수';
+COMMENT ON COLUMN hashTag.contentsId IS '컨텐츠아이디';
+
+COMMENT ON COLUMN hashTag.logTime IS '사용날짜';
 
 ALTER TABLE hashTag
 	ADD
@@ -546,6 +559,28 @@ ALTER TABLE contentsImage
 			serialNum
 		);
 
+/* 방문 */
+CREATE TABLE visitCount (
+	statDate DATE NOT NULL, /* 집계일자 */
+	visitCount NUMBER, /* 방문수 */
+	visitorCount NUMBER /* 방문자수 */
+);
+
+COMMENT ON TABLE visitCount IS '방문';
+
+COMMENT ON COLUMN visitCount.statDate IS '집계일자';
+
+COMMENT ON COLUMN visitCount.visitCount IS '방문수';
+
+COMMENT ON COLUMN visitCount.visitorCount IS '방문자수';
+
+ALTER TABLE visitCount
+	ADD
+		CONSTRAINT PK_visitCount
+		PRIMARY KEY (
+			statDate
+		);
+
 ALTER TABLE review
 	ADD
 		CONSTRAINT FK_member_TO_review
@@ -669,9 +704,18 @@ ALTER TABLE contentsImage
 		REFERENCES contents (
 			contentsId
 		);
-
+		
 drop sequence review_seq;
 
 create sequence review_seq
 	start with 100
 	increment by 1;
+
+drop table visitCount;
+
+create table visitCount(
+    statDate date, --집계일자
+    visitCount number,  -- 방문수 (쿠키 / 일반 사용자)
+    visitorCount number,    -- 방문자수 (세션 / 로그인 사용자)
+    constraint pk_visitCount primary key(statDate)
+);
