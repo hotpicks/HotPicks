@@ -26,38 +26,29 @@ $(function(){
 	});
 	
 	// 회원 강제 탈퇴 버튼 클릭 이벤트
-	$("#getOutBtn").live("click",function(){
-//		var checkedMember = $(".ch");
-		var checkedMember = $("input[name=ch]:checked");
-		var tdArr = new Array();
-		
-		console.log(checkedMember);
-		checkedMember.each(function(i) {
-			var tr =checkedMember.parent().parent();
-			var td = tr.children();
-			// checkbox.parent() : checkbox의 부모는 <td>이다.
-			// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
-			
-			// 체크된 row의 모든 값을 배열에 담는다.
-			tdArr.push(tr.text());
-			
-			// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-			var userid = td.eq(2).text();
-			
-			// 가져온 값을 배열에 담는다.
-			tdArr.push(userid);
-			
-			console.log(userid);
-		});
-	});
-		
-//		for(var i = 0; i < checkedMember.length; i++){
-//			if(checkedMember[i].checked == true){
-//				console.log(i + "번째");
-//				console.log(checkedMember[i].checked.td.eq(2).text());						
-//		 	console.log(checkedMember[i].closest("td").siblings(".userId").childNodes[0].nodeValue);				
-//			}
-//		}
+	   $("#getOutBtn").live("click",function(){
+	      var checkedMember = $("input[name=ch]:checked");
+	      var tdArr = new Array();
+
+	      var tr =checkedMember.parent().parent();
+	      for(var i = 0; i < tr.length; i++){
+				tdArr.push(tr.eq(i).children().eq(2).text());
+	         }
+	      
+	      // ajax로 array배열을 넘기기 위한 세팅
+	      jQuery.ajaxSettings.traditional = true;
+	      	      
+	      $.ajax({
+	  		type : 'POST',
+	  		url : '${root}/admin/modifymember',
+	  		data : { 
+	  				'userIds' : tdArr
+	  				} ,
+	  		success : function(result){
+	  			location.reload();
+	  		}
+	  	});
+	      
 	});
 	
 
