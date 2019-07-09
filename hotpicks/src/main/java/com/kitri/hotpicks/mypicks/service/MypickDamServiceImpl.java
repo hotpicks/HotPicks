@@ -20,31 +20,37 @@ public class MypickDamServiceImpl implements MypickDamService{
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<PickListDto> listArticle(String userid) {
+	public List<PickListDto> listArticle(Map<String, String> map) {
 //		int pg = NumberCheck.NotNumberToOne(parameter.get("pg"));
 //		int end = pg * CafeConstance.ARTICLE_SIZE;
 //		int start = end - CafeConstance.ARTICLE_SIZE;
 //		parameter.put("start", start+"");
 //		parameter.put("end", end+"");
-		return sqlSession.getMapper(MypicksDamDao.class).listArticle(userid);
+		return sqlSession.getMapper(MypicksDamDao.class).listArticle(map);
 	}
 
 	@Override
 	@Transactional
-	public PickListDto viewArticle(int seq) {
+	public PickListDto viewArticle(String userid) {
 		return null;
 		
 	}
 
 	@Override
 	public int modifyArticle(PickListDto pickListDto) {
-		return 0;
+		return sqlSession.getMapper(MypicksDamDao.class).modifyArticle(pickListDto);
 	}
 
 	@Override
 	public void deleteArticle(int seq) {
 		
 	}
+
+	@Override
+	public PickListDto getArticle(String userid) {
+		return sqlSession.getMapper(MypicksDamDao.class).viewArticle(userid);
+	}
+
 
 	
 }

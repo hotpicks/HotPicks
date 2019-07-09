@@ -17,19 +17,24 @@
 </style>
 <script>
 $(function(){
-			alert("page on");
 
-			loading();
+			loading("0");
 	
-			alert("page off");
+			
+			/* 가보고싶은곳, 다녀온곳클릭*/
+			$(".went").click(function(){
+				var a = $(this).attr("data-a");
+				loading(a);
+			});
 
-	
+			$("#save").live("click",function(){
+					
+				});
 });
 	
-function loading(){
-	alert("ere");
+function loading(a){
 	$.ajax({
-		url : "${root}/mypicklist/list",
+		url : "${root}/mypicklist/list/"+a,
 		type : "get",
 		success :function(result){
 			console.log("넘어옴");
@@ -39,6 +44,8 @@ function loading(){
 	});
 	
 }
+
+
 	
 </script>
 
@@ -66,13 +73,14 @@ function loading(){
 		
 		<div style="margin-bottom: 10px; font-size: 15px;">
 			<div style="float: right;">
-			<input type="radio" value="가고싶은곳" name="wanna" checked="checked">가고싶은곳
-			<input type="radio" value="다녀온곳" name="wanna">다녀온곳
-				<button>저장</button>
-				<button>삭제</button>
+			<input type="radio" value="가고싶은곳" name="wanna" checked="checked" data-w="0">가고싶은곳
+			<input type="radio" value="다녀온곳" name="wanna" data-w="1">다녀온곳
+				<button id = "save" name="save">저장</button>
+				<button id = "delete" name="delete">삭제</button>
 			</div>
 			<div style="float: left;">
-				<a href="#">가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> <a href="#">다녀온 곳</a>
+				<a href="#none" class="went" data-a="0">가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> 
+				<a href="#none" class="went" data-a="1">다녀온 곳</a>
 			</div>
 		</div>
 		<div style="clear:both;"></div>
