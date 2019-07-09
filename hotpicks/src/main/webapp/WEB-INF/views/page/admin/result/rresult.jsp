@@ -5,10 +5,12 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
 	<p class="list" id="reviewList">
+          <input id="rCnt" type="hidden" value="${reviewCount.RCNT}">
+          <input id="drCnt" type="hidden" value="${reviewCount.DRCNT}">
 
 <c:if test="${articles.size() == 0}">
 	<div align="center" style="height: 300px; font-size: 20px; font-weight: 700;">
-	<br><br><br><br><br><br><br>
+	<br><br><br><br><br>
 		<p>게시글이 존재하지 않습니다.&nbsp;<font color="#ff99bb"><i class="fas fa-sad-tear"></i></font>
 	</div>
 </c:if>
@@ -16,7 +18,7 @@
 <c:if test="${articles.size() != 0}">
 
 	<table>
-          		<tr align="center">
+          		<tr align="center" style="font-size:15px; font-weight: 700;">
           			<td>
           				<input type="checkbox" class="allch">
           			</td>
@@ -33,16 +35,16 @@
 
 	<tr align="center">
           			<td>
-          				<input type="checkbox" class="ch">
+          				<input type="checkbox" name="ch" class="ch">
           			</td>
           			<td>${i.count}</td>
-          			<input type="hidden" class="rseq" value="${article.rseq}">
-          			<td>${article.subject}</td>
-          			<td>${article.userid}</td>
-          			<td>${article.logtime}</td>
-          			<td>${article.content}</td>
-          			<td>${article.reportcontent}</td>
-          			<td>${article.reportdate}</td>
+           			<input type="hidden" class="rseq" value="${article.RSEQ}">
+         			<td>${article.SUBJECT}</td>
+          			<td>${article.USERID}</td>
+          			<td>${article.LOGTIME}</td>
+          			<td width="140px;">${article.CONTENT}</td>
+          			<td>${article.REPORTCONTENT}</td>
+          			<td>${article.REPORTDATE}</td>
           		</tr>
 
 </c:forEach>

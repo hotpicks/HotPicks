@@ -13,9 +13,12 @@ public interface AdminDao {
 	public List<MemberDto> getAllMembers();
 	public List<MemberDto> getBlockMembers();
 	public void getOutMember(Map<String, ArrayList<String>> map);
+	public void outCancelMember(Map<String, ArrayList<String>> map);
 
 	public Map<String, String> getReviewCount();
 	public List<Map<String, String>> getAllReviews();
 	public List<Map<String, String>> getBlockReviews();
+	public void deleteReview(Map<String, ArrayList<String>> map);
+	public void deleteBReview(Map<String, ArrayList<String>> map);
 
 }
