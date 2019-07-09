@@ -21,6 +21,11 @@ public class MypickDamServiceImpl implements MypickDamService{
 	
 	@Override
 	public List<PickListDto> listArticle(String userid) {
+//		int pg = NumberCheck.NotNumberToOne(parameter.get("pg"));
+//		int end = pg * CafeConstance.ARTICLE_SIZE;
+//		int start = end - CafeConstance.ARTICLE_SIZE;
+//		parameter.put("start", start+"");
+//		parameter.put("end", end+"");
 		return sqlSession.getMapper(MypicksDamDao.class).listArticle(userid);
 	}
 

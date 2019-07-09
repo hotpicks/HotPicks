@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.kitri.hotpicks.admin.dao.AdminDao">
+ 
+ 	<select id="getAllMembers" resultType="memberDto">
+ 		select userid, pass, name, age, gender, joindate, profile, enable
+		from member
+		order by joindate
+ 	</select>
+
+ 	<select id="getBlockMembers" resultType="memberDto">
+ 		select m.userid, m.pass, m.name, m.age, m.gender, m.joindate, m.profile, enable
+		from member m, blackreview b
+		where m.userid = b.userid
+	 	order by b.reportdate
+ 	</select>
+ 
+ 	<select id="getMemberCount" resultType="map">
+ 		select to_char(sysdate, 'yyyy-mm-dd') statDate,
+ 			   (select count(*) from member) mCnt,
+ 			   (select count(*) from member where enable=0) dmCnt
+		from dual
+ 	</select>
+ 
+ </mapper>

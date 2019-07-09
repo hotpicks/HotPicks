@@ -3,6 +3,8 @@ package com.kitri.hotpicks.mypicks.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.kitri.hotpicks.mypicks.model.PickListDto;
 
 public interface MypicksDamDao {

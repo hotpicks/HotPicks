@@ -14,11 +14,11 @@ public class ReviewDto {
 	private String savePicture;
 	
 	
-	public int getRseq() {
+	public int getSeq() {
 		return rseq;
 	}
-	public void setRseq(int seq) {
-		this.rseq = seq;
+	public void setSeq(int rseq) {
+		this.rseq = rseq;
 	}
 	public String getUserId() {
 		return userId;

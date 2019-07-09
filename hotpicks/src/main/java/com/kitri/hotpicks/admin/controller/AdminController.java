@@ -1,16 +1,49 @@
 package com.kitri.hotpicks.admin.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.kitri.hotpicks.admin.service.AdminService;
+import com.kitri.hotpicks.member.model.MemberDto;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
+	@Autowired
+	private AdminService adminService;
+	
 	// 관리자 페이지 - HOME - 회원 관리 이동
 	@RequestMapping("/mgmember")
-	public String mvmember() {
+	public String mvmember(Map<String, String> result,
+							Model model) {
+		System.out.println("admin_c : 회원 관리 이동 메소드 들어옴");
+		
+		result = adminService.getMemberCount();
+		
+		model.addAttribute("memberCount", result);
+		System.out.println("뭘 보내는감 ? " + result);
+		
 		return "/admin/managemember";
+	}
+	
+	// 관리자 페이지 - HOME - 회원 관리 이동 (회원 목록 세팅)
+	@RequestMapping("/mgmember/{memberType}")
+	public String getMember(@PathVariable("memberType") String memberType,
+							Model model) {
+		System.out.println("admin_c : 회원 관리 이동 (회원 목록 세팅) 메소드 들어옴");
+		
+		List<MemberDto> memberList = adminService.getMembers(memberType);
+		
+		model.addAttribute("members", memberList);
+		
+		return "/admin/result/mresult";
 	}
 	
 	// 관리자 페이지 - HOME - 게시물 관리 메뉴 이동

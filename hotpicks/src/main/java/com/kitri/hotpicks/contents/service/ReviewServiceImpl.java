@@ -1,15 +1,15 @@
 package com.kitri.hotpicks.contents.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kitri.hotpicks.contents.dao.ReviewDao;
-import com.kitri.hotpicks.contents.model.HashTagDto;
+import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
 
 @Service
@@ -19,43 +19,29 @@ public class ReviewServiceImpl implements ReviewService {
 	private SqlSession sqlSession;
 	
 	@Override
-	public int writeArticle(ReviewDto reviewDto, List<String> hstg) {
+	public int writeArticle(ReviewDto reviewDto) {
 		System.out.println("ReviewService 들어옴");
-		String hstgTag = "";
-		for (int i = 0; i < hstg.size(); i++) {
-			hstgTag += "#"+hstg.get(i)+" ";
-		}
-		System.out.println(hstgTag);
-		reviewDto.setHashTag(hstgTag);
 		int cnt = sqlSession.getMapper(ReviewDao.class).writeArticle(reviewDto);
-		return cnt != 0 ? reviewDto.getRseq() : 0;
+		return cnt != 0 ? reviewDto.getSeq() : 0;
 	}
 
 	@Override
-	public HashTagDto getHashList(String hashtag, int rseq, int contentsid) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("hashtag", hashtag);
-		map.put("rseq", rseq);
-		map.put("contentsid", contentsid);
-		HashTagDto hashTagDto = sqlSession.getMapper(ReviewDao.class).getHashTag(map);
-		return hashTagDto;
-	}
-
-	@Override
-	public void updHashList(List<HashTagDto> hashList) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("hashList", hashList);
-		sqlSession.getMapper(ReviewDao.class).updHashList(map);
+	public String reviewlist(int contentsId) {
+//		System.out.println("리스트뽑으러 서비스 도착");
+		return makeJson(contentsId);
 		
 	}
-
-	@Override
-	public void insHashList(List<String> nonHashList, int rseq, int contentsid) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("nonHashList", nonHashList);
-		map.put("rseq", rseq);
-		map.put("contentsid", contentsid);
-		sqlSession.getMapper(ReviewDao.class).insHashList(map);
+	
+	private String makeJson(int contentsId) {
+		List<ReviewDto> list = sqlSession.getMapper(ReviewDao.class).reviewlist(contentsId);
+//		System.out.println("list : " + list);
+		JSONArray array = new JSONArray(list);
+		JSONObject json = new JSONObject();
+		json.put("reviewlist", array);
 		
+		return json.toString();
 	}
+	
+	
+
 }

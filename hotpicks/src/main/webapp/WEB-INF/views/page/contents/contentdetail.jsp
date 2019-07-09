@@ -3,18 +3,6 @@
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
 <script>
 $(document).ready(function() {
-	$("#writeBtn").click(function() {
-		if($("#subject").val() == "") {
-			alert("제목 입력!!!");
-			return;
-		} else if($("#content").val() == "") {
-			alert("내용 입력!!!");
-			return;
-		} else {
-			$("#writeForm").attr("action","${root}/review/write").submit();
-		}
-	});
-	
 	$("#pick").click(function () {
 		var result = confirm("가고싶은곳 확인) , 다녀온곳 취소)");
 		if(result){
@@ -24,12 +12,99 @@ $(document).ready(function() {
 		}
 		
 	});
+	
+	//리뷰작성
+	getWriteList();
+	
+	function getWriteList() {
+		$.ajax({
+			url : '${root}/review/list',
+			type : 'GET',
+			dataType : 'json',
+			data : {contentsId : '630609'},
+			success : function(response){
+				makeWriteList(response);
+			}
+		});
+	}
+	
+	$("#writeBtn").click(function() {
+		 //var writeForm = $("#writeForm").serialize();
+
+		if ('${userInfo == null}' == 'true'){
+			alert("로그인하세요.");
+			
+		} else if($("#subject").val() == "") {
+			alert("제목 입력!!!");
+			return;
+		} else if($("#content").val() == "") {
+			alert("내용 입력!!!");
+			return;
+		} else {
+			$("#writeForm").attr("action","${root}/review/write").submit();
+			/* $.ajax({
+				url : '${root}/review/write',
+				type : 'POST',
+				
+				dataType : 'json',
+				data : writeForm,
+				success : function(response) {
+					makeWriteList(response);
+					$("#subject").val('');
+					$("#hashtag").val('');
+					$("#picture").val('');
+					$("#content").val('');
+				}
+			}); */
+		}
+	});
+	
+	function makeWriteList(reviews) {
+		var reviewcnt = reviews.reviewlist.length;
+		console.log(reviews);
+		var reviewstr = '';
+		for(var i=0; i<reviewcnt; i++) {
+			var review = reviews.reviewlist[i];
+			console.log("1 : " + review);
+			reviewstr += '<li class="clearfix">';
+			reviewstr += '<div class="toggle">';
+			reviewstr += '	<div class="trigger">';
+			reviewstr += '		<div class="user">';
+			reviewstr += '			<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> ';
+			reviewstr += '		</div>';
+			reviewstr += '		<div class="message">';
+			reviewstr += '			<div class="info">';
+			reviewstr += '				<h3><a>'+review.subject+'</a></h3>';
+			reviewstr += '				<span class="date">  - '+review.date+'</span>';
+			reviewstr += '			</div>';
+			reviewstr += '			<p>';
+			for(var j=0; j<review.starPoint; j++) {
+				reviewstr += '★';
+			}
+			reviewstr += '			</p>';
+			reviewstr += '			<p>'+review.hashTag+'</p>';
+			reviewstr += '		</div>';
+			reviewstr += '	</div>';
+			reviewstr += '	<div class="togglebox">';
+			reviewstr += '		<div>'+review.content+'</div>';
+			reviewstr += '		<div>';
+			reviewstr += '			<textarea class="mcontent" cols="68" rows="5"></textarea>';
+			reviewstr += '			<input type="button" class="memoBtn" value="글작성">';
+			reviewstr += '		</div>';
+			reviewstr += '	</div>';
+			reviewstr += '</div>';
+			reviewstr += '</li>';
+		}
+		$("#singlecomments").empty();
+		$("#singlecomments").append(reviewstr);
+	}
+	
 });
 </script>
 <style>
 .detailimg {
-	width: 600px;
-	height: 300px;
+	width: 560px;
+	height: 270px;
 }
 
 
@@ -59,6 +134,16 @@ li.clearfix {
 #commenth3{
 	margin-bottom: 50px !important;
 }
+.mcontent{
+	width: 80%;
+	float: left;
+}
+.memoBtn{
+	margin-right: 20px;
+	margin-top: 35px;
+	float: right;
+}
+
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -117,6 +202,7 @@ li.clearfix {
 					<div class="togglebox">
           				<div>
           				<form id="writeForm" name="writeForm" method="post" action="" enctype="multipart/form-data">
+          					<input type="hidden" name="rseq" value="1">
           					<input type="hidden" name="pg" value="1">
           					<input type="hidden" name="key" value="">
           					<input type="hidden" name="word" value="">
@@ -155,95 +241,7 @@ li.clearfix {
 			
 			<!-- Begin 후기 리스트 -->	
 			<div id="comments">
-				<ol id="singlecomments" class="commentlist">
-					<li class="clearfix">
-						<div class="toggle">
-							<div class="trigger">
-							<div class="user">
-								<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> 
-							</div>
-							<div class="message">
-								<div class="info">
-									<h3><a>부산축제 완전추천!!</a></h3>
-									<span class="date">  - 2019.07.11</span>
-									<span class="commReply"><a href="#">Reply</a></span>
-								</div>
-								<p>★★★★★</p>
-								<p>#부산 #여행 #나홀로 #축제 #부산축제</p>
-							</div>
-							</div>
-							<div class="togglebox">fffffff
-							fdf
-							fd
-							fdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdf
-							</div>
-						</div>
-					</li>
-					<li class="clearfix">
-						<div class="toggle">
-							<div class="trigger">
-							<div class="user">
-								<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> 
-							</div>
-							<div class="message">
-								<div class="info">
-									<h3><a>부산축제 완전추천!!</a></h3>
-									<span class="date">  - 2019.07.11</span>
-									<span class="commReply"><a href="#">Reply</a></span>
-								</div>
-								<p>★★★★★</p>
-								
-							</div>
-							</div>
-							<div class="togglebox">fffffff
-							fdf
-							fd
-							fdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdf
-							</div>
-						</div>
-					</li>
-					<li class="clearfix">
-						<div class="toggle">
-							<div class="trigger">
-							<div class="user">
-								<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> 
-							</div>
-							<div class="message">
-								<div class="info">
-									<h3><a>부산축제 완전추천!!</a></h3>
-									<span class="date">  - 2019.07.11</span>
-									<span class="commReply"><a href="#">Reply</a></span>
-								</div>
-								<p>★★★★★</p>
-								
-							</div>
-							</div>
-							<div class="togglebox">fffffff
-							fdf
-							fd
-							fdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdffdfddfffffffffffffffffdk;fkjd;kajf;akljf;lkjfl
-							fdlkajd;kladjf;lkjd;flkjd;lfakj;;;;;;;;;kjfk;jdak
-							fdkjf;lakjdf;kljda;kldjf;kjdf
-							</div>
-						</div>
-					</li>
-				</ol>
+				<ol id="singlecomments" class="commentlist"></ol>
 			</div>
 			<!-- End 후기 리스트 -->	
 

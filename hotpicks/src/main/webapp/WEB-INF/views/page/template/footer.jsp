@@ -14,7 +14,8 @@
       
       <!-- Begin Copyright -->
       <div id="copyright">
-        <p>© Copyright 2011 Delphic | Team3 - Web Application Project 'Hot Picks'</p>
+        <p style="float:left;">© Copyright 2011 Delphic | Team3 - Web Application Project 'Hot Picks'</p>
+         <button id="apiInsert">ApiInsert</button>
       </div>
       <!-- End Copyright --> 
       

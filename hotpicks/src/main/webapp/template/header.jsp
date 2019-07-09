@@ -7,6 +7,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Hot Picks | 나만의 핫픽 저장소</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ -->
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="${root}/resources/style.css" media="all" />
 <link rel="stylesheet" media="all" href="${root}/resources/style/type/folks.css" />
 <link rel="stylesheet" media="all" href="${root}/resources/style/css/prettyPhoto.css" />
