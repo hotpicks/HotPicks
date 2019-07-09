@@ -1,5 +1,6 @@
 package com.kitri.hotpicks.mypicks.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,6 @@ public interface MypicksDamDao {
 			int modifyArticle(PickListDto pickListDto);
 
 	// 글 삭제 | 인자 : 글 번호
-			void deleteArticle(int seq);
+			void deleteArticle(Map<String, ArrayList<String>> map);
 			
 }

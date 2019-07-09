@@ -1,10 +1,10 @@
 package com.kitri.hotpicks.mypicks.controller;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,15 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import com.kitri.hotpicks.common.service.CommonService;
 import com.kitri.hotpicks.member.model.MemberDto;
 import com.kitri.hotpicks.mypicks.model.PickListDto;
 import com.kitri.hotpicks.mypicks.service.MypickDamService;
-import com.kitri.hotpicks.util.PageNavigation;
 
 @Controller
 @RequestMapping("/mypicklist")
@@ -69,23 +66,17 @@ public class MypickDamController {
 //		model.addAttribute("navigator", pageNavigation);
 	}
 	
-	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public String modify( Model model, @ModelAttribute("userInfo") MemberDto memberDto,HttpSession session,Map<String,String> map) {
-		String path = "";
-		if(memberDto !=null) {
-		String userid = memberDto.getUserId();
-		PickListDto pickListDto = mypickDamService.getArticle(userid);
-		System.out.println(pickListDto);
-		model.addAttribute("modifyArticle", pickListDto);
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public String deleteArticle(@RequestParam("title") ArrayList<String> title, Model model ,Map<String, ArrayList<String>> map) {
+		System.out.println("리스트삭제 메소드");
+		System.out.println(title);
 		
-			path = "mypicks/listresult";
-			
-		}else {
-			
-			path = "redirect:/index.jsp";
-			
-		}
-			return path;
+		map.put("contentsId", title);
+		
+		mypickDamService.deleteArticle(map);
+		
+		return "mypicks/mypicklist";
+		
 	}
 	
 	

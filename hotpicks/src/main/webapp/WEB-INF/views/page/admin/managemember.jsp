@@ -62,7 +62,7 @@ function getMember(selected){
 		}
 	});
 }
-
+});
 </script>
 
   <!-- Begin Wrapper -->

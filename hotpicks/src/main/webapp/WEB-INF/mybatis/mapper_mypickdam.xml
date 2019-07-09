@@ -28,8 +28,10 @@
 		<if test="wanna == 1">
 		set wanna = 0
 		</if>
-		
 	</update>
+	<delete id="deleteArticle" parameterType="map">
+		delete from picklist where contentsid=#{contentsid}
+	</delete>
 	
 
  </mapper>

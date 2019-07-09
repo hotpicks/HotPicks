@@ -1,5 +1,6 @@
 package com.kitri.hotpicks.mypicks.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,14 +42,16 @@ public class MypickDamServiceImpl implements MypickDamService{
 		return sqlSession.getMapper(MypicksDamDao.class).modifyArticle(pickListDto);
 	}
 
-	@Override
-	public void deleteArticle(int seq) {
-		
-	}
 
 	@Override
 	public PickListDto getArticle(String userid) {
 		return sqlSession.getMapper(MypicksDamDao.class).viewArticle(userid);
+	}
+
+	@Override
+	public void deleteArticle(Map<String, ArrayList<String>> map) {
+		
+		sqlSession.getMapper(MypicksDamDao.class).deleteArticle(map);;
 	}
 
 

@@ -30,6 +30,33 @@ $(function(){
 			$("#save").live("click",function(){
 					
 				});
+			
+			// 회원 강제 탈퇴 버튼 클릭 이벤트
+			   $("#delete").live("click",function(){
+			      var checkedMember = $("input[name=check]:checked");
+			      var tdArr = new Array();
+
+			      var tr =checkedMember.parent().parent();
+			      for(var i = 0; i < tr.length; i++){
+						tdArr.push(tr.eq(i).children().eq(1).text());
+						console.log(tr.eq(i).children().eq(1).text());
+			         }
+			      
+			      // ajax로 array배열을 넘기기 위한 세팅
+			      jQuery.ajaxSettings.traditional = true;
+			      	      
+			      $.ajax({
+			  		type : 'get',
+			  		url : '${root}/mypicklist/delete',
+			  		data : { 
+			  				'title' : tdArr
+			  				} ,
+			  		success : function(result){
+			  			location.reload();
+			  		}
+			  	});
+			      
+			});
 });
 	
 function loading(a){

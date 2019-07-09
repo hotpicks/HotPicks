@@ -1,5 +1,6 @@
 package com.kitri.hotpicks.mypicks.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,6 @@ public interface MypickDamService {
 		
 		
 	// 글 삭제 | 인자 : 글 번호
-		void deleteArticle(int seq);
+		void deleteArticle(Map<String, ArrayList<String>> map);
 	
 }
