@@ -31,7 +31,7 @@
 
           		<tr align="center">
           			<td>
-          				<input type="checkbox" class="ch">
+          				<input type="checkbox" name="ch" class="ch">
           			</td>
           			<td>${i.count}</td>
           			<td class="userId">${member.userId}</td>
