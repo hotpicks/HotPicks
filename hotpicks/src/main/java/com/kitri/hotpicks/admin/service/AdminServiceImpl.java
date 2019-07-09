@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kitri.hotpicks.admin.dao.AdminDao;
+import com.kitri.hotpicks.contents.model.ReviewDto;
 import com.kitri.hotpicks.member.model.MemberDto;
 
 @Service
@@ -19,7 +20,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Map<String, String> getMemberCount() {
-		System.out.println("admin_s_Impl : 어제 날짜 회원 수 가져오기 메소드 실행");
+		System.out.println("admin_s_Impl : 오늘 날짜 회원 수 가져오기 메소드 실행");
 
 		return sqlSession.getMapper(AdminDao.class).getMemberCount();
 	}
@@ -38,5 +39,38 @@ public class AdminServiceImpl implements AdminService {
 		
 		return members;
 	}
+
+	@Override
+	public void getOutMember(Map<String, ArrayList<String>> map) {
+		System.out.println("admin_s_Impl : 회원 강제 탈퇴 메소드 실행");
 		
+		sqlSession.getMapper(AdminDao.class).getOutMember(map);
+	}
+	
+	
+	@Override
+	public Map<String, String> getReviewCount() {
+		System.out.println("admin_s_Impl : 오늘 날짜 리뷰 수 가져오기 메소드 실행");
+
+		return sqlSession.getMapper(AdminDao.class).getReviewCount();
+	}
+
+	@Override
+	public List<Map<String, String>> getReviews(String reviewType) {
+		System.out.println("admin_s_Impl : 리뷰 목록 가져오기 메소드 실행 (" + reviewType + ")");
+		
+		List<Map<String, String>> reviews = new ArrayList<Map<String, String>>();
+		
+		if(reviewType.equals("전체리뷰")) {
+			reviews = sqlSession.getMapper(AdminDao.class).getAllReviews();
+		}else if(reviewType.equals("신고리뷰")){
+			reviews = sqlSession.getMapper(AdminDao.class).getBlockReviews();
+		}
+		
+		return reviews;
+	}	
+	
+	
+	
+	
 }
