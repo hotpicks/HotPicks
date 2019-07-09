@@ -3,8 +3,11 @@ package com.kitri.hotpicks.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kitri.hotpicks.member.model.MemberDto;
+
 public interface AdminService {
 
-	List<Map<String, String>> getMembers(String memberType);
+	Map<String, String> getMemberCount();
+	List<MemberDto> getMembers(String memberType);
 
 }
