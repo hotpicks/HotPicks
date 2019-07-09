@@ -5,8 +5,18 @@
 <script>
 $(function(){
 		
-	/* 전체 선택 및 해제 이벤트 */
-	$(".allch").click(function(){
+	// 회원관리 접속 시, 기본 전체 회원 목록을 불러옴
+	var selected = $("#memberType").val();
+	getMember(selected);
+	
+	// 회원 분류 선택 이벤트
+	// : 셀렉트 박스 변경 시마다, 맞는 회원 목록을 불러옴
+	$("#memberType").change(function() {
+		getMember($(this).val());
+	});
+	
+	// 회원 전체 선택 및 해제 이벤트
+	$(".allch").live("click",function(){
 		var checked = $(this).is(":checked");
 		if(checked){
 			$(".ch").attr("checked", true);
@@ -15,13 +25,17 @@ $(function(){
 		}
 	});
 	
-	// 회원관리 접속 시, 기본 전체 회원 목록을 불러옴
-	var selected = $("#memberType").val();
-	getMember(selected);
-	
-	// 셀렉트 박스 변경 시마다, 맞는 회원 목록을 불러옴
-	$("#memberType").change(function() {
-		getMember($(this).val());
+	// 회원 강제 탈퇴 버튼 클릭 이벤트
+	$("#getOutBtn").live("click",function(){
+		var checkedMember = $(".ch");
+		console.log(checkedMember);
+		for(var i = 0; i < checkedMember.length; i++){
+			if(checkedMember[i].checked == true){
+				console.log(i + "번째");
+				console.log(checkedMember[i].parent("tr"));						
+//		 	console.log(checkedMember[i].closest("td").siblings(".userId").childNodes[0].nodeValue);				
+			}
+		}
 	});
 	
 });
@@ -66,9 +80,9 @@ function getMember(selected){
           		<td>탈퇴 회원 수</td>
           	</tr>
           	<tr align="center" id="membercnt">
-          		<td style="vertical-align: middle;">2019.06.28</td>
-          		<td style="vertical-align: middle;">100</td>
-          		<td style="vertical-align: middle;">3</td>
+          		<td style="vertical-align: middle;">${memberCount.STATDATE}</td>
+          		<td style="vertical-align: middle;">${memberCount.MCNT}</td>
+          		<td style="vertical-align: middle;">${memberCount.DMCNT}</td>
           	</tr>
           </table>
           
@@ -81,87 +95,19 @@ function getMember(selected){
           
           
           <!-- ********** 회원 관리 테이블 ********** -->
-          	<a href="#" class="button red btns" style="margin-right:30px; font-weight: 700;">활동중지<span></span></a>
-          	<a href="#" class="button red btns" style="font-weight: 700;">강제탈퇴<span></span></a>
+          	<a id="getOutBtn" class="button red btns" style="margin-right:30px; font-weight: 700;">강제탈퇴<span></span></a>
           	<select id="memberType">
           		<option value="전체회원">전체 회원</option>
           		<option value="신고회원">신고 회원</option>
           	</select>
           	<div class="clear"></div>
  
-          <div style="float:none; height: 600px; overflow-y:auto">
+          <div id="memberList" style="float:none; height: 600px; overflow-y:auto">
           
-          <p class="list" id="memberList">
           	
-          	<table>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="allch">
-          			</td>
-          			<td>no</td>
-          			<td>id</td>
-          			<td>가입일</td>
-          			<td>활동 상태</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>1</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>탈퇴</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>2</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>활동중지</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>3</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>활동</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>4</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>활동</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>5</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>탈퇴</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>6</td>
-          			<td>회원id</td>
-          			<td>회원 가입일</td>
-          			<td>활동</td>
-          		</tr>
-   
-          	</table>
-			          
-           </p>
-           
+          	<!-- 동적 페이지 구성 부분 -->
+			   
+			                    
            </div>
            
         </div>
