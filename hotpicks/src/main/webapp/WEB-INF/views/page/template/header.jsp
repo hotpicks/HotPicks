@@ -129,11 +129,11 @@ function setCookie(cname, cvalue, exdays) {
         <!-- Search -->
         <div id="search">
         	<form id="searchform"><!-- ${root}/WEB-INF/views/page/search/searchresult.jsp -->
-          	<input type="search" id="searchinput" name="search12" />
+          	<input type="search" id="searchinput" name="search"  value="검색어를 입력해주세요."  onfocus="this.value=''" onblur="this.value='검색어를 입력해주세요.'"/>
      		</form>
         </div>
         
-        <!-- value="검색어를 입력해주세요."  onfocus="this.value=''" onblur="this.value='검색어를 입력해주세요.'" -->
+       
 <script>
 
 
@@ -141,7 +141,6 @@ $('#searchinput').keypress(function(e) {
 		console.log("press");
 	
 	if(e.keyCode == 13) {
-		e.preventDefault();
 		console.log("13");
 		 $("#searchform").attr('method','GET').attr('action','${root}/contents/contentsbysearch').submit();
 	} 

@@ -26,7 +26,6 @@ import com.kitri.hotpicks.contents.service.ContentsService;
 public class ContentsController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ContentsController.class);
-	List<ContentsDto> contentsList;
 	
 	@Autowired
 	private ContentsService contentsService;
@@ -46,7 +45,7 @@ public class ContentsController {
 				+ "contentTypeId=15&" + "_type=json&" + "ServiceKey=" + shzyapikey;
 
 		// SelectLocation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		contentsList = contentsService.selectContentsList('m', null);
+		List<ContentsDto> contentsList = contentsService.selectContentsList('m', null);
 
 		model.addAttribute("contentsList", contentsList);
 
@@ -65,21 +64,20 @@ public class ContentsController {
 	}
 
 	@RequestMapping(value = "/contentsbysearch", method = RequestMethod.GET)
-	public String selectContentsBySearch(@RequestParam Map<String, Integer> parameter) {
-		System.out.println("hi");
-		//contentsList = contentsService.selectContentsList('s', parameter);
-		//System.out.println(contentsList.toString());
-		//org.json.JSONArray contentsJson = new org.json.JSONArray(contentsList);
-		//System.out.println(contentsJson.toString());
+	public String selcectContentsBySearh(@RequestParam Map<String, Object> parameter) {
+		List<ContentsDto> contentsList = contentsService.selectContentsList('s', parameter);
+		System.out.println("search : " + contentsList.toString());
+		org.json.JSONArray contentsJson = new org.json.JSONArray(contentsList);
+		System.out.println(contentsJson.toString());
 		return "search/searchresult";
 	}
 	
 	
 	@RequestMapping(value = "/contentsbylocation", method = RequestMethod.GET)
-	public @ResponseBody String selectContentsByLocation(@RequestParam Map<String, Integer> parameter) {
+	public @ResponseBody String selectContentsByLocation(@RequestParam Map<String,Object> parameter) {
 		System.out.println(parameter.toString());
-		contentsList = contentsService.selectContentsList('l',parameter);
-		//System.out.println(contentsList.toString());
+		List<ContentsDto> contentsList = contentsService.selectContentsList('l',parameter);
+		System.out.println(contentsList.toString());
 		org.json.JSONArray contentsJson = new org.json.JSONArray(contentsList);
 		System.out.println(contentsJson.toString());
 		

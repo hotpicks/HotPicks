@@ -14,7 +14,7 @@ public interface ContentsService {
 	List<Map<String, String>> apiexc(String urlStr);
 
 	//api select
-	List<ContentsDto> selectContentsList(char keyword, Map<String,Integer> parameter);
+	List<ContentsDto> selectContentsList(char keyword, Map<String,Object> parameter);
 	
 	
 	
