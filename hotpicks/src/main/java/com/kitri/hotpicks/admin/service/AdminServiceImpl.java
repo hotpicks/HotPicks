@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kitri.hotpicks.admin.dao.AdminDao;
 import com.kitri.hotpicks.contents.model.ReviewDto;
@@ -47,6 +48,13 @@ public class AdminServiceImpl implements AdminService {
 		sqlSession.getMapper(AdminDao.class).getOutMember(map);
 	}
 	
+	@Override
+	public void outCancelMember(Map<String, ArrayList<String>> map) {
+		System.out.println("admin_s_Impl : 회원 탈퇴 취소 메소드 실행");
+		
+		sqlSession.getMapper(AdminDao.class).outCancelMember(map);
+	}	
+	
 	
 	@Override
 	public Map<String, String> getReviewCount() {
@@ -68,7 +76,32 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 		return reviews;
-	}	
+	}
+
+	@Override
+	@Transactional
+	public void deleteReview(Map<String, ArrayList<String>> map) {
+		System.out.println("admin_s_Impl : 리뷰 삭제 메소드 실행");
+		
+		// 신고리뷰에서 삭제
+		sqlSession.getMapper(AdminDao.class).deleteBReview(map);
+		// 리뷰에서 삭제
+		sqlSession.getMapper(AdminDao.class).deleteReview(map);
+	}
+
+	@Override
+	public List<Map<String, String>> getHashTags(String hashtagType) {
+		System.out.println("admin_s_Impl : 해시태그 랭킹 얻기 메소드 실행");
+
+		return sqlSession.getMapper(AdminDao.class).getHashTags(hashtagType);
+	}
+
+	@Override
+	public Map<String, String> statDate() {
+		System.out.println("admin_s_Impl : 통계 기간 얻기 메소드 실행");
+
+		return sqlSession.getMapper(AdminDao.class).getStatDate();
+	}
 	
 	
 	

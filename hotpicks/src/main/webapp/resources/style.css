@@ -130,8 +130,8 @@ table {
    font-family: 'Noto Sans KR';
    font-style: normal;
    font-weight: 500;
-   src: url(/fonts/NotoSansKr/NotoSansKR-Medium.woff2) format('woff2'),
-        url(/fonts/NotoSansKr/NotoSansKR-Medium.woff) format('woff'),
+   src:  url(/fonts/NotoSansKr/NotoSansKR-Medium.woff2) format('woff2'),
+        url(/fonts/NotoSansKr/NotoSansKR-Medium.woff) format('woff'), 
         url(/fonts/NotoSansKr/NotoSansKR-Medium.otf) format('opentype');
  }
 @font-face {
