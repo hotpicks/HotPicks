@@ -66,22 +66,22 @@ public class MypickDamController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deleteArticle(@RequestParam("contentsId") int contentsId, Model model) {
+	public String deleteArticle(@RequestParam Map<String, ArrayList<String>> map,@RequestParam("contentsId") ArrayList<String> contentsId) {
 		System.out.println("리스트삭제 메소드");
-		System.out.println(contentsId);
-		
-		mypickDamService.deleteArticle(contentsId);
+		map.put("contentsId", contentsId);
+		System.out.println(map.get("contentsId"));
+		mypickDamService.deleteArticle(map);
 		
 		return "mypicks/mypicklist";
 		
 	}
 	
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public String modifyArticle(@RequestParam("wanna") int wanna, Model model) {
+	public String modifyArticle(@RequestParam("wanna") int wanna, Model model,Map<String, Object> map) {
 		System.out.println("리스트수정 메소드");
 		System.out.println(wanna);
 		
-		mypickDamService.modifyArticle(wanna);
+		mypickDamService.modifyArticle(map);
 		
 		return "mypicks/mypicklist";
 		

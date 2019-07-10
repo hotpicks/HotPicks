@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kitri.hotpicks.mypicks.model.PickListDto;
 
@@ -17,9 +16,9 @@ public interface MypicksDamDao {
 			PickListDto viewArticle(String userid);
 			
 	// 글 수정 | 리턴 : 수정한 글 번호
-			void modifyArticle(int wanna);
+			void modifyArticle(Map<String, Object> map);
 
 	// 글 삭제 | 인자 : 글 번호
-			void deleteArticle(int contentsId);
+			void deleteArticle(Map<String, ArrayList<String>> map);
 			
 }

@@ -16,11 +16,11 @@ public interface MypickDamService {
 		PickListDto viewArticle(String userid);
 		
 	// 글 수정 | 리턴 : 수정한 글 번호
-		void modifyArticle(int wanna);
+		void modifyArticle(Map<String, Object> map);
 		PickListDto getArticle(String userid);
 		
 		
 	// 글 삭제 | 인자 : 글 번호
-		void deleteArticle(int contentsId);
+		void deleteArticle(Map<String, ArrayList<String>> map);
 	
 }
