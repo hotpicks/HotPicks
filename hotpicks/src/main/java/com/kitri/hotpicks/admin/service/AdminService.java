@@ -18,5 +18,7 @@ public interface AdminService {
 	List<Map<String, String>> getReviews(String reviewType);
 	void deleteReview(Map<String, ArrayList<String>> map);
 	
+	List<Map<String, String>> getHashTags(String hashtagType);
+	Map<String, String> statDate();
 	
 }

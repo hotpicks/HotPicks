@@ -20,5 +20,8 @@ public interface AdminDao {
 	public List<Map<String, String>> getBlockReviews();
 	public void deleteReview(Map<String, ArrayList<String>> map);
 	public void deleteBReview(Map<String, ArrayList<String>> map);
+	
+	public List<Map<String, String>> getHashTags(String hashtagType);
+	public Map<String, String> getStatDate();
 
 }

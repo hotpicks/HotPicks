@@ -88,6 +88,20 @@ public class AdminServiceImpl implements AdminService {
 		// 리뷰에서 삭제
 		sqlSession.getMapper(AdminDao.class).deleteReview(map);
 	}
+
+	@Override
+	public List<Map<String, String>> getHashTags(String hashtagType) {
+		System.out.println("admin_s_Impl : 해시태그 랭킹 얻기 메소드 실행");
+
+		return sqlSession.getMapper(AdminDao.class).getHashTags(hashtagType);
+	}
+
+	@Override
+	public Map<String, String> statDate() {
+		System.out.println("admin_s_Impl : 통계 기간 얻기 메소드 실행");
+
+		return sqlSession.getMapper(AdminDao.class).getStatDate();
+	}
 	
 	
 	

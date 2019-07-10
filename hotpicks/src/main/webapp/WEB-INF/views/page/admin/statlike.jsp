@@ -5,18 +5,30 @@
 <script>
 $(function(){
 		
-	/* 전체 선택 및 해제 이벤트 */
-	$(".allch").click(function(){
-		var checked = $(this).is(":checked");
-		if(checked){
-			$(".ch").attr("checked", true);
-		}else{
-			$(".ch").attr("checked", false);			
-		}
+	// 회원 선호도 분석 접속 시, 기본 해시태그 목록을 불러옴
+	var selected = $("#hashtagType").val();
+	console.log("초기 셀렉된 해시태그 타입 : " + selected);
+	getHash(selected);
+	
+	// 기간 분류 선택 이벤트
+	// : 셀렉트 박스 변경 시마다, 맞는 해시태그 목록을 불러옴
+	$("#hashtagType").live("change", function() {
+		getHash($(this).val());
 	});
-
 	
 });
+
+//기간분류에 따른 해시태그 목록 불러오기 메소드
+function getHash(selected){
+	$.ajax({
+		type : 'GET',
+		url : '${root}/admin/stlike/' + selected,
+		success : function(result){
+			$("#hashtagList").html(result);
+
+		}
+	});
+}
 </script>
 
   <!-- Begin Wrapper -->
@@ -49,51 +61,24 @@ $(function(){
           <div class="clear"></div>
           
           <p>
-          	<select style="width:300px;">
-          		<option>2019.06.22 - 2019.06.28 (최근 1주)</option>
-          		<option>2019.05.28 - 2019.06.28 (최근 1개월)</option>
-          		<option>2018.06.28 - 2019.06.28 (최근 1년)</option>
-          	</select>
-          	<div class="clear"></div>
+
+				<select id="hashtagType" style="width:300px;">
+        			 <option value="일주일">${statDate.WEEKDATE} - ${statDate.TODAY} (최근 1주)</option>
+        			 <option value="한달">${statDate.MONTHDATE} - ${statDate.TODAY} (최근 1개월)</option>
+        			 <option value="일년">${statDate.YEARDATE} - ${statDate.TODAY} (최근 1년)</option>
+   				 </select>
           	
-          	<!-- ********** 해시태그 현황 테이블 ********** -->
-          <table>
-          	<tr align="center">
-          		<td>순위</td>
-          		<td>#해시태그</td>
-          		<td>사용 횟수</td>
-          	</tr>
-          	<tr align="center" id="membercnt">
-          		<td>1</td>
-          		<td>#재미있다</td>
-          		<td>1000</td>
-          	</tr>
-          	<tr align="center" id="membercnt">
-          		<td>2</td>
-          		<td>#휴식</td>
-          		<td>900</td>
-          	</tr>
-          	<tr align="center" id="membercnt">
-          		<td>3</td>
-          		<td>#힐링</td>
-          		<td>800</td>
-          	</tr>
-          	<tr align="center" id="membercnt">
-          		<td>4</td>
-          		<td>#서울전시회</td>
-          		<td>766</td>
-          	</tr>
-          	<tr align="center" id="membercnt">
-          		<td>5</td>
-          		<td>#여가생활</td>
-          		<td>456</td>
-          	</tr>
-          </table>
-          
-          <div class="divider"></div>
-          <div class="clear"></div>
+     <div id="hashtagList" class="clear">
+
+          	<!-- 동적 페이지 구성 부분 -->
+          	
+     </div>
+
+	 <div class="divider"></div>
+     <div class="clear"></div>
           	
           </p>
+          
         </div>
       <!-- ***************************** [ tab 3 끝 ] ****************************** -->
 		

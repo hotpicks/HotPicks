@@ -81,5 +81,63 @@
  			#{rseq}
  		</foreach> 
  	</delete>
+ 	
+ 	<select id="getHashTags" parameterType="string" resultType="map">
+ 		
+ 		<choose>
+ 			<when test="value.equals('일주일')">
+ 				select *
+				from(select rownum rank, h.hashtag hashtag, h.cnt cnt
+				        from (select hashtag, count(*) cnt
+				                from hashtag
+				                where logTime &lt; sysdate - 7
+				                group by hashtag
+				                order by count(*) desc) h) hh
+				where hh.rank &gt; 11
+ 			</when>
+ 			<when test="value.equals('한달')">
+ 				select *
+				from(select rownum rank, h.hashtag hashtag, h.cnt cnt
+				        from (select hashtag, count(*) cnt
+				                from hashtag
+				                where logTime &lt; sysdate - 30
+				                group by hashtag
+				                order by count(*) desc) h) hh
+				where hh.rank &gt; 11
+ 			</when>
+ 			<otherwise>
+ 				select *
+				from(select rownum rank, h.hashtag hashtag, h.cnt cnt,
+				     to_char((sysdate-(select 
+				                             case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
+				                              else 365
+				                              end
+				                              from dual)
+				     ), 'yyyy.mm.dd') fromdate, to_char(sysdate, 'yyyy.mm.dd') today
+				        from (select hashtag, count(*) cnt
+				                from hashtag
+				                where logTime &lt; sysdate - (select 
+				                                            case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
+				                                            else 365
+				                                            end
+				                                            from dual)
+				                group by hashtag
+				                order by count(*) desc) h) hh
+				where hh.rank &gt; 11
+ 			</otherwise>
+ 		</choose>
+ 		
+ 	</select>
+ 	
+ 	<select id="getStatDate" resultType="map">
+ 		select to_char(sysdate, 'yyyy.mm.dd') today, to_char((sysdate-7), 'yyyy.mm.dd') weekDate, to_char((sysdate-30), 'yyyy.mm.dd') monthDate,
+				to_char((sysdate-(select 
+				                        case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
+				                        else 365
+				                        end
+				                        from dual)
+				     ), 'yyyy.mm.dd') yearDate
+				from dual
+ 	</select>
  
  </mapper>

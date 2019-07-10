@@ -123,8 +123,28 @@ public class AdminController {
 	//***************************************** [회원 선호도 분석] *****************************************
 	// 관리자 페이지 - HOME - 회원 선호도 분석 메뉴 이동
 	@RequestMapping("/stlike")
-	public String mvstatlike() {
+	public String mvstatlike(Map<String, String> result,
+							 Model model) {
+		
+		result = adminService.statDate();
+		
+		model.addAttribute("statDate", result);
+		
 		return "/admin/statlike";
+	}
+	
+	// 관리자 페이지 - HOME - 회원 선호도 분석 메뉴 - 해시태그 랭킹 목록 세팅
+	@RequestMapping("/stlike/{hashtagType}")
+	public String getHashTag(@PathVariable("hashtagType") String hashtagType,
+							Map<String, String> result,
+							Model model) {
+		System.out.println("admin_c : 해시태그 랭킹 목록 세팅 메소드 들어옴");
+			
+		List<Map<String, String>> hashTagList = adminService.getHashTags(hashtagType);
+					
+		model.addAttribute("tags", hashTagList);
+			
+		return "/admin/result/hresult";
 	}
 		
 	//***************************************** [회원 방문 통계] *****************************************
