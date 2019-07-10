@@ -30,6 +30,7 @@
 				<value>/WEB-INF/mybatis/mapper_common.xml</value>
 				<value>/WEB-INF/mybatis/mapper_review.xml</value>				
 				<value>/WEB-INF/mybatis/mapper_admin.xml</value>				
+				<value>/WEB-INF/mybatis/mapper_visitcount.xml</value>				
 			</list>
 		</property>
 	</bean>

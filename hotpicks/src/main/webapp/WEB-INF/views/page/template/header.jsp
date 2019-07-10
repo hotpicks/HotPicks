@@ -50,22 +50,24 @@ $(document).ready(function(){
 		var cookie = getCookie('visitCount');
 		if (cookie == "") {
 			setCookie('visitCount', 'no', expireTime);
-			
-		}else {
-			console.log('이미 있다고');
+			$(location).attr('href', '${root}/visit/nonvisitor');
 		}
-		var x = document.cookie;
-		console.log(x);
 	} else {
-		var cookie = getCookie('${userInfo.name}');
-		if (cookie == '') {
-			setCookie('${userInfo.name}','${userInfo.name}', expireTime);
-		} else {
-			console.log('이미 있다고');
-		}
 		var x = document.cookie;
 		console.log(x);
-	}
+		var cookie = getCookie('visitor');
+			if (cookie == '') {
+				setCookie('visitor','${userInfo.name}', expireTime);
+				$(location).attr('href', '${root}/visit/visitor');
+			} else{
+				if (cookie != '' && cookie != '${userInfo.name}') {
+					setCookie('visitor','${userInfo.name}', expireTime);
+					$(location).attr('href', '${root}/visit/newvisitor');
+				}
+			}
+		} 
+		
+	
 });
 function checkCookie(expireTime) {
 	var cookie = getCookie('visitor');
