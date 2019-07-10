@@ -4,20 +4,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.kitri.hotpicks.mypicks.dao.MypicksDamDao">
  	
-	<select id="listArticle" parameterType="String" resultType="pickListDto">
-		select  A.userid, A.contentsId,A.wanna, A.title, A.image1,A.catId
-		from(select pL.userid, pL.contentsId,pL.wanna,C.title,C.image1,C.catId
+	<select id="listArticle" parameterType="map" resultType="pickListDto">
+		select  A.userid, A.contentsId,A.wanna, A.title, A.image1,A.catId,A.image2
+		from(select pL.userid, pL.contentsId,pL.wanna,C.title,C.image1,C.catId,C.image2
 		 	 from pickList pL, contents C
 			 where pL.contentsId=C.contentsId
+			 and pL.wanna = #{a}
 			 and pL.userid = #{userid}) A
 	</select>
 	
-	<!-- <select id="listArticle" parameterType="String" resultType="pickListDto">
-		select  A.userid, A.contentsId,A.wanna, A.title, A.image1,A.catId ,to_char(to_date(to_char(eventstartdate,'99999999'),'yyyy.mm.dd'),'yyyy-mm-dd'),to_char(to_date(to_char(cD.eventEndDate,'99999999'),'yyyy.mm.dd'),'yyyy-mm-dd'), cD.spendTime
-		from(select pL.userid, pL.contentsId,pL.wanna,C.title,C.image1,C.catId
-		 	 from pickList pL, contents C
-			 where pL.contentsId=C.contentsId
-			 and pL.userid = #{userid}) A, contentsDetail cD
-	</select> -->
+	<update id="modifyArticle" parameterType="java.lang.Integer">
+		update pickList
+		<if test="wanna == 0">
+		set wanna =1		
+		</if>
+		<if test="wanna == 1">
+		set wanna = 0
+		</if>
+	</update>
+	<delete id="deleteArticle">
+		delete from picklist where contentsid=#{contentsId}
+	</delete>
+	
 
  </mapper>

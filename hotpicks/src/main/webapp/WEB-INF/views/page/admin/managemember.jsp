@@ -51,7 +51,6 @@ $(function(){
 	      
 	});
 	
-});
 
 // 회원분류에 따른 회원 목록 불러오기 메소드
 function getMember(selected){
@@ -63,7 +62,7 @@ function getMember(selected){
 		}
 	});
 }
-
+});
 </script>
 
   <!-- Begin Wrapper -->

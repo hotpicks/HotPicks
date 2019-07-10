@@ -11,10 +11,30 @@
 	select * from dual
 	</insert>
 	
-	<select id="reviewlist" parameterType="int" resultType="reviewDto">
-	select *
-	from review
-	where contentsId = #{contentsId}
+	<select id="getHashTag" parameterType="map" resultType="hashTagDto">
+	select * from hashtag
+	where rseq = #{rseq} and hashtag = #{hashtag}
 	</select>
- 
+	
+	<update id="updHashList" parameterType="map">
+		<if test="hashList.size() != 0">
+		<foreach collection="hashList" item="item" index="index">
+		update hashtag
+		set tagcount = #{item.tagCount} + 1
+		where hashtag = #{item.hashTag} and rseq = #{item.rseq} 
+		</foreach>
+		</if>
+	</update>
+	
+	<insert id="insHashList" parameterType="map">
+	<if test="nonHashList.size() != 0">
+	insert all
+	
+	<foreach collection="nonHashList" item="item" separator=" ">
+	into hashtag (hashTag, rseq, contentsid,logtime)
+	values (#{item},#{rseq} ,#{contentsid},sysdate)
+	</foreach>
+	select * from dual
+	</if>
+	</insert>
  </mapper>
