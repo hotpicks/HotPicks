@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -60,11 +59,27 @@
         <!-- Logo --> 
         <div id="logo"><a href="${root}/index.jsp"><img src="${root}/resources/style/images/logo.png" alt="HotPicks로고" /></a></div>
         <!-- Search -->
-        <div id="search"">
-        	<form id="searchform" method="get" action="${root}/WEB-INF/views/page/search/searchresult.jsp">
-          	<input type="text" id="s" name="s" value="검색어를 입력해주세요." onfocus="this.value=''" onblur="this.value='검색어를 입력해주세요.'"/>
-        </form>
+        <div id="search">
+        	<form id="searchform"><!-- ${root}/WEB-INF/views/page/search/searchresult.jsp -->
+          	<input type="search" id="searchinput" name="search12" />
+     		</form>
         </div>
+        
+        <!-- value="검색어를 입력해주세요."  onfocus="this.value=''" onblur="this.value='검색어를 입력해주세요.'" -->
+<script>
+
+
+$('#searchinput').keypress(function(e) {
+		console.log("press");
+	
+	if(e.keyCode == 13) {
+		e.preventDefault();
+		console.log("13");
+		 $("#searchform").attr('method','GET').attr('action','${root}/contents/contentsbysearch').submit();
+	} 
+});
+
+</script>
         
         <!-- Begin Menu -->
         <div id="menu-wrapper">        

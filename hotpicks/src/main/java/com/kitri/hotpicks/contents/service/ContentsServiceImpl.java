@@ -644,9 +644,26 @@ public class ContentsServiceImpl implements ContentsService {
 	}
 
 	@Override
-	public List<ContentsDto> selectContentsList(Map<String,Integer> parameter) {
+	public List<ContentsDto> selectContentsList(char keyword, Map<String,Integer> parameter) {
 		if(parameter != null) {
-			return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);			
+			switch(keyword) {
+			case 's':
+				System.out.println(parameter.get("search").toString());
+				String word = parameter.get("search").toString();
+				System.out.println(word);
+				int len = word.indexOf(' ')+1;
+				
+				return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);
+			
+			
+			case 'l':
+				return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);
+			
+				
+				//'m' :main첫화면(parameter가 null)
+			default : 
+				return sqlSession.getMapper(ContentsDao.class).contentslist(null);
+			}
 		}else {
 			return sqlSession.getMapper(ContentsDao.class).contentslist(null);			
 		}
