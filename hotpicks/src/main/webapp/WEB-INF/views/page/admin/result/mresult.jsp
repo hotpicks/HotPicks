@@ -33,6 +33,7 @@
 
           		<tr align="center">
           			<td>
+
           				<input type="checkbox" name="ch" class="ch">
           			</td>
           			<td>${i.count}</td>
