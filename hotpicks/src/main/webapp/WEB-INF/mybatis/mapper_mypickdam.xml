@@ -13,17 +13,19 @@
 			 and pL.userid = #{userid}) A
 	</select>
 	
-	<update id="modifyArticle" parameterType="java.lang.Integer">
+	<update id="modifyArticle" parameterType="int">
 		update pickList
 		<if test="wanna == 0">
-		set wanna =1		
+		set wanna =1	
+		where wanna = 0	
 		</if>
 		<if test="wanna == 1">
 		set wanna = 0
+		where wanna = 1
 		</if>
 	</update>
-	<delete id="deleteArticle">
-		delete from picklist where contentsid=#{contentsId}
+	<delete id="deleteArticle" parameterType="map">
+		delete from picklist where contentsid=#{contentsId}		
 	</delete>
 	
 

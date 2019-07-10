@@ -41,6 +41,25 @@
       editable: true,
       eventLimit: true, // allow "more" link when too many events
       events: [
+    	  //var len = list.length();
+    	 /*  for(int i=0;i<len;i++){
+    		  
+    			  if(i == len-1){
+    				  {
+    				  title: list[i].getTitle,
+        			  start: list[i].getstartdate,
+        			  end: list[i].getenddate
+        			  }
+    			  }else{
+    				  {
+	    			  title: list[i].getTitle,
+	    			  start: list[i].getstartdate,
+	    			  end: list[i].getenddate,
+	    			  },
+    		  }
+    	 }
+    	   */
+    	  
         {
           title: 'Long Event',
           start: '2019-06-07',
@@ -108,7 +127,7 @@
 		<a>행사</a>
 	</div>
 	<div>
-			<a href="${root}/mypicklist/list"><img src="${root}/resources/style/images/listpicks.png"></a>
+			<a href="${root}/mypicklist/enter"><img src="${root}/resources/style/images/listpicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
 			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">

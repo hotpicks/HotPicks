@@ -38,8 +38,10 @@ public class MypickDamServiceImpl implements MypickDamService{
 	}
 
 	@Override
-	public void modifyArticle(int wanna) {
-		sqlSession.getMapper(MypicksDamDao.class).modifyArticle(wanna);
+	public void modifyArticle(Map<String, Object> map) {
+		System.out.println(map);
+		
+		sqlSession.getMapper(MypicksDamDao.class).modifyArticle(map);
 	}
 
 
@@ -49,9 +51,10 @@ public class MypickDamServiceImpl implements MypickDamService{
 	}
 
 	@Override
-	public void deleteArticle(int contentsId) {
+	public void deleteArticle(Map<String, ArrayList<String>> map) {
 		
-		sqlSession.getMapper(MypicksDamDao.class).deleteArticle(contentsId);
+		sqlSession.getMapper(MypicksDamDao.class).deleteArticle(map);
+		
 	}
 
 
