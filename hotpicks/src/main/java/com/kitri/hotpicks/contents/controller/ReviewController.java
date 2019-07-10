@@ -61,17 +61,20 @@ public class ReviewController {
 		//System.out.println("ReviewController 들어왔다!!");
 		String path = "";
 		int contentsid = Integer.parseInt(parameter.get("contentsid"));
-		
+		System.out.println(hstg);
 		
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		if(memberDto != null) {
 			int rseq = commonService.getReNextSeq();
+			String str = "";
+			for (int i = 0; i < hstg.size(); i++) {
+				str += "#"+hstg.get(i)+" ";
+			}
 			reviewDto.setRseq(rseq);
 			reviewDto.setUserId(memberDto.getUserId());
-			
 			//contents아이디
 			reviewDto.setContentsId(contentsid);
-			
+			reviewDto.setHashTag(str);
 			
 			if(multipartFile != null && !multipartFile.isEmpty()) {
 				String orignPicture = multipartFile.getOriginalFilename();
@@ -103,6 +106,7 @@ public class ReviewController {
 				reviewDto.setSaveFolder(saveFolder); 
 			}
 			rseq = reviewService.writeArticle(reviewDto);
+			System.out.println("여기까지왔니??");
 			if (hstg.size() != 0) {
 				System.out.println("nonHashList : " + hstg.size());
 				reviewService.insHashList(hstg, rseq, contentsid);
@@ -121,21 +125,23 @@ public class ReviewController {
 	}
 	
 	
-	@RequestMapping(value = "/memo", method = RequestMethod.POST, headers = {"Content-type=application/jacson"})
-	public @ResponseBody String writeMemo(Map<String, String> parameter, HttpSession session) {
+	@RequestMapping(value = "/memo", method = RequestMethod.POST)
+	public @ResponseBody String writeMemo(@RequestBody CommentDto commentDto, HttpSession session) {
 		//Json으로 받아온거는 @RequestBody로 받는다.
 		//consumes="application/json"
 		//headers={Content-type=application/jacson}
 //		System.out.println(memoDto.getMcontent());
-		System.out.println(parameter);
+		System.out.println(commentDto);
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 		
-//		if(memberDto != null) {
-//			commentDto.setLogId(memberDto.getUserId());
-//			reviewService.writeMemo(commentDto);
-//			String json = reviewService.listMemo(commentDto.getRceq());
-//			return json;
-//		}
+		if(memberDto != null) {
+			commentDto.setLogId(memberDto.getUserId());
+			System.out.println(commentDto);
+			reviewService.writeMemo(commentDto);
+			String json = reviewService.listMemo(commentDto.getRceq());
+			System.out.println("json : " + json);
+			return json;
+		}
 //		
 		return "";
 	}

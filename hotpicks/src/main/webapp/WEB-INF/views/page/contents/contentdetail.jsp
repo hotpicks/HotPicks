@@ -78,7 +78,11 @@ $(document).ready(function() {
 			reviewstr += '			<div class="info">';
 			reviewstr += '				<h3><a>'+review.subject+'</a></h3>';
 			reviewstr += '				<span class="date">  - '+review.logTime+'</span>';
-			reviewstr += '				<span class="reviewseq">'+review.rseq+'</span>';
+			reviewstr += '				<span class="reviewseq" style="visibility:hidden;">'+review.rseq+'</span>';
+			if('${userInfo.userId}' == review.logId) {
+				memostr += '			<input type="button" class="mmodifyBtn" value="수정" style="float:right;">';
+				memostr += '			<input type="button" class="mdeleteBtn" value="삭제" style="float:right;">';
+			}
 			reviewstr += '			</div>';
 			reviewstr += '			<p>';
 			for(var j=0; j<review.starPoint; j++) {
@@ -90,9 +94,10 @@ $(document).ready(function() {
 			reviewstr += '	</div>';
 			reviewstr += '	<div id="'+i+'" class="collapse" data-parent="#singlecomments">';
 			reviewstr += '		<div style="background-color: lightgray; ">'+review.content+'</div>';
+			reviewstr += '		<div></div>';
 			reviewstr += '		<div style="background-color: white; height:130px;">';
 			reviewstr += '			<textarea class="mcontent" cols="68" rows="5"></textarea>';
-			reviewstr += '			<span class="reviewseq">'+review.rseq+'</span>';
+			reviewstr += '			<span class="reviewseq" style="visibility:hidden;">'+review.rseq+'</span>';
 			reviewstr += '			<input type="button" class="memoBtn" value="글작성">';
 			reviewstr += '		</div>';
 			reviewstr += '		<div class="mlist">gogogo</div>';
@@ -202,7 +207,7 @@ $(document).ready(function() {
 			memostr += memo.logTime;
 			memostr += '	</td>';
 			
-			if('${userInfo}' == memo.logId) {
+			if('${userInfo.userId}' == memo.logId) {
 				memostr += '	<td width="100" style="padding: 10px" data-seq="'+memo.rceq+'">';
 				memostr += '		<input type="button" class="mmodifyBtn" value="수정">';
 				memostr += '		<input type="button" class="mdeleteBtn" value="삭제">';

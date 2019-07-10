@@ -26,6 +26,8 @@ public class ReviewServiceImpl implements ReviewService {
 		System.out.println("ReviewService 들어옴");
 		int cnt = sqlSession.getMapper(ReviewDao.class).writeArticle(reviewDto);
 		return cnt != 0 ? reviewDto.getRseq() : 0;
+		
+		
 	}
 
 	@Override
@@ -47,7 +49,9 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public void writeMemo(CommentDto commentDto) {
+		System.out.println("서비스들어왔니?");
 		sqlSession.getMapper(ReviewDao.class).writeMemo(commentDto);
+		System.out.println("서비스에서 나왔니?");
 		
 	}
 
@@ -64,6 +68,7 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void insHashList(List<String> nonHashList, int rseq, int contentsid) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(nonHashList);
 		map.put("nonHashList", nonHashList);
 		map.put("rseq", rseq);
 		map.put("contentsid", contentsid);

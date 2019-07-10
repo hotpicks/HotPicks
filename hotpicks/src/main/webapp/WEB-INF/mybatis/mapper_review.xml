@@ -9,6 +9,12 @@
 	values (#{rseq}, #{userId}, #{contentsId}, #{hashTag}, #{subject}, #{starPoint}, #{content}, sysdate, #{saveFolder}, #{orignPicture},#{savePicture})
 	</insert>
 	
+	<select id="reviewlist" parameterType="int" resultType="reviewDto">
+	select *
+	from review
+	where contentsId=#{contentsId}
+	</select>
+	
 	<select id="getHashTag" parameterType="map" resultType="hashTagDto">
 	select * from hashtag
 	where rseq = #{rseq} and hashtag = #{hashtag}
