@@ -28,27 +28,38 @@ $(function(){
 	
 	// 리뷰 삭제 버튼 클릭 이벤트
 	   $("#deleteBtn").live("click",function(){
-	      var checkedMember = $("input[name=ch]:checked");
-	      var rseqArr = new Array();
-	      
-	      var tr =checkedMember.parent().parent();
-	      for(var i = 0; i < tr.length; i++){
-	    	  	rseqArr.push(tr.eq(i).children().eq(2).val());
-	         }
-	      
-	      // ajax로 array배열을 넘기기 위한 세팅
-	      jQuery.ajaxSettings.traditional = true;
-	      	      
-	      $.ajax({
-	  		type : 'POST',
-	  		url : '${root}/admin/modifyreview',
-	  		data : { 
-	  				'rseqs' : rseqArr
-	  				} ,
-	  		success : function(result){
-	  			location.reload();
-	  		}
-	  	});
+		  
+		   var result = confirm('정말 삭제하시겠습니까?');
+		   
+		   if(result){
+		   
+			      var checkedMember = $("input[name=ch]:checked");
+			      var rseqArr = new Array();
+			      
+			      var tr =checkedMember.parent().parent();
+			      
+			      for(var i = 0; i < tr.length; i++){
+			    	  	rseqArr.push(tr.eq(i).children().eq(2).val());
+			         }
+			      			      
+			      // ajax로 array배열을 넘기기 위한 세팅
+			      jQuery.ajaxSettings.traditional = true;
+			      	      
+			       $.ajax({
+			  		type : 'POST',
+			  		url : '${root}/admin/deletereview',
+			  		data : { 
+			  				'rseqs' : rseqArr
+			  				} ,
+			  		success : function(result){
+			  			var selected = $("#reviewType").val();
+			  			getReview(selected);
+			  		}
+			  	}); 
+		   } else{
+			   var checkedMember = $("input[name=ch]:checked");
+			   checkedMember.attr("checked", "");
+		   }
 	      
 	});
 	
@@ -56,9 +67,14 @@ $(function(){
 function getReview(selected){
 	$.ajax({
 		type : 'GET',
-		url : '${root}/admin/mgmember/' + selected,
+		url : '${root}/admin/mgreview/' + selected,
 		success : function(result){
-			$("#memberList").html(result);
+			$("#reviewList").html(result);
+			
+  			// 전체 리뷰 수 변화 반영
+  			$("#rcnt").text($("#rCnt").val());
+  			// 신고 리뷰 수 변화 반영
+  			$("#drcnt").text($("#drCnt").val());
 		}
 	});
 }
@@ -94,8 +110,8 @@ function getReview(selected){
           	</tr>
           	<tr align="center" id="membercnt">
           		<td style="vertical-align: middle;">${reviewCount.STATDATE}</td>
-          		<td style="vertical-align: middle;">${reviewCount.RCNT}</td>
-          		<td style="vertical-align: middle;">${reviewCount.DRCNT}</td>
+          		<td id="rcnt" style="vertical-align: middle;">${reviewCount.RCNT}</td>
+          		<td id="drcnt" style="vertical-align: middle; color:tomato;">${reviewCount.DRCNT}</td>
           	</tr>
           </table>
           
@@ -115,7 +131,7 @@ function getReview(selected){
           	</select>
           	<div class="clear"></div>
  
-          <div id="reviewList" style="float:none; height: 850px; overflow-y:auto">
+          <div id="reviewList" style="float:none; height: 600px; overflow-y:auto">
           
           		<!-- 동적 페이지 구성 부분 -->
            
