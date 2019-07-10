@@ -108,8 +108,6 @@ $(document).ready(function() {
 		var rehArr = $(".rehead");
 		$(rehArr).click(function() {
 			var index = $(this).find(".reviewseq").text();
-			console.log(index);
-			console.log("fdf");
 			getMemoList(index);
 		});
 	}
