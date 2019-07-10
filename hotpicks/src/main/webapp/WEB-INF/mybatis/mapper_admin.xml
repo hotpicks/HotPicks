@@ -19,8 +19,38 @@
  
  	<select id="getMemberCount" resultType="map">
  		select to_char(sysdate, 'yyyy-mm-dd') statDate,
- 			   (select count(*) from member) mCnt,
+ 			   (select count(*) from member where enable=1) mCnt,
  			   (select count(*) from member where enable=0) dmCnt
+		from dual
+ 	</select>
+ 	
+ 	<update id="getOutMember" parameterType="map">
+ 			update member
+ 			set enable = 0
+ 			where userid in 
+ 		<foreach collection="userIds" item = "user" open="(" close=")" separator=","> 			
+ 			#{user}
+ 		</foreach>
+ 	</update>
+ 	
+ 	
+  	<select id="getAllReviews" resultType="reviewDto">
+ 		select rseq, userid, contentsid, hashtag, subject, starpoint, content, logtime, savefolder, orignpicture, savepicture
+		from review
+		order by logtime desc
+ 	</select>
+
+ 	<select id="getBlockReviews" resultType="map">
+		select r.subject subject, r.userid userid, r.logtime logtime, r.content content, b.reportcontent reportcontent, b.reportdate reportdate
+		from review r, blackreview b
+		where r.userid = b.userid
+		order by b.reportdate
+ 	</select>
+ 
+ 	<select id="getReviewCount" resultType="map">
+		select to_char(sysdate, 'yyyy-mm-dd') statDate,
+  	   		   (select count(*) from review) rCnt,
+ 	   		   (select count(*) from blackreview) drCnt
 		from dual
  	</select>
  

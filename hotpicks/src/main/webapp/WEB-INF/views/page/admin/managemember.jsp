@@ -26,16 +26,29 @@ $(function(){
 	});
 	
 	// 회원 강제 탈퇴 버튼 클릭 이벤트
-	$("#getOutBtn").live("click",function(){
-		var checkedMember = $(".ch");
-		console.log(checkedMember);
-		for(var i = 0; i < checkedMember.length; i++){
-			if(checkedMember[i].checked == true){
-				console.log(i + "번째");
-				console.log(checkedMember[i].parent("tr"));						
-//		 	console.log(checkedMember[i].closest("td").siblings(".userId").childNodes[0].nodeValue);				
-			}
-		}
+	   $("#getOutBtn").live("click",function(){
+	      var checkedMember = $("input[name=ch]:checked");
+	      var tdArr = new Array();
+
+	      var tr =checkedMember.parent().parent();
+	      for(var i = 0; i < tr.length; i++){
+				tdArr.push(tr.eq(i).children().eq(2).text());
+	         }
+	      
+	      // ajax로 array배열을 넘기기 위한 세팅
+	      jQuery.ajaxSettings.traditional = true;
+	      	      
+	      $.ajax({
+	  		type : 'POST',
+	  		url : '${root}/admin/modifymember',
+	  		data : { 
+	  				'userIds' : tdArr
+	  				} ,
+	  		success : function(result){
+	  			location.reload();
+	  		}
+	  	});
+	      
 	});
 	
 });

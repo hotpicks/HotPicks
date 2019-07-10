@@ -4,17 +4,51 @@
 <!-- icon 사용 위함 -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
+	<p class="list" id="reviewList">
+
 <c:if test="${articles.size() == 0}">
 	<div align="center" style="height: 300px; font-size: 20px; font-weight: 700;">
-	<br><br><br><br><br>
+	<br><br><br><br><br><br><br>
 		<p>게시글이 존재하지 않습니다.&nbsp;<font color="#ff99bb"><i class="fas fa-sad-tear"></i></font>
 	</div>
 </c:if>
 
 <c:if test="${articles.size() != 0}">
 
-<c:forEach var="article" items="${articles}">
-여기에 넣자!
+	<table>
+          		<tr align="center">
+          			<td>
+          				<input type="checkbox" class="allch">
+          			</td>
+          			<td>no</td>
+          			<td>제목</td>
+          			<td>작성자 id</td>
+          			<td>작성일</td>
+          			<td>내용</td>
+          			<td>신고내용</td>
+          			<td>신고일자</td>
+          		</tr>
+
+<c:forEach var="article" items="${articles}" varStatus="i">
+
+	<tr align="center">
+          			<td>
+          				<input type="checkbox" class="ch">
+          			</td>
+          			<td>${i.count}</td>
+          			<input type="hidden" class="rseq" value="${article.rseq}">
+          			<td>${article.subject}</td>
+          			<td>${article.userid}</td>
+          			<td>${article.logtime}</td>
+          			<td>${article.content}</td>
+          			<td>${article.reportcontent}</td>
+          			<td>${article.reportdate}</td>
+          		</tr>
+
 </c:forEach>
 
+	</table>
+
 </c:if>
+	          
+    </p>
