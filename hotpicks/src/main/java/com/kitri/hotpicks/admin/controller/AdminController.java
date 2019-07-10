@@ -127,8 +127,15 @@ public class AdminController {
 							 Model model) {
 		
 		result = adminService.statDate();
+		List<Map<String, Integer>> rStatResult = adminService.getrCateStat();
+		List<Map<String, Integer>> pStatResult = adminService.getpCateStat();
 		
-		model.addAttribute("statDate", result);
+		model.addAttribute("statDate", result);		//조회 기준 세팅
+		model.addAttribute("rCateStat", rStatResult);	//리뷰수 기준 통계 세팅
+		model.addAttribute("pCateStat", pStatResult);	//pick수 기준 통계 세팅
+		
+		System.out.println("admin_c_/stlike : 뭘 보내니 (리뷰기준통계)?" + rStatResult);
+		System.out.println("admin_c_/stlike : 뭘 보내니 (픽스기준통계)?" + pStatResult);
 		
 		return "/admin/statlike";
 	}
@@ -142,7 +149,6 @@ public class AdminController {
 			
 		List<Map<String, String>> hashTagList = adminService.getHashTags(hashtagType);
 					
-		System.out.println("뭘 보내니? > " + hashTagList);
 		model.addAttribute("tags", hashTagList);
 			
 		return "/admin/result/hresult";

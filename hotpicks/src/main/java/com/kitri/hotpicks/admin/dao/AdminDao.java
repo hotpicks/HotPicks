@@ -23,5 +23,7 @@ public interface AdminDao {
 	
 	public List<Map<String, String>> getHashTags(String hashtagType);
 	public Map<String, String> getStatDate();
+	public List<Map<String, Integer>> getrCateStat();
+	public List<Map<String, Integer>> getpCateStat();
 
 }

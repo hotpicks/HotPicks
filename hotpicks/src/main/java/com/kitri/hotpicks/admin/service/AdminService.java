@@ -20,5 +20,7 @@ public interface AdminService {
 	
 	List<Map<String, String>> getHashTags(String hashtagType);
 	Map<String, String> statDate();
+	List<Map<String, Integer>> getrCateStat();
+	List<Map<String, Integer>> getpCateStat();
 	
 }

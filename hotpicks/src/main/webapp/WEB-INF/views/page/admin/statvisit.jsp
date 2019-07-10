@@ -68,7 +68,7 @@ $(function(){
           	</select>
           	<div class="clear"></div>
           </p>
-          <canvas id="chart" width="490" height="320" class="chartjs-render-monitor" style="display: block; height: 256px; width: 392px;"></canvas>
+          <canvas id="chart" width="100" height="100" class="chartjs-render-monitor" style="display: block; height: 256px; width: 392px;"></canvas>
 <script>
 var data
 = {
@@ -96,6 +96,7 @@ var data
 
 var options
 = {
+	maintainAspectRatio: false,
 	scales : {
 		yAxes: [{
 			ticks: {

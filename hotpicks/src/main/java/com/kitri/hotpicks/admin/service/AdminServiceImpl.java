@@ -102,6 +102,20 @@ public class AdminServiceImpl implements AdminService {
 
 		return sqlSession.getMapper(AdminDao.class).getStatDate();
 	}
+
+	@Override
+	public List<Map<String, Integer>> getrCateStat() {
+		System.out.println("admin_s_Impl : 사용자 선호도 통계 결과(리뷰수 기준) 얻기 메소드 실행");
+	
+		return sqlSession.getMapper(AdminDao.class).getrCateStat();
+	}
+
+	@Override
+	public List<Map<String, Integer>> getpCateStat() {
+		System.out.println("admin_s_Impl : 사용자 선호도 통계 결과(리뷰수 기준) 얻기 메소드 실행");
+
+		return sqlSession.getMapper(AdminDao.class).getpCateStat();
+	}
 	
 	
 	

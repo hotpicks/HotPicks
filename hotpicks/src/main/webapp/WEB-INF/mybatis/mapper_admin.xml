@@ -133,5 +133,23 @@
 				     ), 'yyyy.mm.dd') yearDate
 				from dual
  	</select>
+ 	
+ 	<select id="getrCateStat" resultType="map">
+ 		select r.catid catid, round(RATIO_TO_REPORT(r.rcnt)OVER(PARTITION BY r.allcnt)*100) per 
+		from (select c.catid catid, count(r.subject) rcnt, (select count(*) from review) allcnt
+		        from review r, contents c
+		        where r.contentsid = c.contentsid
+		        group by c.catid) r
+		order by r.catid
+ 	</select>
+ 	
+ 	<select id="getpCateStat" resultType="map">
+ 		select p.catid catid, round(RATIO_TO_REPORT(p.pcnt)OVER(PARTITION BY p.allcnt)*100) per 
+		from (select c.catid, count(p.contentsid) pcnt, (select count(*) from picklist) allcnt
+		        from picklist p, contents c
+		        where p.contentsid = c.contentsid
+		        group by c.catid) p
+		order by p.catid
+ 	</select>
  
  </mapper>
