@@ -17,9 +17,9 @@ public interface MypicksDamDao {
 			PickListDto viewArticle(String userid);
 			
 	// 글 수정 | 리턴 : 수정한 글 번호
-			int modifyArticle(PickListDto pickListDto);
+			void modifyArticle(int wanna);
 
 	// 글 삭제 | 인자 : 글 번호
-			void deleteArticle(Map<String, ArrayList<String>> map);
+			void deleteArticle(int contentsId);
 			
 }

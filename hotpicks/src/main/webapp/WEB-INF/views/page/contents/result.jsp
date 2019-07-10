@@ -153,10 +153,10 @@ function reSelectcontentsList(sdCode, sggCode, catId){
  <c:forEach var="list" items="${contentsList}" varStatus="status" end="13">
 <c:choose>
 		<c:when test="${status.last == true || status.count % 4 == 0}">
-	    	<div class="one-fourth last"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+	    	<div class="one-fourth last" style="height: 300px;"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
 	    </c:when>
 	    <c:otherwise>
-			<div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+			<div class="one-fourth" style="height: 300px;"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
 	    </c:otherwise>
 </c:choose>
 		<img src="${list.image1 != '-1' ? list.image1 : (list.image2 != '-1' ? list.image2 : '') }" width="200" alt="" /></a>

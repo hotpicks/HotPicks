@@ -1,6 +1,5 @@
 package com.kitri.hotpicks.mypicks.controller;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -67,13 +66,22 @@ public class MypickDamController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deleteArticle(@RequestParam("title") ArrayList<String> title, Model model ,Map<String, ArrayList<String>> map) {
+	public String deleteArticle(@RequestParam("contentsId") int contentsId, Model model) {
 		System.out.println("리스트삭제 메소드");
-		System.out.println(title);
+		System.out.println(contentsId);
 		
-		map.put("contentsId", title);
+		mypickDamService.deleteArticle(contentsId);
 		
-		mypickDamService.deleteArticle(map);
+		return "mypicks/mypicklist";
+		
+	}
+	
+	@RequestMapping(value = "/modify", method = RequestMethod.GET)
+	public String modifyArticle(@RequestParam("wanna") int wanna, Model model) {
+		System.out.println("리스트수정 메소드");
+		System.out.println(wanna);
+		
+		mypickDamService.modifyArticle(wanna);
 		
 		return "mypicks/mypicklist";
 		
@@ -81,13 +89,13 @@ public class MypickDamController {
 	
 	
 //	@RequestMapping(value = "/cal", method = RequestMethod.GET)	
-//	public String calendar(Model model, HttpSession session) {
+//	public String calendar(Model model,@ModelAttribute("userInfo") MemberDto memberDto, Map<String,String> map) {
 //		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
 //		String userid = memberDto.getUserId();
 //		List<PickListDto> list = mypickDamService.listArticle(userid);
 //		model.addAttribute("articleList2", list);
 //		return  "mypicks/mypickcalendar";
-				
+//				
 //		List<PickListDto> list= mypickDamService.listArticle(parameter);
 //		PageNavigation pageNavigation = commonService.getPageNavigation(parameter);
 //		pageNavigation.setRoot(request.getContextPath());
