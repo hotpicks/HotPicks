@@ -41,7 +41,7 @@
  	</select>
 
  	<select id="getBlockReviews" resultType="map">
-		select r.subject, r.userid, r.logtime, r.content, b.reportcontent, b.reportdate
+		select r.subject subject, r.userid userid, r.logtime logtime, r.content content, b.reportcontent reportcontent, b.reportdate reportdate
 		from review r, blackreview b
 		where r.userid = b.userid
 		order by b.reportdate

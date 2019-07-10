@@ -91,7 +91,7 @@ $(function() {
   
 
   <%@ include file = "/WEB-INF/views/page/template/footer.jsp" %> --%>
-  <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
 <style>
@@ -124,44 +124,53 @@ $(function() {
 				pagerEvent: 'click',
     			pauseOnPagerHover: true,
     			cleartype: 1
-});
+		});
 			jQuery('#sliderholder-cycle').css("display", "block");
 			jQuery('.slidernav').css("display", "block");
 			
 			}
 			
 			
-/* 	$("#enter").click(function(){ */
 		$.ajax({
 			url : "${root}/contents/enter",
 			type : "get",
 			dataType : "HTML",
-			data : {"key":"keykey"},
 			success :function(result){
 				console.log("넘어옴");
 				$('#main').html(result);
 				}
 		});
-/* 			return;
-	}); */
+		
+		
+
 	
-/*	$("#enter").click(function(){ 
-		$.ajax({
-			url : "${root}/contents/enter",
-			type : "get",
-			dataType : "HTML",
-			data : {"key":"keykey"},
-			success :function(result){
-				console.log("넘어옴");
-				$('#main').html(result);
+ 		$("#locationInsert").click(function() {
+			$.ajax({
+				url : "${root}/contents/locationinsert",
+				type : "get",
+				success :function(result){
+					alert("location insert complete");
+					alert(result);
 				}
+			});
+			return false;
 		});
-			*/
-			
+ 		
+ 		$("#contentsInsert").click(function() {
+			$.ajax({
+				url : "${root}/contents/contentsinsert",
+				type : "get",
+				success :function(result){
+					alert("contents insert complete");
+					alert(result);
+				}
+			});
+			return false;
+		});
+		
 }); 
 </script>
 <div id="main">
 
 </div>
 <%@ include file = "/WEB-INF/views/page/template/footer.jsp" %>
-  
