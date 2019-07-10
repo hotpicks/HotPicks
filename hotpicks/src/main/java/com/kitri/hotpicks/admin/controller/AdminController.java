@@ -142,6 +142,7 @@ public class AdminController {
 			
 		List<Map<String, String>> hashTagList = adminService.getHashTags(hashtagType);
 					
+		System.out.println("뭘 보내니? > " + hashTagList);
 		model.addAttribute("tags", hashTagList);
 			
 		return "/admin/result/hresult";

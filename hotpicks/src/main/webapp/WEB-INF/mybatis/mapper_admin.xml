@@ -85,45 +85,39 @@
  	<select id="getHashTags" parameterType="string" resultType="map">
  		
  		<choose>
- 			<when test="value.equals('일주일')">
- 				select *
+ 			<when test="_parameter.equals('일주일')">
+ 				select hh.rank rank, hh.hashtag hashtag, hh.cnt cnt
 				from(select rownum rank, h.hashtag hashtag, h.cnt cnt
 				        from (select hashtag, count(*) cnt
 				                from hashtag
-				                where logTime &lt; sysdate - 7
+				                where logTime &gt; sysdate - 7
 				                group by hashtag
 				                order by count(*) desc) h) hh
-				where hh.rank &gt; 11
+				where hh.rank &lt; 11
  			</when>
- 			<when test="value.equals('한달')">
- 				select *
+ 			<when test="_parameter.equals('한달')">
+ 				select hh.rank rank, hh.hashtag hashtag, hh.cnt cnt
 				from(select rownum rank, h.hashtag hashtag, h.cnt cnt
 				        from (select hashtag, count(*) cnt
 				                from hashtag
-				                where logTime &lt; sysdate - 30
+				                where logTime &gt; sysdate - 30
 				                group by hashtag
 				                order by count(*) desc) h) hh
-				where hh.rank &gt; 11
+				where hh.rank &lt; 11
  			</when>
  			<otherwise>
- 				select *
-				from(select rownum rank, h.hashtag hashtag, h.cnt cnt,
-				     to_char((sysdate-(select 
-				                             case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
-				                              else 365
-				                              end
-				                              from dual)
-				     ), 'yyyy.mm.dd') fromdate, to_char(sysdate, 'yyyy.mm.dd') today
+ 				select hh.rank rank, hh.hashtag hashtag, hh.cnt cnt
+				from(select rownum rank, h.hashtag hashtag, h.cnt cnt
 				        from (select hashtag, count(*) cnt
 				                from hashtag
-				                where logTime &lt; sysdate - (select 
+				                where logTime &gt; sysdate - (select 
 				                                            case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
 				                                            else 365
 				                                            end
 				                                            from dual)
 				                group by hashtag
 				                order by count(*) desc) h) hh
-				where hh.rank &gt; 11
+				where hh.rank &lt; 11
  			</otherwise>
  		</choose>
  		

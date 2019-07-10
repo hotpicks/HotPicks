@@ -68,11 +68,13 @@ function getHash(selected){
         			 <option value="일년">${statDate.YEARDATE} - ${statDate.TODAY} (최근 1년)</option>
    				 </select>
           	
-     <div id="hashtagList" class="clear">
+     <div class="clear"></div>
 
+	<div id="hashtagList">
+         
           	<!-- 동적 페이지 구성 부분 -->
-          	
-     </div>
+		
+	</div>
 
 	 <div class="divider"></div>
      <div class="clear"></div>
