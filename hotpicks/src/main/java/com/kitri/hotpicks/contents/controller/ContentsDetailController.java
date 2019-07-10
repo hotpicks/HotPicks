@@ -15,9 +15,10 @@ public class ContentsDetailController {
 ////		return "/contents/contentdetail";
 //	}
 	@RequestMapping(value = "/contentdetail", method = RequestMethod.GET)
-	public String contentdetail(Model model) {
+	public void contentdetail(Model model) {
+//		System.out.println("상세일정들어옴");
+//		return "/contents/contentdetail";
 		model.addAttribute("contentsid", "140682");
-		String path = "contents/tpguscontentdetail";
-		return path;
+
 	}
 }
