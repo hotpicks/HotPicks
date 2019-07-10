@@ -105,6 +105,7 @@ $(function() {
 	width: 100%;
 }
 </style>
+
 <script type="text/javascript">
 $(function() {
 			if ($('#sliderholder-cycle').length) {
