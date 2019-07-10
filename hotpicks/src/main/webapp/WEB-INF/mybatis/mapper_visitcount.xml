@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.kitri.hotpicks.admin.dao.VisitCountDao">
+ 	<select id="selectVisitCount" parameterType="String" resultType="int">
+ 		select count(*)
+ 		from visitcount
+        where to_char(statdate) = #{date}
+ 	</select>
+ 	<insert id="insertVisitCountRow">
+ 		insert into visitcount (statdate, visitcount, visitorcount)
+ 		values(sysdate, 1 , 0)
+ 	</insert>
+ 	<insert id="insertVisitorCountRow">
+ 		insert into visitcount (statdate, visitcount, visitorcount)
+ 		values(sysdate, 0 , 1)
+ 	</insert>
+ 	<update id="updateVisitCount">
+ 		update visitcount
+ 		set visitcount = visitcount + 1
+ 		where to_char(statdate) = #{date}
+ 	</update>
+ 	<update id="updateVisitor">
+ 		update visitcount
+ 		set visitorcount = visitorcount + 1
+ 		where to_char(statdate) = #{date}
+ 	</update>
+ 	<update id="updateNewVisitor">
+ 		update visitcount
+ 		set visitorcount = visitorcount + 1, visitcount = visitcount + 1
+ 		where to_char(statdate) = #{date}
+ 	</update>
+ </mapper>

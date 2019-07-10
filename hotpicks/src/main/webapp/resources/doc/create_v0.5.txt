@@ -364,7 +364,9 @@ CREATE TABLE contents (
 	title VARCHAR2(600), /* 제목 */
 	hit NUMBER, /* 조회수 */
 	image1 CLOB, /* 이미지1 */
-	image2 CLOB /* 이미지2 */
+	image2 CLOB, /* 이미지2 */
+	updateDate DATE, /* 갱신일자 */
+	isEnd VARCHAR2(3) DEFAULT 1 /* 유효여부 */
 );
 
 COMMENT ON TABLE contents IS '컨텐츠';
@@ -386,6 +388,10 @@ COMMENT ON COLUMN contents.hit IS '조회수';
 COMMENT ON COLUMN contents.image1 IS '이미지1';
 
 COMMENT ON COLUMN contents.image2 IS '이미지2';
+
+COMMENT ON COLUMN contents.updateDate IS '갱신일자';
+
+COMMENT ON COLUMN contents.isEnd IS '유효여부';
 
 ALTER TABLE contents
 	ADD
@@ -704,18 +710,9 @@ ALTER TABLE contentsImage
 		REFERENCES contents (
 			contentsId
 		);
-		
+
 drop sequence review_seq;
 
 create sequence review_seq
 	start with 100
 	increment by 1;
-
-drop table visitCount;
-
-create table visitCount(
-    statDate date, --집계일자
-    visitCount number,  -- 방문수 (쿠키 / 일반 사용자)
-    visitorCount number,    -- 방문자수 (세션 / 로그인 사용자)
-    constraint pk_visitCount primary key(statDate)
-);

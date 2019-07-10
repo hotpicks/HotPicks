@@ -52,9 +52,10 @@ $(function(){
           	<a href="#" class="button red btns" style="margin-right:30px; font-weight: 700;">삭 제<span></span></a>
           	<a href="#" class="button lime btns" style="margin-right:30px; font-weight: 700;">DB UPDATE<span></span></a>
           	<select>
-          		<option>전체 컨텐츠</option>
-          		<option>유효 컨텐츠</option>
-          		<option>무효 컨텐츠</option>
+          		<option value="전체">전체 컨텐츠</option>
+          		<option value="1">축제</option>
+          		<option value="2">공연</option>
+          		<option value="3">행사</option>
           	</select>
           	<div class="clear"></div>
 

@@ -45,11 +45,13 @@ $(function(){
           	<tr align="center">
           		<td>집계일자</td>
           		<td>방문 수</td>
+          		<td>방문자 수</td>
           		<td>새 가입자 수</td>
           	</tr>
           	<tr align="center" id="membercnt">
           		<td>2019.06.28</td>
           		<td>50</td>
+          		<td>30</td>
           		<td>3</td>
           	</tr>
           </table>
@@ -65,7 +67,6 @@ $(function(){
           		<option>2018.06.28 - 2019.06.28 (최근 1년)</option>
           	</select>
           	<div class="clear"></div>
-        	방문 그래프 띄우기
           </p>
           <canvas id="chart" width="490" height="320" class="chartjs-render-monitor" style="display: block; height: 256px; width: 392px;"></canvas>
 <script>
@@ -76,8 +77,18 @@ var data
 				{
 					"label":"방문 수",
 					"data":[30,31,40,29,50,58,60],
-					"fill":true,
+					"fill":false,
+					"backgroundColor" : "rgba(75, 192, 192, 0.3)",
 					"borderColor":"rgb(75, 192, 192)",
+					"lineTension":0.1
+				}
+				,
+				{
+					"label":"방문자 수",
+					"data":[20,24,30,59,20,38,50],
+					"fill":false,
+					"backgroundColor" : "rgba(228, 142, 149, 0.3)",
+					"borderColor":"rgb(228, 142, 149)",
 					"lineTension":0.1
 				}
 				]

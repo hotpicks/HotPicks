@@ -28,6 +28,7 @@ $(function(){
 	// 회원 강제 탈퇴 버튼 클릭 이벤트
 	   $("#getOutBtn").live("click",function(){
 	      var checkedMember = $("input[name=ch]:checked");
+	      var memberCnt = checkedMember.length;
 	      var tdArr = new Array();
 
 	      var tr =checkedMember.parent().parent();
@@ -45,13 +46,43 @@ $(function(){
 	  				'userIds' : tdArr
 	  				} ,
 	  		success : function(result){
-	  			location.reload();
+	  			var selected = $("#memberType").val();
+	  			getMember(selected);
+	  			
 	  		}
 	  	});
 	      
 	});
 	
-});
+	// 회원 탈퇴 취소 버튼 클릭 이벤트
+	   $("#outCancelBtn").live("click",function(){
+	      var checkedMember = $("input[name=ch]:checked");
+	      var memberCnt = checkedMember.length;
+	      var tdArr = new Array();
+
+	      var tr =checkedMember.parent().parent();
+	      for(var i = 0; i < tr.length; i++){
+				tdArr.push(tr.eq(i).children().eq(2).text());
+	         }
+	      
+	      // ajax로 array배열을 넘기기 위한 세팅
+	      jQuery.ajaxSettings.traditional = true;
+	      	      
+	      $.ajax({
+	  		type : 'POST',
+	  		url : '${root}/admin/outcancelmember',
+	  		data : { 
+	  				'userIds' : tdArr
+	  				} ,
+	  		success : function(result){
+	  			var selected = $("#memberType").val();
+	  			getMember(selected);
+	  			
+	  		}
+	  	});
+	      
+	});
+	
 
 // 회원분류에 따른 회원 목록 불러오기 메소드
 function getMember(selected){
@@ -60,10 +91,15 @@ function getMember(selected){
 		url : '${root}/admin/mgmember/' + selected,
 		success : function(result){
 			$("#memberList").html(result);
+			
+  			// 탈퇴 회원 수 변화 반영
+  			$("#dmcnt").text($("#dmCnt").val());
+  			// 전체 회원 수 변화 반영
+  			$("#mcnt").text($("#mCnt").val());
 		}
 	});
 }
-
+});
 </script>
 
   <!-- Begin Wrapper -->
@@ -94,8 +130,8 @@ function getMember(selected){
           	</tr>
           	<tr align="center" id="membercnt">
           		<td style="vertical-align: middle;">${memberCount.STATDATE}</td>
-          		<td style="vertical-align: middle;">${memberCount.MCNT}</td>
-          		<td style="vertical-align: middle;">${memberCount.DMCNT}</td>
+          		<td id="mcnt" style="vertical-align: middle;">${memberCount.MCNT}</td>
+          		<td id="dmcnt" style="vertical-align: middle; color:tomato;">${memberCount.DMCNT}</td>
           	</tr>
           </table>
           
@@ -109,6 +145,7 @@ function getMember(selected){
           
           <!-- ********** 회원 관리 테이블 ********** -->
           	<a id="getOutBtn" class="button red btns" style="margin-right:30px; font-weight: 700;">강제탈퇴<span></span></a>
+          	<a id="outCancelBtn" class="button light-teal btns" style="font-weight: 700;">탈퇴취소<span></span></a>
           	<select id="memberType">
           		<option value="전체회원">전체 회원</option>
           		<option value="신고회원">신고 회원</option>
