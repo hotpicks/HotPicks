@@ -17,7 +17,7 @@
 	
 	<insert id="writeMemo" parameterType="commentDto">
 	insert into comments (rceq,logId,logTime,content)
-	values (#{rceq}, #{logId}, #{logTime}, #{content})
+	values (#{rceq}, #{logId}, sysdate, #{content})
 	</insert>
 	
 	<select id="listMemo" parameterType="int" resultType="commentDto">

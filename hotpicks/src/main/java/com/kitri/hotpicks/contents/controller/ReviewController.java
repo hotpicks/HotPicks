@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kitri.hotpicks.common.service.CommonService;
@@ -40,6 +41,7 @@ public class ReviewController {
 	
 	@Autowired
 	private ReviewService reviewService;
+	
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
@@ -118,24 +120,28 @@ public class ReviewController {
 		return path;
 	}
 	
-	@RequestMapping(value = "/memo", method = RequestMethod.POST)
-	public String writeMemo(@RequestBody CommentDto commentDto, HttpSession session) {
+	
+	@RequestMapping(value = "/memo", method = RequestMethod.POST, headers = {"Content-type=application/jacson"})
+	public @ResponseBody String writeMemo(Map<String, String> parameter, HttpSession session) {
 		//Json으로 받아온거는 @RequestBody로 받는다.
 		//consumes="application/json"
 		//headers={Content-type=application/jacson}
 //		System.out.println(memoDto.getMcontent());
+		System.out.println(parameter);
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
-		if(memberDto != null) {
-			commentDto.setLogId(memberDto.getUserId());
-			reviewService.writeMemo(commentDto);
-			String json = reviewService.listMemo(commentDto.getRceq());
-			return json;
-		}
 		
+//		if(memberDto != null) {
+//			commentDto.setLogId(memberDto.getUserId());
+//			reviewService.writeMemo(commentDto);
+//			String json = reviewService.listMemo(commentDto.getRceq());
+//			return json;
+//		}
+//		
 		return "";
 	}
 	
 	@RequestMapping(value = "/memo", method = RequestMethod.GET)
+	@ResponseBody
 	public String listMemo(int rceq) {
 		System.out.println(rceq);
 		//, consumes="application/json", headers = "{Content-type=application/jacson}"

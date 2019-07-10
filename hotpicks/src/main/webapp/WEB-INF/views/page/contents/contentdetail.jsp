@@ -63,11 +63,11 @@ $(document).ready(function() {
 	
 	function makeWriteList(reviews) {
 		var reviewcnt = reviews.reviewlist.length;
-		console.log(reviews);
+		
 		var reviewstr = '';
 		for(var i=0; i<reviewcnt; i++) {
 			var review = reviews.reviewlist[i];
-			console.log("1 : " + review);
+			
 			reviewstr += '<li class="clearfix">';
 			reviewstr += '<div class="toggle">';
 			reviewstr += '	<div class="rehead" style="height:80px;" data-toggle="collapse" data-target="#'+i+'">';
@@ -88,40 +88,71 @@ $(document).ready(function() {
 			reviewstr += '			<p>'+review.hashTag+'</p>';
 			reviewstr += '		</div>';
 			reviewstr += '	</div>';
-			reviewstr += '	<div id="'+i+'" class="collapse">';
+			reviewstr += '	<div id="'+i+'" class="collapse" data-parent="#singlecomments">';
 			reviewstr += '		<div style="background-color: lightgray; ">'+review.content+'</div>';
 			reviewstr += '		<div style="background-color: white; height:130px;">';
 			reviewstr += '			<textarea class="mcontent" cols="68" rows="5"></textarea>';
+			reviewstr += '			<span class="reviewseq">'+review.rseq+'</span>';
 			reviewstr += '			<input type="button" class="memoBtn" value="글작성">';
 			reviewstr += '		</div>';
-			reviewstr += '		<div class="mlist"></div>';
+			reviewstr += '		<div class="mlist">gogogo</div>';
 			reviewstr += '	</div>';
 			reviewstr += '</div>';
 			reviewstr += '</li>';
 		}
 		
-		//
+	
 		$("#singlecomments").empty();
 		$("#singlecomments").append(reviewstr);
 		
-		//<<start : 댓글 작성
+
 		var rehArr = $(".rehead");
-		$(rehArr).click(function() {
+		$(rehArr).live("click", function() {
 			var index = $(this).find(".reviewseq").text();
 			getMemoList(index);
 		});
+		
+		var makeArr = $(".memoBtn");
+		$(makeArr).live("click",function() {
+			if('${userInfo == null}' == 'true') {
+				alert("로그인하세요.");
+			} else {	
+				var rceq = $(this).siblings(".reviewseq").text();
+				console.log("rceq : "+rceq);
+				var content = $(this).siblings(".mcontent").val();
+				console.log("mcontent : " + content);
+				var param = JSON.stringify({'rceq' : rceq, 'content' : content});
+				console.log("param : " + param);
+				
+				if(content.trim().length != 0) {
+					$.ajax({
+						url : '${root}/review/memo',
+						type : 'POST',
+						contentType : 'application/json;',
+						dataType : 'json',
+						data : param,
+						success : function(response) {
+							makeMemoList(response);
+							$(".mcontent").val('');
+							
+						}
+					});
+				}
+			} 
+		});
 	}
 	
-	//>>end : 리뷰 작성
+			
+		
 	
 
 	
-	//$(".memoBtn").live("click",function(){
-	$(".memoBtn").click(function() {
+
+	/* $(".memoBtn").click(function() {
 		if('${userInfo == null}' == 'true') {
 			alert("로그인하세요.");
 		} else {
-			//alert("댓글쓴다");
+			
 			var rceq = $(".reviewseq").val();
 			var mcontent = $(".mcontent").val();
 			var param = JSON.stringify({'rceq' : rceq, 'mcontent' : mcontent});
@@ -139,11 +170,10 @@ $(document).ready(function() {
 				});
 			}
 		}
-	});
+	}); */
 
 	
 	function getMemoList(index) {
-			console.log(index);
 			$.ajax({
 				url : '${root}/review/memo',
 				type : 'GET',
@@ -152,7 +182,7 @@ $(document).ready(function() {
 				data : {rceq : index},
 				success : function(response) {
 					makeMemoList(response);
-					$("#mcontent").val('');
+					$(".mcontent").val('');
 				}
 			});
 	}
@@ -160,7 +190,7 @@ $(document).ready(function() {
 	function makeMemoList(memos) {
 		var memocnt = memos.memolist.length;
 		var memostr = '';
-		//rceq,logId, logTime, content
+		
 		for(var i=0; i<memocnt; i++) {
 			var memo = memos.memolist[i];
 			memostr += '<tr>';
@@ -172,7 +202,7 @@ $(document).ready(function() {
 			memostr += memo.logTime;
 			memostr += '	</td>';
 			
-			if('${userInfo.id}' == memo.id) {
+			if('${userInfo}' == memo.logId) {
 				memostr += '	<td width="100" style="padding: 10px" data-seq="'+memo.rceq+'">';
 				memostr += '		<input type="button" class="mmodifyBtn" value="수정">';
 				memostr += '		<input type="button" class="mdeleteBtn" value="삭제">';
@@ -194,11 +224,12 @@ $(document).ready(function() {
 			memostr += '</tr>';
 		}
 		$(".mlist").empty();
+		console.log($(".mlist").text());
 		$(".mlist").append(memostr);
 	}
-	//>>end : 댓글 작성
 	
-	//세현
+	
+	
 	$('.hstgcancel').live('click', function(e){
 		e.preventDefault();
 		$(this).parent().parent().remove();
@@ -392,34 +423,7 @@ li.clearfix {
 			<!-- Begin 후기 리스트 -->	
 			<div id="comments">
 				<ol id="singlecomments" class="commentlist">
-					<li class="clearfix">
-						<div class="card">
-						<div class="card-header">
-							<div class="user">
-								<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> 
-							</div>
-							<div class="message">
-								<div class="info">
-									<h3><a class="card-link" data-toggle="collapse" href="#test">review.subject</a></h3>
-									<span class="date">  - '+review.logTime+'</span>
-								</div>
-								<p>
-									★
-								</p>
-								<p>'+review.hashTag+'</p>
-							</div>
-						</div>
-						<div id="test" class="collapse show">
-							<div style="background-color: lightgray; height:130px;">'+review.content+'</div>
-							<div class="reviewseq" style="visibility: hidden;">'+review.rseq+'</div>
-							<div style="background-color: white; height:130px;">
-								<textarea class="mcontent" cols="68" rows="5"></textarea>
-								<input type="button" class="memoBtn" value="글작성">
-							</div>
-							<div class="mlist"></div>
-						</div>
-						</div>
-					</li>
+					
 				</ol>
 			</div>
 			<!-- End 후기 리스트 -->	
