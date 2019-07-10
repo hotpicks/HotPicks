@@ -2,15 +2,16 @@ package com.kitri.hotpicks.contents.model;
 
 public class CommentDto {
 
-	private int seq;
+	private int rceq;
 	private String logId;
 	private String logTime;
 	private String content;
-	public int getSeq() {
-		return seq;
+	
+	public int getRceq() {
+		return rceq;
 	}
-	public void setSeq(int seq) {
-		this.seq = seq;
+	public void setRceq(int rceq) {
+		this.rceq = rceq;
 	}
 	public String getLogId() {
 		return logId;
@@ -33,7 +34,7 @@ public class CommentDto {
 	
 	@Override
 	public String toString() {
-		return "CommentDto [seq=" + seq + ", logId=" + logId + ", logTime=" + logTime + ", content=" + content + "]";
+		return "CommentDto [rceq=" + rceq + ", logId=" + logId + ", logTime=" + logTime + ", content=" + content + "]";
 	}
 	
 	
