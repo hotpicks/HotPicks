@@ -227,7 +227,7 @@ $(function(){
 <c:if test="${userInfo.pass!='kakao'}">
               	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
 </c:if>
-               	<input type="file" id="profileBtn" name="profile_file" style="width:200px; background-color: white"/>
+               	<input type="file" id="profileBtn" name="profile_file" style="width:200px; height:40px; background-color: white"/>
               	</div>
               </p>
               <br><br>
