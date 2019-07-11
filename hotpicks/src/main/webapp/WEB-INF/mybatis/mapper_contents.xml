@@ -85,14 +85,100 @@
  		#{contents.sdCode}, #{contents.title}, #{contents.image1}, #{contents.image2}, #{contents.hit})
  	</foreach>
  	</insert> -->
- 	
-	<insert id="insertApiContents" parameterType="contentsDto">
+ 	<!-- origin -->
+	<!-- <insert id="insertApiContents" parameterType="contentsDto">
  	INSERT INTO contents(contentsid, catcode, catid, sggcode, sdcode, title, image1, image2, hit)
  	VALUES(#{contentsId}, #{catCode}, #{catId}, #{sggCode}, 
  		#{sdCode}, #{title}, #{image1}, #{image2}, #{hit})
- 	</insert>
+ 	</insert> -->
  	
-	<insert id="insertApiContentsDetail" parameterType="contentsDetailDto">
+ 	<!-- for merge -->
+	<update id="insertApiContents" parameterType="contentsDto">
+	<![CDATA[
+	MERGE INTO contents
+		USING dual
+			ON(contentsid = #{contentsId})
+		WHEN MATCHED THEN
+			UPDATE SET
+				catcode = #{catCode}, 
+				catid = #{catId}, 
+				sggcode = #{sggCode}, 
+				sdcode = #{sdCode}, 
+				title = #{title}, 
+				image1 = #{image1}, 
+				image2 = #{image2}, 
+				updatedate = sysdate, 
+				isend = 1
+			WHERE contentsid = #{contentsId}
+		WHEN NOT MATCHED THEN
+		 	INSERT (contentsid, catcode, catid, sggcode, sdcode, title, image1, image2, hit, updatedate, isend)
+		 	VALUES(#{contentsId}, #{catCode}, #{catId}, #{sggCode}, #{sdCode}, #{title}, #{image1}, #{image2}, #{hit}, sysdate, 1)
+ 	]]>
+ 	</update>
+ 	
+ 	
+ 	<!-- for merge -->
+	<update id="insertApiContentsDetail" parameterType="contentsDetailDto">
+ 	<![CDATA[
+	MERGE INTO contentsDetail
+		USING dual
+			ON(contentsid = #{contentsId})
+		WHEN MATCHED THEN
+			UPDATE SET 
+				homepage = #{homePage},
+				telname = #{telName},
+				tel = #{tel},
+				playtime = #{playtime},
+				program = #{program},
+				usetime = #{usetime},
+				spendtime = #{spendtime},
+				agelimit = #{ageLimit},
+				bookingplace = #{bookingPlace},
+				discountinfo = #{discountInfo},
+				placeinfo = #{placeInfo},
+				infosogae = #{infoSogae},
+				infonaeyong = #{infoNaeyong},
+				eventstartdate = #{eventStartDate},
+				eventenddate = #{eventEndDate},
+				xpoint = #{xPoint},
+				ypoint = #{yPoint},
+				zipcode = #{zipCode},
+				addr1 = #{addr1},
+				addr2 = #{addr2}
+			WHERE contentsid = #{contentsId}
+		WHEN NOT MATCHED THEN
+		 	INSERT (contentsid, homepage, telname, tel, playtime, program, usetime,
+ 	 				spendtime, agelimit, bookingplace, discountinfo, placeinfo, infosogae,
+ 	 				infonaeyong, eventstartdate, eventenddate, xpoint, ypoint, zipcode, addr1, addr2)
+		 	VALUES(#{contentsId}, #{homePage}, #{telName}, #{tel}, #{playtime}, #{program}, #{usetime}, #{spendtime},
+			 		#{ageLimit}, #{bookingPlace}, #{discountInfo}, #{placeInfo}, #{infoSogae}, #{infoNaeyong},
+			 	 	#{eventStartDate}, #{eventEndDate}, #{xPoint}, #{yPoint}, #{zipCode}, #{addr1}, #{addr2})
+ 	]]>
+ 	</update>
+ 	
+ 	
+ 	<!-- for merge -->
+	<update id="insertApiContentsimage" parameterType="contentsImageDto">
+	<![CDATA[
+ 	MERGE INTO contentsImage
+		USING dual
+			ON(contentsid = #{contentsId})
+		WHEN MATCHED THEN
+			UPDATE SET 
+				serialnum = #{serialNum},
+				imgname = #{imgName},
+				originimgurl = #{originImgurl},
+				smallimageurl = #{originImgurl}
+			WHERE contentsid = #{contentsId}
+		WHEN NOT MATCHED THEN
+		 	INSERT (contentsid, serialnum, imgname, originimgurl, smallimageurl)
+ 			VALUES(#{contentsId}, #{serialNum}, #{imgName}, #{originImgurl}, #{originImgurl})
+ 	]]>
+ 	</update>
+ 	
+ 	
+ 	<!-- origin -->
+	<!-- <insert id="insertApiContentsDetail" parameterType="contentsDetailDto">
  	INSERT INTO contentsDetail(contentsid, homepage, telname, tel, playtime, program, usetime,
  	 spendtime, agelimit, bookingplace, discountinfo, placeinfo, infosogae, infonaeyong,
  	 eventstartdate, eventenddate, xpoint, ypoint, zipcode, addr1, addr2)
@@ -100,24 +186,36 @@
  	 #{spendtime}, #{ageLimit},	#{bookingPlace}, #{discountInfo}, #{placeInfo}, #{infoSogae}, #{infoNaeyong},
  	 #{eventStartDate}, #{eventEndDate}, #{xPoint}, #{yPoint}, #{zipCode}, #{addr1}, #{addr2})
  	</insert>
- 
+ 	, sysdate, 1
 	<insert id="insertApiContentsimage" parameterType="contentsImageDto">
  	INSERT INTO contentsImage(contentsid, serialnum, imgname, originimgurl, smallimageurl)
  	VALUES(#{contentsId}, #{serialNum}, #{imgName}, #{originImgurl}, #{smallImageUrl})
- 	</insert>
+ 	</insert> -->
 	
 	<select id="contentslist" parameterType="map" resultType="contentsDto">
-	SELECT *
-	FROM contents
-	WHERE image2 NOT LIKE '-1' AND <![CDATA[rownum < 20]]>
+	SELECT c.*
+	FROM contents c inner join contentsdetail d
+	ON c.contentsid = d.contentsid
+	WHERE c.image2 not like '-1' AND <![CDATA[rownum < 20]]>
 	<if test="catId != null and catId != 0">
-	AND catid = #{catId}
+	AND c.catid = #{catId}
 	</if>
 	<if test="sdCode != null and sdCode != 0">
-	AND sdcode = #{sdCode} 
+	AND c.sdcode = #{sdCode} 
 	</if>
 	<if test="sggCode != null and sggCode != 0">
-	AND sggcode = #{sggCode} 
+	AND c.sggcode = #{sggCode} 
 	</if>
+	<if test="wordList != null">
+	<!-- addr1, infonaeyong, infosogae , program, title -->
+		<foreach collection="wordList" open="AND(1!=1" close=")" item="word">
+		OR c.title like '%'|| #{word} || '%'
+		OR d.addr1 like '%'|| #{word} || '%'
+		OR d.infosogae like '%'|| #{word} || '%'
+		OR d.infonaeyong like '%'|| #{word} || '%'
+		OR d.program like '%'|| #{word} || '%'
+		</foreach>
+	</if>
+	
 	</select>
  </mapper>
