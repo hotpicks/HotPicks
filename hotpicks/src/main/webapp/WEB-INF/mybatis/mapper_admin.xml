@@ -124,7 +124,7 @@
  	</select>
  	
  	<select id="getStatDate" resultType="map">
- 		select to_char(sysdate, 'yyyy.mm.dd') today, to_char((sysdate-7), 'yyyy.mm.dd') weekDate, to_char((sysdate-30), 'yyyy.mm.dd') monthDate,
+ 		select to_char(sysdate, 'yyyy.mm.dd') today, to_char((sysdate-6), 'yyyy.mm.dd') weekDate, to_char((sysdate-30), 'yyyy.mm.dd') monthDate,
 				to_char((sysdate-(select 
 				                        case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
 				                        else 365
@@ -151,5 +151,41 @@
 		        group by c.catid) p
 		order by p.catid
  	</select>
+
+	<select id="getTodayVisit" resultType="map">
+		select to_char(statdate,'yyyy-mm-dd') statdate, visitcount, visitorcount,
+		        (select count(*)
+		         from member
+		         where to_char(joindate, 'yyyymmdd') = to_char(sysdate, 'yyyymmdd')) todaynewmember
+		from visitcount
+		where to_char(statdate,'yyyymmdd') = to_char(sysdate,'yyyymmdd')
+	</select>
+	
+	<select id="getVisitStat" parameterType="string" resultType="map">
+		<choose>
+ 			<when test="_parameter.equals('일주일')">
+ 				select to_char(statdate, 'yy-mm-dd') statdate, visitcount visitcnt , visitorcount visitorcnt
+				from visitcount
+				where statdate &gt; sysdate - 7
+				order by statdate
+ 			</when>
+ 			<when test="_parameter.equals('한달')">
+ 				select to_char(statdate, 'yy-mm-dd') statdate, visitcount visitcnt , visitorcount visitorcnt
+				from visitcount
+				where statdate &gt; sysdate - 29
+				order by statdate
+ 			</when>
+ 			<otherwise>
+ 				select to_char(statdate, 'yy-mm') statdate, sum(visitcount) visitcnt, sum(visitorcount) visitorcnt
+				from visitcount
+				where statdate &gt;= sysdate - (select case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
+				                                        else 365
+				                                   end
+				                            from dual)
+				group by statdate
+				order by statdate
+ 			</otherwise>
+ 		</choose>
+	</select>
  
  </mapper>

@@ -121,14 +121,12 @@ height: auto;
 				      // 1 로그인 성공
 				      success: function(authObj) {
 				    	  
-				          //token = JSON.stringify(authObj.access_token);
-				    	  
 				    	  // 1-1. 사용자 정보 요청 api 호출
 				    	  Kakao.API.request({
 				    		 url : '/v2/user/me',
 				    		 success: function(res){
 				    			 //alert("정보 요청 성공")
-				    			 console.log(res);
+				    			 alert(res);
 				    			 
 				    			 var userId = res.id;
 				    			 var userNickName = res.properties.nickname;

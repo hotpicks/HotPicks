@@ -134,9 +134,6 @@ public class AdminController {
 		model.addAttribute("rCateStat", rStatResult);	//리뷰수 기준 통계 세팅
 		model.addAttribute("pCateStat", pStatResult);	//pick수 기준 통계 세팅
 		
-		System.out.println("admin_c_/stlike : 뭘 보내니 (리뷰기준통계)?" + rStatResult);
-		System.out.println("admin_c_/stlike : 뭘 보내니 (픽스기준통계)?" + pStatResult);
-		
 		return "/admin/statlike";
 	}
 	
@@ -157,8 +154,29 @@ public class AdminController {
 	//***************************************** [회원 방문 통계] *****************************************
 	// 관리자 페이지 - HOME - 회원 방문 통계 메뉴 이동
 	@RequestMapping("/stvisit")
-	public String mvstatvisit() {
+	public String mvstatvisit(Map<String, String> result,
+			 				  Model model) {
+		result = adminService.statDate();
+		Map<String, String> todayVisit = adminService.getTodayVisit();
+		
+		model.addAttribute("statDate", result);			//조회 기준 세팅
+		model.addAttribute("todayVisit", todayVisit);	//오늘자 방문수 + 새가입자 세팅
+				
 		return "/admin/statvisit";
+	}
+	
+	// 관리자 페이지 - HOME - 회원 선호도 분석 메뉴 - 해시태그 랭킹 목록 세팅
+	@RequestMapping("/stvisit/{visitType}")
+	public String getVisitStat(@PathVariable("visitType") String visitType,
+							Map<String, String> result,
+							Model model) {
+		System.out.println("admin_c : 기간별 방문 그래프 세팅 메소드 들어옴(" + visitType + ")");
+			
+		List<Map<String, String>> visitList = adminService.getVisitStat(visitType);
+		
+		model.addAttribute("visits", visitList);
+				
+		return "/admin/result/vresult";
 	}
 	
 	//***************************************** [DB 메뉴] *****************************************

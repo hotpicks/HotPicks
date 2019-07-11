@@ -74,9 +74,9 @@ var data = {
 	    datasets: [{
 	    	data: [rPER1, rPER2, rPER3],
             backgroundColor: [
-				'#C06C84',
-				'#F8B195',
-				'#355C7D'
+            	'#023059',
+            	'#035E72',
+				'#36A59A'
            ]
 	    }],
 
@@ -115,9 +115,9 @@ var data2 = {
 	    datasets: [{
 	    	data: [pPER1, pPER2, pPER3],
             backgroundColor: [
-            	'#C06C84',
-				'#F8B195',
-				'#355C7D'
+            	'#023059',
+            	'#035E72',
+				'#36A59A'
            ]
 	    }],
 
