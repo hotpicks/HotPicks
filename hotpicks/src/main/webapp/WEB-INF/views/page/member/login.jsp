@@ -52,7 +52,7 @@ margin-left:150px;
 
 /* 버튼 */
 .btns {
-width: 200px;
+width: 215px;
 }
 
 /* 자식 요소를 가운데 정렬 */
@@ -115,18 +115,17 @@ height: auto;
 					var token;
 				    // 사용할 앱의 JavaScript 키를 설정해 주세요.
 				    Kakao.init('9735071d5888d9bfbab24b41f01958c2');
+
 				    // 카카오 로그인 버튼을 생성합니다.
 				    Kakao.Auth.createLoginButton({
 				      container: '#kakao-login-btn',
 				      // 1 로그인 성공
 				      success: function(authObj) {
-				    	  
 				    	  // 1-1. 사용자 정보 요청 api 호출
 				    	  Kakao.API.request({
 				    		 url : '/v2/user/me',
 				    		 success: function(res){
 				    			 //alert("정보 요청 성공")
-				    			 alert(res);
 				    			 
 				    			 var userId = res.id;
 				    			 var userNickName = res.properties.nickname;
@@ -207,7 +206,6 @@ height: auto;
 								    					}
 								    				});
 				    						} else { // 아이디 존재 여부 o
-								    			alert("카톡 바로 로그인");
 				    							
 				    							// 카톡 id로 로그인
 				    							$("#ui").val(userId);

@@ -156,7 +156,7 @@ function setCookie(cname, cvalue, exdays) {
                 </ul>
               </li>
               <li><a href="${root}/member/mypage">My Page</a></li>
-			  <li><a id="logoutBtn" data-pass="${userInfo.pass}">Logout</a></li>
+			  <li><a id="logoutBtn" data-pass="${userInfo.pass}" href="">Logout</a></li>
 			   <script>
 				  
 	Kakao.init('9735071d5888d9bfbab24b41f01958c2');
@@ -165,16 +165,15 @@ function setCookie(cname, cvalue, exdays) {
 							
 			var isKakao = $(this).attr("data-pass");
 			if(isKakao == 'kakao'){
-
-				Kakao.Auth.logout(function(){				
-					$("#logoutBtn").attr("href", "${root}/member/logout");
-							
+				Kakao.Auth.logout(function(data){
+					location.href = "${root}/member/logout";
+					
 				});
 			} else {
-				alert("일반 로그아웃 처리함!");
 				$(this).attr("href", "${root}/member/logout");
 			}
 				
+			return false;
 	});
 
 				

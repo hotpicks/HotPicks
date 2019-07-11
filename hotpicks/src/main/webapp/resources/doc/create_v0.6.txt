@@ -82,12 +82,6 @@ ALTER TABLE contentsCate
 		CASCADE
 		KEEP INDEX;
 
-ALTER TABLE pickList
-	DROP
-		PRIMARY KEY
-		CASCADE
-		KEEP INDEX;
-
 ALTER TABLE contents
 	DROP
 		PRIMARY KEY
@@ -347,13 +341,6 @@ COMMENT ON COLUMN pickList.wanna IS '가보고싶은곳/다녀온곳';
 
 COMMENT ON COLUMN pickList.distence IS '거리계산용';
 
-ALTER TABLE pickList
-	ADD
-		CONSTRAINT PK_pickList
-		PRIMARY KEY (
-			contentsId
-		);
-
 /* 컨텐츠 */
 CREATE TABLE contents (
 	contentsId NUMBER(12) NOT NULL, /* 아이디 */
@@ -363,8 +350,8 @@ CREATE TABLE contents (
 	sdCode NUMBER(5), /* 시도코드 */
 	title VARCHAR2(600), /* 제목 */
 	hit NUMBER, /* 조회수 */
-	image1 CLOB, /* 이미지1 */
-	image2 CLOB, /* 이미지2 */
+	image1 VARCHAR2(), /* 이미지1 */
+	image2 VARCHAR2(), /* 이미지2 */
 	updateDate DATE, /* 갱신일자 */
 	isEnd VARCHAR2(3) DEFAULT 1 /* 유효여부 */
 );

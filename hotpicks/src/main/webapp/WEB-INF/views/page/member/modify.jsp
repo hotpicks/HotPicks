@@ -48,7 +48,7 @@ height: 30px;
 </style>
 
 <script>
-$(function(){
+$(function(){	
 	
 	// input type = file 의 파일값 읽어서, 프로필 사진 이미지 부분에 적용 (미리보기)
 	function readURL(input) {
@@ -150,41 +150,42 @@ $(function(){
 		}
 	});
 	
-	// 탈퇴 요청
+	// 카카오톡 로그인 시, 바로 탈퇴 요청
 	$("#exitBtn").click(function(){
+		var result = confirm('정말 탈퇴하시겠습니까?');			
+		if(result){
+			// 앱 연결 해제 요청
+			Kakao.API.request({
+				url : '/v1/user/unlink',
+				success : function(data){
+					alert("탈퇴가 완료되었습니다. 지금까지 이용해주셔서 감사합니다.");		
+					location.href = "${root}/member/exit";
+				}
+			});
+		}
+		return false;
+	});
+	
+	// 일반 로그인 시, 모달창 띄운 뒤 탈퇴 요청
+	$("#DeletePressBtn").click(function(){
 		
 		var pass = $(this).attr("data-pass");
-		
-		// 카카오톡 로그인 경우, 바로 탈퇴 (이유 : 카톡로그인 사용자의 비번 알 수 없음)
-		if(pass == 'kakao'){
-			var result = confirm('정말 탈퇴하시겠습니까?');			
-			if(result){
-				alert("응");
-				// 앱 연결 해제 요청
-				Kakao.API.request({
-					url : '/v1/user/unlink',
-					success : function(){
-						alert("탈퇴가 완료되었습니다.");		
-						$("#exitBtn").attr("href", "${root}/member/exit");		
-					}
-				});
-			}
-		}else{ // 일반 로그인 경우, 현재 비밀번호 일치시 탈퇴
-		
-			var userInput = prompt('탈퇴를 위해 현재 비밀번호를 입력해주세요.');
+
+			var userInput = $("#inputPassword").val();
+			alert("입력한 비번은 :" + userInput);
+			
 			if(userInput != pass){
 				alert("비밀번호가 일치하지 않습니다.");
 			} else{
 				var result = confirm('정말 탈퇴하시겠습니까?');
 				
 				if(result){
-					alert("탈퇴가 완료되었습니다.");		
-					$(this).attr("href", "${root}/member/exit");
+					alert("탈퇴가 완료되었습니다. 지금까지 이용해주셔서 감사합니다.");		
+					location.href = "${root}/member/exit";
 				}
 			}
-		
-		}
 	});
+	
 	
 });
 
@@ -300,7 +301,13 @@ $(function(){
             <br>
             <p>
             	<span>
-            		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" data-pass="${userInfo.pass}" href=""><strong>여기</strong></a>를 눌러주세요.</font>
+<c:if test="${userInfo.pass == 'kakao'}">
+            		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" href=""><strong>여기</strong></a>를 눌러주세요.</font>
+</c:if>
+<c:if test="${userInfo.pass != 'kakao'}">
+            		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" data-pass="${userInfo.pass}" data-toggle="modal" data-target="#deleteModal" href=""><strong>여기</strong></a>를 눌러주세요.</font>
+</c:if>
+
             	</span>
             </p>
           </form>
@@ -317,5 +324,41 @@ $(function(){
     
   </div>
   <!-- End Wrapper -->
+
+<!-- 탈퇴 모달창 -->
+<!-- 여기서부터 탈퇴 모달  -->
+   <div class="modal fade" id="deleteModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+         <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button>
+               <h4 class="modal-title">회원 탈퇴</h4>
+            </div>
+
+            <!-- Modal body -->
+               <div class="modal-body">
+                  <div>
+                  <h6 style="font-size: 0.7rem; font-weight: 300">
+                  탈퇴 후 회원 정보 및 서비스 이용기록은 모두 삭제되오니 신중하게 선택하여 주시기 바랍니다.
+                  <br><br>
+                  회원탈퇴를 위해 <span style="font-weight: 700; color:navy;">현재 비밀번호</span>를 입력해 주세요.
+                  <br>
+                  </h6>
+
+                  </div>
+                  <input id="inputPassword" type="password" placeholder="현재 비밀번호를 입력해주세요." style="width:95%;"> 
+               </div>
+
+               <!-- Modal footer -->
+               <div class="modal-footer">
+                  <button type="button" id="DeletePressBtn" class="btn btn-danger" data-pass="${userInfo.pass}">탈퇴</button>
+                  <button type="button" class="btn btn-normal" data-dismiss="modal">닫기</button>
+               </div>
+         </div>
+      </div>
+   </div>
+   <!-- 여기서부터 비밀번호 모달 끝 -->
 
 <%@ include file = "/WEB-INF/views/page/template/footer.jsp" %>
