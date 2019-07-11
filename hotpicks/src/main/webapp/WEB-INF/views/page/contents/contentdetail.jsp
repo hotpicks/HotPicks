@@ -110,6 +110,7 @@ $(document).ready(function() {
 		}
 	});
 	
+	//리뷰 만들기
 	function makeWriteList(reviews) {
 		var reviewcnt = reviews.reviewlist.length;
 		
@@ -119,31 +120,75 @@ $(document).ready(function() {
 			
 			reviewstr += '<li class="clearfix">';
 			reviewstr += '<div class="toggle">';
-			reviewstr += '	<div class="rehead" style="height:80px;" data-toggle="collapse" data-target="#'+i+'">';
+			reviewstr += '	<div class="rehead" style="height:100px;" data-toggle="collapse" data-target="#'+i+'">';
 			reviewstr += '		<div class="user">';
 			reviewstr += '			<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> ';
 			reviewstr += '		</div>';
 			reviewstr += '		<div class="message">';
 			reviewstr += '			<div class="info">';
 			reviewstr += '				<h3><a>'+review.subject+'</a></h3>';
+			
 			reviewstr += '				<span class="date">  - '+review.logTime+'</span>';
 			reviewstr += '				<span class="reviewseq" style="visibility:hidden;">'+review.rseq+'</span>';
-			if('${userInfo.userId}' == review.logId) {
-				memostr += '			<input type="button" class="mmodifyBtn" value="수정" style="float:right;">';
-				memostr += '			<input type="button" class="mdeleteBtn" value="삭제" style="float:right;">';
+			
+			if('${userInfo.userId}' == review.userId) {
+				reviewstr += '			<input type="button" class="modifyBtn" value="수정" data-toggle="modal" data-target="#modifymodal'+i+'" style="float:right;">';
+				reviewstr += '			<input type="button" class="deleteBtn" value="삭제" style="float:right;">';
+				
+				
+				//modifymodal
+				reviewstr += '<div class="modal" id="modifymodal'+i+'">';
+				reviewstr += '    <div class="modal-dialog">';
+				reviewstr += '      <div class="modal-content">';
+				      
+				reviewstr += '        <div class="modal-header">';
+				reviewstr += '          <h4 class="modal-title">리뷰 수정</h4>';
+				reviewstr += '      	<button type="button" class="close" data-dismiss="modal">&times;</button>';
+				reviewstr += '        </div>';
+				        
+				       
+				reviewstr += '        <div class="modal-body">';
+				reviewstr += '			<h5>제목 : <input value="'+review.subject+'"></h5>';
+				reviewstr += '			<label style="font-size:15px;">별점</label>';
+				reviewstr += '			<select class="form-control" >';
+				reviewstr += '				<option value="5">★★★★★</option>';
+				reviewstr += '				<option value="4">★★★★</option>';
+				reviewstr += '				<option value="3">★★★</option>';
+				reviewstr += '				<option value="2">★★</option>';
+				reviewstr += '				<option value="1">★</option>';
+				reviewstr += '			</select><br>';
+				reviewstr += '			<label style="font-size:15px;">해쉬태그</label><br><div class="hsgroup"></div>';
+				reviewstr += '			<input type="text" id="hashTag"><br><br>';
+				reviewstr += '			<textarea cols="80" rows="5">'+review.content+'</textarea>';       
+				reviewstr += '        </div>';   
+				        
+				       
+				reviewstr += '        <div class="modal-footer">';
+				reviewstr += '          <input type="button" class="modifyokbtn" value="완료">';
+				reviewstr += '          <input type="button" class="modifycancelbtn" value="취소">';
+				reviewstr += '        </div>';
+				        
+				reviewstr += '      </div>';
+				reviewstr += '    </div>';
+				reviewstr += '  </div>';
+				
 			}
+			
 			reviewstr += '			</div>';
 			reviewstr += '			<p>';
 			for(var j=0; j<review.starPoint; j++) {
 				reviewstr += '★';
 			}
 			reviewstr += '			</p>';
+			
+			reviewstr += '			<p>글쓴이 : '+review.userId+'</p>';
 			reviewstr += '			<p>'+review.hashTag+'</p>';
+			
 			reviewstr += '		</div>';
 			reviewstr += '	</div>';
 			reviewstr += '	<div id="'+i+'" class="collapse" data-parent="#singlecomments">';
 			reviewstr += '		<div style="background-color: lightgray; ">'+review.content+'</div>';
-			reviewstr += '		<div></div>';
+			reviewstr += '		<div style="height:20px;"></div>';
 			reviewstr += '		<div style="background-color: white; height:130px;">';
 			reviewstr += '			<textarea class="mcontent" cols="68" rows="5"></textarea>';
 			reviewstr += '			<span class="reviewseq" style="visibility:hidden;">'+review.rseq+'</span>';
@@ -159,13 +204,14 @@ $(document).ready(function() {
 		$("#singlecomments").empty();
 		$("#singlecomments").append(reviewstr);
 		
-
+		//댓글list 가져오기
 		var rehArr = $(".rehead");
 		$(rehArr).live("click", function() {
 			var index = $(this).find(".reviewseq").text();
 			getMemoList(index);
 		});
 		
+		//댓글 쓰기
 		var makeArr = $(".memoBtn");
 		$(makeArr).live("click",function() {
 			if('${userInfo == null}' == 'true') {
@@ -194,6 +240,19 @@ $(document).ready(function() {
 				}
 			} 
 		});
+		
+		//리뷰 수정하기
+		/* var modifyArr = $(".modifyBtn");
+		$(modifyArr).live("click",function() {
+			alert("눌렸다!");
+			$(this).siblings(".modifything").css("display", "");
+		}); */
+		
+		//리뷰 삭제
+		var deleteArr = $(".deleteBtn");
+		$(deleteArr).live("click",function() {
+			
+		});
 	}
 	
 			
@@ -202,29 +261,7 @@ $(document).ready(function() {
 
 	
 
-	/* $(".memoBtn").click(function() {
-		if('${userInfo == null}' == 'true') {
-			alert("로그인하세요.");
-		} else {
-			
-			var rceq = $(".reviewseq").val();
-			var mcontent = $(".mcontent").val();
-			var param = JSON.stringify({'rceq' : rceq, 'mcontent' : mcontent});
-			if(mcontent.trim().length != 0) {
-				$.ajax({
-					url : '${root}/review/memo',
-					type : 'POST',
-					contentType : 'application/json;charset=UTF-8',
-					dataType : 'json',
-					data : param,
-					success : function(response) {
-						makeMemoList(response);
-						$("#mcontent").val('');
-					}
-				});
-			}
-		}
-	}); */
+
 
 	
 	function getMemoList(index) {
