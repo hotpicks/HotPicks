@@ -68,5 +68,12 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.getMapper(MemberDao.class).getReview(parameter);
 	}
 
+	@Override
+	public int getReviewCnt(String userId) {
+		System.out.println("member_s_Impl : 회원 리뷰 개수 가져오기 메소드 실행");
+		
+		return sqlSession.getMapper(MemberDao.class).getReviewCnt(userId);
+	}
+
 
 }

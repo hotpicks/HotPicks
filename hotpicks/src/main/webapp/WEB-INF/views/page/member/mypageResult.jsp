@@ -15,7 +15,7 @@
 
 <c:if test="${reviews.size() != 0}">
 
-<ul id="reviewCnt" data-rcnt="${reviews.size()}">
+<ul>
 <c:forEach var="review" items="${reviews}">
 	<!-- Begin 리뷰 글 -->
 <c:if test="${review.IMGDIR2 == null}">
