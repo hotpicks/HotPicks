@@ -15,7 +15,7 @@ public interface ContentsDao {
 	
 	
 //select contents list process
-	List<ContentsDto>contentslist(Map<String,Integer> parameter);
+	List<ContentsDto>contentslist(Map<String,Object> parameter);
 	/*<![CDATA[
  	WHERE ROWNUM < 20
  	]]>*/
