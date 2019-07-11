@@ -133,7 +133,7 @@ public class ContentsServiceImpl implements ContentsService {
 									: item.get("firstimage2").toString().replace("\\", "")));
 					contentsDto.setHit(0);
 
-					 sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
+					 //sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
 
 				}
 

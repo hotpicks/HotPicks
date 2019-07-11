@@ -117,7 +117,7 @@ public class ContentsController {
 	@RequestMapping(value = "/contentsinsert", method = RequestMethod.GET)
 	public @ResponseBody String contentsInsertProcess() {
 		// contentscateInsertProcess
-		contentsService.insertContentsCate();
+		// contentsService.insertContentsCate();
 		
 		// apiInsertProcess
 		String areaUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?"
