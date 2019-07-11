@@ -125,47 +125,43 @@ height: auto;
 				    	  Kakao.API.request({
 				    		 url : '/v2/user/me',
 				    		 success: function(res){
-				    			 //alert("정보 요청 성공")
-				    			 
 				    			 var userId = res.id;
 				    			 var userNickName = res.properties.nickname;
+				    			 var profile_image = res.properties.profile_image;
 				    			 
 				    			 var userEmail = "";
-				    			 var profile_image = "";
 				    			 var age = "";
 				    			 var gender = "";
 				    			 
-				    			 // 값 존재 여부
-				    			 var has_age_range = res.kakao_account.has_age_range;
-				    			 var has_email = res.kakao_account.has_email;
-				    			 var has_gender = res.kakao_account.has_gender;
+				    			 // 값 제공 동의 필요 여부 (false면 동의한 항목인 것 = 값을 얻음)
+				    			 var age_agree = res.kakao_account.age_range_needs_agreement;
+				    			 var email_agree = res.kakao_account.email_needs_agreement;
+				    			 var gender_agree = res.kakao_account.gender_needs_agreement;
 				    			 
-				    			 if(has_email){
+				    			 if(!email_agree){
 				    				 userEmail = res.kakao_account.email;
 				    			 }else {
 				    				 userEmail = "";
 				    			 }
-				    			 if(has_age_range){
+				    			 
+				    			 if(!age_agree){
 				    				 age = res.kakao_account.age_range;
 				    				 var idx = age.lastIndexOf("~");
 				    				 age = age.substring(0, idx);
 				    			 }else {
 				    				 age = 0;
 				    			 }
-				    			 if(has_gender){
+				    			 
+				    			 if(!gender_agree){
 				    				 gender = (res.kakao_account.gender == "female") ? "여" : "남";
 				    			 }else {
-				    				 gender = "";
-				    			 }
-				    			 
-				    			 if(profile_image != null){
-				    				 profile_image = res.properties.profile_image;
+				    				 gender = "여";
 				    			 }
 				    			 
 				    			 if(profile_image == null){
 				    				 profile_image = "user.png";
 				    			 }
-				    			 
+
 				    			 // 가입 여부 확인
 				    			 $.ajax({
 				    					type: 'GET',
@@ -191,7 +187,7 @@ height: auto;
 								    							'profile' : profile_image
 								    						   },
 								    					success : function(json){
-								    						alert("카톡 회원가입 성공");
+								    						alert("카카오톡으로 회원가입이 완료되었습니다.");
 								    						
 								    						// 카톡 id로 로그인
 								    						$("#ui").val(userId);
