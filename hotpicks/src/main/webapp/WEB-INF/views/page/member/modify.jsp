@@ -305,7 +305,7 @@ $(function(){
             		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" href=""><strong>여기</strong></a>를 눌러주세요.</font>
 </c:if>
 <c:if test="${userInfo.pass != 'kakao'}">
-            		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" data-pass="${userInfo.pass}" data-toggle="modal" data-target="#deleteModal" href=""><strong>여기</strong></a>를 눌러주세요.</font>
+            		<font color="gray">회원 탈퇴를 원하시면, <a data-pass="${userInfo.pass}" data-toggle="modal" data-target="#deleteModal" href=""><strong>여기</strong></a>를 눌러주세요.</font>
 </c:if>
 
             	</span>
