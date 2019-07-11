@@ -81,7 +81,7 @@ ul#tab-menu {
 	float:none;
 	margin-top:10px;
 	width : 98%;
-	height: 1000px;
+	height: 1200px;
 }
 
 input[type=checkbox]{
