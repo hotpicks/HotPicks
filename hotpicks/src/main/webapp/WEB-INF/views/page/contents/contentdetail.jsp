@@ -3,6 +3,7 @@
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
 <script>
 $(document).ready(function() {
+	//<<start : pick
 	$("#pick").click(function () {
 		var result = confirm("가고싶은곳 확인) , 다녀온곳 취소)");
 		if(result){
@@ -12,8 +13,9 @@ $(document).ready(function() {
 		}
 		
 	});
+	//>>end : pick
 	
-	//리뷰작성
+	//<<start : 리뷰작성
 	getWriteList();
 	
 	function getWriteList() {
@@ -61,21 +63,26 @@ $(document).ready(function() {
 	
 	function makeWriteList(reviews) {
 		var reviewcnt = reviews.reviewlist.length;
-		console.log(reviews);
+		
 		var reviewstr = '';
 		for(var i=0; i<reviewcnt; i++) {
 			var review = reviews.reviewlist[i];
-			console.log("1 : " + review);
+			
 			reviewstr += '<li class="clearfix">';
 			reviewstr += '<div class="toggle">';
-			reviewstr += '	<div class="trigger">';
+			reviewstr += '	<div class="rehead" style="height:80px;" data-toggle="collapse" data-target="#'+i+'">';
 			reviewstr += '		<div class="user">';
 			reviewstr += '			<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> ';
 			reviewstr += '		</div>';
 			reviewstr += '		<div class="message">';
 			reviewstr += '			<div class="info">';
 			reviewstr += '				<h3><a>'+review.subject+'</a></h3>';
-			reviewstr += '				<span class="date">  - '+review.date+'</span>';
+			reviewstr += '				<span class="date">  - '+review.logTime+'</span>';
+			reviewstr += '				<span class="reviewseq" style="visibility:hidden;">'+review.rseq+'</span>';
+			if('${userInfo.userId}' == review.logId) {
+				memostr += '			<input type="button" class="mmodifyBtn" value="수정" style="float:right;">';
+				memostr += '			<input type="button" class="mdeleteBtn" value="삭제" style="float:right;">';
+			}
 			reviewstr += '			</div>';
 			reviewstr += '			<p>';
 			for(var j=0; j<review.starPoint; j++) {
@@ -85,23 +92,201 @@ $(document).ready(function() {
 			reviewstr += '			<p>'+review.hashTag+'</p>';
 			reviewstr += '		</div>';
 			reviewstr += '	</div>';
-			reviewstr += '	<div class="togglebox">';
-			reviewstr += '		<div>'+review.content+'</div>';
-			reviewstr += '		<div>';
+			reviewstr += '	<div id="'+i+'" class="collapse" data-parent="#singlecomments">';
+			reviewstr += '		<div style="background-color: lightgray; ">'+review.content+'</div>';
+			reviewstr += '		<div></div>';
+			reviewstr += '		<div style="background-color: white; height:130px;">';
 			reviewstr += '			<textarea class="mcontent" cols="68" rows="5"></textarea>';
+			reviewstr += '			<span class="reviewseq" style="visibility:hidden;">'+review.rseq+'</span>';
 			reviewstr += '			<input type="button" class="memoBtn" value="글작성">';
 			reviewstr += '		</div>';
+			reviewstr += '		<div class="mlist">gogogo</div>';
 			reviewstr += '	</div>';
 			reviewstr += '</div>';
 			reviewstr += '</li>';
 		}
+		
+	
 		$("#singlecomments").empty();
 		$("#singlecomments").append(reviewstr);
+		
+
+		var rehArr = $(".rehead");
+		$(rehArr).live("click", function() {
+			var index = $(this).find(".reviewseq").text();
+			getMemoList(index);
+		});
+		
+		var makeArr = $(".memoBtn");
+		$(makeArr).live("click",function() {
+			if('${userInfo == null}' == 'true') {
+				alert("로그인하세요.");
+			} else {	
+				var rceq = $(this).siblings(".reviewseq").text();
+				console.log("rceq : "+rceq);
+				var content = $(this).siblings(".mcontent").val();
+				console.log("mcontent : " + content);
+				var param = JSON.stringify({'rceq' : rceq, 'content' : content});
+				console.log("param : " + param);
+				
+				if(content.trim().length != 0) {
+					$.ajax({
+						url : '${root}/review/memo',
+						type : 'POST',
+						contentType : 'application/json;',
+						dataType : 'json',
+						data : param,
+						success : function(response) {
+							makeMemoList(response);
+							$(".mcontent").val('');
+							
+						}
+					});
+				}
+			} 
+		});
 	}
+	
+			
+		
+	
+
+	
+
+	/* $(".memoBtn").click(function() {
+		if('${userInfo == null}' == 'true') {
+			alert("로그인하세요.");
+		} else {
+			
+			var rceq = $(".reviewseq").val();
+			var mcontent = $(".mcontent").val();
+			var param = JSON.stringify({'rceq' : rceq, 'mcontent' : mcontent});
+			if(mcontent.trim().length != 0) {
+				$.ajax({
+					url : '${root}/review/memo',
+					type : 'POST',
+					contentType : 'application/json;charset=UTF-8',
+					dataType : 'json',
+					data : param,
+					success : function(response) {
+						makeMemoList(response);
+						$("#mcontent").val('');
+					}
+				});
+			}
+		}
+	}); */
+
+	
+	function getMemoList(index) {
+			$.ajax({
+				url : '${root}/review/memo',
+				type : 'GET',
+				contentType : 'application/json;charset=UTF-8',
+				dataType : 'json',
+				data : {rceq : index},
+				success : function(response) {
+					makeMemoList(response);
+					$(".mcontent").val('');
+				}
+			});
+	}
+	
+	function makeMemoList(memos) {
+		var memocnt = memos.memolist.length;
+		var memostr = '';
+		
+		for(var i=0; i<memocnt; i++) {
+			var memo = memos.memolist[i];
+			memostr += '<tr>';
+			memostr += '	<td>' + memo.logId + '</td>';
+			memostr += '	<td style="padding: 10px">';
+			memostr += memo.content;
+			memostr += '	</td>';
+			memostr += '	<td width="100" style="padding: 10px">';
+			memostr += memo.logTime;
+			memostr += '	</td>';
+			
+			if('${userInfo.userId}' == memo.logId) {
+				memostr += '	<td width="100" style="padding: 10px" data-seq="'+memo.rceq+'">';
+				memostr += '		<input type="button" class="mmodifyBtn" value="수정">';
+				memostr += '		<input type="button" class="mdeleteBtn" value="삭제">';
+				memostr += '	</td>';
+			}
+			memostr += '</tr>';
+			memostr += '<tr style="display: none;">';
+			memostr += '	<td colspan="3" style="padding: 10px">';
+			memostr += '	<textarea class="mcontent" cols="160" rows="5">' + memo.content + '</textarea>';
+			memostr += '	</td>';
+			memostr += '	<td width="100" style="padding: 10px">';
+			memostr += '	<input type="button" class="memoModifyBtn" value="글수정">';
+			memostr += '	<input type="button" class="memoModifyCancelBtn" value="취소">';
+			memostr += '	</td>';
+			memostr += '</tr>';
+			memostr += '<tr>';
+			memostr += '	<td class="bg_board_title_02" colspan="4" height="1"';
+			memostr += '		style="overflow: hidden; padding: 0px"></td>';
+			memostr += '</tr>';
+		}
+		$(".mlist").empty();
+		console.log($(".mlist").text());
+		$(".mlist").append(memostr);
+	}
+	
+	
+	
+	$('.hstgcancel').live('click', function(e){
+		e.preventDefault();
+		$(this).parent().parent().remove();
+	});
+	
+	$('#hashTag').keypress(function(e){
+		if(e.keyCode==32){
+			if ($('.hstg').length <= 4) {
+				console.log('스페이스바 눌림');
+				var hstg = "<div class='hstgdiv'><input type='hidden' name='hstg' value="
+					+ $('#hashTag').val().trim()+"><label class='hstg'>"
+					+ $('#hashTag').val().trim() 
+					+"<a class='hstgcancel' href='#'>"
+					+"<img class='hstgimg' src='${root}/resources/style/images/icon_x.png'></a></label></div>";
+				$('.hsgroup').append(hstg);
+				$('#hashTag').val('');
+			} else {
+				alert('안됨');
+			}
+			
+		}
+	});
 	
 });
 </script>
 <style>
+/* 세현 */
+.hstg{
+	height: 20px;
+	text-align:center;
+	font-size: 13px;
+	background-color: #ffd100;
+	border-radius:10px;
+	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+	margin-left: 5px;
+	padding:2px 5px 2px 5px;
+}
+.hstgimg{
+	height: 8px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.hsgroup{
+	display: inline-block;
+	padding:0px!important;
+}
+.hstgdiv{
+	display: inline-block;
+	padding:0px!important;
+}
+
+
 .detailimg {
 	width: 560px;
 	height: 270px;
@@ -203,6 +388,7 @@ li.clearfix {
           				<div>
           				<form id="writeForm" name="writeForm" method="post" action="" enctype="multipart/form-data">
           					<input type="hidden" name="rseq" value="1">
+          					<input type="hidden" name="contentsid" value="${contentsid}">
           					<input type="hidden" name="pg" value="1">
           					<input type="hidden" name="key" value="">
           					<input type="hidden" name="word" value="">
@@ -220,12 +406,12 @@ li.clearfix {
     								<option value="1">★</option>
   								</select>		
           						<br>
-          						<label style="font-size:15px;">해쉬태그</label>
-          						<input type="text" name="hashTag" id="hashtag"><br>
+          						<label style="font-size:15px;">해쉬태그</label><div class="hsgroup"></div>
+          						<input type="text" id="hashTag"><br>
 								<label style="font-size:15px;">사진 올리기</label>
 								<input type="file" name="picture" id="picture"><br>
 								<label style="font-size:15px;">내용</label><br>
-								<textarea name="content" id="content" class="reviewcontents" cols="67" rows="25" ></textarea>
+								<textarea name="content" id="content" class="reviewcontents" cols="50" rows="15" ></textarea>
           					</div>
           				</form>
 						<input id="cancelBtn" class="cancelBtn" type="button"
@@ -241,7 +427,9 @@ li.clearfix {
 			
 			<!-- Begin 후기 리스트 -->	
 			<div id="comments">
-				<ol id="singlecomments" class="commentlist"></ol>
+				<ol id="singlecomments" class="commentlist">
+					
+				</ol>
 			</div>
 			<!-- End 후기 리스트 -->	
 
