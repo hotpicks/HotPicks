@@ -43,8 +43,8 @@ $(function() {
 			type : "get",
 			dataType : "HTML",
 			success :function(result){
-				console.log("넘어옴");
 				$('#main').html(result);
+				
 				}
 		});
 		
@@ -69,7 +69,6 @@ $(function() {
 				type : "get",
 				success :function(result){
 					alert("contents insert complete");
-					alert(result);
 				}
 			});
 			return false;

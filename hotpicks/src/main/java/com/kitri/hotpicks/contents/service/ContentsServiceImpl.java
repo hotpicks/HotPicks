@@ -133,7 +133,7 @@ public class ContentsServiceImpl implements ContentsService {
 									: item.get("firstimage2").toString().replace("\\", "")));
 					contentsDto.setHit(0);
 
-					 sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
+					 //sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
 
 				}
 
@@ -328,8 +328,6 @@ public class ContentsServiceImpl implements ContentsService {
 
 						int condition2 = (Integer.valueOf(parse_body.get("totalCount").toString()));
 						if (Integer.valueOf(parse_body.get("totalCount").toString()) == 0) {
-							System.out.println("이미지가 0인게 말이돼?");
-							System.out.println("이미지가 0인게 말이돼?");
 							System.out.println("이미지가 0인게 말이돼?");
 							return;
 						}
@@ -644,10 +642,40 @@ public class ContentsServiceImpl implements ContentsService {
 	}
 
 	@Override
-	public List<ContentsDto> selectContentsList(Map<String,Integer> parameter) {
+	public List<ContentsDto> selectContentsList(char keyword, Map<String,Object> parameter) {
 		if(parameter != null) {
-			return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);			
+			switch(keyword) {
+			case 's':
+				String word = parameter.get("search").toString();
+				String[] splitedWord = word.trim().split(" ");
+				int len = splitedWord.length;
+				List<String> wordList = new ArrayList<String>();
+				for(int i=0;i<len;i++) {
+					wordList.add(splitedWord[i]);
+				}
+				System.out.println("before clear"+parameter);
+				parameter.clear();
+				System.out.println("after clear"+parameter);
+				
+				parameter.put("wordList", wordList);
+					
+				System.out.println("splitparameter"+parameter.get("wordList"));
+				return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);
+			
+			
+			
+			case 'l':
+				System.out.println("location검색");
+				return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);
+			
+				
+				//'m' :main첫화면(parameter가 null)
+			default : 
+				System.out.println("nomal검색");
+				return sqlSession.getMapper(ContentsDao.class).contentslist(null);
+			}
 		}else {
+			System.out.println("nomal검색");
 			return sqlSession.getMapper(ContentsDao.class).contentslist(null);			
 		}
 	}
