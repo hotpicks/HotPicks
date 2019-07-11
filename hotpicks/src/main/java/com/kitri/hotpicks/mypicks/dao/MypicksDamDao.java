@@ -20,5 +20,7 @@ public interface MypicksDamDao {
 
 	// 글 삭제 | 인자 : 글 번호
 			void deleteArticle(Map<String, ArrayList<String>> map);
+			//달력
+			List<PickListDto> calArticle(Map<String, String> map);
 			
 }

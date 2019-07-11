@@ -39,7 +39,6 @@ $(function(){
 			      var tdArr = new Array();
 			      var tr =checkedMember.parent().parent().parent();
 			      for(var i = 0; i < tr.length; i++){
-						console.log(tdArr.push(tr.eq(i).children().eq(3).attr("value")));
 						tdArr.push(tr.eq(i).children().eq(3).attr("value"));
 			         }
 			      
@@ -64,21 +63,19 @@ $(function(){
 			      var checkedMember = $("input[name=check]:checked");
 			      var tdArr = new Array();
 			      var tr =checkedMember.parent().parent().parent();
-			     
+ 			      var wanna = tr.children().eq(4).attr("value");
 			      for(var i = 0; i < tr.length; i++){
-						tdArr.push(tr.eq(i).children().eq(3).attr("value"));
-						tdArr.push(tr.eq(i).children().eq(4).attr("value"));
-			         }
-			      
+					tdArr.push(tr.eq(i).children().eq(3).attr("value"));
+			      } 
+			     	
 			      // ajax로 array배열을 넘기기 위한 세팅
 			      jQuery.ajaxSettings.traditional = true;
-			      	      
 			      $.ajax({
 			  		type : 'get',
 			  		url : '${root}/mypicklist/modify',
-			  		data : { 
-			  				'contentsId': tdArr
-			  				} ,
+			  		data : { "contentsId" : tdArr,
+			  				"wanna" : wanna
+					  		},
 			  		success : function(result){
 			  			location.reload();
 			  		}
@@ -133,13 +130,13 @@ function loading(a){
 		
 		<div style="margin-bottom: 10px; font-size: 15px;">
 			<div style="float: right;">
-			<input type="radio" value="가고싶은곳" name="wanna" checked="checked" class="c1" data-w="0">가고싶은곳
-			<input type="radio" value="다녀온곳" name="wanna" class="c2" data-w="1">다녀온곳
+			<label><input type="radio" value="가고싶은곳" name="wanna" checked="checked" disabled="disabled" class="c1" data-w="0">가고싶은곳</label>
+			<label><input type="radio" value="다녀온곳" name="wanna" class="c2" data-w="1" disabled="disabled">다녀온곳</label>
 				<button class= "save" name="save">저장</button>
 				<button id= "delete" name="delete">삭제</button>
 			</div>
 			<div style="float: left;">
-				<a href="#none" class="went" data-a="0">가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> 
+				<a href="#none" class="went" data-a="0" >가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> 
 				<a href="#none" class="went" data-a="1">다녀온 곳</a>
 			</div>
 		</div>

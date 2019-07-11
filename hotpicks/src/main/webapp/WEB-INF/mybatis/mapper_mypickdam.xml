@@ -13,19 +13,41 @@
 			 and pL.userid = #{userid}) A
 	</select>
 	
-	<update id="modifyArticle" parameterType="int">
+	<select id="calArticle" parameterType="map" resultType="pickListDto">
+		select  A.userid, A.contentsId,A.wanna, A.title, A.image1,A.catId,A.image2, cd.eventstartdate, cd.eventenddate
+		from(select pL.userid, pL.contentsId,pL.wanna,C.title,C.image1,C.catId,C.image2
+		 	 from pickList pL, contents C
+			 where pL.contentsId=C.contentsId
+			 and pL.userid = #{userid}) A, contentsdetail cd
+		where A.contentsid = cd.contentsid
+	</select>
+	
+	
+	<update id="modifyArticle" parameterType="map">
 		update pickList
-		<if test="wanna == 0">
-		set wanna =1	
-		where wanna = 0	
-		</if>
-		<if test="wanna == 1">
-		set wanna = 0
-		where wanna = 1
-		</if>
+		<choose>
+ 			<when test="wanna == 0">
+ 				set wanna = 1
+ 				where contentsid in
+ 				<foreach collection="contentsId" item = "item" open="(" close=")" separator=","> 			
+		 			#{item}
+		 		</foreach>
+ 			</when>
+ 			<otherwise>
+	 			set wanna = 0
+				where contentsid in
+				<foreach collection="contentsId" item = "item" open="(" close=")" separator=",">  			
+		 			#{item}
+		 		</foreach>
+ 			</otherwise>
+ 		</choose>
 	</update>
 	<delete id="deleteArticle" parameterType="map">
-		delete from picklist where contentsid=#{contentsId}		
+		delete from picklist where contentsid in
+		<foreach collection="contentsId" item = "contentsId" open="(" close=")" separator=","> 			
+ 			#{contentsId}
+ 		</foreach> 
+ 		
 	</delete>
 	
 

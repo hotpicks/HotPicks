@@ -11,6 +11,8 @@ public interface MypickDamService {
 
 	// 글 목록 
 		List<PickListDto> listArticle(Map<String, String> map);
+	// 달력
+		List<PickListDto> calArticle(Map<String, String> map);
 		
 	// 글 보기 | 인자 : 글 번호
 		PickListDto viewArticle(String userid);

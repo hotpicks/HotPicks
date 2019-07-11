@@ -1,15 +1,17 @@
 package com.kitri.hotpicks.mypicks.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,7 +68,8 @@ public class MypickDamController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deleteArticle(@RequestParam Map<String, ArrayList<String>> map,@RequestParam("contentsId") ArrayList<String> contentsId) {
+	public String deleteArticle(@RequestParam("contentsId") ArrayList<String> contentsId) {
+		Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 		System.out.println("리스트삭제 메소드");
 		map.put("contentsId", contentsId);
 		System.out.println(map.get("contentsId"));
@@ -76,11 +79,15 @@ public class MypickDamController {
 		
 	}
 	
+
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public String modifyArticle(@RequestParam("wanna") int wanna, Model model,Map<String, Object> map) {
+	public String modifyArticle(@RequestParam("contentsId") List<Integer> list, @RequestParam("wanna") int wanna) {
 		System.out.println("리스트수정 메소드");
+		System.out.println(list);
 		System.out.println(wanna);
-		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("contentsId", list);
+		map.put("wanna", wanna);
 		mypickDamService.modifyArticle(map);
 		
 		return "mypicks/mypicklist";
@@ -88,20 +95,25 @@ public class MypickDamController {
 	}
 	
 	
-//	@RequestMapping(value = "/cal", method = RequestMethod.GET)	
-//	public String calendar(Model model,@ModelAttribute("userInfo") MemberDto memberDto, Map<String,String> map) {
-//		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
-//		String userid = memberDto.getUserId();
-//		List<PickListDto> list = mypickDamService.listArticle(userid);
-//		model.addAttribute("articleList2", list);
-//		return  "mypicks/mypickcalendar";
-//				
-//		List<PickListDto> list= mypickDamService.listArticle(parameter);
-//		PageNavigation pageNavigation = commonService.getPageNavigation(parameter);
-//		pageNavigation.setRoot(request.getContextPath());
-//		pageNavigation.makeNavigator();
-//		model.addAttribute("parameter", parameter);
-//		model.addAttribute("navigator", pageNavigation);
-//	}
+	@RequestMapping(value = "/cal", method = RequestMethod.GET)
+	public String calendar(Model model,@ModelAttribute("userInfo") MemberDto memberDto, Map<String,String> map) {
+		System.out.println("달력메소드 들어옴");
+		String path = "";
+		if(memberDto !=null) {
+		String userid = memberDto.getUserId();
+		map.put("userid", userid);
+		List<PickListDto> callist = mypickDamService.calArticle(map);
+		System.out.println(callist);
+		model.addAttribute("articleCal", callist);
+		
+			path = "mypicks/mypickcalendar";
+			
+		}else {
+			
+			path = "redirect:/index.jsp";
+			
+		}
+			return path;
+	}
 
 }

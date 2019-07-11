@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
+
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 
 <link href='${root}/resources/packages/core/main.css' rel='stylesheet' />
@@ -11,7 +12,7 @@
 <script src='${root}/resources/packages/daygrid/main.js'></script>
 <script src='${root}/resources/packages/timegrid/main.js'></script>
 <script>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
@@ -41,75 +42,18 @@
       editable: true,
       eventLimit: true, // allow "more" link when too many events
       events: [
-    	  //var len = list.length();
-    	 /*  for(int i=0;i<len;i++){
-    		  
-    			  if(i == len-1){
-    				  {
-    				  title: list[i].getTitle,
-        			  start: list[i].getstartdate,
-        			  end: list[i].getenddate
-        			  }
-    			  }else{
-    				  {
-	    			  title: list[i].getTitle,
-	    			  start: list[i].getstartdate,
-	    			  end: list[i].getenddate,
-	    			  },
-    		  }
-    	 }
-    	   */
-    	  
-        {
-          title: 'Long Event',
-          start: '2019-06-07',
-          end: '2019-06-10'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2019-06-09T16:00:00'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2019-06-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2019-06-11',
-          end: '2019-06-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2019-06-12T10:30:00',
-          end: '2019-06-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2019-06-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2019-06-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2019-06-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2019-06-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2019-06-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2019-06-28'
-        }
+    	 var list = new Array();
+    	 <c:forEach var="article" items="${articleCal}">
+    	 	list.push("${article.title}");
+    	 	list.push("${article.eventStartDate}");
+    	 	list.push("${article.eventEndDate}");
+    	 </c:forEach>
+    	 for (var i = 0; i < list.length; i++) {
+			alert(list[i]);
+		}
+
+    
+    	
       ]
     });
 
