@@ -8,22 +8,23 @@ $(function() {
 	var sdCode;
 	var sggCode;
 	var catId;
+	
 	 $("#sido").change(function(){
 		 setSigungu();
 		//selectcontents
 			sdCode = $('#sido').val();
 			sggCode = $('#sigungu').val();
-			catId = $(this).attr("data-catid");
-			console.log(catId + '/' + sdCode + '/' + sggCode);
-			reSelectcontentsList(sdCode, sggCode, catId); 
+			catId = $("#curruntcat").attr("value");
+			//console.log(catId + '/' + sdCode + '/' + sggCode);
+			reSelectcontentsList(sdCode, sggCode, catId);
 		});
 	 
 	 $("#sigungu").change(function(){
 		//selectcontents
 			sdCode = $('#sido').val();
 			sggCode = $('#sigungu').val();
-			catId = $(this).attr("data-catid");
-			console.log(catId + '/' + sdCode + '/' + sggCode);
+			catId = $("#curruntcat").attr("value");
+			//console.log(catId + '/' + sdCode + '/' + sggCode);
 			reSelectcontentsList(sdCode, sggCode, catId); 
 	 });
 	 
@@ -35,8 +36,9 @@ $(function() {
 		//selectcontents
 		sdCode = $('#sido').val();
 		sggCode = $('#sigungu').val();
-		catId = $(this).attr("data-catid");
-		console.log(catId + '/' + sdCode + '/' + sggCode);
+		$("#curruntcat").attr("value", $(this).attr("data-catid"));
+		catId = $("#curruntcat").attr("value");
+		//console.log(catId + '/' + sdCode + '/' + sggCode);
 		reSelectcontentsList(sdCode, sggCode, catId);
 	 });
 	 
@@ -52,7 +54,7 @@ function setSigungu(){
 		dataType: 'json',
 		data: {"sdCode" : sdCode},
 		success: function(result){
-			console.log(result);
+			//console.log(result);
 			var sigunguStr = "";
 			var sigunguJson = result.sigunguJson;
 			var len = sigunguJson.length;
@@ -65,17 +67,43 @@ function setSigungu(){
 	}); 	
 }
 
-//selectcontents
+//call contents to using a type
 function reSelectcontentsList(sdCode, sggCode, catId){
  	$.ajax({
-	url: '${root}/contents/contentsbylocation',
-	type: 'GET',
-	dataType: 'json',
-	data: {"sdCode" : sdCode, "sggCode" : sggCode , "catId" : catId},
-	success: function(result){
-		console.log(result);
-	}
-}); 
+		url: '${root}/contents/contentsbylocation',
+		type: 'GET',
+		dataType: 'json',
+		data: {"sdCode" : sdCode, "sggCode" : sggCode , "catId" : catId},
+		success: function(result){
+			var contentsStr = "";
+			var contents = result;
+			var len = contents.length;
+			//console.log(contents);
+			if(len == 0){
+				contentsStr += '<div align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>'
+			}else{
+			for(var i = 0 ; i<len ;i++){
+				
+				if((i+1)%4 == 0 || len-1 == 1){
+					contentsStr += '<div class="one-fourth last"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">';
+				}else{
+					contentsStr += '<div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">';
+				}
+					contentsStr += '<img src=' + (contents[i].image1 == '-1' ? (contents[i].image2 == '-1' ? 
+							'noImage_list.png' : contents[i].image2) : contents[i].image1 ) +' width="200" alt="" /></a>';
+					contentsStr += '<h4>' + contents[i].title + '</h4>';
+					contentsStr += '<p>' + contents[i].title + '</p>';
+					contentsStr += '</div>';
+				}
+			}
+					$("#about").html(contentsStr); 
+		},
+		error:function(request,status,error){
+	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	       }
+	    
+
+	}); 
 
 	 
 }
@@ -130,7 +158,8 @@ function reSelectcontentsList(sdCode, sggCode, catId){
       	<label class="catsearch" data-catid="0" style="color: purple;font-style: bold;">전체</label> |
       	<label class="catsearch" data-catid="1" style="color: purple;">축제</label> |
       	<label class="catsearch" data-catid="2" style="color: purple;">공연</label> |
-      	<label class="catsearch" data-catid="3" style="color: purple;">행사</label> 
+      	<label class="catsearch" data-catid="3" style="color: purple;">행사</label>
+      	<input id="curruntcat" type="hidden" value="">
       </h1>
       
      	<select id="sido">
