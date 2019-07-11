@@ -105,7 +105,7 @@ public class ContentsController {
 
 		// locationInsertProcess		
 		String locationUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaCode?" + "MobileOS=ETC&"
-				+ "MobileApp=AppTest&" + "numOfRows=50&" + "_type=json&" + "ServiceKey=" + shzyapikey;
+				+ "MobileApp=AppTest&" + "numOfRows=50&" + "_type=json&" + "ServiceKey=" + pshapikey;
 
 		System.out.println(locationUrl);
 		String resultMsg = contentsService.locationProcess(locationUrl);
@@ -122,7 +122,7 @@ public class ContentsController {
 		// apiInsertProcess
 		String areaUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?"
 				+ "numOfRows=10000&" + "pageNo=1&" + "MobileOS=ETC&" + "MobileApp=AppTest&" + "listYN=Y&" + "arrange=P&"
-				+ "contentTypeId=15&" + "_type=json&" + "ServiceKey=" + shzyapikey;
+				+ "contentTypeId=15&" + "_type=json&" + "ServiceKey=" + pshapikey;
 		// InsertApicontents
 		contentsService.insertApiProcess(areaUrlStr);
 		logger.info("insert api process complete");

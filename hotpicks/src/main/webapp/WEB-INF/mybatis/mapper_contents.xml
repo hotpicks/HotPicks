@@ -49,6 +49,7 @@
 	ORDER BY catid desc
 	</select>
 	
+	
 	<insert id="insertContentsCate">
 		INSERT ALL
 		INTO contentscate(catid, catname, cattype, catcode)
@@ -85,6 +86,7 @@
  		#{contents.sdCode}, #{contents.title}, #{contents.image1}, #{contents.image2}, #{contents.hit})
  	</foreach>
  	</insert> -->
+ 	
  	<!-- origin -->
 	<!-- <insert id="insertApiContents" parameterType="contentsDto">
  	INSERT INTO contents(contentsid, catcode, catid, sggcode, sdcode, title, image1, image2, hit)
@@ -116,9 +118,53 @@
  	]]>
  	</update>
  	
+ 	<select id="existContentsList" resultType="int">
+	SELECT contentsid
+	FROM contentsdetail
+	</select>
+ 	
+ 	<!-- <insert id="insertApiContentsimage" parameterType="contentsImageDto">
+ 	INSERT INTO contentsImage(contentsid, serialnum, imgname, originimgurl, smallimageurl)
+ 	VALUES(#{contentsId}, #{serialNum}, #{imgName}, #{originImgurl}, #{smallImageUrl})
+ 	</insert> -->
+ 	<!-- origin -->
+	<insert id="insertApiContentsDetail" parameterType="contentsDetailDto">
+ 	INSERT INTO contentsDetail(contentsid, homepage, telname, tel, playtime, program, usetime,
+ 	 spendtime, agelimit, bookingplace, discountinfo, placeinfo, infosogae, infonaeyong,
+ 	 eventstartdate, eventenddate, xpoint, ypoint, zipcode, addr1, addr2)
+ 	VALUES(#{contentsId}, #{homePage}, #{telName}, #{tel}, #{playtime}, #{program}, #{usetime},
+ 	 #{spendtime}, #{ageLimit},	#{bookingPlace}, #{discountInfo}, #{placeInfo}, #{infoSogae}, #{infoNaeyong},
+ 	 #{eventStartDate}, #{eventEndDate}, #{xPoint}, #{yPoint}, #{zipCode}, #{addr1}, #{addr2})
+ 	</insert>
+ 	
+ 	<update id="updateApiContentsDetail" parameterType="contentsDetailDto">
+ 	UPDATE contentsdetail
+	SET	homepage = #{homePage},
+		telname = #{telName},
+		tel = #{tel},
+		playtime = #{playtime},
+		program = #{program},
+		usetime = #{usetime},
+		spendtime = #{spendtime},
+		agelimit = #{ageLimit},
+		bookingplace = #{bookingPlace},
+		discountinfo = #{discountInfo},
+		placeinfo = #{placeInfo},
+		infosogae = #{infoSogae},
+		infonaeyong = #{infoNaeyong},
+		eventstartdate = #{eventStartDate},
+		eventenddate = #{eventEndDate},
+		xpoint = #{xPoint},
+		ypoint = #{yPoint},
+		zipcode = #{zipCode},
+		addr1 = #{addr1},
+		addr2 = #{addr2}
+	WHERE contentsid = #{contentsId}
+	</update>
+ 	
  	
  	<!-- for merge -->
-	<update id="insertApiContentsDetail" parameterType="contentsDetailDto">
+	<!-- <update id="insertApiContentsDetail" parameterType="contentsDetailDto">
  	<![CDATA[
 	MERGE INTO contentsDetail
 		USING dual
@@ -154,7 +200,7 @@
 			 		#{ageLimit}, #{bookingPlace}, #{discountInfo}, #{placeInfo}, #{infoSogae}, #{infoNaeyong},
 			 	 	#{eventStartDate}, #{eventEndDate}, #{xPoint}, #{yPoint}, #{zipCode}, #{addr1}, #{addr2})
  	]]>
- 	</update>
+ 	</update> -->
  	
  	
  	<!-- for merge -->
@@ -176,27 +222,11 @@
  	]]>
  	</update>
  	
- 	
- 	<!-- origin -->
-	<!-- <insert id="insertApiContentsDetail" parameterType="contentsDetailDto">
- 	INSERT INTO contentsDetail(contentsid, homepage, telname, tel, playtime, program, usetime,
- 	 spendtime, agelimit, bookingplace, discountinfo, placeinfo, infosogae, infonaeyong,
- 	 eventstartdate, eventenddate, xpoint, ypoint, zipcode, addr1, addr2)
- 	VALUES(#{contentsId}, #{homePage}, #{telName}, #{tel}, #{playtime}, #{program}, #{usetime},
- 	 #{spendtime}, #{ageLimit},	#{bookingPlace}, #{discountInfo}, #{placeInfo}, #{infoSogae}, #{infoNaeyong},
- 	 #{eventStartDate}, #{eventEndDate}, #{xPoint}, #{yPoint}, #{zipCode}, #{addr1}, #{addr2})
- 	</insert>
- 	, sysdate, 1
-	<insert id="insertApiContentsimage" parameterType="contentsImageDto">
- 	INSERT INTO contentsImage(contentsid, serialnum, imgname, originimgurl, smallimageurl)
- 	VALUES(#{contentsId}, #{serialNum}, #{imgName}, #{originImgurl}, #{smallImageUrl})
- 	</insert> -->
-	
 	<select id="contentslist" parameterType="map" resultType="contentsDto">
 	SELECT c.*
 	FROM contents c inner join contentsdetail d
 	ON c.contentsid = d.contentsid
-	WHERE c.image2 not like '-1' AND <![CDATA[rownum < 20]]>
+	WHERE c.image2 != 'noImage_list.png' AND c.isend = 1 AND <![CDATA[rownum < 20]]>
 	<if test="catId != null and catId != 0">
 	AND c.catid = #{catId}
 	</if>
