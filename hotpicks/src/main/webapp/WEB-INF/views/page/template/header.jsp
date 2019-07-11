@@ -185,7 +185,7 @@ $('#searchinput').keypress(function(e) {
 					
 				});
 			} else {
-				$(this).attr("href", "${root}/member/logout");
+				location.href = "${root}/member/logout";
 			}
 				
 			return false;
