@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
+
 <script>
 $(document).ready(function() {
 	//<<start : pick
@@ -379,7 +380,7 @@ li.clearfix {
 	<!-- Begin 상세정보 -->
 		<div class="post">
 			<div style="float: left;">
-				<h1 class="title" style="margin-top: 20px;">부산 다함께 축제</h1>
+				<h1 class="title" style="margin-top: 20px;">${contentsDto.title}</h1>
 			</div>
 			<div style="float: right;">
 				<img id="pick" src="${root}/resources/style/images/heart64.png">
@@ -387,28 +388,59 @@ li.clearfix {
 			<div style="clear: both;"></div>
 			<div class="meta">
 				<div class="top-border"></div>
-				<span class="contentsType">축제</span> | <span class="picksCount">54</span>
-				Picks | <span class="reviewCount">4</span> Reviews
+				<span class="contentsType">${contentsType}</span> | <span class="picksCount">${picklistNum}</span>
+				Picks | ${contentsDto.hit} views | <span class="reviewCount">${reviewNum}</span> Reviews
 			</div>
-			<img class="detailimg"
-				src="${root}/resources/style/images/sample/p1.jpg"
-				alt="장소 제목!!!(부산 감천 문화마을)" />
+			<img class="detailimg" src="${contentsDto.image1 != '-1' ? contentsDto.image1 : (contentsDto.image2 != '-1' ? contentsDto.image2 : '') }" />
 			<div class="detail">
-				<div class="date">
-					기간 | <span class="startD">2019.06.14</span> ~ <span class="endD">2019.08.20</span>
-				</div>
-				<div class="address">
-					장소 | <span>부산 사하구 감내2로 203 감천문화마을안내센터</span>
-				</div>
-				<div class="contents">
-					내용 | <span>부산 감천문화 마을에서 펼처지는 재밋는 놀이</span>
-				</div>
+			<c:if test="${contentsDetailDto.eventStartDate != '-1' && contentsDetailDto.eventEndDate != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">기간 |</span> ${contentsDetailDto.eventStartDate} ~ ${contentsDetailDto.eventEndDate}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.zipCode != '-1' || contentsDetailDto.addr1 != '-1' || contentsDetailDto.addr2 != '-1'} ">
+				<div><span style="font-weight: bold; font-size: 15px;">장소 |</span> (${contentsDetailDto.zipCode}) ${contentsDetailDto.addr1} ${contentsDetailDto.addr2}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.homePage != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">홈페이지 |</span> ${contentsDetailDto.homePage}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.telName != '-1' || contentsDetailDto.tel != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">주최자 tel |</span> ${contentsDetailDto.telName} ${contentsDetailDto.tel}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.program != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">행사프로그램 |</span> ${contentsDetailDto.program}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.usetime != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">이용요금 |</span> ${contentsDetailDto.usetime}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.playtime != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">공연시간 |</span> ${contentsDetailDto.playtime}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.spendtime != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">관람소요시간 |</span> ${contentsDetailDto.spendtime}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.ageLimit != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">관람가능연령 |</span> ${contentsDetailDto.ageLimit}</div>
+			</c:if>	
+			<c:if test="${contentsDetailDto.discountInfo != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">할인정보 |</span> ${contentsDetailDto.discountInfo}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.placeInfo != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">행사장위치안내 |</span> ${contentsDetailDto.placeInfo}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.infoSogae != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">행사소개 |</span> ${contentsDetailDto.infoSogae}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.infoNaeyong != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">행사내용 |</span> ${contentsDetailDto.infoNaeyong}</div>
+			</c:if>		
+				
 				<p></p>
 			</div>
 			<div class="top-border"></div>
 			<div class="tags">
-				Tags: <a href="#" title="">축제</a>, <a href="#" title="">부산</a>, <a
-					href="#" title="">감천문화마을</a>
+				Tags: 
+				<c:forEach var="hashtag" items="${hashTagDto}">
+				<a href="#" title="">${hashtag.hashTag}&nbsp;&nbsp;
+				</c:forEach>
 			</div>
 		</div>
 	<!-- End 상세정보 -->
@@ -416,8 +448,7 @@ li.clearfix {
 		<!-- Begin 후기 -->
 		<div id="comment-wrapper">
 			<h3 id="commenth3">
-				<span class="reviewCount">4</span> Reviews to "<span>부산 다함께
-					축제</span>"
+				<span class="reviewCount">${reviewNum}</span> Reviews to "<span>${contentsDto.title}</span>"
 				<!-- Begin 후기 작성 -->	
 				<div class="toggle">
 					<div class="trigger"><button class="writeReview">리뷰 작성</button></div>
@@ -500,20 +531,30 @@ li.clearfix {
 		<div class="sidebox">
 			<h3>Hash Tags</h3>
 			<ul class="tags">
-				<li><a href="#" title="">축제</a></li>
-				<li><a href="#" title="">핫픽</a></li>
-				<li><a href="#" title="">부산</a></li>
-				<li><a href="#" title="">감천문화마을</a></li>
-				<li><a href="#" title="">부산축제</a></li>
-				<li><a href="#" title="">핫픽스</a></li>
-				<li><a href="#" title="">Fun</a></li>
-				<li><a href="#" title="">Travel</a></li>
-				<li><a href="#" title="">Inspiration</a></li>
+				<c:choose>
+					<c:when test="${!hashTagDto.isEmpty()}">
+					<c:forEach var="hashtag" items="${hashTagDto}">
+						<li><a href="#" title="">${hashtag.hashTag}</a></li>
+					</c:forEach>
+					</c:when>
+					<c:otherwise>
+					<h5>아직 HashTag가 없습니다!<br>
+					리뷰를 작성해서 HashTag를 체워주세요!</h5>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</div>
 		<div class="sidebox">
 			<h3>예매정보</h3>
 			<ul class="post-list archive">
+				<c:choose>
+					<c:when test="${contentsDetailDto.bookingPlace != '-1'}">
+						<li><a href="#" title="">${contentsDetailDto.bookingPlace}</a></li>
+					</c:when>
+					<c:otherwise>
+					<li><a href="#" title="">예매정보가 없습니다.</a></li>
+					</c:otherwise>
+				</c:choose>
 				<li><a href="#" title="">March 2011 (11)</a></li>
 				<li><a href="#" title="">February 2011 (9)</a></li>
 				<li><a href="#" title="">January 2011 (5)</a></li>
