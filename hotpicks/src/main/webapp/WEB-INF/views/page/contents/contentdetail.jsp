@@ -1,15 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
+<c:set var="userid" value="dam@naver.com" ></c:set>
+<c:set var="contentsid" value="989991"></c:set>
+<style>
+#pick{
+	display: none;
+}
+#pk.selected #pick{
+	display: inline-block!important;
+}
+#pk.selected #unpick{
+	display: none;
+}
+
+</style>
 <script>
 $(document).ready(function() {
 	//<<start : pick
-	$("#pick").click(function () {
-		var result = confirm("가고싶은곳 확인) , 다녀온곳 취소)");
-		if(result){
-			alert("가고싶은곳에 등록되었습니다.");
-		}else{
-			alert("다녀온곳에 등록되었습니다.")
+	var data =  {
+			"userId" : 'tpgus534@Naver.com',
+			"contentsid" : 2435280
+			};
+	$.ajax({
+		url : '${root}/temp/pick',
+		type: 'GET',
+		contentType:"application/json;charset=UTF-8",
+		dataType : 'json',
+		data : data,
+		success : function(result){
+			if (result == 1) {
+				$('#pk').toggleClass('selected');
+			}
+		}
+	
+	
+	});
+	
+	
+	$("#pk > img").click(function () {
+		$(this).parent().toggleClass('selected');
+		if ($(this).parent().hasClass('selected') === true){
+			$.ajax({
+				url : '${root}/temp/insertpick',
+				type : 'post',
+				data : data,
+				success : function(){
+					console.log('1');
+				}
+			});
+		} else{
+			console.log(data);
+			$.ajax({
+				url : '${root}/temp/deletepick',
+				type : 'post',
+				data : data,
+				success : function(result){
+					console.log('1');
+				}
+			});
 		}
 		
 	});
@@ -344,8 +393,9 @@ li.clearfix {
 			<div style="float: left;">
 				<h1 class="title" style="margin-top: 20px;">부산 다함께 축제</h1>
 			</div>
-			<div style="float: right;">
-				<img id="pick" src="${root}/resources/style/images/heart64.png">
+			<div id="pk" style="float: right;">
+				<img class="" id="pick" src="${root}/resources/style/images/heart64.png">
+				<img class="" id="unpick" src="${root}/resources/style/images/unheart64.png">
 			</div>
 			<div style="clear: both;"></div>
 			<div class="meta">

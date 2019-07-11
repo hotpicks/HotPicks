@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.kitri.hotpicks.contents.dao.tempPickDao">
+ 	<select id="tempPick" parameterType="map" resultType="int">
+ 		select count(*)
+ 		from picklist
+ 		where userid = #{userId}
+ 		and contentsid = #{contentsid}
+ 	</select>
+ 	<insert id="insertPick" parameterType="map">
+ 		insert into picklist(contentsid, userid, wanna, distence)
+ 		values (#{contentsid},#{userId},0,0)
+ 	</insert>
+ 	
+ 	<delete id="deletePick" parameterType="map">
+ 		delete from picklist
+ 		where contentsid = #{contentsid} and userid = #{userId}
+ 	</delete>
+ </mapper>
