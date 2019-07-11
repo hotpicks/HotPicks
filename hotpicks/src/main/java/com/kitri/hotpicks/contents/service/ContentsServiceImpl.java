@@ -36,7 +36,6 @@ import com.kitri.hotpicks.contents.model.SigunguDto;
 public class ContentsServiceImpl implements ContentsService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ContentsController.class);
-
 	@Autowired
 	private SqlSession sqlSession;
 
@@ -81,7 +80,7 @@ public class ContentsServiceImpl implements ContentsService {
 		URL url;
 		for (int a = 0; a < typeList.size(); a++) {
 			String contentsUrlStr = urlStr + "&" + typeList.get(a).getCatType() + "=" + typeList.get(a).getCatCode();
-			System.out.println(contentsUrlStr);
+			//System.out.println(contentsUrlStr);
 			try {
 				url = new URL(contentsUrlStr);
 				HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -133,7 +132,7 @@ public class ContentsServiceImpl implements ContentsService {
 									: item.get("firstimage2").toString().replace("\\", "")));
 					contentsDto.setHit(0);
 
-					 //sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
+					 sqlSession.getMapper(ContentsDao.class).insertApiContents(contentsDto);
 
 				}
 
@@ -157,7 +156,8 @@ public class ContentsServiceImpl implements ContentsService {
 
 	@Override
 	public void insertApiContentsDetail(List<Integer> contentsIdList) {
-
+		List<Integer> existContents = sqlSession.getMapper(ContentsDao.class).existContentsList();
+		System.out.println(existContents.size());
 		BufferedReader br;
 		ContentsDetailDto cdtDto;
 		URL url;
@@ -170,19 +170,19 @@ public class ContentsServiceImpl implements ContentsService {
 
 		String detailCommonUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "defaultYN=Y&" + "addrinfoYN=Y&"
-				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + shzyapikey + "&"; // conid
+				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + pshapikey + "&"; // conid
 
 		String detailIntroUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ shzyapikey + "&"; // "conid,typeid"
+				+ pshapikey + "&"; // "conid,typeid"
 
 		String detailInfoUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailInfo?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ shzyapikey + "&"; // "conid,typeid"
+				+ pshapikey + "&"; // "conid,typeid"
 
 		String detailImageUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "imageYN=Y&" + "subImageYN=Y&"
-				+ "ServiceKey=" + shzyapikey + "&"; // "conid";
+				+ "ServiceKey=" + pshapikey + "&"; // "conid";
 
 		detailUrlList.add(detailCommonUrlStr);
 		detailUrlList.add(detailIntroUrlStr);
@@ -193,7 +193,7 @@ public class ContentsServiceImpl implements ContentsService {
 		int lenDL = detailUrlList.size();
 
 		for (int i = 0; i < lenCL; i++) {
-
+			System.out.println("index : " + i);
 			cdtDto = new ContentsDetailDto();
 			cdtDto.setContentsId(contentsIdList.get(i));
 			br = null;
@@ -291,6 +291,7 @@ public class ContentsServiceImpl implements ContentsService {
 						break;
 
 					case 2:
+						boolean flag;
 						int condition1 = (Integer.valueOf(parse_body.get("totalCount").toString()));
 						if (condition1 > 1) {
 							JSONArray infoItemList = (JSONArray) parse_items.get("item");
@@ -305,10 +306,26 @@ public class ContentsServiceImpl implements ContentsService {
 											? "-1"
 											: naeyongItem.get("infotext").toString().replace("\\", "")));
 
-							// System.out.println("id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString()
-							// );
-							sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
-
+							System.out.println("con>1 id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString());
+							
+							flag = true;
+							for(int k = 0 ; k<existContents.size() ; k++) {
+								if(existContents.get(k) == cdtDto.getContentsId()) {
+									// update
+									System.out.println("update detail");
+									sqlSession.getMapper(ContentsDao.class).updateApiContentsDetail(cdtDto);
+									flag = false;
+									break;
+								}else {
+									
+								}
+							}
+							System.out.println(flag);
+							if(flag == true) {
+								// insert
+								System.out.println("insert detail");
+								sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
+							}
 						} else {
 							JSONObject infoItem = (JSONObject) parse_items.get("item");
 
@@ -318,8 +335,24 @@ public class ContentsServiceImpl implements ContentsService {
 											: infoItem.get("infotext").toString().replace("\\", "")));
 							cdtDto.setInfoNaeyong("-1");
 
-							System.out.println("id : " + cdtDto.getContentsId() + " /c :" + cdtDto.toString());
-							sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
+							System.out.println("con < 1 id : " + cdtDto.getContentsId() + " /c :" + cdtDto.toString());
+							flag = true;
+							for(int k = 0 ; k<existContents.size() ; k++) {
+								if(existContents.get(k) == cdtDto.getContentsId()) {
+									// update
+									System.out.println("update detail");
+									sqlSession.getMapper(ContentsDao.class).updateApiContentsDetail(cdtDto);
+									flag = false;
+									break;
+								}else {
+								}
+							}
+							System.out.println(flag);
+							if(flag == true) {
+								// insert
+								System.out.println("insert detail");
+								sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
+							}
 						}
 						break;
 
@@ -355,6 +388,7 @@ public class ContentsServiceImpl implements ContentsService {
 
 								// insert
 								sqlSession.getMapper(ContentsDao.class).insertApiContentsimage(imageDto);
+								
 							}
 						} else {
 							JSONObject imageItem = (JSONObject) parse_items.get("item");
@@ -379,7 +413,7 @@ public class ContentsServiceImpl implements ContentsService {
 
 							// insert
 							sqlSession.getMapper(ContentsDao.class).insertApiContentsimage(imageDto);
-
+							
 							//System.out.println("img : " + imageDto.toString());
 						}
 
