@@ -136,10 +136,10 @@ public class ReviewController {
 		
 		if(memberDto != null) {
 			commentDto.setLogId(memberDto.getUserId());
-			System.out.println(commentDto);
+			//System.out.println(commentDto);
 			reviewService.writeMemo(commentDto);
 			String json = reviewService.listMemo(commentDto.getRceq());
-			System.out.println("json : " + json);
+			//System.out.println("json : " + json);
 			return json;
 		}
 //		
@@ -149,10 +149,10 @@ public class ReviewController {
 	@RequestMapping(value = "/memo", method = RequestMethod.GET)
 	@ResponseBody
 	public String listMemo(int rceq) {
-		System.out.println(rceq);
+		//System.out.println(rceq);
 		//, consumes="application/json", headers = "{Content-type=application/jacson}"
 		String json = reviewService.listMemo(rceq);
-		System.out.println("memo json : " + json);
+		//System.out.println("memo json : " + json);
 		return json;
 	}
 
