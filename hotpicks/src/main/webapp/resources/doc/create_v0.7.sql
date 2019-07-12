@@ -82,6 +82,12 @@ ALTER TABLE contentsCate
 		CASCADE
 		KEEP INDEX;
 
+ALTER TABLE pickList
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
 ALTER TABLE contents
 	DROP
 		PRIMARY KEY
@@ -325,6 +331,7 @@ COMMENT ON COLUMN comments.content IS '글내용';
 
 /* pickList */
 CREATE TABLE pickList (
+	pseq NUMBER NOT NULL, /* pick번호 */
 	contentsId NUMBER(12) NOT NULL, /* 아이디 */
 	userId VARCHAR2(100), /* 회원아이디 */
 	wanna NUMBER, /* 가보고싶은곳/다녀온곳 */
@@ -333,6 +340,8 @@ CREATE TABLE pickList (
 
 COMMENT ON TABLE pickList IS 'pickList';
 
+COMMENT ON COLUMN pickList.pseq IS 'pick번호';
+
 COMMENT ON COLUMN pickList.contentsId IS '아이디';
 
 COMMENT ON COLUMN pickList.userId IS '회원아이디';
@@ -340,6 +349,13 @@ COMMENT ON COLUMN pickList.userId IS '회원아이디';
 COMMENT ON COLUMN pickList.wanna IS '가보고싶은곳/다녀온곳';
 
 COMMENT ON COLUMN pickList.distence IS '거리계산용';
+
+ALTER TABLE pickList
+	ADD
+		CONSTRAINT PK_pickList
+		PRIMARY KEY (
+			pseq
+		);
 
 /* 컨텐츠 */
 CREATE TABLE contents (
@@ -701,5 +717,11 @@ ALTER TABLE contentsImage
 drop sequence review_seq;
 
 create sequence review_seq
-	start with 100
+	start with 1
+	increment by 1;
+
+drop sequence picklist_seq;
+
+create sequence picklist_seq
+	start with 1
 	increment by 1;
