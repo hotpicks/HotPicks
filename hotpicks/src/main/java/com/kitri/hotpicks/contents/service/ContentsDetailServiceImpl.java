@@ -1,6 +1,7 @@
 package com.kitri.hotpicks.contents.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONArray;
@@ -67,6 +68,24 @@ public class ContentsDetailServiceImpl implements ContentsDetailService {
 		int reviewNum = sqlSession.getMapper(ContentsDetailDao.class).selectreviewNum(contentsId);
 
 		return reviewNum;
+	}
+
+	@Override
+	public int getPick(Map<String, Object> map) {
+		int cnt =  sqlSession.getMapper(ContentsDetailDao.class).getPick(map);
+		return cnt;
+	}
+
+	@Override
+	public int insertPick(Map<String, Object> map) {
+		int cnt =  sqlSession.getMapper(ContentsDetailDao.class).insertPick(map);
+		return cnt;
+	}
+
+	@Override
+	public int deletePick(Map<String, Object> map) {
+		int cnt =  sqlSession.getMapper(ContentsDetailDao.class).deletePick(map);
+		return cnt;
 	}
 
 	

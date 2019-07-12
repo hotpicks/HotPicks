@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
-<c:set var="userid" value="dam@naver.com" ></c:set>
-<c:set var="contentsid" value="989991"></c:set>
 <style>
 #pick{
 	display: none;
@@ -20,10 +18,10 @@ $(document).ready(function() {
 	//<<start : pick
 	var data =  {
 			"userId" : 'tpgus534@Naver.com',
-			"contentsid" : 2435280
+			"contentsid" : 1829696
 			};
 	$.ajax({
-		url : '${root}/temp/pick',
+		url : '${root}/contents/getpick',
 		type: 'GET',
 		contentType:"application/json;charset=UTF-8",
 		dataType : 'json',
@@ -42,21 +40,32 @@ $(document).ready(function() {
 		$(this).parent().toggleClass('selected');
 		if ($(this).parent().hasClass('selected') === true){
 			$.ajax({
-				url : '${root}/temp/insertpick',
+				url : '${root}/contents/insertpick',
 				type : 'post',
 				data : data,
-				success : function(){
-					console.log('1');
+				success : function(result){
+					if (result == 1) {
+						console.log("pick insert : "+result);
+					} else{
+						alert("pick insert : false")
+					}
+					
+					
 				}
 			});
 		} else{
 			console.log(data);
 			$.ajax({
-				url : '${root}/temp/deletepick',
+				url : '${root}/contents/deletepick',
 				type : 'post',
 				data : data,
 				success : function(result){
-					console.log('1');
+					if (result == 1) {
+						console.log("pick delete : "+result);
+					} else{
+						alert("pick delete : false")
+					}
+					
 				}
 			});
 		}
