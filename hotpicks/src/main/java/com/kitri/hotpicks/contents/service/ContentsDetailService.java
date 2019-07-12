@@ -1,6 +1,7 @@
 package com.kitri.hotpicks.contents.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.ui.Model;
 
@@ -20,4 +21,10 @@ public interface ContentsDetailService {
 	String selectContentsType(int contentsId);
 	int selectpicklistNum(int contentsId);
 	int selectreviewNum(int contentsId);
+	
+	int getPick(Map<String, Object> map);
+
+	int insertPick(Map<String, Object> map);
+
+	int deletePick(Map<String, Object> map);
 }
