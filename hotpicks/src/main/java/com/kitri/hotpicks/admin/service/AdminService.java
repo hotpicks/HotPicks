@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
 import com.kitri.hotpicks.member.model.MemberDto;
 
@@ -29,5 +30,5 @@ public interface AdminService {
 	// 방문 통계
 	Map<String, String> getTodayVisit();
 	List<Map<String, String>> getVisitStat(String visitType);
-	
+	List<ContentsDto> getContents(int page);
 }

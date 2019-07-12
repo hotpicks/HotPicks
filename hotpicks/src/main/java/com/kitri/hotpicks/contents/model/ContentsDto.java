@@ -11,8 +11,14 @@ public class ContentsDto {
 	private String image1;
 	private String image2;
 	private int hit;
+	private String updateDate;
 	
-	
+	public String getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
 	public int getContentsId() {
 		return contentsId;
 	}
