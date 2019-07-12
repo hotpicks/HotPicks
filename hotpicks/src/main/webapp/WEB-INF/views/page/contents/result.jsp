@@ -85,15 +85,15 @@ function reSelectcontentsList(sdCode, sggCode, catId){
 			for(var i = 0 ; i<len ;i++){
 				
 				if((i+1)%4 == 0 || len-1 == 1){
-					contentsStr += '<div class="one-fourth last"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">';
+					contentsStr += '<div class="one-fourth last"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}else{
-					contentsStr += '<div class="one-fourth"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">';
+					contentsStr += '<div class="one-fourth"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}
 					contentsStr += '<img src=' + (contents[i].image1 == '-1' ? (contents[i].image2 == '-1' ? 
-							'noImage_list.png' : contents[i].image2) : contents[i].image1 ) +' width="200" alt="" /></a>';
+							'noImage_list.png' : contents[i].image2) : contents[i].image1 ) +' width="200" alt=""/>';
 					contentsStr += '<h4>' + contents[i].title + '</h4>';
 					contentsStr += '<p>' + contents[i].title + '</p>';
-					contentsStr += '</div>';
+					contentsStr += '</a></div>';
 				}
 			}
 					$("#about").html(contentsStr); 
@@ -104,6 +104,13 @@ function reSelectcontentsList(sdCode, sggCode, catId){
 	    
 
 	}); 
+ 	
+ 	//소현 : detail page로 넘어가기
+ 	/* $(".viewdetailbtn").click(function() {
+ 		 <a href="${root }/${board.control }/list?bcode=${board.bcode}&pg=1&key=&word=">
+         ${board.bname}
+      </a>
+ 	}); */
 
  
 	 
@@ -183,16 +190,19 @@ function reSelectcontentsList(sdCode, sggCode, catId){
  <c:forEach var="list" items="${contentsList}" varStatus="status" end="13">
 <c:choose>
 		<c:when test="${status.last == true || status.count % 4 == 0}">
-	    	<div class="one-fourth last" style="height: 300px;"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+	    	<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
 	    </c:when>
 	    <c:otherwise>
-			<div class="one-fourth" style="height: 300px;"> <a href="${root}/page/contents/sohyun_contentdetail.jsp">
+			<div class="one-fourth" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
 	    </c:otherwise>
 </c:choose>
-		<img src="${list.image1 != '-1' ? list.image1 : (list.image2 != '-1' ? list.image2 : '') }" width="200" alt="" /></a>
+		
+		<img class="viewdetailbtn" src="${list.image1 != '-1' ? list.image1 : (list.image2 != '-1' ? list.image2 : '') }" width="200" alt="" />
         <h4>${list.title}</h4>
         <p>${list.title}</p>
+        </a>
       </div>
+      
 </c:forEach>
     </div> 
     <!-- End About --> 

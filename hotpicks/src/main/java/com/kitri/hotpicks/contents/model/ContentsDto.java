@@ -68,6 +68,8 @@ public class ContentsDto {
 		this.hit = hit;
 	}
 	
+	
+	
 	@Override
 	public String toString() {
 		return "ContentsDto [contentsId=" + contentsId + ", title=" + title + ", catId=" + catId + ", catCode="
