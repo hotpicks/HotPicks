@@ -58,9 +58,10 @@ public class ReviewController {
 						@RequestParam Map<String, String> parameter, 
 						Model model, HttpSession session,
 						@RequestParam("picture") MultipartFile multipartFile) {
-		//System.out.println("ReviewController 들어왔다!!");
+		System.out.println("ReviewController 들어왔다!!");
 		String path = "";
 		int contentsid = Integer.parseInt(parameter.get("contentsid"));
+		System.out.println(contentsid);
 		System.out.println(hstg);
 		
 		MemberDto memberDto = (MemberDto) session.getAttribute("userInfo");
@@ -104,6 +105,10 @@ public class ReviewController {
 				reviewDto.setOrignPicture(orignPicture);
 				reviewDto.setSavePicture(savePicture);
 				reviewDto.setSaveFolder(saveFolder); 
+			} else {
+				reviewDto.setOrignPicture("");
+				reviewDto.setSavePicture("");
+				reviewDto.setSaveFolder(""); 
 			}
 			rseq = reviewService.writeArticle(reviewDto);
 			System.out.println("여기까지왔니??");
