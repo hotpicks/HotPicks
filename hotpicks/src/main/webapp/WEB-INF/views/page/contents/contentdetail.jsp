@@ -1,18 +1,86 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=67cafe381089c40769059fbbedfa054e&libraries=services,clusterer,drawing"></script>
+<style>
+#pick{
+	display: none;
+}
+#pk.selected #pick{
+	display: inline-block!important;
+}
+#pk.selected #unpick{
+	display: none;
+}
+
+</style>
 <script>
 $(document).ready(function() {
 	//<<start : pick
-	$("#pick").click(function () {
-		var result = confirm("가고싶은곳 확인) , 다녀온곳 취소)");
-		if(result){
-			alert("가고싶은곳에 등록되었습니다.");
-		}else{
-			alert("다녀온곳에 등록되었습니다.")
-		}
+	if ('${userInfo == null}' == 'false'){
 		
+		var data =  {
+				"userId" : '${userInfo.userId}',
+				"contentsid" : '${contentsDto.contentsId}'
+				};
+		$.ajax({
+			url : '${root}/contents/getpick',
+			type: 'GET',
+			contentType:"application/json;charset=UTF-8",
+			dataType : 'json',
+			data : data,
+			success : function(result){
+				if (result == 1) {
+					$('#pk').toggleClass('selected');
+				}
+			}
+		
+		});
+		
+	}
+	
+	
+	$("#pk > img").click(function () {
+		if ('${userInfo == null}' == 'true'){
+			alert("로그인을 해주세요!");
+		} else {
+			$(this).parent().toggleClass('selected');
+			if ($(this).parent().hasClass('selected') === true){
+				$.ajax({
+					url : '${root}/contents/insertpick',
+					type : 'post',
+					data : data,
+					success : function(result){
+						if (result == 1) {
+							console.log("pick insert : "+result);
+						} else{
+							alert("pick insert : false")
+						}
+						
+						
+					}
+				});
+			} else{
+				console.log(data);
+				$.ajax({
+					url : '${root}/contents/deletepick',
+					type : 'post',
+					data : data,
+					success : function(result){
+						if (result == 1) {
+							console.log("pick delete : "+result);
+						} else{
+							alert("pick delete : false")
+						}
+						
+					}
+				});
+			}
+		}
 	});
+	
+	
 	//>>end : pick
 	
 	//<<start : 리뷰작성
@@ -379,36 +447,69 @@ li.clearfix {
 	<!-- Begin 상세정보 -->
 		<div class="post">
 			<div style="float: left;">
-				<h1 class="title" style="margin-top: 20px;">부산 다함께 축제</h1>
+				<h1 class="title" style="margin-top: 20px;">${contentsDto.title}</h1>
 			</div>
-			<div style="float: right;">
-				<img id="pick" src="${root}/resources/style/images/heart64.png">
+			<div id="pk" style="float: right;">
+				<img class="" id="pick" src="${root}/resources/style/images/heart64.png">
+				<img class="" id="unpick" src="${root}/resources/style/images/unheart64.png">
 			</div>
 			<div style="clear: both;"></div>
 			<div class="meta">
 				<div class="top-border"></div>
-				<span class="contentsType">축제</span> | <span class="picksCount">54</span>
-				Picks | <span class="reviewCount">4</span> Reviews
+				<span class="contentsType">${contentsType}</span> | <span class="picksCount">${picklistNum}</span>
+				Picks | ${contentsDto.hit} views | <span class="reviewCount">${reviewNum}</span> Reviews
 			</div>
-			<img class="detailimg"
-				src="${root}/resources/style/images/sample/p1.jpg"
-				alt="장소 제목!!!(부산 감천 문화마을)" />
+			<img class="detailimg" src="${contentsDto.image1 != '-1' ? contentsDto.image1 : (contentsDto.image2 != '-1' ? contentsDto.image2 : '') }" />
 			<div class="detail">
-				<div class="date">
-					기간 | <span class="startD">2019.06.14</span> ~ <span class="endD">2019.08.20</span>
-				</div>
-				<div class="address">
-					장소 | <span>부산 사하구 감내2로 203 감천문화마을안내센터</span>
-				</div>
-				<div class="contents">
-					내용 | <span>부산 감천문화 마을에서 펼처지는 재밋는 놀이</span>
-				</div>
+			<c:if test="${contentsDetailDto.eventStartDate != '-1' && contentsDetailDto.eventEndDate != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">기간 |</span> ${contentsDetailDto.eventStartDate} ~ ${contentsDetailDto.eventEndDate}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.zipCode != '-1' || contentsDetailDto.addr1 != '-1' || contentsDetailDto.addr2 != '-1'} ">
+				<div><span style="font-weight: bold; font-size: 15px;">장소 |</span> (${contentsDetailDto.zipCode}) ${contentsDetailDto.addr1} ${contentsDetailDto.addr2}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.homePage != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">홈페이지 |</span> ${contentsDetailDto.homePage}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.telName != '-1' || contentsDetailDto.tel != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">주최자 tel |</span> ${contentsDetailDto.telName} ${contentsDetailDto.tel}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.program != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">행사프로그램 |</span> ${contentsDetailDto.program}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.usetime != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">이용요금 |</span> ${contentsDetailDto.usetime}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.playtime != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">공연시간 |</span> ${contentsDetailDto.playtime}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.spendtime != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">관람소요시간 |</span> ${contentsDetailDto.spendtime}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.ageLimit != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">관람가능연령 |</span> ${contentsDetailDto.ageLimit}</div>
+			</c:if>	
+			<c:if test="${contentsDetailDto.discountInfo != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">할인정보 |</span> ${contentsDetailDto.discountInfo}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.placeInfo != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">행사장위치안내 |</span> ${contentsDetailDto.placeInfo}</div>
+			</c:if>
+			<c:if test="${contentsDetailDto.infoSogae != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">행사소개 |</span> ${contentsDetailDto.infoSogae}</div>
+			</c:if>
+			<br>
+			<c:if test="${contentsDetailDto.infoNaeyong != '-1'}">
+				<div><span style="font-weight: bold; font-size: 15px;">행사내용 |</span> ${contentsDetailDto.infoNaeyong}</div>
+			</c:if>		
+				
 				<p></p>
 			</div>
 			<div class="top-border"></div>
 			<div class="tags">
-				Tags: <a href="#" title="">축제</a>, <a href="#" title="">부산</a>, <a
-					href="#" title="">감천문화마을</a>
+				Tags: 
+				<c:forEach var="hashtag" items="${hashTagDto}">
+				<a href="#" title="">${hashtag.hashTag}&nbsp;&nbsp;
+				</c:forEach>
 			</div>
 		</div>
 	<!-- End 상세정보 -->
@@ -416,8 +517,7 @@ li.clearfix {
 		<!-- Begin 후기 -->
 		<div id="comment-wrapper">
 			<h3 id="commenth3">
-				<span class="reviewCount">4</span> Reviews to "<span>부산 다함께
-					축제</span>"
+				<span class="reviewCount">${reviewNum}</span> Reviews to "<span>${contentsDto.title}</span>"
 				<!-- Begin 후기 작성 -->	
 				<div class="toggle">
 					<div class="trigger"><button class="writeReview">리뷰 작성</button></div>
@@ -478,64 +578,112 @@ li.clearfix {
 	<div id="sidebar">
 		<div class="sidebox">
 			<h3>다른 사진들</h3>
-			<ul class="flickr">
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-1.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-2.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-3.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-4.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-5.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-6.jpg" alt="" /></a></li>
+			<ul class="list-group list-group-flush" style="width: 220px;">
+				<c:choose>
+					<c:when test="${!contentsImageDto.isEmpty()}">
+					<c:forEach var="contentsImg" items="${contentsImageDto}">
+						<li class="list-group-item"><a href="#"><img
+						src="${contentsImg.smallImageUrl}" width="220px"/></a></li>
+					</c:forEach>
+					</c:when>
+					<c:otherwise>
+					<h5>다른 이미지가 없습니다.</h5>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</div>
 		<div class="sidebox">
 			<h3>지도</h3>
-			<div style="height: 260px; background-color: lightgray;"></div>
+			<div id="map" style="height: 260px; background-color: lightgray;"></div>
 		</div>
 		<div class="sidebox">
 			<h3>Hash Tags</h3>
 			<ul class="tags">
-				<li><a href="#" title="">축제</a></li>
-				<li><a href="#" title="">핫픽</a></li>
-				<li><a href="#" title="">부산</a></li>
-				<li><a href="#" title="">감천문화마을</a></li>
-				<li><a href="#" title="">부산축제</a></li>
-				<li><a href="#" title="">핫픽스</a></li>
-				<li><a href="#" title="">Fun</a></li>
-				<li><a href="#" title="">Travel</a></li>
-				<li><a href="#" title="">Inspiration</a></li>
+				<c:choose>
+					<c:when test="${!hashTagDto.isEmpty()}">
+					<c:forEach var="hashtag" items="${hashTagDto}">
+						<li><a href="#" title="">${hashtag.hashTag}</a></li>
+					</c:forEach>
+					</c:when>
+					<c:otherwise>
+					<h5>아직 HashTag가 없습니다!<br>
+					리뷰를 작성해서 HashTag를 체워주세요!</h5>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</div>
 		<div class="sidebox">
 			<h3>예매정보</h3>
 			<ul class="post-list archive">
-				<li><a href="#" title="">March 2011 (11)</a></li>
-				<li><a href="#" title="">February 2011 (9)</a></li>
-				<li><a href="#" title="">January 2011 (5)</a></li>
+				<c:choose>
+					<c:when test="${contentsDetailDto.bookingPlace != '-1'}">
+						<li><a href="#" title="">${contentsDetailDto.bookingPlace}</a></li>
+					</c:when>
+					<c:otherwise>
+					<li><a href="#" title="">예매정보가 없습니다.</a></li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</div>
 
-		<div class="sidebox">
-			<h3>Sponsors</h3>
-			<ul class="ads">
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/ad-1.gif" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/ad-2.gif" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/ad-3.gif" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/ad-4.gif" alt="" /></a></li>
-			</ul>
-		</div>
 	</div>
 	<!-- 사이드 바 -->
 </div>
 <!-- End Wrapper -->
+<script>
+var position = new kakao.maps.LatLng('${contentsDetailDto.yPoint}', '${contentsDetailDto.xPoint}');
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+mapOption = { 
+    center: position, // 지도의 중심좌표
+    level: 5 // 지도의 확대 레벨
+};
+
+//지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+var imageSrc = '${root}/resources/style/images/marker/done_mark2.png', // 마커이미지의 주소입니다    
+imageSize = new kakao.maps.Size(28, 35), // 마커이미지의 크기입니다
+imageOption = {offset: new kakao.maps.Point(10,45)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+markerPosition = position; // 마커가 표시될 위치입니다
+
+//마커를 생성합니다
+var marker = new kakao.maps.Marker({
+position: markerPosition,
+image: markerImage // 마커이미지 설정 
+});
+
+//마커가 지도 위에 표시되도록 설정합니다
+marker.setMap(map);
+
+$(document).ready(function() {
+	console.log("1");
+	var mousestatus;
+	
+	
+	$('#map').mousedown(function(e) {
+		mousestatus = e.type;
+	console.log("down : "+mousestatus);
+	});
+	$('#map').mouseup(function(e) {
+		mousestatus = e.type;
+	console.log("up : "+mousestatus);
+	});
+	
+	$('#map').mouseleave(function() {
+		if (mousestatus != 'mousedown') {
+			console.log(mousestatus);
+			map.panTo(position);
+			
+			console.log("leave : "+mousestatus);
+		}
+		mousestatus = 'reset';
+	});	
+	 
+	
+})
+
+</script>
 
 <%@ include file = "/WEB-INF/views/page/template/footer.jsp"%>
