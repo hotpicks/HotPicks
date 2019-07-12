@@ -105,13 +105,6 @@ public class MemberController {
 	@ResponseBody
 	public String join(MemberDto memberDto, Model model) {
 		System.out.println("member_c : 카카오톡으로 가입하기 메소드 들어옴");
-				
-//		System.out.println("프사는 : " + memberDto.getProfile());
-//		System.out.println("이름은 : " + memberDto.getName());
-//		System.out.println("id는 : " + memberDto.getUserId());
-//		System.out.println("pass는 : " + memberDto.getPass());
-//		System.out.println("성별은 : " + memberDto.getGender());
-//		System.out.println("나이는 : " + memberDto.getAge());
 		
 		int isJoined = memberService.join(memberDto);
 		
@@ -170,6 +163,10 @@ public class MemberController {
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public void mypage(@ModelAttribute("userInfo") MemberDto memberDto, Model model) {
 		System.out.println("member_c : 마이페이지 초기 이동 메소드 들어옴");
+
+		int reviewCnt = memberService.getReviewCnt(memberDto.getUserId());
+
+		model.addAttribute("reviewCnt", reviewCnt);
 				
 	}
 	

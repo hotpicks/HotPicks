@@ -57,5 +57,11 @@
 		and c.cn = #{category}
 		order by r.logtime desc
  	</select>
+ 	
+ 	<select id="getReviewCnt" parameterType="string" resultType="int">
+ 		select count(*) reviewcnt
+		from review
+		where userid = #{userId}
+ 	</select>
  
  </mapper>

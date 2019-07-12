@@ -14,7 +14,7 @@
 
 <c:if test="${visits.size() != 0}">
 
-	<canvas id="chart" width="100" height="100" class="chartjs-render-monitor" style="display: block; height: 400px; width: 392px;"></canvas>
+	<canvas id="chart" width="100" height="100" class="chartjs-render-monitor" style="display: block; height: 500px; width: 392px;"></canvas>
 <script>
 
 // 통계 일자
