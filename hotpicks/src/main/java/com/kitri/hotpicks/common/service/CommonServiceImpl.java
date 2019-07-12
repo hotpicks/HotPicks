@@ -32,19 +32,19 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	   public PageNavigation getPageNavigation(Map<String, String> parameter) {
+	   public PageNavigation getPageNavigation(Map<String, String> map) {
 	      PageNavigation navigation = new PageNavigation();
 	      
-//	      int newArticleCount = sqlSession.getMapper(CommonDao.class).getNewArticleCount(Integer.parseInt(parameter.get("bcode")));
-//	      navigation.setNewArticleCount(newArticleCount);
+	      int newArticleCount = sqlSession.getMapper(CommonDao.class).getNewArticleCount(Integer.parseInt(map.get("contentsid")));
+	      navigation.setNewArticleCount(newArticleCount);
 	      
-	      int totalArticleCount = sqlSession.getMapper(CommonDao.class).getTotalArticleCount(parameter);
+	      int totalArticleCount = sqlSession.getMapper(CommonDao.class).getTotalArticleCount(map);
 	      navigation.setTotalArticleCount(totalArticleCount);
 	      
 	      int totalPageCount = (totalArticleCount -1) / CafeConstance.ARTICLE_SIZE +1;
 	      navigation.setTotalPageCount(totalPageCount);
 	      
-	      int pg = NumberCheck.NotNumberToOne(parameter.get("pg"));
+	      int pg = NumberCheck.NotNumberToOne(map.get("pg"));
 	      navigation.setNowFirst(pg <= CafeConstance.PAGE_SIZE);
 	      navigation.setNowEnd((totalPageCount-1)/CafeConstance.PAGE_SIZE * CafeConstance.PAGE_SIZE < pg);
 	      navigation.setPageNo(pg);

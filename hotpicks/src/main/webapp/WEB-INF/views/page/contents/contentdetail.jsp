@@ -17,6 +17,18 @@
 </style>
 <script>
 $(document).ready(function() {
+	//<<start : hit 조회수 올리기
+	/* $.ajax({
+			url : '${root}/contents/hit',
+			type : 'GET',
+			dataType : 'json',
+			data : {contentsId : '${contentsDto.contentsId}'},
+			success : function(response){
+				alert("조회수 올라감!!");
+			}
+	}); */
+	//>>end : hit 조회수 올리기
+	
 	//<<start : pick
 	if ('${userInfo == null}' == 'false'){
 		
@@ -91,16 +103,27 @@ $(document).ready(function() {
 			url : '${root}/review/list',
 			type : 'GET',
 			dataType : 'json',
-			data : {contentsId : '630609'},
+			data : {contentsId : '${contentsDto.contentsId}'},
 			success : function(response){
 				makeWriteList(response);
 			}
 		});
 	}
 	
+
+	
 	$("#writeBtn").click(function() {
 		 //var writeForm = $("#writeForm").serialize();
-
+		if ( $("#picture").val() != "" ) { //파일업로드 확장자 체크
+	        var ext = $('#picture').val().split('.').pop().toLowerCase();
+	        if($.inArray(ext, ['gif','png','jpg']) == -1) {
+	    	     alert('등록 할수 없는 파일명입니다. 이미지 파일은 (jpg, png, gif) 형식만 등록 가능합니다.');
+	    	     $("#picture").val(""); // input file 파일명을 다시 지워준다.
+	    	     return;
+	   	  	}
+	    }
+		
+		//alert("들어가!");
 		if ('${userInfo == null}' == 'true'){
 			alert("로그인하세요.");
 			
@@ -111,21 +134,9 @@ $(document).ready(function() {
 			alert("내용 입력!!!");
 			return;
 		} else {
+	    	//alert("dkdkd");
 			$("#writeForm").attr("action","${root}/review/write").submit();
-			/* $.ajax({
-				url : '${root}/review/write',
-				type : 'POST',
-				
-				dataType : 'json',
-				data : writeForm,
-				success : function(response) {
-					makeWriteList(response);
-					$("#subject").val('');
-					$("#hashtag").val('');
-					$("#picture").val('');
-					$("#content").val('');
-				}
-			}); */
+			
 		}
 	});
 	
@@ -176,8 +187,8 @@ $(document).ready(function() {
 				reviewstr += '				<option value="2">★★</option>';
 				reviewstr += '				<option value="1">★</option>';
 				reviewstr += '			</select><br>';
-				reviewstr += '			<label style="font-size:15px;">해쉬태그</label><br><div class="hsgroup"></div>';
-				reviewstr += '			<input type="text" id="hashTag"><br><br>';
+				//reviewstr += '			<label style="font-size:15px;">해쉬태그</label><br><div class="hsgroup"></div>';
+				//reviewstr += '			<input type="text" id="hashTag"><br><br>';
 				reviewstr += '			<textarea cols="80" rows="5">'+review.content+'</textarea>';       
 				reviewstr += '        </div>';   
 				        
@@ -265,23 +276,17 @@ $(document).ready(function() {
 		$(modifyArr).live("click",function() {
 			alert("눌렸다!");
 			$(this).siblings(".modifything").css("display", "");
-		}); */
+		}); 
 		
 		//리뷰 삭제
 		var deleteArr = $(".deleteBtn");
 		$(deleteArr).live("click",function() {
 			
 		});
+		*/
 	}
 	
-			
-		
 	
-
-	
-
-
-
 	
 	function getMemoList(index) {
 			$.ajax({
@@ -337,9 +342,9 @@ $(document).ready(function() {
 		console.log($(".mlist").text());
 		$(".mlist").append(memostr);
 	}
+	//>>end : 리뷰작성
 	
-	
-	
+	//<<start : hashTag
 	$('.hstgcancel').live('click', function(e){
 		e.preventDefault();
 		$(this).parent().parent().remove();
@@ -357,11 +362,21 @@ $(document).ready(function() {
 				$('.hsgroup').append(hstg);
 				$('#hashTag').val('');
 			} else {
+				console.log($('.hstg').html());
+				console.log($('.hstg').length);
 				alert('안됨');
 			}
 			
 		}
 	});
+	//>>end : HashTag
+	
+	//<<start : 다른이미지
+	$(".altImg").click(function() {
+		var altImage = $(this).attr('src'); 
+		$(".detailimg").attr('src', altImage);
+	});
+	//>>end : 다른이미지
 	
 });
 </script>
@@ -508,7 +523,7 @@ li.clearfix {
 			<div class="tags">
 				Tags: 
 				<c:forEach var="hashtag" items="${hashTagDto}">
-				<a href="#" title="">${hashtag.hashTag}&nbsp;&nbsp;
+				<a href="#" title="">${hashtag.hashTag}&nbsp;&nbsp;</a>
 				</c:forEach>
 			</div>
 		</div>
@@ -525,7 +540,7 @@ li.clearfix {
           				<div>
           				<form id="writeForm" name="writeForm" method="post" action="" enctype="multipart/form-data">
           					<input type="hidden" name="rseq" value="1">
-          					<input type="hidden" name="contentsid" value="${contentsid}">
+          					<input type="hidden" name="contentsid" value="${contentsDto.contentsId}">
           					<input type="hidden" name="pg" value="1">
           					<input type="hidden" name="key" value="">
           					<input type="hidden" name="word" value="">
@@ -546,7 +561,7 @@ li.clearfix {
           						<label style="font-size:15px;">해쉬태그</label><div class="hsgroup"></div>
           						<input type="text" id="hashTag"><br>
 								<label style="font-size:15px;">사진 올리기</label>
-								<input type="file" name="picture" id="picture"><br>
+								<input type="file" name="picture" id="picture" accept="image/*"><br>
 								<label style="font-size:15px;">내용</label><br>
 								<textarea name="content" id="content" class="reviewcontents" cols="50" rows="15" ></textarea>
           					</div>
@@ -578,12 +593,13 @@ li.clearfix {
 	<div id="sidebar">
 		<div class="sidebox">
 			<h3>다른 사진들</h3>
-			<ul class="list-group list-group-flush" style="width: 220px;">
+			<ul class="flickr" style="width:240px;">
 				<c:choose>
 					<c:when test="${!contentsImageDto.isEmpty()}">
 					<c:forEach var="contentsImg" items="${contentsImageDto}">
-						<li class="list-group-item"><a href="#"><img
-						src="${contentsImg.smallImageUrl}" width="220px"/></a></li>
+						<li style="width: 70px;height: 70px;"><a href="#">
+							<img class="altImg" src="${contentsImg.smallImageUrl}" height="70px" width="70px"/>
+						</a></li>   
 					</c:forEach>
 					</c:when>
 					<c:otherwise>

@@ -15,7 +15,7 @@ public interface CommonService {
 	public int getReNextSeq();
 	
 	//페이지정보받기
-	PageNavigation getPageNavigation(Map<String, String> parameter);
+	PageNavigation getPageNavigation(Map<String, String> map);
 	
 	
 }

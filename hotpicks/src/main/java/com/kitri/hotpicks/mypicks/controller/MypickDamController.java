@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import com.kitri.hotpicks.common.service.CommonService;
 import com.kitri.hotpicks.member.model.MemberDto;
 import com.kitri.hotpicks.mypicks.model.PickListDto;
 import com.kitri.hotpicks.mypicks.service.MypickDamService;
+import com.kitri.hotpicks.util.PageNavigation;
 
 @Controller
 @RequestMapping("/mypicklist")
@@ -40,16 +43,20 @@ public class MypickDamController {
 	
 	
 	@RequestMapping(value = "/list/{a}", method = RequestMethod.GET)
-	public String list(@PathVariable("a") String a, Model model,@ModelAttribute("userInfo") MemberDto memberDto, Map<String,String> map) {
+	public String list(@PathVariable("a") String a, Model model,@ModelAttribute("userInfo") MemberDto memberDto, Map<String,String> map
+			,HttpServletRequest request) {
 		String path = "";
 		if(memberDto !=null) {
 		String userid = memberDto.getUserId();
 		map.put("a", a);
 		map.put("userid", userid);
 		List<PickListDto> list = mypickDamService.listArticle(map);
-		System.out.println(list);
+//		PageNavigation pageNavigation = commonService.getPageNavigation(map);
+//		pageNavigation.setRoot(request.getContextPath());
+//		pageNavigation.makeNavigator();
+//		model.addAttribute("parameter", map);
+//		model.addAttribute("navigator", pageNavigation);
 		model.addAttribute("articleList", list);
-		
 			path = "mypicks/listresult";
 			
 		}else {
@@ -59,12 +66,6 @@ public class MypickDamController {
 		}
 			return path;
 		
-//		List<PickListDto> list= mypickDamService.listArticle(parameter);
-//		PageNavigation pageNavigation = commonService.getPageNavigation(parameter);
-//		pageNavigation.setRoot(request.getContextPath());
-//		pageNavigation.makeNavigator();
-//		model.addAttribute("parameter", parameter);
-//		model.addAttribute("navigator", pageNavigation);
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)

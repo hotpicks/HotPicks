@@ -134,19 +134,33 @@ $(function(){
 		
 	// 수정 요청
 	$("#modifyBtn").click(function(){
-		if($("#pass").val().trim().length == 0){
-			alert("현재 비밀번호를 입력해주세요.");
-		} else if(curpassright != 0){
-			alert("현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
-		} else if($("#age").val().trim().length == 0){
-			alert("나이를 입력해주세요.");
-		} else if(passtypecnt != 0 && istherenewpass != 0) {
-			alert("사용할 수 없는 새 비밀번호입니다. 다시 확인해주세요.");
-		}else if(passsamecnt != 0 && istherenewpass != 0) {
-			alert("새 비밀번호 확인란이 일치하지 않습니다. 다시 확인해주세요.");
-		}else {
 		
-			$(".modifyForm").attr("action", "${root}/member/modify").submit();
+		var pass = $(this).attr("data-pass");
+		alert("비번 : " + pass);
+		// 일반 로그인의 경우, 비번 유효성 검사 수행
+		if(pass != 'kakao'){
+			if($("#pass").val().trim().length == 0){
+				alert("현재 비밀번호를 입력해주세요.");
+			} else if(curpassright != 0){
+				alert("현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+			} else if($("#age").val().trim().length == 0){
+				alert("나이를 입력해주세요.");
+			} else if(passtypecnt != 0 && istherenewpass != 0) {
+				alert("사용할 수 없는 새 비밀번호입니다. 다시 확인해주세요.");
+			}else if(passsamecnt != 0 && istherenewpass != 0) {
+				alert("새 비밀번호 확인란이 일치하지 않습니다. 다시 확인해주세요.");
+			}else {
+			
+				$(".modifyForm").attr("action", "${root}/member/modify").submit();
+			}
+		}else{ // 카톡 로그인의 경우, 비번 검사 안 함.
+			
+			if($("#age").val().trim().length == 0){
+				alert("나이를 입력해주세요.");
+			} else {
+			
+				$(".modifyForm").attr("action", "${root}/member/modify").submit();
+			}
 		}
 	});
 	
@@ -172,7 +186,6 @@ $(function(){
 		var pass = $(this).attr("data-pass");
 
 			var userInput = $("#inputPassword").val();
-			alert("입력한 비번은 :" + userInput);
 			
 			if(userInput != pass){
 				alert("비밀번호가 일치하지 않습니다.");
@@ -199,7 +212,9 @@ $(function(){
     <div class="content" align="center">
       <br/>
       <h3>회원님의 정보를 수정하세요.&nbsp;<font color="#ff99bb"><i class="fas fa-user-edit"></i></font></h3>
+ <c:if test="${userInfo.pass != 'kakao'}">
       <p><font color="gray">*수정 시, <strong>현재 비밀번호</strong>를 반드시 입력해주세요.</font></p>
+ </c:if>
       <br/><br/>
       <!-- Begin Form -->
         <div id="contact-form"> 
@@ -238,6 +253,7 @@ $(function(){
                 <!-- ******** userid ******** -->
                 <input style="font-weight: 700;" class="required inpt" type="text" name="userId" id="userId" value="${userInfo.userId}" readonly/>
               </p>
+<c:if test="${userInfo.pass!='kakao'}">
               <p>
                 <label for="pass">현재 비밀번호</label>
                 <br />
@@ -262,6 +278,11 @@ $(function(){
               <!-- ******* 새 비밀번호 일치 여부 확인 메세지******* -->
                 <div style="margin-bottom:15px;" id="passsamecheck">&nbsp;</div>
               </p>
+</c:if>
+<c:if test="${userInfo.pass=='kakao'}">
+		<input type="hidden" name="pass" value="kakao">
+		<input type="hidden" name="newpass" value="">
+</c:if>
               <p>
                 <label for="name">이름</label>
                 <br />
@@ -278,15 +299,18 @@ $(function(){
                 <label>성별</label>
                 <br />
                 <!-- ******** gender ******** -->
-                
-<c:if test="${userInfo.gender == '여'}">
+
+	<c:if test="${userInfo.gender == '여'}">
                 	여성<input type="radio" name="gender" value="여" checked>
 					남성<input type="radio" name="gender" value="남">	
-</c:if>
-<c:if test="${userInfo.gender == '남' }">
+	</c:if>
+	
+	<c:if test="${userInfo.gender == '남'}">
                 	여성<input type="radio" name="gender" value="여">
 					남성<input type="radio" name="gender" value="남" checked>	
-</c:if>
+	</c:if>
+
+
               </p>
             
 	        <div class="divider"></div>
@@ -295,7 +319,7 @@ $(function(){
             
             <div class="align-center">
             	<a id="cancelBtn" class="button red btns" style="margin-right:100px; font-weight: 700;">취  소<span></span></a>
-            	<a id="modifyBtn" class="button red btns" style="font-weight: 700;">수 정<span></span></a>
+            	<a id="modifyBtn" class="button red btns" style="font-weight: 700;" data-pass='${userInfo.pass}'>수 정<span></span></a>
             </div>
             <div class="clear"></div>
             <br>
@@ -305,7 +329,7 @@ $(function(){
             		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" href=""><strong>여기</strong></a>를 눌러주세요.</font>
 </c:if>
 <c:if test="${userInfo.pass != 'kakao'}">
-            		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" data-pass="${userInfo.pass}" data-toggle="modal" data-target="#deleteModal" href=""><strong>여기</strong></a>를 눌러주세요.</font>
+            		<font color="gray">회원 탈퇴를 원하시면, <a data-pass="${userInfo.pass}" data-toggle="modal" data-target="#deleteModal" href=""><strong>여기</strong></a>를 눌러주세요.</font>
 </c:if>
 
             	</span>

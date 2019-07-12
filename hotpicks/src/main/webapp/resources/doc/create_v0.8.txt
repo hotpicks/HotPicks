@@ -701,5 +701,5 @@ ALTER TABLE contentsImage
 drop sequence review_seq;
 
 create sequence review_seq
-	start with 100
+	start with 1
 	increment by 1;

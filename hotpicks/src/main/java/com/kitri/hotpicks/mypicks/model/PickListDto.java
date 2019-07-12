@@ -1,8 +1,8 @@
 package com.kitri.hotpicks.mypicks.model;
 
-import com.kitri.hotpicks.contents.model.ContentsDto;
+import com.kitri.hotpicks.contents.model.ContentsDetailDto;
 
-public class PickListDto extends ContentsDto{
+public class PickListDto extends ContentsDetailDto{
 
 	private String userId;
 	private int contentsId;

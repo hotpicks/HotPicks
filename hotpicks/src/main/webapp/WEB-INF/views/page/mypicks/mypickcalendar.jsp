@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 
 <link href='${root}/resources/packages/core/main.css' rel='stylesheet' />
@@ -12,10 +12,25 @@
 <script src='${root}/resources/packages/daygrid/main.js'></script>
 <script src='${root}/resources/packages/timegrid/main.js'></script>
 <script>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+	var eventList = [];
+	
+	<c:forEach var="article" items="${articleCal}">
+		var events = {};
+		events.title = "${article.title}";
+		events.start = "${article.eventStartDate}";
+		events.end = "${article.eventEndDate}";
+		
+		eventList.push(events);
+
+	</c:forEach>
+
+	console.log(eventList);
+	   
+	   
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-
+    
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
       header: {
@@ -40,21 +55,11 @@
         calendar.unselect()
       },
       editable: true,
-      eventLimit: true, // allow "more" link when too many events
-      events: [
-    	 var list = new Array();
-    	 <c:forEach var="article" items="${articleCal}">
-    	 	list.push("${article.title}");
-    	 	list.push("${article.eventStartDate}");
-    	 	list.push("${article.eventEndDate}");
-    	 </c:forEach>
-    	 for (var i = 0; i < list.length; i++) {
-			alert(list[i]);
-		}
+      eventLimit: true,
+      
 
-    
-    	
-      ]
+      events: eventList
+      
     });
 
     calendar.render();

@@ -61,6 +61,11 @@
  		where contentsid = #{contentsid} and userid = #{userId}
  	</delete>
 	
+	<update id="updatehitCount" parameterType="int">
+	update contents
+	set hit = hit + 1
+	where contentsid = #{contentsid}
+	</update>
 
 
  </mapper>

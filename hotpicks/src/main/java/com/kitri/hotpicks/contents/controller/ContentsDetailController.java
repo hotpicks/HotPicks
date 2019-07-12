@@ -25,61 +25,68 @@ public class ContentsDetailController {
 	@Autowired
 	private ContentsDetailService contentsDetailService;
 	
+
 //	@RequestMapping(value = "/contentdetail", method = RequestMethod.GET)
-//	public void contentdetail() {
+//	public void contentdetail(Model model) {
 ////		System.out.println("상세일정들어옴");
 ////		return "/contents/contentdetail";
+//		model.addAttribute("contentsid", "140682");
+//
 //	}
-	@RequestMapping(value = "/contentdetail", method = RequestMethod.GET)
-	public void contentdetail(Model model) {
-//		System.out.println("상세일정들어옴");
-//		return "/contents/contentdetail";
-		model.addAttribute("contentsid", "140682");
-
-	}
 	
+//	//조회수 올리기
+//	@RequestMapping(value = "/hit", method = RequestMethod.GET)
+//	public void updatehitCount(@RequestParam int contentsId) {
+//		contentsDetailService.updatehitCount(contentsId);
+//	}
+	
+	//ContentsDetail 페이지 정보 가져오기
 	@RequestMapping(value = "/viewdetail", method = RequestMethod.GET)
 	public String viewdetail(@RequestParam int contentsId, Model model) {
+		
+		//조회수 올리기
+		contentsDetailService.updatehitCount(contentsId);
 		
 		//Contents
 		ContentsDto contentsDto= contentsDetailService.selectContents(contentsId);
 		model.addAttribute("contentsDto", contentsDto);
-		System.out.println("contentsDto : "+contentsDto);
+		//System.out.println("contentsDto : "+contentsDto);
 		
 		//ContentsDetail
 		ContentsDetailDto contentsDetailDto= contentsDetailService.selectContentsDetail(contentsId);
 		model.addAttribute("contentsDetailDto", contentsDetailDto);
-		System.out.println("contentsDetailDto : "+contentsDetailDto);
+		//System.out.println("contentsDetailDto : "+contentsDetailDto);
 		
 		//Contents카테고리 이름
 		String contentsType = contentsDetailService.selectContentsType(contentsId);
 		model.addAttribute("contentsType", contentsType);
-		System.out.println("contentsType : "+contentsType);
+		//System.out.println("contentsType : "+contentsType);
 		
 		//Picklist갯수
 		int picklistNum = contentsDetailService.selectpicklistNum(contentsId);
 		model.addAttribute("picklistNum", picklistNum);
-		System.out.println("picklistNum : "+picklistNum);
+		//System.out.println("picklistNum : "+picklistNum);
 		
 		//review갯수
 		int reviewNum = contentsDetailService.selectreviewNum(contentsId);
 		model.addAttribute("reviewNum", reviewNum);
-		System.out.println("reviewNum : "+reviewNum);
+		//System.out.println("reviewNum : "+reviewNum);
 		
 		//HashTag
 		List<HashTagDto> hashTagDto = contentsDetailService.selectHashTag(contentsId);
 		model.addAttribute("hashTagDto",hashTagDto);
-		System.out.println("hashTagDto : "+hashTagDto);
+		//System.out.println("hashTagDto : "+hashTagDto);
 		
 		//Contents Image
 		List<ContentsImageDto> contentsImageDto = contentsDetailService.selectContentsImage(contentsId);
 		model.addAttribute("contentsImageDto",contentsImageDto);
-		System.out.println("contentsImageDto : "+contentsImageDto);
+		//System.out.println("contentsImageDto : "+contentsImageDto);
 		
 		
 		
 		return "contents/contentdetail";
 	}
+	
 	//좋아요
 	@RequestMapping(value = "/getpick",method = RequestMethod.GET)
 	@ResponseBody
