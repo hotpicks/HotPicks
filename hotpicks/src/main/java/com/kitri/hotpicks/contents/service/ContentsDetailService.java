@@ -27,4 +27,6 @@ public interface ContentsDetailService {
 	int insertPick(Map<String, Object> map);
 
 	int deletePick(Map<String, Object> map);
+	
+	void updatehitCount(int contentsId);
 }

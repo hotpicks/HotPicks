@@ -42,7 +42,7 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 	
-	
+	//리뷰 리스트 가져오기
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
 	public String list(int contentsId) {
@@ -52,6 +52,7 @@ public class ReviewController {
 		return json;
 	}
 	
+	//리뷰 쓰기
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String write(ReviewDto reviewDto, 
 						@RequestParam(value = "hstg" , defaultValue = "") List<String> hstg,
@@ -129,7 +130,7 @@ public class ReviewController {
 		return path;
 	}
 	
-	
+	//댓글 쓰기
 	@RequestMapping(value = "/memo", method = RequestMethod.POST)
 	public @ResponseBody String writeMemo(@RequestBody CommentDto commentDto, HttpSession session) {
 		//Json으로 받아온거는 @RequestBody로 받는다.
@@ -151,6 +152,7 @@ public class ReviewController {
 		return "";
 	}
 	
+	//댓글 리스트 가져오기
 	@RequestMapping(value = "/memo", method = RequestMethod.GET)
 	@ResponseBody
 	public String listMemo(int rceq) {

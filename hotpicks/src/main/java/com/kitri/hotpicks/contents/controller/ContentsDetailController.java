@@ -25,21 +25,27 @@ public class ContentsDetailController {
 	@Autowired
 	private ContentsDetailService contentsDetailService;
 	
+
 //	@RequestMapping(value = "/contentdetail", method = RequestMethod.GET)
-//	public void contentdetail() {
+//	public void contentdetail(Model model) {
 ////		System.out.println("상세일정들어옴");
 ////		return "/contents/contentdetail";
+//		model.addAttribute("contentsid", "140682");
+//
 //	}
-	@RequestMapping(value = "/contentdetail", method = RequestMethod.GET)
-	public void contentdetail(Model model) {
-//		System.out.println("상세일정들어옴");
-//		return "/contents/contentdetail";
-		model.addAttribute("contentsid", "140682");
-
-	}
 	
+//	//조회수 올리기
+//	@RequestMapping(value = "/hit", method = RequestMethod.GET)
+//	public void updatehitCount(@RequestParam int contentsId) {
+//		contentsDetailService.updatehitCount(contentsId);
+//	}
+	
+	//ContentsDetail 페이지 정보 가져오기
 	@RequestMapping(value = "/viewdetail", method = RequestMethod.GET)
 	public String viewdetail(@RequestParam int contentsId, Model model) {
+		
+		//조회수 올리기
+		contentsDetailService.updatehitCount(contentsId);
 		
 		//Contents
 		ContentsDto contentsDto= contentsDetailService.selectContents(contentsId);
@@ -80,6 +86,7 @@ public class ContentsDetailController {
 		
 		return "contents/contentdetail";
 	}
+	
 	//좋아요
 	@RequestMapping(value = "/getpick",method = RequestMethod.GET)
 	@ResponseBody
