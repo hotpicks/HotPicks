@@ -16,61 +16,69 @@
 <script>
 $(document).ready(function() {
 	//<<start : pick
-	var data =  {
-			"userId" : 'tpgus534@Naver.com',
-			"contentsid" : 1829696
-			};
-	$.ajax({
-		url : '${root}/contents/getpick',
-		type: 'GET',
-		contentType:"application/json;charset=UTF-8",
-		dataType : 'json',
-		data : data,
-		success : function(result){
-			if (result == 1) {
-				$('#pk').toggleClass('selected');
+	if ('${userInfo == null}' == 'false'){
+		
+		var data =  {
+				"userId" : '${userInfo.userId}',
+				"contentsid" : '${contentsDto.contentsId}'
+				};
+		$.ajax({
+			url : '${root}/contents/getpick',
+			type: 'GET',
+			contentType:"application/json;charset=UTF-8",
+			dataType : 'json',
+			data : data,
+			success : function(result){
+				if (result == 1) {
+					$('#pk').toggleClass('selected');
+				}
 			}
-		}
-	
-	
-	});
+		
+		});
+		
+	}
 	
 	
 	$("#pk > img").click(function () {
-		$(this).parent().toggleClass('selected');
-		if ($(this).parent().hasClass('selected') === true){
-			$.ajax({
-				url : '${root}/contents/insertpick',
-				type : 'post',
-				data : data,
-				success : function(result){
-					if (result == 1) {
-						console.log("pick insert : "+result);
-					} else{
-						alert("pick insert : false")
+		if ('${userInfo == null}' == 'true'){
+			alert("로그인을 해주세요!");
+		} else {
+			$(this).parent().toggleClass('selected');
+			if ($(this).parent().hasClass('selected') === true){
+				$.ajax({
+					url : '${root}/contents/insertpick',
+					type : 'post',
+					data : data,
+					success : function(result){
+						if (result == 1) {
+							console.log("pick insert : "+result);
+						} else{
+							alert("pick insert : false")
+						}
+						
+						
 					}
-					
-					
-				}
-			});
-		} else{
-			console.log(data);
-			$.ajax({
-				url : '${root}/contents/deletepick',
-				type : 'post',
-				data : data,
-				success : function(result){
-					if (result == 1) {
-						console.log("pick delete : "+result);
-					} else{
-						alert("pick delete : false")
+				});
+			} else{
+				console.log(data);
+				$.ajax({
+					url : '${root}/contents/deletepick',
+					type : 'post',
+					data : data,
+					success : function(result){
+						if (result == 1) {
+							console.log("pick delete : "+result);
+						} else{
+							alert("pick delete : false")
+						}
+						
 					}
-					
-				}
-			});
+				});
+			}
 		}
-		
 	});
+	
+	
 	//>>end : pick
 	
 	//<<start : 리뷰작성
