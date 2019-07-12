@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kitri.hotpicks.admin.service.AdminService;
+import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
 import com.kitri.hotpicks.member.model.MemberDto;
 
@@ -182,8 +185,17 @@ public class AdminController {
 	//***************************************** [DB 메뉴] *****************************************
 	// 관리자 페이지 - DB 메뉴 이동
 	@RequestMapping("/db")
-	public String movedb() {
+	public String movedb(Model model) {
+		List<ContentsDto> list = adminService.getContents(1);
+		model.addAttribute("list", list);
 		return "/admin/dbmenu";
+	}
+	@RequestMapping("/gopage")
+	@ResponseBody
+	public String gopage(@RequestParam("page") int page) {
+		List<ContentsDto> list = adminService.getContents(page);
+		JSONArray array = new JSONArray(list);
+		return array.toString();
 	}
 	
 }

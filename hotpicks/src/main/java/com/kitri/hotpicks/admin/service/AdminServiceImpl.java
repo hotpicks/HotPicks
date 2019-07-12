@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kitri.hotpicks.admin.dao.AdminDao;
+import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
 import com.kitri.hotpicks.member.model.MemberDto;
 
@@ -129,6 +130,11 @@ public class AdminServiceImpl implements AdminService {
 		System.out.println("admin_s_Impl : 기간별 방문 그래프 얻기 메소드 실행");
 
 		return sqlSession.getMapper(AdminDao.class).getVisitStat(visitType);
+	}
+
+	@Override
+	public List<ContentsDto> getContents(int page) {
+		return sqlSession.getMapper(AdminDao.class).getContents(page);
 	}
 	
 	
