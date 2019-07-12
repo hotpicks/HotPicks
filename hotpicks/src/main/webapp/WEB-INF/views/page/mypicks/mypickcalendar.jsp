@@ -26,24 +26,6 @@
 	</c:forEach>
 
 	console.log(eventList);
-/* 
-	var len = list.length();
-	   for(var i=0;i<len;i++){
-		  
-			  if(i == len-1){
-				  
-				  title: 'list[i].getTitle',
-	 			  start: 'list[i].getstartdate',
-	 			  end: 'list[i].getenddate'
- 			 	  
-			  }else{
-				  
-	 			  title: 'list[i].getTitle',
-	 			  start: 'list[i].getstartdate',
-	 			  end: 'list[i].getenddate',
- 			 	
-		 	 }
-	   } */
 	   
 	   
   document.addEventListener('DOMContentLoaded', function() {
