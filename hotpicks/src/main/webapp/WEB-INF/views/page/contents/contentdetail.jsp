@@ -429,6 +429,7 @@ li.clearfix {
 			<c:if test="${contentsDetailDto.infoSogae != '-1'}">
 				<div><span style="font-weight: bold; font-size: 15px;">행사소개 |</span> ${contentsDetailDto.infoSogae}</div>
 			</c:if>
+			<br>
 			<c:if test="${contentsDetailDto.infoNaeyong != '-1'}">
 				<div><span style="font-weight: bold; font-size: 15px;">행사내용 |</span> ${contentsDetailDto.infoNaeyong}</div>
 			</c:if>		
@@ -509,19 +510,18 @@ li.clearfix {
 	<div id="sidebar">
 		<div class="sidebox">
 			<h3>다른 사진들</h3>
-			<ul class="flickr">
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-1.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-2.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-3.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-4.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-5.jpg" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/flickr-6.jpg" alt="" /></a></li>
+			<ul class="list-group list-group-flush" style="width: 220px;">
+				<c:choose>
+					<c:when test="${!contentsImageDto.isEmpty()}">
+					<c:forEach var="contentsImg" items="${contentsImageDto}">
+						<li class="list-group-item"><a href="#"><img
+						src="${contentsImg.smallImageUrl}" width="220px"/></a></li>
+					</c:forEach>
+					</c:when>
+					<c:otherwise>
+					<h5>다른 이미지가 없습니다.</h5>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</div>
 		<div class="sidebox">
@@ -555,25 +555,9 @@ li.clearfix {
 					<li><a href="#" title="">예매정보가 없습니다.</a></li>
 					</c:otherwise>
 				</c:choose>
-				<li><a href="#" title="">March 2011 (11)</a></li>
-				<li><a href="#" title="">February 2011 (9)</a></li>
-				<li><a href="#" title="">January 2011 (5)</a></li>
 			</ul>
 		</div>
 
-		<div class="sidebox">
-			<h3>Sponsors</h3>
-			<ul class="ads">
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/ad-1.gif" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/ad-2.gif" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/ad-3.gif" alt="" /></a></li>
-				<li><a href="#"><img
-						src="${root}/resources/style/images/art/ad-4.gif" alt="" /></a></li>
-			</ul>
-		</div>
 	</div>
 	<!-- 사이드 바 -->
 </div>
