@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kitri.hotpicks.contents.dao.ContentsDao;
 import com.kitri.hotpicks.contents.dao.ContentsDetailDao;
 import com.kitri.hotpicks.contents.model.ContentsDetailDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
@@ -86,6 +87,12 @@ public class ContentsDetailServiceImpl implements ContentsDetailService {
 	public int deletePick(Map<String, Object> map) {
 		int cnt =  sqlSession.getMapper(ContentsDetailDao.class).deletePick(map);
 		return cnt;
+	}
+
+	@Override
+	public void updatehitCount(int contentsId) {
+		sqlSession.getMapper(ContentsDetailDao.class).updatehitCount(contentsId);
+		
 	}
 
 	

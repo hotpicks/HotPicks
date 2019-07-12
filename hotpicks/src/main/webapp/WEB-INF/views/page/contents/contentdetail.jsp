@@ -17,6 +17,18 @@
 </style>
 <script>
 $(document).ready(function() {
+	//<<start : hit 조회수 올리기
+	/* $.ajax({
+			url : '${root}/contents/hit',
+			type : 'GET',
+			dataType : 'json',
+			data : {contentsId : '${contentsDto.contentsId}'},
+			success : function(response){
+				alert("조회수 올라감!!");
+			}
+	}); */
+	//>>end : hit 조회수 올리기
+	
 	//<<start : pick
 	if ('${userInfo == null}' == 'false'){
 		
@@ -122,7 +134,7 @@ $(document).ready(function() {
 			alert("내용 입력!!!");
 			return;
 		} else {
-	    	alert("dkdkd");
+	    	//alert("dkdkd");
 			$("#writeForm").attr("action","${root}/review/write").submit();
 			
 		}
@@ -264,23 +276,17 @@ $(document).ready(function() {
 		$(modifyArr).live("click",function() {
 			alert("눌렸다!");
 			$(this).siblings(".modifything").css("display", "");
-		}); */
+		}); 
 		
 		//리뷰 삭제
 		var deleteArr = $(".deleteBtn");
 		$(deleteArr).live("click",function() {
 			
 		});
+		*/
 	}
 	
-			
-		
 	
-
-	
-
-
-
 	
 	function getMemoList(index) {
 			$.ajax({
@@ -336,9 +342,9 @@ $(document).ready(function() {
 		console.log($(".mlist").text());
 		$(".mlist").append(memostr);
 	}
+	//>>end : 리뷰작성
 	
-	
-	
+	//<<start : hashTag
 	$('.hstgcancel').live('click', function(e){
 		e.preventDefault();
 		$(this).parent().parent().remove();
@@ -363,12 +369,14 @@ $(document).ready(function() {
 			
 		}
 	});
+	//>>end : HashTag
 	
-	
+	//<<start : 다른이미지
 	$(".altImg").click(function() {
 		var altImage = $(this).attr('src'); 
 		$(".detailimg").attr('src', altImage);
 	});
+	//>>end : 다른이미지
 	
 });
 </script>
