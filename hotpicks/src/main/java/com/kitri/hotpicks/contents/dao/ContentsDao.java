@@ -43,7 +43,9 @@ public interface ContentsDao {
 	void insertContentsCate();
 	List<ContentsTypeDto> selectContentsType();
 	void insertApiContents(ContentsDto contentsDto);	
+	List<Integer> existContentsList();
 	void insertApiContentsDetail(ContentsDetailDto contentsDetailDto);
+	void updateApiContentsDetail(ContentsDetailDto contentsDetailDto);
 	void insertApiContentsimage(ContentsImageDto contentsImageDto);
 	
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.kitri.hotpicks.contents.dao.ContentsDetailDao">
+ 	
+ 	
+	
+	<select id="selectContents" parameterType="int" resultType="contentsDto">
+	select *
+	from contents
+	where contentsId=#{contentsId}
+	</select>
+	<select id="selectContentsImage" parameterType="int" resultType="contentsImageDto">
+	select *
+	from contentsimage
+	where contentsId=#{contentsId}
+	</select>
+	<select id="selectHashTag" parameterType="int" resultType="hashTagDto">
+	select *
+	from hashtag
+	where contentsId=#{contentsId}
+	</select>
+	
+	<select id="selectContentsDetail" parameterType="int" resultType="contentsDetailDto">
+	select *
+	from contentsdetail
+	where contentsId=#{contentsId}
+	</select>
+	<select id="selectContentsType" parameterType="int" resultType="String">
+	select cc.catname
+	from contentscate cc,contents con
+	where cc.catcode = con.catcode
+	and cc.catid = con.catid
+	and con.contentsid= #{contentsId}
+	</select>
+	<select id="selectpicklistNum" parameterType="int" resultType="int">
+	select count(*)
+	from picklist
+	where contentsid = #{contentsId}
+	</select>
+	<select id="selectreviewNum" parameterType="int" resultType="int">
+	select count(*)
+	from review
+	where contentsid = #{contentsId}
+	</select>
+	
+	
+	
+
+
+ </mapper>

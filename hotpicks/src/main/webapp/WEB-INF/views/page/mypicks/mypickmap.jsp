@@ -200,7 +200,7 @@ getTwitters('twitter', {
 		<a>행사</a>
 	</div>
 	<div>
-		<a href="${root}/mypicklist/list"><img src="${root}/resources/style/images/listpicks.png"></a>
+		<a href="${root}/mypicklist/enter"><img src="${root}/resources/style/images/listpicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
 			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
