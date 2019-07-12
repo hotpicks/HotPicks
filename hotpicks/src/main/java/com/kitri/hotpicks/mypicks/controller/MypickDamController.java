@@ -49,7 +49,7 @@ public class MypickDamController {
 		List<PickListDto> list = mypickDamService.listArticle(map);
 		System.out.println(list);
 		model.addAttribute("articleList", list);
-		
+		System.out.println(list.get(0).getContentsId());
 			path = "mypicks/listresult";
 			
 		}else {

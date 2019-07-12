@@ -10,11 +10,11 @@
 		 	 from pickList pL, contents C
 			 where pL.contentsId=C.contentsId
 			 and pL.wanna = #{a}
-			 and pL.userid = #{userid}) A
+			 and pL.userid = #{userid}) A 
 	</select>
 	
 	<select id="calArticle" parameterType="map" resultType="pickListDto">
-		select  A.userid, A.contentsId,A.wanna, A.title, A.image1,A.catId,A.image2, cd.eventstartdate, cd.eventenddate
+		select  A.userid, A.contentsId,A.wanna, A.title, A.image1,A.catId,A.image2, to_char(to_date(cd.eventstartdate,'yyyy-mm-dd'),'yyyy-mm-dd') eventStartDate,  to_char(to_date(cd.eventenddate,'yyyy-mm-dd'),'yyyy-mm-dd') eventEndDate
 		from(select pL.userid, pL.contentsId,pL.wanna,C.title,C.image1,C.catId,C.image2
 		 	 from pickList pL, contents C
 			 where pL.contentsId=C.contentsId
