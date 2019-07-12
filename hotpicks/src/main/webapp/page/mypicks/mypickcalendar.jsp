@@ -41,10 +41,12 @@
       },
       editable: true,
       eventLimit: true, // allow "more" link when too many events
-      events: [
+      events: [ 
+    	  
         {
           title: 'All Day Event',
-          start: '2019-06-01'
+          start: '2019-06-01',
+          end: '2019-06-20'
         },
         {
           title: 'Long Event',
