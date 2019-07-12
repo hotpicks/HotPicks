@@ -231,9 +231,7 @@ height: auto;
 				         alert("로그인 실패\n" + JSON.stringify(err));
 				      }
 				    });
-				    
-				    
-				    
+				   			    
 			
 				</script>
 
