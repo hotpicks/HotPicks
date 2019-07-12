@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=67cafe381089c40769059fbbedfa054e&libraries=services,clusterer,drawing"></script>
 <style>
 #pick{
 	display: none;
@@ -592,7 +594,7 @@ li.clearfix {
 		</div>
 		<div class="sidebox">
 			<h3>지도</h3>
-			<div style="height: 260px; background-color: lightgray;"></div>
+			<div id="map" style="height: 260px; background-color: lightgray;"></div>
 		</div>
 		<div class="sidebox">
 			<h3>Hash Tags</h3>
@@ -628,5 +630,60 @@ li.clearfix {
 	<!-- 사이드 바 -->
 </div>
 <!-- End Wrapper -->
+<script>
+var position = new kakao.maps.LatLng('${contentsDetailDto.yPoint}', '${contentsDetailDto.xPoint}');
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+mapOption = { 
+    center: position, // 지도의 중심좌표
+    level: 5 // 지도의 확대 레벨
+};
+
+//지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+var imageSrc = '${root}/resources/style/images/marker/done_mark2.png', // 마커이미지의 주소입니다    
+imageSize = new kakao.maps.Size(28, 35), // 마커이미지의 크기입니다
+imageOption = {offset: new kakao.maps.Point(10,45)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+markerPosition = position; // 마커가 표시될 위치입니다
+
+//마커를 생성합니다
+var marker = new kakao.maps.Marker({
+position: markerPosition,
+image: markerImage // 마커이미지 설정 
+});
+
+//마커가 지도 위에 표시되도록 설정합니다
+marker.setMap(map);
+
+$(document).ready(function() {
+	console.log("1");
+	var mousestatus;
+	
+	
+	$('#map').mousedown(function(e) {
+		mousestatus = e.type;
+	console.log("down : "+mousestatus);
+	});
+	$('#map').mouseup(function(e) {
+		mousestatus = e.type;
+	console.log("up : "+mousestatus);
+	});
+	
+	$('#map').mouseleave(function() {
+		if (mousestatus != 'mousedown') {
+			console.log(mousestatus);
+			map.panTo(position);
+			
+			console.log("leave : "+mousestatus);
+		}
+		mousestatus = 'reset';
+	});	
+	 
+	
+})
+
+</script>
 
 <%@ include file = "/WEB-INF/views/page/template/footer.jsp"%>
