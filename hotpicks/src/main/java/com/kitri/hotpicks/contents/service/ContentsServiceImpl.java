@@ -192,7 +192,7 @@ public class ContentsServiceImpl implements ContentsService {
 		int lenCL = contentsIdList.size();
 		int lenDL = detailUrlList.size();
 
-		for (int i = 0; i < lenCL; i++) {
+		for (int i = 820; i < lenCL; i++) {
 			System.out.println("index : " + i);
 			cdtDto = new ContentsDetailDto();
 			cdtDto.setContentsId(contentsIdList.get(i));
@@ -306,7 +306,7 @@ public class ContentsServiceImpl implements ContentsService {
 											? "-1"
 											: naeyongItem.get("infotext").toString().replace("\\", "")));
 
-							System.out.println("con>1 id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString());
+							//System.out.println("con>1 id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString());
 							
 							flag = true;
 							for(int k = 0 ; k<existContents.size() ; k++) {
@@ -687,13 +687,13 @@ public class ContentsServiceImpl implements ContentsService {
 				for(int i=0;i<len;i++) {
 					wordList.add(splitedWord[i]);
 				}
-				System.out.println("before clear"+parameter);
+				//System.out.println("before clear"+parameter);
 				parameter.clear();
-				System.out.println("after clear"+parameter);
+				//System.out.println("after clear"+parameter);
 				
 				parameter.put("wordList", wordList);
 					
-				System.out.println("splitparameter"+parameter.get("wordList"));
+				//System.out.println("splitparameter"+parameter.get("wordList"));
 				return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);
 			
 			
