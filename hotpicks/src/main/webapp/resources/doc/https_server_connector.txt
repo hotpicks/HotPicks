@@ -1,0 +1,10 @@
+<Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+               maxThreads="150" SSLEnabled="true"
+               keystorePass="hotpicks" keystoreFile="C:\Users\Administrator\.keystore"
+               scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS">
+        <!-- <SSLHostConfig>
+            <Certificate certificateKeystoreFile="conf/localhost-rsa.jks"
+                         type="RSA" />
+        </SSLHostConfig> -->
+    </Connector>

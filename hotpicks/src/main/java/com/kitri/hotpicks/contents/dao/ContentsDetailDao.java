@@ -1,6 +1,7 @@
 package com.kitri.hotpicks.contents.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kitri.hotpicks.contents.model.ContentsDetailDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
@@ -16,4 +17,10 @@ public interface ContentsDetailDao {
 	String selectContentsType(int contentsId);
 	int selectpicklistNum(int contentsId);
 	int selectreviewNum(int contentsId);
+	
+	int getPick(Map<String, Object> map);
+
+	int insertPick(Map<String, Object> map);
+
+	int deletePick(Map<String, Object> map);
 }

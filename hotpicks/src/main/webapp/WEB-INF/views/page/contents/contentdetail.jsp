@@ -1,16 +1,73 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp"%>
+<style>
+#pick{
+	display: none;
+}
+#pk.selected #pick{
+	display: inline-block!important;
+}
+#pk.selected #unpick{
+	display: none;
+}
 
+</style>
 <script>
 $(document).ready(function() {
 	//<<start : pick
-	$("#pick").click(function () {
-		var result = confirm("가고싶은곳 확인) , 다녀온곳 취소)");
-		if(result){
-			alert("가고싶은곳에 등록되었습니다.");
-		}else{
-			alert("다녀온곳에 등록되었습니다.")
+	var data =  {
+			"userId" : 'tpgus534@Naver.com',
+			"contentsid" : 1829696
+			};
+	$.ajax({
+		url : '${root}/contents/getpick',
+		type: 'GET',
+		contentType:"application/json;charset=UTF-8",
+		dataType : 'json',
+		data : data,
+		success : function(result){
+			if (result == 1) {
+				$('#pk').toggleClass('selected');
+			}
+		}
+	
+	
+	});
+	
+	
+	$("#pk > img").click(function () {
+		$(this).parent().toggleClass('selected');
+		if ($(this).parent().hasClass('selected') === true){
+			$.ajax({
+				url : '${root}/contents/insertpick',
+				type : 'post',
+				data : data,
+				success : function(result){
+					if (result == 1) {
+						console.log("pick insert : "+result);
+					} else{
+						alert("pick insert : false")
+					}
+					
+					
+				}
+			});
+		} else{
+			console.log(data);
+			$.ajax({
+				url : '${root}/contents/deletepick',
+				type : 'post',
+				data : data,
+				success : function(result){
+					if (result == 1) {
+						console.log("pick delete : "+result);
+					} else{
+						alert("pick delete : false")
+					}
+					
+				}
+			});
 		}
 		
 	});
@@ -382,8 +439,9 @@ li.clearfix {
 			<div style="float: left;">
 				<h1 class="title" style="margin-top: 20px;">${contentsDto.title}</h1>
 			</div>
-			<div style="float: right;">
-				<img id="pick" src="${root}/resources/style/images/heart64.png">
+			<div id="pk" style="float: right;">
+				<img class="" id="pick" src="${root}/resources/style/images/heart64.png">
+				<img class="" id="unpick" src="${root}/resources/style/images/unheart64.png">
 			</div>
 			<div style="clear: both;"></div>
 			<div class="meta">
