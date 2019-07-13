@@ -350,8 +350,8 @@ CREATE TABLE contents (
 	sdCode NUMBER(5), /* 시도코드 */
 	title VARCHAR2(600), /* 제목 */
 	hit NUMBER, /* 조회수 */
-	image1 VARCHAR2(), /* 이미지1 */
-	image2 VARCHAR2(), /* 이미지2 */
+	image1 VARCHAR2(4000), /* 이미지1 */
+	image2 VARCHAR2(4000), /* 이미지2 */
 	updateDate DATE, /* 갱신일자 */
 	isEnd VARCHAR2(3) DEFAULT 1 /* 유효여부 */
 );

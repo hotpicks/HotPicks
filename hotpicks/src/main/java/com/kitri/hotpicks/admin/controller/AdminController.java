@@ -168,7 +168,7 @@ public class AdminController {
 		return "/admin/statvisit";
 	}
 	
-	// 관리자 페이지 - HOME - 회원 선호도 분석 메뉴 - 해시태그 랭킹 목록 세팅
+	// 관리자 페이지 - HOME - 회원 방문 통계 메뉴 이동 - 기간별 방문 그래프 세팅
 	@RequestMapping("/stvisit/{visitType}")
 	public String getVisitStat(@PathVariable("visitType") String visitType,
 							Map<String, String> result,

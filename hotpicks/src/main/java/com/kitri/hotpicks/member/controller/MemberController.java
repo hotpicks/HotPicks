@@ -190,8 +190,10 @@ public class MemberController {
 	
 	// 정보수정 페이지 이동
 	@RequestMapping(value="/modify", method = RequestMethod.GET)
-	public void modify() {
+	public void modify(@ModelAttribute("userInfo") MemberDto memberDto, Model model) {
 		System.out.println("member_c : 정보수정 페이지 이동 메소드 들어옴");
+		
+		model.addAttribute("userInfo", memberDto);
 	}
 	
 	// 정보수정하기
@@ -232,7 +234,6 @@ public class MemberController {
 		}
 		
 		memberService.modify(memberDto);
-		
 		model.addAttribute("userInfo", memberDto);
 		
 		return "member/mypage";
