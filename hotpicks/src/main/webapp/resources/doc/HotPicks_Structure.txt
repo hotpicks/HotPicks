@@ -1,0 +1,214 @@
+Hot Picks 프로젝트 구조
+
+	- pom.xml			
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	
+
+	- [src]
+		- com.kitri.hotpicks.admin.controller
+			AdminController.java
+			VisitCountController.java
+			
+		- com.kitri.hotpicks.admin.dao
+			AdminDao.java (I)
+			VisitCountDao.java (I)
+			
+		- com.kitri.hotpicks.admin.model
+			ReportDto.java
+			VisitCountDto.java
+
+		- com.kitri.hotpicks.admin.service
+			AdminService.java (I)
+			AdminServiceImpl.java
+			VisitCountService.java (I)
+			VisitCountServiceImpl.java
+			
+		------------------------------------------------
+
+		- com.kitri.hotpicks.common.dao
+			CommonDao.java (I)
+		
+		- com.kitri.hotpicks.common.service
+			CommonService.java (I)
+			CommonServiceImpl.java
+
+		------------------------------------------------
+		
+		- com.kitri.hotpicks.contents.controller
+			ContentsController.java
+			ContentsDetailController.java
+			ReviewController.java
+			
+		- com.kitri.hotpicks.contents.dao
+			ContentsDao.java (I)
+			ContentsDetailDao.java (I)
+			ReviewDao.java (I)
+			
+		- com.kitri.hotpicks.contents.model
+			CommentDto.java
+			ContentsDetailDto.java
+			ContentsDto.java
+			ContentsImageDto.java
+			ContentsTypeDto.java
+			HashTagDto.java
+			ReviewDetailDto.java
+			ReviewDto.java
+			SidoDto.java
+			SigunguDto.java
+
+		- com.kitri.hotpicks.contents.service
+			ContentsDetailService.java (I)
+			ContentsDetailServiceImpl.java
+			ContentsService.java (I)
+			ContentsServiceImpl.java
+			ReviewService.java (I)
+			ReviewServiceImpl.java
+			
+		------------------------------------------------
+		
+		- com.kitri.hotpicks.member.controller
+			MemberController.java
+			
+		- com.kitri.hotpicks.member.dao
+			MemberDao.java (I)
+			
+		- com.kitri.hotpicks.member.model
+			MemberDto.java
+
+		- com.kitri.hotpicks.member.service
+			MemberService.java (I)
+			MemberServiceImpl.java
+	
+		------------------------------------------------
+		
+		- com.kitri.hotpicks.mypicks.controller
+			MypickDamController.java
+			MypickMapController.java
+			
+		- com.kitri.hotpicks.mypicks.dao
+			MypickMapDao.java (I)
+			MypicksDamDao.java (I)
+			
+		- com.kitri.hotpicks.mypicks.model
+			MapContentsDto.java
+			PickListDto.java
+			SelectMapContentsDto.java
+
+		- com.kitri.hotpicks.mypicks.service
+			MypickDamService.java (I)
+			MypickDamServiceImpl.java
+			MypickMapService.java (I)
+			MypickMapServiceImpl.java
+		
+		------------------------------------------------
+
+		- com.kitri.hotpicks.util
+			CafeConstance.java				::: HotPicks에서 사용할 상수 (페이지 목록 수 등)
+			NumberCheck.java
+			PageNavigation.java
+			
+			
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	- [webapp] 
+		index.jsp							::: 첫 화면
+		
+		
+		- WEB-INF
+			- mybatis						::: MyBatis DB 설정
+				configuration.xml
+				mapper_admin.xml				::: 관리자 sql문
+				mapper_common.xml				::: 페이징 처리 sql문
+				mapper_contents.xml				::: 컨텐츠 목록 sql문
+				mapper_contentsdetail.xml		::: 컨텐츠 상세 sql문
+				mapper_member.xml				::: 사용자 sql문
+				mapper_mypickdam.xml			::: mypick 목록/달력 sql문
+				mapper_mypickmap.xml			::: mypick 지도 sql문
+				mapper_review.xml				::: 리뷰 sql문
+				mapper_visitcount.xml			::: 방문수 집계 sql문
+		
+			- spring						::: spring 설정
+				- appServlet
+					servlet-context.xml
+				root-context.xml
+				
+			- views 						::: 서블릿을 거쳐야하는 모든 jsp
+				- page
+					- admin						::: 관리자 page
+						- result
+							hresult.jsp				::: 해시태그 랭킹 결과 화면 
+							mresult.jsp				::: 회원 목록 결과 화면
+							rresult.jsp				:::	리뷰 목록 결과 화면
+							vresult.jsp				::: 방문 수 그래프 결과 화면
+						adminheader.jsp
+						adminlogincheck.jsp
+						dbmenu.jsp
+						managemember.jsp
+						managereview.jsp
+						statlike.jsp
+						statvisit.jsp
+						
+					- commons					::: 로그인 체크 등 공통항목
+						logincheck.jsp
+						
+					- contents					::: 컨텐츠/리뷰 page
+						contentdetail.jsp
+						result.jsp
+						writefail.jsp
+						writeok.jsp
+	
+					- member					::: 계정 page
+						join.jsp
+						joinfail.jsp
+						joinok.jsp
+						login.jsp
+						modify.jsp
+						mypage.jsp
+						mypageResult.jsp
+						
+					- mypicks					::: PickList page
+						listresult.jsp
+						mypickcalendar.jsp
+						mypicklist.jsp
+						mypickmap.jsp
+						selectcoutents.jsp
+						
+					- search					::: 전체 검색 page
+						searchresult.jsp
+					
+					- template					::: 템플릿
+						footer.jsp
+						header.jsp
+						logincheck.jsp
+
+
+		- upload							::: 사진 저장 경로
+			- member							::: 회원 프로필 사진
+			- review							::: 리뷰 사진
+			
+			
+		- resources							::: 리소스
+			- doc								::: 프로젝트 관련 문서
+				basicdata_to_insert.txt
+				DB_create_v0.9.sql					::: DB Table 생성문 (SQL파일)
+				DB_create_v0.9.txt					::: DB Table 생성문 (txt파일)
+				DB_ERD_v0.9.exerd					::: DB ERD (exerd파일)
+				DB_ERD_v0.9.PNG						::: DB ERD (PNG파일)
+				https_server_connector.txt
+				memo_tak.txt
+				mypickmap.txt						::: 임시 contents 테이블 생성문 (mypicks-map에서 사용)
+				HotPicks_Structure.txt				::: 프로젝트 구조 설명
+			- style
+				- css
+				- images
+					- sample 					::: ui 구성용 샘플 이미지 파일 저장
+				- js
+				style.css
+
+		
+		- samplepage					::: UI 참고용 page
+		
+						
+		- META-INF
+			context.xml					::: DBCP(DataBase Connection Pool) 환경 설정
