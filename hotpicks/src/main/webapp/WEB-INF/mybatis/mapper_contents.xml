@@ -113,8 +113,8 @@
 				isend = 1
 			WHERE contentsid = #{contentsId}
 		WHEN NOT MATCHED THEN
-		 	INSERT (contentsid, catcode, catid, sggcode, sdcode, title, image1, image2, hit, updatedate, isend, rvcnt)
-		 	VALUES(#{contentsId}, #{catCode}, #{catId}, #{sggCode}, #{sdCode}, #{title}, #{image1}, #{image2}, #{hit}, sysdate, 1, 0)
+		 	INSERT (contentsid, catcode, catid, sggcode, sdcode, title, image1, image2, hit, updatedate, isend)
+		 	VALUES(#{contentsId}, #{catCode}, #{catId}, #{sggCode}, #{sdCode}, #{title}, #{image1}, #{image2}, #{hit}, sysdate, 1)
  	]]>
  	</update>
  	
