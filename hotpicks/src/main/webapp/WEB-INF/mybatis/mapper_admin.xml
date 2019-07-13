@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.kitri.hotpicks.admin.dao.AdminDao">
+ 
+ 	<select id="getAllMembers" resultType="memberDto">
+ 		select userid, pass, name, age, gender, joindate, profile, enable
+		from member
+		order by joindate
+ 	</select>
+
+ 	<select id="getBlockMembers" resultType="memberDto">
+ 		select m.userid, m.pass, m.name, m.age, m.gender, m.joindate, m.profile, enable
+		from member m, blackreview b
+		where m.userid = b.userid
+	 	order by b.reportdate
+ 	</select>
+ 
+ 	<select id="getMemberCount" resultType="map">
+ 		select to_char(sysdate, 'yyyy-mm-dd') statDate,
+ 			   (select count(*) from member where enable=1) mCnt,
+ 			   (select count(*) from member where enable=0) dmCnt
+		from dual
+ 	</select>
+ 	
+ 	<update id="getOutMember" parameterType="map">
+ 			update member
+ 			set enable = 0
+ 			where userid in 
+ 		<foreach collection="userIds" item = "user" open="(" close=")" separator=","> 			
+ 			#{user}
+ 		</foreach>
+ 	</update>
+
+ 	<update id="outCancelMember" parameterType="map">
+ 			update member
+ 			set enable = 1
+ 			where userid in 
+ 		<foreach collection="userIds" item = "user" open="(" close=")" separator=","> 			
+ 			#{user}
+ 		</foreach>
+ 	</update>
+ 	
+ 	
+  	<select id="getAllReviews" resultType="map">
+ 		select r.rseq rseq, r.userid userid, r.subject subject, DBMS_LOB.SUBSTR(r.content, 32000, 1) content, to_char(r.logtime, 'yyyy-mm-dd') logtime, b.reportcontent reportcontent, to_char(b.reportdate, 'yyyy-mm-dd') reportdate
+		from review r left OUTER JOIN blackreview b
+        on r.rseq = b.rseq
+		order by r.logtime desc
+ 	</select>
+
+ 	<select id="getBlockReviews" resultType="map">
+		select r.rseq rseq, r.subject subject, r.userid userid, to_char(r.logtime, 'yyyy-mm-dd') logtime, DBMS_LOB.SUBSTR(r.content, 32000, 1) content, b.reportcontent reportcontent, to_char(b.reportdate, 'yyyy-mm-dd') reportdate
+		from review r, blackreview b
+		where r.userid = b.userid
+		order by b.reportdate
+ 	</select>
+ 
+ 	<select id="getReviewCount" resultType="map">
+		select to_char(sysdate, 'yyyy-mm-dd') statDate,
+  	   		   (select count(*) from review) rCnt,
+ 	   		   (select count(*) from blackreview) drCnt
+		from dual
+ 	</select>
+ 	
+ 	<delete id="deleteReview" parameterType="map">
+ 		delete
+		from review
+		where rseq in
+		<foreach collection="rseqs" item = "rseq" open="(" close=")" separator=","> 			
+ 			#{rseq}
+ 		</foreach> 
+ 	</delete>
+
+ 	<delete id="deleteBReview" parameterType="map">
+ 		delete
+		from blackreview
+		where rseq in
+		<foreach collection="rseqs" item = "rseq" open="(" close=")" separator=","> 			
+ 			#{rseq}
+ 		</foreach> 
+ 	</delete>
+ 	
+ 	<select id="getHashTags" parameterType="string" resultType="map">
+ 		
+ 		<choose>
+ 			<when test="_parameter.equals('일주일')">
+ 				select hh.rank rank, hh.hashtag hashtag, hh.cnt cnt
+				from(select rownum rank, h.hashtag hashtag, h.cnt cnt
+				        from (select hashtag, count(*) cnt
+				                from hashtag
+				                where logTime &gt; sysdate - 7
+				                group by hashtag
+				                order by count(*) desc) h) hh
+				where hh.rank &lt; 11
+ 			</when>
+ 			<when test="_parameter.equals('한달')">
+ 				select hh.rank rank, hh.hashtag hashtag, hh.cnt cnt
+				from(select rownum rank, h.hashtag hashtag, h.cnt cnt
+				        from (select hashtag, count(*) cnt
+				                from hashtag
+				                where logTime &gt; sysdate - 30
+				                group by hashtag
+				                order by count(*) desc) h) hh
+				where hh.rank &lt; 11
+ 			</when>
+ 			<otherwise>
+ 				select hh.rank rank, hh.hashtag hashtag, hh.cnt cnt
+				from(select rownum rank, h.hashtag hashtag, h.cnt cnt
+				        from (select hashtag, count(*) cnt
+				                from hashtag
+				                where logTime &gt; sysdate - (select 
+				                                            case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
+				                                            else 365
+				                                            end
+				                                            from dual)
+				                group by hashtag
+				                order by count(*) desc) h) hh
+				where hh.rank &lt; 11
+ 			</otherwise>
+ 		</choose>
+ 		
+ 	</select>
+ 	
+ 	<select id="getStatDate" resultType="map">
+ 		select to_char(sysdate, 'yyyy.mm.dd') today, to_char((sysdate-6), 'yyyy.mm.dd') weekDate, to_char((sysdate-30), 'yyyy.mm.dd') monthDate,
+				to_char((sysdate-(select 
+				                        case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
+				                        else 365
+				                        end
+				                        from dual)
+				     ), 'yyyy.mm.dd') yearDate
+				from dual
+ 	</select>
+ 	
+ 	<select id="getrCateStat" resultType="map">
+ 		select r.catid catid, round(RATIO_TO_REPORT(r.rcnt)OVER(PARTITION BY r.allcnt)*100) per 
+		from (select c.catid catid, count(r.subject) rcnt, (select count(*) from review) allcnt
+		        from review r, contents c
+		        where r.contentsid = c.contentsid
+		        group by c.catid) r
+		order by r.catid
+ 	</select>
+ 	
+ 	<select id="getpCateStat" resultType="map">
+ 		select p.catid catid, round(RATIO_TO_REPORT(p.pcnt)OVER(PARTITION BY p.allcnt)*100) per 
+		from (select c.catid, count(p.contentsid) pcnt, (select count(*) from picklist) allcnt
+		        from picklist p, contents c
+		        where p.contentsid = c.contentsid
+		        group by c.catid) p
+		order by p.catid
+ 	</select>
+
+	<select id="getTodayVisit" resultType="map">
+		select to_char(statdate,'yyyy-mm-dd') statdate, visitcount, visitorcount,
+		        (select count(*)
+		         from member
+		         where to_char(joindate, 'yyyymmdd') = to_char(sysdate, 'yyyymmdd')) todaynewmember
+		from visitcount
+		where to_char(statdate,'yyyymmdd') = to_char(sysdate,'yyyymmdd')
+	</select>
+	
+	<select id="getVisitStat" parameterType="string" resultType="map">
+		<choose>
+ 			<when test="_parameter.equals('일주일')">
+ 				select to_char(statdate, 'yy-mm-dd') statdate, visitcount visitcnt , visitorcount visitorcnt
+				from visitcount
+				where statdate &gt; sysdate - 7
+				order by statdate
+ 			</when>
+ 			<when test="_parameter.equals('한달')">
+ 				select to_char(statdate, 'yy-mm-dd') statdate, visitcount visitcnt , visitorcount visitorcnt
+				from visitcount
+				where statdate &gt; sysdate - 29
+				order by statdate
+ 			</when>
+ 			<otherwise>
+ 				select to_char(statdate, 'yy-mm') statdate, sum(visitcount) visitcnt, sum(visitorcount) visitorcnt
+				from visitcount
+				where statdate &gt;= sysdate - (select case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
+				                                        else 365
+				                                   end
+				                            from dual)
+				group by statdate
+				order by statdate
+ 			</otherwise>
+ 		</choose>
+	</select>
+ 	<select id="getContents" parameterType="int" resultType="contentsDetailDto">
+	 		select c.* 
+	 		from (select rownum r, total.*
+			 		from (select c.contentsid , c.catid , c.title, c.hit, c.updatedate, d.eventenddate, c.isend
+				 		from contents c, contentsdetail d
+				 		where c.contentsid = d.contentsid
+				 		order by contentsid desc) total
+				 	where rownum  &lt; #{page}*15) c
+			where c.r  &gt;= #{page}*15 - 14
+ 	</select>
+ </mapper>

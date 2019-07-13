@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 
 <link href='${root}/resources/packages/core/main.css' rel='stylesheet' />
@@ -14,9 +13,24 @@
 <script src='${root}/resources/packages/timegrid/main.js'></script>
 <script>
 
+	var eventList = [];
+	
+	<c:forEach var="article" items="${articleCal}">
+		var events = {};
+		events.title = "${article.title}";
+		events.start = "${article.eventStartDate}";
+		events.end = "${article.eventEndDate}";
+		
+		eventList.push(events);
+
+	</c:forEach>
+
+	console.log(eventList);
+	   
+	   
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-
+    
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
       header: {
@@ -41,64 +55,11 @@
         calendar.unselect()
       },
       editable: true,
-      eventLimit: true, // allow "more" link when too many events
-      events: [
-        {
-          title: '${article.title}',
-          start: '${article.eventStartDate}',
-          end: '${article.eventEndDate}'
-        },
-        {
-          title: 'Long Event',
-          start: '2019-06-07',
-          end: '2019-06-10'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2019-06-09T16:00:00'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2019-06-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2019-06-11',
-          end: '2019-06-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2019-06-12T10:30:00',
-          end: '2019-06-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2019-06-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2019-06-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2019-06-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2019-06-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2019-06-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2019-06-28'
-        }
-      ]
+      eventLimit: true,
+      
+
+      events: eventList
+      
     });
 
     calendar.render();
@@ -115,7 +76,7 @@
 		<a>행사</a>
 	</div>
 	<div>
-			<a href="${root}/mypicklist/list"><img src="${root}/resources/style/images/listpicks.png"></a>
+			<a href="${root}/mypicklist/enter"><img src="${root}/resources/style/images/listpicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
 			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">

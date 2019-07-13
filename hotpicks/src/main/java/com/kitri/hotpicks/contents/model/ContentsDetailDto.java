@@ -25,9 +25,8 @@ public class ContentsDetailDto extends ContentsDto {
 	private String placeInfo;
 	
 	
-	private String infoName;
-	private String infoText;
-	
+	private String infoSogae;
+	private String infoNaeyong;
 	public String getHomePage() {
 		return homePage;
 	}
@@ -136,17 +135,17 @@ public class ContentsDetailDto extends ContentsDto {
 	public void setPlaceInfo(String placeInfo) {
 		this.placeInfo = placeInfo;
 	}
-	public String getInfoName() {
-		return infoName;
+	public String getInfoSogae() {
+		return infoSogae;
 	}
-	public void setInfoName(String infoName) {
-		this.infoName = infoName;
+	public void setInfoSogae(String infoSogae) {
+		this.infoSogae = infoSogae;
 	}
-	public String getInfoText() {
-		return infoText;
+	public String getInfoNaeyong() {
+		return infoNaeyong;
 	}
-	public void setInfoText(String infoText) {
-		this.infoText = infoText;
+	public void setInfoNaeyong(String infoNaeyong) {
+		this.infoNaeyong = infoNaeyong;
 	}
 	@Override
 	public String toString() {
@@ -155,9 +154,10 @@ public class ContentsDetailDto extends ContentsDto {
 				+ ", program=" + program + ", usetime=" + usetime + ", eventStartDate=" + eventStartDate
 				+ ", eventEndDate=" + eventEndDate + ", playtime=" + playtime + ", spendtime=" + spendtime
 				+ ", ageLimit=" + ageLimit + ", bookingPlace=" + bookingPlace + ", discountInfo=" + discountInfo
-				+ ", placeInfo=" + placeInfo + ", infoName=" + infoName + ", infoText=" + infoText + "]";
+				+ ", placeInfo=" + placeInfo + ", infoSogae=" + infoSogae + ", infoNaeyong=" + infoNaeyong + "]";
 	}
-
+	
+	
 	
 	
 

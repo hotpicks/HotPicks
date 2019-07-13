@@ -200,7 +200,7 @@ getTwitters('twitter', {
 		<a>행사</a>
 	</div>
 	<div>
-		<a href="${root}/mypicklist/list"><img src="${root}/resources/style/images/listpicks.png"></a>
+		<a href="${root}/mypicklist/enter"><img src="${root}/resources/style/images/listpicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
 			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
 			<img src="${root}/resources/style/images/blank.png">
@@ -284,18 +284,16 @@ getTwitters('twitter', {
 		/* selectDistance(user_x,user_y); */
 		//selectedRangeContents(user_x, user_y); 
 		console.log(user_x + " "+ user_y);
-		searchDetailAddrFromCoords(new daum.maps.LatLng(user_x, user_y), function(result, status) {
+		/* searchDetailAddrFromCoords(new daum.maps.LatLng(user_x, user_y), function(result, status) {
 			if (status === daum.maps.services.Status.OK) {
 				var detailAddr = !!result[0].road_address ? '<div style="font-size:12px; color:gray;">'
 						+ result[0].road_address.address_name + '(도로명주소)</div>' : '<div style="font-size:12px; color:gray;">' + result[0].address.address_name
 						+ '</div>';
-				/* detailAddr += '<div>' + result[0].address.address_name
-						+ '</div>'; */
+				
 				var content = '<div class="bAddr"><' + detailAddr + '</div>';
 				document.getElementById('clickAddrDetail').innerHTML = detailAddr;
-				/* selectDistanceLesson(marker); */
 			}
-		});
+		}); */
 	}
 	var arr = [];
 	var allMarkers= [];

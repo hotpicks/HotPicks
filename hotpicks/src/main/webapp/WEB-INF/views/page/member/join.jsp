@@ -207,7 +207,7 @@ height: 30px;
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
               	<img id="profileImg" alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
-              	<input type="file" id="profileBtn" name="profile_file" style="width:200px; background-color: white"/>
+              	<input type="file" id="profileBtn" name="profile_file" style="width:200px; height:40px; background-color: white"/>
               </div>
               </p>
               <br><br>
@@ -247,12 +247,13 @@ height: 30px;
                 <!-- ******** age ******** -->
                 <input class="required inpt" type="text" name="age" id="age" value="" placeholder="나이를 입력해주세요."/>
               </p>
+              <div style="clear:both;"></div>
               <p>
                 <label>성별</label>
                 <br />
                 <!-- ******** gender ******** -->
-                	여성<input type="radio" name="gender" value="여" checked>
-					<div style="display:inline-none;">남성<input type="radio" name="gender" value="남"></div>
+                	여성<input type="radio" name="gender" value="여" checked="checked">
+					남성<input type="radio" name="gender" value="남">
               </p>
              
 	        <div class="divider"></div>

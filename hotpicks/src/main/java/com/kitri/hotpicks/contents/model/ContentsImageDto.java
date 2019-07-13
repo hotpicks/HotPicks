@@ -1,15 +1,15 @@
 package com.kitri.hotpicks.contents.model;
 
 public class ContentsImageDto {
-	private String contentsId;
+	private int contentsId;
 	private String imgName;
 	private String originImgurl;
 	private String serialNum;
 	private String smallImageUrl;
-	public String getContentsId() {
+	public int getContentsId() {
 		return contentsId;
 	}
-	public void setContentsId(String contentsId) {
+	public void setContentsId(int contentsId) {
 		this.contentsId = contentsId;
 	}
 	public String getImgName() {
@@ -41,7 +41,7 @@ public class ContentsImageDto {
 		return "ContentsImageDto [contentsId=" + contentsId + ", imgName=" + imgName + ", originImgurl=" + originImgurl
 				+ ", serialNum=" + serialNum + ", smallImageUrl=" + smallImageUrl + "]";
 	}
-	
+
 	
 	
 }

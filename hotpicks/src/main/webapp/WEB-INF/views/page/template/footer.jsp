@@ -3,18 +3,34 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- End Wrapper -->
+<style>
+body {
+
+    min-height: 100%;
+
+}
+#footer {
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:#ccc;
+    height: 45px;
+}
+</style>
 <div class="clearfix"></div>
 <div class="push"></div>
 </div>
 
 <!-- Begin Footer -->
-<div id="footer-wrapper">
+<div id="footer-wrapper" class="sh">
   <div id="footer">
     <div id="footer-content"> 
       
       <!-- Begin Copyright -->
       <div id="copyright">
-        <p>© Copyright 2011 Delphic | Team3 - Web Application Project 'Hot Picks'</p>
+        <p style="float:left;">© Copyright 2011 Delphic | Team3 - Web Application Project 'Hot Picks'</p>
+         <button id="locationInsert">LoactionInsert</button>
+         <button id="contentsInsert">ContentsInsert</button>
       </div>
       <!-- End Copyright --> 
       

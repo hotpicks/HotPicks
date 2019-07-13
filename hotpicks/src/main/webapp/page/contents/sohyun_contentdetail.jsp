@@ -129,13 +129,13 @@
     <div id="sidebar">
       <div class="sidebox">
         <h3>다른 사진들</h3>
-        <ul class="flickr">
-          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-1.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-2.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-3.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-4.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-5.jpg" alt="" /></a></li>
-          <li><a href="#"><img src="${root}/resources/style/images/art/flickr-6.jpg" alt="" /></a></li>
+        <ul class="flickr" style="width:240px;">
+          <li style="width: 70px;height: 70px;"><a href="#"><img src="${root}/resources/style/images/art/flickr-1.jpg" alt="" height="70px" width="70px"/></a></li>
+          <li style="width: 70px;height: 70px;"><a href="#"><img src="${root}/resources/style/images/art/flickr-2.jpg" alt="" height="70px" width="70px"/></a></li>
+          <li style="width: 70px;height: 70px;"><a href="#"><img src="${root}/resources/style/images/art/flickr-3.jpg" alt="" height="70px" width="70px"/></a></li>
+          <li style="width: 70px;height: 70px;"><a href="#"><img src="${root}/resources/style/images/art/flickr-4.jpg" alt="" height="70px" width="70px"/></a></li>
+          <li style="width: 70px;height: 70px;"><a href="#"><img src="${root}/resources/style/images/art/flickr-5.jpg" alt="" height="70px" width="70px"/></a></li>
+          <li style="width: 70px;height: 70px;"><a href="#"><img src="${root}/resources/style/images/art/flickr-6.jpg" alt="" height="70px" width="70px"/></a></li>
         </ul>
       </div>
       <div class="sidebox">

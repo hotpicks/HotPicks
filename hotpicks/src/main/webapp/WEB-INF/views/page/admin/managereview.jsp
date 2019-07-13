@@ -5,8 +5,19 @@
 <script>
 $(function(){
 		
-	/* 전체 선택 및 해제 이벤트 */
-	$(".allch").click(function(){
+	
+	// 게시글 관리 접속 시, 기본 전체 리뷰 목록을 불러옴
+	var selected = $("#reviewType").val();
+	getReview(selected);
+	
+	// 리뷰 분류 선택 이벤트
+	// : 셀렉트 박스 변경 시마다, 맞는 회원 목록을 불러옴
+	$("#reviewType").change(function() {
+		getReview($(this).val());
+	});
+	
+	// 리뷰 전체 선택 및 해제 이벤트
+	$(".allch").live("click",function(){
 		var checked = $(this).is(":checked");
 		if(checked){
 			$(".ch").attr("checked", true);
@@ -14,7 +25,59 @@ $(function(){
 			$(".ch").attr("checked", false);			
 		}
 	});
-
+	
+	// 리뷰 삭제 버튼 클릭 이벤트
+	   $("#deleteBtn").live("click",function(){
+		  
+		   var result = confirm('정말 삭제하시겠습니까?');
+		   
+		   if(result){
+		   
+			      var checkedMember = $("input[name=ch]:checked");
+			      var rseqArr = new Array();
+			      
+			      var tr =checkedMember.parent().parent();
+			      
+			      for(var i = 0; i < tr.length; i++){
+			    	  	rseqArr.push(tr.eq(i).children().eq(2).val());
+			         }
+			      			      
+			      // ajax로 array배열을 넘기기 위한 세팅
+			      jQuery.ajaxSettings.traditional = true;
+			      	      
+			       $.ajax({
+			  		type : 'POST',
+			  		url : '${root}/admin/deletereview',
+			  		data : { 
+			  				'rseqs' : rseqArr
+			  				} ,
+			  		success : function(result){
+			  			var selected = $("#reviewType").val();
+			  			getReview(selected);
+			  		}
+			  	}); 
+		   } else{
+			   var checkedMember = $("input[name=ch]:checked");
+			   checkedMember.attr("checked", "");
+		   }
+	      
+	});
+	
+// 리뷰 분류에 따른 리뷰 목록 불러오기 메소드
+function getReview(selected){
+	$.ajax({
+		type : 'GET',
+		url : '${root}/admin/mgreview/' + selected,
+		success : function(result){
+			$("#reviewList").html(result);
+			
+  			// 전체 리뷰 수 변화 반영
+  			$("#rcnt").text($("#rCnt").val());
+  			// 신고 리뷰 수 변화 반영
+  			$("#drcnt").text($("#drCnt").val());
+		}
+	});
+}
 	
 });
 </script>
@@ -46,9 +109,9 @@ $(function(){
           		<td>신고 리뷰 수</td>
           	</tr>
           	<tr align="center" id="membercnt">
-          		<td style="vertical-align: middle;">2019.06.28</td>
-          		<td style="vertical-align: middle;">500</td>
-          		<td style="vertical-align: middle;">3</td>
+          		<td style="vertical-align: middle;">${reviewCount.STATDATE}</td>
+          		<td id="rcnt" style="vertical-align: middle;">${reviewCount.RCNT}</td>
+          		<td id="drcnt" style="vertical-align: middle; color:tomato;">${reviewCount.DRCNT}</td>
           	</tr>
           </table>
           
@@ -61,113 +124,16 @@ $(function(){
           
           
           <!-- ********** 신고 게시글 관리 테이블 ********** -->
-          	<a href="#" class="button red btns" style="margin-right:30px; font-weight: 700;">리뷰삭제<span></span></a>
-          	<select>
-          		<option>전체 리뷰</option>
-          		<option>신고 리뷰</option>
+          	<a id="deleteBtn" class="button red btns" style="margin-right:30px; font-weight: 700;">리뷰삭제<span></span></a>
+          	<select id="reviewType">
+          		<option value="전체리뷰">전체 리뷰</option>
+          		<option value="신고리뷰">신고 리뷰</option>
           	</select>
           	<div class="clear"></div>
  
-          <div style="float:none; height: 850px; overflow-y:auto">
+          <div id="reviewList" style="float:none; height: 600px; overflow-y:auto">
           
-          <p class="list">
-          	
-          	<table>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="allch">
-          			</td>
-          			<td>no</td>
-          			<td>제목</td>
-          			<td>작성자 id</td>
-          			<td>작성일</td>
-          			<td>내용</td>
-          			<td>신고내용</td>
-          			<td>신고일자</td>
-          			<td>조회수</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>1</td>
-          			<td>리뷰 제목</td>
-          			<td>작성자 id</td>
-          			<td>2019.06.29</td>
-          			<td>랄라라</td>
-          			<td>컨텐츠와 관련 없는 내용</td>
-          			<td>2019.07.02</td>
-          			<td>9</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>2</td>
-          			<td>리뷰 제목</td>
-          			<td>작성자 id</td>
-          			<td>2019.06.29</td>
-          			<td>랄라라</td>
-          			<td>컨텐츠와 관련 없는 내용</td>
-          			<td>2019.07.02</td>
-          			<td>9</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>3</td>
-          			<td>리뷰 제목</td>
-          			<td>작성자 id</td>
-          			<td>2019.06.29</td>
-          			<td>@#$%!@$$</td>
-          			<td>부적절한 내용</td>
-          			<td>2019.07.02</td>
-          			<td>9</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>4</td>
-          			<td>리뷰 제목</td>
-          			<td>작성자 id</td>
-          			<td>2019.06.29</td>
-          			<td>랄라라</td>
-          			<td>컨텐츠와 관련 없는 내용</td>
-          			<td>2019.07.02</td>
-          			<td>9</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>5</td>
-          			<td>리뷰 제목</td>
-          			<td>작성자 id</td>
-          			<td>2019.06.29</td>
-          			<td>랄라라</td>
-          			<td>컨텐츠와 관련 없는 내용</td>
-          			<td>2019.07.02</td>
-          			<td>9</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>6</td>
-          			<td>리뷰 제목</td>
-          			<td>작성자 id</td>
-          			<td>2019.06.29</td>
-          			<td>랄라라</td>
-          			<td>컨텐츠와 관련 없는 내용</td>
-          			<td>2019.07.02</td>
-          			<td>9</td>
-          		</tr>
- 
-          	</table>
-			          
-           </p>
+          		<!-- 동적 페이지 구성 부분 -->
            
            </div>
           

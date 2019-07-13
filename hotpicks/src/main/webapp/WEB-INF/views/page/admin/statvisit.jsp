@@ -5,19 +5,35 @@
 <script>
 
 $(function(){
-		
-	/* 전체 선택 및 해제 이벤트 */
-	$(".allch").click(function(){
-		var checked = $(this).is(":checked");
-		if(checked){
-			$(".ch").attr("checked", true);
-		}else{
-			$(".ch").attr("checked", false);			
-		}
-	});
 
+	// 방문 통계 접속 시, 기본 방문 통계 목록을 불러옴
+	var selected = $("#visitType").val();
+	getVisit(selected);
+	
+	// 기간 분류 선택 이벤트
+	// : 셀렉트 박스 변경 시마다, 맞는 방문 통계 목록을 불러옴
+	$("#visitType").live("change", function() {
+		getVisit($(this).val());
+	});
+	
+	
+	
+	
+	
 	
 });
+
+//기간분류에 따른 방문 통계 목록목록 불러오기 메소드
+function getVisit(selected){
+	$.ajax({
+		type : 'GET',
+		url : '${root}/admin/stvisit/' + selected,
+		success : function(result){
+			$("#visitChartSpace").html(result);
+
+		}
+	});
+}
 
 </script>
 
@@ -45,12 +61,21 @@ $(function(){
           	<tr align="center">
           		<td>집계일자</td>
           		<td>방문 수</td>
+          		<td>방문자 수</td>
           		<td>새 가입자 수</td>
           	</tr>
           	<tr align="center" id="membercnt">
-          		<td>2019.06.28</td>
-          		<td>50</td>
-          		<td>3</td>
+          		<td>${statDate.TODAY}</td>
+<c:if test="${todayVisit==null}">
+          		<td>0</td>
+          		<td>0</td>
+          		<td>0</td>
+</c:if>
+<c:if test="${todayVisit!=null}">
+          		<td>${todayVisit.VISITCOUNT}</td>
+          		<td>${todayVisit.VISITORCOUNT}</td>
+          		<td>${todayVisit.TODAYNEWMEMBER}</td>
+</c:if>
           	</tr>
           </table>
           
@@ -59,50 +84,21 @@ $(function(){
           
           <!-- ********** 방문자 현황 그래프 ********** -->
           <p>
-        	<select style="width:300px;">
-          		<option>2019.06.22 - 2019.06.28 (최근 1주)</option>
-          		<option>2019.05.28 - 2019.06.28 (최근 1개월)</option>
-          		<option>2018.06.28 - 2019.06.28 (최근 1년)</option>
+        	<select id="visitType" style="width:300px;">
+          		<option value="일주일">${statDate.WEEKDATE} - ${statDate.TODAY} (최근 1주)</option>
+        			 <option value="한달">${statDate.MONTHDATE} - ${statDate.TODAY} (최근 1개월)</option>
+        			 <option value="일년">${statDate.YEARDATE} - ${statDate.TODAY} (최근 1년)</option>
           	</select>
           	<div class="clear"></div>
-        	방문 그래프 띄우기
           </p>
-          <canvas id="chart" width="490" height="320" class="chartjs-render-monitor" style="display: block; height: 256px; width: 392px;"></canvas>
-<script>
-var data
-= {
-	"labels":["06.22","06.23","06.24","06.25","06.26","06.27","06.28"],
-	"datasets":[
-				{
-					"label":"방문 수",
-					"data":[30,31,40,29,50,58,60],
-					"fill":true,
-					"borderColor":"rgb(75, 192, 192)",
-					"lineTension":0.1
-				}
-				]
-	};
-
-var options
-= {
-	scales : {
-		yAxes: [{
-			ticks: {
-				beginAtZero : true,
-				showLabelBackdrop : true,
-				max : 100
-			}
-		}]
-	}
-  };
-		
-var ctx = $("#chart");
-var myChart = new Chart(ctx, {
-	 type: 'line',
-	 data: data,
-	 options: options
-});
-</script>
+          
+          <div id="visitChartSpace">
+          
+          <!-- 동적 페이지 구성 부분 -->
+          
+          </div>
+          
+          
 
          </div>
       <!-- ***************************** [ tab 4 끝 ] ****************************** -->

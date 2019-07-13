@@ -1,4 +1,4 @@
-﻿ALTER TABLE review
+ALTER TABLE review
 	DROP
 		CONSTRAINT FK_member_TO_review
 		CASCADE;
@@ -21,11 +21,6 @@ ALTER TABLE pickList
 ALTER TABLE pickList
 	DROP
 		CONSTRAINT FK_contents_TO_pickList
-		CASCADE;
-
-ALTER TABLE contents
-	DROP
-		CONSTRAINT FK_sido_TO_contents
 		CASCADE;
 
 ALTER TABLE contents
@@ -58,6 +53,11 @@ ALTER TABLE contentsDetail
 		CONSTRAINT FK_contents_TO_contentsDetail
 		CASCADE;
 
+ALTER TABLE contentsImage
+	DROP
+		CONSTRAINT FK_contents_TO_contentsImage
+		CASCADE;
+
 ALTER TABLE member
 	DROP
 		PRIMARY KEY
@@ -82,12 +82,6 @@ ALTER TABLE contentsCate
 		CASCADE
 		KEEP INDEX;
 
-ALTER TABLE pickList
-	DROP
-		PRIMARY KEY
-		CASCADE
-		KEEP INDEX;
-
 ALTER TABLE contents
 	DROP
 		PRIMARY KEY
@@ -107,6 +101,18 @@ ALTER TABLE sigungu
 		KEEP INDEX;
 
 ALTER TABLE contentsDetail
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE contentsImage
+	DROP
+		PRIMARY KEY
+		CASCADE
+		KEEP INDEX;
+
+ALTER TABLE visitCount
 	DROP
 		PRIMARY KEY
 		CASCADE
@@ -155,13 +161,14 @@ DROP TABLE sigungu
 /* contents_detail */
 DROP TABLE contentsDetail 
 	CASCADE CONSTRAINTS;
-    
-	/* sequence1 */
-DROP SEQUENCE seq;
 
-/* sequence1 */
-CREATE SEQUENCE seq
-	start with 100;    
+/* 컨텐츠이미지 */
+DROP TABLE contentsImage 
+	CASCADE CONSTRAINTS;
+
+/* 방문 */
+DROP TABLE visitCount 
+	CASCADE CONSTRAINTS;
 
 /* 회원 */
 CREATE TABLE member (
@@ -203,25 +210,32 @@ ALTER TABLE member
 /* 해시테그 */
 CREATE TABLE hashTag (
 	hashTag VARCHAR2(100) NOT NULL, /* 태그이름 */
-	tagCount NUMBER /* 사용횟수 */
+	rseq NUMBER(12) NOT NULL, /* 리뷰글번호 */
+	contentsId NUMBER(12), /* 컨텐츠아이디 */
+	logTime DATE /* 사용날짜 */
 );
 
 COMMENT ON TABLE hashTag IS '해시테그';
 
 COMMENT ON COLUMN hashTag.hashTag IS '태그이름';
 
-COMMENT ON COLUMN hashTag.tagCount IS '사용횟수';
+COMMENT ON COLUMN hashTag.rseq IS '리뷰글번호';
+
+COMMENT ON COLUMN hashTag.contentsId IS '컨텐츠아이디';
+
+COMMENT ON COLUMN hashTag.logTime IS '사용날짜';
 
 ALTER TABLE hashTag
 	ADD
 		CONSTRAINT PK_hashTag
 		PRIMARY KEY (
-			hashTag
+			hashTag,
+			rseq
 		);
 
 /* 리뷰 */
 CREATE TABLE review (
-	seq NUMBER NOT NULL, /* 글번호 */
+	rseq NUMBER NOT NULL, /* 리뷰글번호 */
 	userId VARCHAR2(100), /* 회원아이디 */
 	contentsId NUMBER(12), /* 컨텐츠아이디 */
 	hashTag VARCHAR2(4000), /* 태그이름 */
@@ -236,7 +250,7 @@ CREATE TABLE review (
 
 COMMENT ON TABLE review IS '리뷰';
 
-COMMENT ON COLUMN review.seq IS '글번호';
+COMMENT ON COLUMN review.rseq IS '리뷰글번호';
 
 COMMENT ON COLUMN review.userId IS '회원아이디';
 
@@ -262,7 +276,7 @@ ALTER TABLE review
 	ADD
 		CONSTRAINT PK_review
 		PRIMARY KEY (
-			seq
+			rseq
 		);
 
 /* 카테고리 */
@@ -293,7 +307,7 @@ ALTER TABLE contentsCate
 
 /* 댓글 */
 CREATE TABLE comments (
-	seq NUMBER NOT NULL, /* 글번호 */
+	rceq NUMBER NOT NULL, /* 리뷰글번호 */
 	logId VARCHAR2(40), /* 작성자아이디 */
 	logTime DATE, /* 작성시간 */
 	content VARCHAR2(200) /* 글내용 */
@@ -301,7 +315,7 @@ CREATE TABLE comments (
 
 COMMENT ON TABLE comments IS '댓글';
 
-COMMENT ON COLUMN comments.seq IS '글번호';
+COMMENT ON COLUMN comments.rceq IS '리뷰글번호';
 
 COMMENT ON COLUMN comments.logId IS '작성자아이디';
 
@@ -311,28 +325,21 @@ COMMENT ON COLUMN comments.content IS '글내용';
 
 /* pickList */
 CREATE TABLE pickList (
-	seq NUMBER NOT NULL, /* 글번호 */
+	contentsId NUMBER(12) NOT NULL, /* 아이디 */
 	userId VARCHAR2(100), /* 회원아이디 */
-	contentsId NUMBER(12), /* 아이디 */
-	wanna NUMBER /* 가보고싶은곳/다녀온곳 */
+	wanna NUMBER, /* 가보고싶은곳/다녀온곳 */
+	distence NUMBER /* 거리계산용 */
 );
 
 COMMENT ON TABLE pickList IS 'pickList';
 
-COMMENT ON COLUMN pickList.seq IS '글번호';
+COMMENT ON COLUMN pickList.contentsId IS '아이디';
 
 COMMENT ON COLUMN pickList.userId IS '회원아이디';
 
-COMMENT ON COLUMN pickList.contentsId IS '아이디';
-
 COMMENT ON COLUMN pickList.wanna IS '가보고싶은곳/다녀온곳';
 
-ALTER TABLE pickList
-	ADD
-		CONSTRAINT PK_pickList
-		PRIMARY KEY (
-			seq
-		);
+COMMENT ON COLUMN pickList.distence IS '거리계산용';
 
 /* 컨텐츠 */
 CREATE TABLE contents (
@@ -341,10 +348,12 @@ CREATE TABLE contents (
 	catId NUMBER, /* 카테고리id */
 	sggCode NUMBER(5), /* 시군구코드 */
 	sdCode NUMBER(5), /* 시도코드 */
-	title VARCHAR(600), /* 제목 */
+	title VARCHAR2(600), /* 제목 */
 	hit NUMBER, /* 조회수 */
-	image1 CLOB, /* 이미지1 */
-	image2 CLOB /* 이미지2 */
+	image1 VARCHAR2(), /* 이미지1 */
+	image2 VARCHAR2(), /* 이미지2 */
+	updateDate DATE, /* 갱신일자 */
+	isEnd VARCHAR2(3) DEFAULT 1 /* 유효여부 */
 );
 
 COMMENT ON TABLE contents IS '컨텐츠';
@@ -367,6 +376,10 @@ COMMENT ON COLUMN contents.image1 IS '이미지1';
 
 COMMENT ON COLUMN contents.image2 IS '이미지2';
 
+COMMENT ON COLUMN contents.updateDate IS '갱신일자';
+
+COMMENT ON COLUMN contents.isEnd IS '유효여부';
+
 ALTER TABLE contents
 	ADD
 		CONSTRAINT PK_contents
@@ -376,7 +389,7 @@ ALTER TABLE contents
 
 /* 신고내역 */
 CREATE TABLE blackreview (
-	seq NUMBER NOT NULL, /* 글번호 */
+	rseq NUMBER NOT NULL, /* 리뷰글번호 */
 	userId VARCHAR2(100), /* 회원아이디 */
 	reportContent VARCHAR2(200), /* 신고내용 */
 	reportDate DATE /* 신고일자 */
@@ -384,7 +397,7 @@ CREATE TABLE blackreview (
 
 COMMENT ON TABLE blackreview IS '신고내역';
 
-COMMENT ON COLUMN blackreview.seq IS '글번호';
+COMMENT ON COLUMN blackreview.rseq IS '리뷰글번호';
 
 COMMENT ON COLUMN blackreview.userId IS '회원아이디';
 
@@ -437,26 +450,26 @@ ALTER TABLE sigungu
 /* contents_detail */
 CREATE TABLE contentsDetail (
 	contentsId NUMBER(12) NOT NULL, /* 아이디 */
-	homePage VARCHAR(4000), /* 홈페이지 */
-	telName VARCHAR(1000), /* 주최자 명 */
-	tel VARCHAR(300), /* 주최자 전화번호 */
+	homePage VARCHAR2(4000), /* 홈페이지 */
+	telName VARCHAR2(1000), /* 주최자 명 */
+	tel VARCHAR2(300), /* 주최자 전화번호 */
 	playTime CLOB, /* 공연시간 */
 	program CLOB, /* 행사프로그램 */
 	useTime CLOB, /* 이용요금 */
 	spendTime CLOB, /* 관람소요시간 */
-	ageLimit VARCHAR(2000), /* 관람가능연령 */
+	ageLimit VARCHAR2(2000), /* 관람가능연령 */
 	bookingPlace CLOB, /* 예매처 */
 	discountInfo CLOB, /* 할인정보 */
 	placeInfo CLOB, /* 행사장위치안내 */
-	infoName CLOB, /* 행사소개 */
-	infoText CLOB, /* 행사내용 */
+	infoSogae CLOB, /* 행사소개 */
+	infoNaeyong CLOB, /* 행사내용 */
 	eventStartDate NUMBER(8), /* 행사시작일 */
 	eventEndDate NUMBER(8), /* 행사종료일 */
 	xPoint NUMBER, /* x좌표 */
 	yPoint NUMBER, /* y좌표 */
-	zipCode NUMBER(12), /* 우편번호 */
-	addr1 VARCHAR(400), /* 주소 */
-	addr2 VARCHAR(400) /* 상세주소 */
+	zipCode VARCHAR2(20), /* 우편번호 */
+	addr1 VARCHAR2(400), /* 주소 */
+	addr2 VARCHAR2(400) /* 상세주소 */
 );
 
 COMMENT ON TABLE contentsDetail IS 'contents_detail';
@@ -485,9 +498,9 @@ COMMENT ON COLUMN contentsDetail.discountInfo IS '할인정보';
 
 COMMENT ON COLUMN contentsDetail.placeInfo IS '행사장위치안내';
 
-COMMENT ON COLUMN contentsDetail.infoName IS '행사소개';
+COMMENT ON COLUMN contentsDetail.infoSogae IS '행사소개';
 
-COMMENT ON COLUMN contentsDetail.infoText IS '행사내용';
+COMMENT ON COLUMN contentsDetail.infoNaeyong IS '행사내용';
 
 COMMENT ON COLUMN contentsDetail.eventStartDate IS '행사시작일';
 
@@ -508,6 +521,57 @@ ALTER TABLE contentsDetail
 		CONSTRAINT PK_contentsDetail
 		PRIMARY KEY (
 			contentsId
+		);
+
+/* 컨텐츠이미지 */
+CREATE TABLE contentsImage (
+	contentsId NUMBER(12) NOT NULL, /* 컨텐츠아이디 */
+	serialNum VARCHAR2(500) NOT NULL, /* 시리얼숫자 */
+	imgName VARCHAR2(500), /* 이미지명 */
+	originImgurl VARCHAR2(500), /* 이미지url */
+	smallImageUrl VARCHAR2(500) /* 작은이미지url */
+);
+
+COMMENT ON TABLE contentsImage IS '컨텐츠이미지';
+
+COMMENT ON COLUMN contentsImage.contentsId IS '컨텐츠아이디';
+
+COMMENT ON COLUMN contentsImage.serialNum IS '시리얼숫자';
+
+COMMENT ON COLUMN contentsImage.imgName IS '이미지명';
+
+COMMENT ON COLUMN contentsImage.originImgurl IS '이미지url';
+
+COMMENT ON COLUMN contentsImage.smallImageUrl IS '작은이미지url';
+
+ALTER TABLE contentsImage
+	ADD
+		CONSTRAINT PK_contentsImage
+		PRIMARY KEY (
+			contentsId,
+			serialNum
+		);
+
+/* 방문 */
+CREATE TABLE visitCount (
+	statDate DATE NOT NULL, /* 집계일자 */
+	visitCount NUMBER, /* 방문수 */
+	visitorCount NUMBER /* 방문자수 */
+);
+
+COMMENT ON TABLE visitCount IS '방문';
+
+COMMENT ON COLUMN visitCount.statDate IS '집계일자';
+
+COMMENT ON COLUMN visitCount.visitCount IS '방문수';
+
+COMMENT ON COLUMN visitCount.visitorCount IS '방문자수';
+
+ALTER TABLE visitCount
+	ADD
+		CONSTRAINT PK_visitCount
+		PRIMARY KEY (
+			statDate
 		);
 
 ALTER TABLE review
@@ -534,10 +598,10 @@ ALTER TABLE comments
 	ADD
 		CONSTRAINT FK_review_TO_comments
 		FOREIGN KEY (
-			seq
+			rceq
 		)
 		REFERENCES review (
-			seq
+			rseq
 		);
 
 ALTER TABLE pickList
@@ -558,16 +622,6 @@ ALTER TABLE pickList
 		)
 		REFERENCES contents (
 			contentsId
-		);
-
-ALTER TABLE contents
-	ADD
-		CONSTRAINT FK_sido_TO_contents
-		FOREIGN KEY (
-			sdCode
-		)
-		REFERENCES sido (
-			sdCode
 		);
 
 ALTER TABLE contents
@@ -598,10 +652,10 @@ ALTER TABLE blackreview
 	ADD
 		CONSTRAINT FK_review_TO_blackreview
 		FOREIGN KEY (
-			seq
+			rseq
 		)
 		REFERENCES review (
-			seq
+			rseq
 		);
 
 ALTER TABLE blackreview
@@ -633,3 +687,19 @@ ALTER TABLE contentsDetail
 		REFERENCES contents (
 			contentsId
 		);
+
+ALTER TABLE contentsImage
+	ADD
+		CONSTRAINT FK_contents_TO_contentsImage
+		FOREIGN KEY (
+			contentsId
+		)
+		REFERENCES contents (
+			contentsId
+		);
+
+drop sequence review_seq;
+
+create sequence review_seq
+	start with 1
+	increment by 1;

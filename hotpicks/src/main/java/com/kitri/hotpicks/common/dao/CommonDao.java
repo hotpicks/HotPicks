@@ -15,6 +15,6 @@ public interface CommonDao {
 	//새글갯수
 	public int getNewArticleCount(int bcode);
 	//전체글갯수
-	public int getTotalArticleCount(Map<String, String> parameter);
+	public int getTotalArticleCount(Map<String, String> map);
 
 }

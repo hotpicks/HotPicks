@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
-
 <!DOCTYPE HTML>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Hot Picks | 나만의 핫픽 저장소</title>
+
+<!-- 부트스트랩 -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="${root}/resources/style.css" media="all" />
 <link rel="stylesheet" media="all" href="${root}/resources/style/type/folks.css" />
 <link rel="stylesheet" media="all" href="${root}/resources/style/css/prettyPhoto.css" />
@@ -26,12 +34,119 @@
 <script type="text/javascript" src="${root}/resources/scripts/swfobject/swfobject.js"></script>
 <script type="text/javascript" src="${root}/resources/style/js/twitter.min.js"></script>
 
+<!-- 카카오톡 로그인 API -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script>
+$(document).ready(function(){
+	var d = new Date();
+	var day = parseInt(d.getTime()/(1000*60*60*24));
+	var expireday = parseInt(d.getTime()/(1000*60*60*24))+1;
+	var expireTime = d.getTime()+ expireday*(1000*60*60*24)-d.getTime();
+	console.log('${userInfo}');
+	if ('${userInfo}' == '') {
+		var cookie = getCookie('visitCount');
+		if (cookie == "") {
+			setCookie('visitCount', 'no', expireTime);
+			$(location).attr('href', '${root}/visit/nonvisitor');
+		}
+	} else {
+		var x = document.cookie;
+		console.log(x);
+		var cookie = getCookie('visitor');
+			if (cookie == '') {
+				setCookie('visitor','${userInfo.name}', expireTime);
+				$(location).attr('href', '${root}/visit/visitor');
+			} else{
+				if (cookie != '' && cookie != '${userInfo.name}') {
+					setCookie('visitor','${userInfo.name}', expireTime);
+					$(location).attr('href', '${root}/visit/newvisitor');
+				}
+			}
+		} 
+		
+	
+});
+function checkCookie(expireTime) {
+	var cookie = getCookie('visitor');
+	if (cookie != null) {
+		
+		 setCookie("visitor", "no", expireTime);
+	} /*  var userid = getCookie("visitor");
+	  if (userid != "") {
+	   alert("Welcome again " + userid);
+	  } else {
+	    if (userid != "" && userid != null) {
+	      setCookie("visitor", "no", expireTime);
+	    }
+	  } */
+	}
+	
+function getCookie(cname) {
+	  var name = cname + "=";
+	  var decodedCookie = decodeURIComponent(document.cookie);
+	  var ca = decodedCookie.split(';');
+	  for(var i = 0; i <ca.length; i++) {
+	    var c = ca[i];
+	    while (c.charAt(0) == ' ') {
+	      c = c.substring(1);
+	    }
+	    if (c.indexOf(name) == 0) {
+	      return c.substring(name.length, c.length);
+	    }
+	  }
+	  return "";
+}
+function setCookie(cname, cvalue, exdays) {
+	  var d = new Date();
+	  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	  var expires = "expires="+ d.toUTCString();
+	  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
+
+</script>
 <style>
 #search{
 	float: left;
 	position: absolute;
 	bottom:17px;
 	left:170px;
+}
+.btn{  <!-- 모든 버튼에대한 css설정 -->
+      text-decoration: none;
+      font-size:1rem;
+      color:white;
+      display:inline-block;
+      border-radius: 10px;
+      transition:all 0.1s;
+      text-shadow: 0px -2px rgba(0, 0, 0, 0.44);
+    }
+    .btn:active{
+      transform: translateY(3px);
+    }
+    .btn.blue{
+      background-color: #1f75d9;
+      border-bottom:5px solid #165195;
+    }
+    .btn.blue:active{
+      border-bottom:2px solid #165195;
+    }
+    .btn.red{
+      background-color: #ff521e;
+      border-bottom:5px solid #c1370e;
+    }
+    .btn.red:active{
+      border-bottom:2px solid #c1370e;
+    }
+.rounded {
+  width: 200px;
+  background-color: #d8c2cb;
+  border:2px solid #5c5b5f;
+  line-height: 1em;
+  border-radius:0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
 }
 </style>
 
@@ -46,11 +161,26 @@
         <!-- Logo --> 
         <div id="logo"><a href="${root}/index.jsp"><img src="${root}/resources/style/images/logo.png" alt="HotPicks로고" /></a></div>
         <!-- Search -->
-        <div id="search"">
-        	<form id="searchform" method="get" action="${root}/WEB-INF/views/page/search/searchresult.jsp">
-          	<input type="text" id="s" name="s" value="검색어를 입력해주세요." onfocus="this.value=''" onblur="this.value='검색어를 입력해주세요.'"/>
-        </form>
+        <div id="search">
+        	<form id="searchform"><!-- ${root}/WEB-INF/views/page/search/searchresult.jsp -->
+          	<input type="search" id="searchinput" name="search"  value="검색어를 입력해주세요."  onfocus="this.value=''" onblur="this.value='검색어를 입력해주세요.'"/>
+     		</form>
         </div>
+        
+       
+<script>
+
+
+$('#searchinput').keypress(function(e) {
+		console.log("press");
+	
+	if(e.keyCode == 13) {
+		console.log("13");
+		 $("#searchform").attr('method','GET').attr('action','${root}/contents/contentsbysearch').submit();
+	} 
+});
+
+</script>
         
         <!-- Begin Menu -->
         <div id="menu-wrapper">        
@@ -67,15 +197,36 @@
                 </ul>
               </li>
 <c:if test="${userInfo != null}">
-              <li><a href="${root}/mypicklist/list">My Picks</a>
+              <li><a href="${root}/mypicklist/enter">My Picks</a>
                 <ul>
-                  <li><a href="${root}/mypicklist/list">Pick 목록</a></li>
+                  <li><a href="${root}/mypicklist/enter">Pick 목록</a></li>
                   <li><a href="${root}/mypickmap/mvmypickmap">Pick 지도</a></li>
                   <li><a href="${root}/mypicklist/cal">Pick 달력</a></li>
                 </ul>
               </li>
               <li><a href="${root}/member/mypage">My Page</a></li>
-			  <li><a href="${root}/member/logout">Logout</a></li>
+			  <li><a id="logoutBtn" data-pass="${userInfo.pass}" href="">Logout</a></li>
+			   <script>
+				  
+	Kakao.init('9735071d5888d9bfbab24b41f01958c2');
+
+	$("#logoutBtn").click(function(){
+							
+			var isKakao = $(this).attr("data-pass");
+			if(isKakao == 'kakao'){
+				Kakao.Auth.logout(function(data){
+					location.href = "${root}/member/logout";
+					
+				});
+			} else {
+				location.href = "${root}/member/logout";
+			}
+				
+			return false;
+	});
+
+				
+</script>
 </c:if>
 <c:if test="${userInfo == null}">
               	   <li><a href="${root}/member/login">Login/Join</a></li>

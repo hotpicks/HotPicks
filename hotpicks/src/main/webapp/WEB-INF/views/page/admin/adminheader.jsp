@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
+<%@ include file = "/WEB-INF/views/page/admin/adminlogincheck.jsp" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -80,7 +81,7 @@ ul#tab-menu {
 	float:none;
 	margin-top:10px;
 	width : 98%;
-	height: 1000px;
+	height: 1200px;
 }
 
 input[type=checkbox]{

@@ -1,13 +1,21 @@
 package com.kitri.hotpicks.mypicks.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.kitri.hotpicks.mypicks.dao.MypicksDamDao;
 import com.kitri.hotpicks.mypicks.model.PickListDto;
 import com.kitri.hotpicks.util.CafeConstance;
@@ -20,26 +28,45 @@ public class MypickDamServiceImpl implements MypickDamService{
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<PickListDto> listArticle(String userid) {
-		return sqlSession.getMapper(MypicksDamDao.class).listArticle(userid);
+	public List<PickListDto> listArticle(Map<String, String> map) {
+//		int pg = NumberCheck.NotNumberToOne(parameter.get("pg"));
+//		int end = pg * CafeConstance.ARTICLE_SIZE;
+//		int start = end - CafeConstance.ARTICLE_SIZE;
+//		parameter.put("start", start+"");
+//		parameter.put("end", end+"");
+		return sqlSession.getMapper(MypicksDamDao.class).listArticle(map);
 	}
 
 	@Override
 	@Transactional
-	public PickListDto viewArticle(int seq) {
+	public PickListDto viewArticle(String userid) {
 		return null;
 		
 	}
 
 	@Override
-	public int modifyArticle(PickListDto pickListDto) {
-		return 0;
+	public void modifyArticle(Map<String, Object> map) {
+		sqlSession.getMapper(MypicksDamDao.class).modifyArticle(map);
+	}
+
+
+	@Override
+	public PickListDto getArticle(String userid) {
+		return sqlSession.getMapper(MypicksDamDao.class).viewArticle(userid);
 	}
 
 	@Override
-	public void deleteArticle(int seq) {
+	public void deleteArticle(Map<String, ArrayList<String>> map) {
+		
+		sqlSession.getMapper(MypicksDamDao.class).deleteArticle(map);
 		
 	}
+
+	@Override
+	public List<PickListDto> calArticle(Map<String, String> map) {
+		return sqlSession.getMapper(MypicksDamDao.class).calArticle(map);
+	}
+
 
 	
 }
