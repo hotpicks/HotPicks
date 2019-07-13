@@ -9,10 +9,11 @@
 	-webkit-box-shadow: 0px 1px 2px #656565;
 	box-shadow: 0px 1px 2px #656565;
 	display: block;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	height: 160px;
 	width: 100%;
 }
+
 
 </style>
 <script>
@@ -102,7 +103,6 @@ function loading(a){
 	
 }
 
-
 	
 </script>
 
@@ -112,13 +112,52 @@ function loading(a){
 <c:set var="image" value="${parameter.image1}" />
 <c:set var="seq" value="${parameter.pg}" />
 <c:set var="catid" value="${parameter.catId}" /> --%>
+<style>
+input[type=checkbox] {
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	border: 2px solid #bcbcbc;
+	cursor: pointer;
+}
+input[type=radio] {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 2px solid #bcbcbc;
+	cursor: pointer;
+}
+ #test_btn1{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            margin-right:-4px;
+        }
+        #test_btn2{
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;    
+            margin-left:-3px;
+            
+        }
+        #btn_group button{
+            border: 1px solid skyblue;
+            background-color: rgba(0,0,0,0);
+            color: skyblue;
+            padding: 5px;
+            width:55px;
+        }
+        #btn_group button:hover{
+            color:white;
+            background-color: skyblue;
+        }
+
+</style>
 <div id="wrapper"> 
 <div class="content">
 <div>
 	<div align="center" style="margin-bottom: 20px;">
 		<div
 			style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
-			<a>전체 |</a> <a>공연 |</a> <a>전시 |</a> <a>행사</a>
+			<!-- <a>전체 |</a> <a>공연 |</a> <a>전시 |</a> <a>행사</a> -->
 		</div>
 		<div style="margin-bottom: 20px;">
 			<a href="${root}/mypicklist/enter"><img src="${root}/resources/style/images/listpicks.png"></a>
@@ -128,24 +167,23 @@ function loading(a){
 			<a href="${root}/mypicklist/cal"><img src="${root}/resources/style/images/calendarpicks.png"></a>
 		</div>
 		
-		<div style="margin-bottom: 10px; font-size: 15px;">
+		<div style="margin-bottom: 10px; font-size: 15px; " id="btn_group">
 			<div style="float: right;">
 			<label><input type="radio" value="가고싶은곳" name="wanna" checked="checked" disabled="disabled" class="c1" data-w="0">가고싶은곳</label>
-			<label><input type="radio" value="다녀온곳" name="wanna" class="c2" data-w="1" disabled="disabled">다녀온곳</label>
-				<button class= "save" name="save">저장</button>
-				<button id= "delete" name="delete">삭제</button>
+			<label><input type="radio" value="다녀온곳" name="wanna" class="c2 " data-w="1" disabled="disabled">다녀온곳</label>
+				<button class= "save" name="save" id="#test_btn1">저장</button>
+				<button id= "delete" name="delete" id="#test_btn2">삭제</button>
 			</div>
 			<div style="float: left;">
-				<a href="#none" class="went" data-a="0" >가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> 
-				<a href="#none" class="went" data-a="1">다녀온 곳</a>
+				<a href="#none" class="went btn blue" data-a="0" >가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> 
+				<a href="#none" class="went btn red" data-a="1">다녀온 곳</a>
 			</div>
 		</div>
 		<div style="clear:both;"></div>
 	</div>
 
-    <div id="about">
+    <div id="about" style="height: 850px; overflow-y:auto">
    
-     
     </div>
      </div>
      
