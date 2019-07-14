@@ -170,19 +170,19 @@ public class ContentsServiceImpl implements ContentsService {
 
 		String detailCommonUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "defaultYN=Y&" + "addrinfoYN=Y&"
-				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + pshapikey + "&"; // conid
+				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + shzyapikey + "&"; // conid
 
 		String detailIntroUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ pshapikey + "&"; // "conid,typeid"
+				+ shzyapikey + "&"; // "conid,typeid"
 
 		String detailInfoUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailInfo?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ pshapikey + "&"; // "conid,typeid"
+				+ shzyapikey + "&"; // "conid,typeid"
 
 		String detailImageUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "imageYN=Y&" + "subImageYN=Y&"
-				+ "ServiceKey=" + pshapikey + "&"; // "conid";
+				+ "ServiceKey=" + shzyapikey + "&"; // "conid";
 
 		detailUrlList.add(detailCommonUrlStr);
 		detailUrlList.add(detailIntroUrlStr);

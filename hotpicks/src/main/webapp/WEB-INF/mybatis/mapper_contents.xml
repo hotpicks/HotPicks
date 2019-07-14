@@ -253,7 +253,6 @@
 			</if>
 		</otherwise>
 	</choose>
-	GROUP BY contentsid
 	<!-- <if test="catId != null and catId != 0">
 	AND c.catid = #{catId}
 	</if>
