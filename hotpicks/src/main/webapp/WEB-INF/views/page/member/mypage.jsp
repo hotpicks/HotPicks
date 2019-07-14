@@ -89,7 +89,12 @@ function getReview(selected){
                  </div>
                  <br><br><br>
                  <!-- ***************** 리뷰 개수 **************** -->
+<c:if test="${reviewCnt != null}">
                 <p style="font-weight:700; font-size:15px; margin-top: 10px;">리뷰 개수 :${reviewCnt}
+</c:if>
+<c:if test="${reviewCnt == null}">
+                <p style="font-weight:700; font-size:15px; margin-top: 10px;">리뷰 개수 : 0
+</c:if>
                 <br>
                 <a href="${root}/member/modify" style="font-size:10px; margin-top: 5px;" class="button light-teal btns">정보 수정<span></span></a></p>
               </div>

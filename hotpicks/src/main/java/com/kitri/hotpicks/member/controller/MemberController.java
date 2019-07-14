@@ -192,8 +192,9 @@ public class MemberController {
 	@RequestMapping(value="/modify", method = RequestMethod.GET)
 	public void modify(@ModelAttribute("userInfo") MemberDto memberDto, Model model) {
 		System.out.println("member_c : 정보수정 페이지 이동 메소드 들어옴");
-		
-		model.addAttribute("userInfo", memberDto);
+
+		Map<String, String> result = memberService.getCurrentMember(memberDto.getUserId());
+		model.addAttribute("cur_pass", result);
 	}
 	
 	// 정보수정하기

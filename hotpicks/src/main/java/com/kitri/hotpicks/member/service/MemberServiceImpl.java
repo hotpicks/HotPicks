@@ -75,5 +75,11 @@ public class MemberServiceImpl implements MemberService {
 		return sqlSession.getMapper(MemberDao.class).getReviewCnt(userId);
 	}
 
+	@Override
+	public Map<String, String> getCurrentMember(String userId) {
+		System.out.println("member_s_Impl : 회원 현재 비번가져오기 위한 메소드 실행");
+		return sqlSession.getMapper(MemberDao.class).getCurrentMember(userId);
+	}
+
 
 }
