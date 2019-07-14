@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.kitri.hotpicks.mypicks.dao.MypickMapDao;
 import com.kitri.hotpicks.mypicks.model.MapContentsDto;
+import com.kitri.hotpicks.mypicks.model.PickListDto;
+import com.kitri.hotpicks.mypicks.model.ViewPickMapDto;
 
 @Service
 public class MypickMapServiceImpl implements MypickMapService {
@@ -18,13 +20,13 @@ public class MypickMapServiceImpl implements MypickMapService {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<MapContentsDto> getContent() {
+	public List<ViewPickMapDto> getContent(Map<String, Object> map) {
 		
-		return sqlSession.getMapper(MypickMapDao.class).getMapList();
+		return sqlSession.getMapper(MypickMapDao.class).getMapList(map);
 	}
 
 	@Override
-	public List<MapContentsDto> selectContentsList(double x,double y,List<String> selectMarkers, int distance) {
+	public List<ViewPickMapDto> selectContentsList(double x,double y,List<String> selectMarkers, int distance) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("selectMarkers", selectMarkers);
 		map.put("x", x);
