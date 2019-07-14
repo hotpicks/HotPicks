@@ -36,24 +36,13 @@ public class MypickDamServiceImpl implements MypickDamService{
 //		parameter.put("end", end+"");
 		return sqlSession.getMapper(MypicksDamDao.class).listArticle(map);
 	}
-
-	@Override
-	@Transactional
-	public PickListDto viewArticle(String userid) {
-		return null;
-		
-	}
+	
 
 	@Override
 	public void modifyArticle(Map<String, Object> map) {
 		sqlSession.getMapper(MypicksDamDao.class).modifyArticle(map);
 	}
 
-
-	@Override
-	public PickListDto getArticle(String userid) {
-		return sqlSession.getMapper(MypicksDamDao.class).viewArticle(userid);
-	}
 
 	@Override
 	public void deleteArticle(Map<String, ArrayList<String>> map) {
@@ -66,6 +55,8 @@ public class MypickDamServiceImpl implements MypickDamService{
 	public List<PickListDto> calArticle(Map<String, String> map) {
 		return sqlSession.getMapper(MypicksDamDao.class).calArticle(map);
 	}
+
+
 
 
 	
