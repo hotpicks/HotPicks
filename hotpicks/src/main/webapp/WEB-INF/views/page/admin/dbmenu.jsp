@@ -229,4 +229,4 @@ $(function(){
   </div>
   <!-- End Wrapper -->
 
-<%@ include file = "/WEB-INF/views/page/template/footer.jsp" %>
+<%@ include file = "/WEB-INF/views/page/admin/adminfooter.jsp" %>
