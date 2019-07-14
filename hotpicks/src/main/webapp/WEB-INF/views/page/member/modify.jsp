@@ -136,7 +136,6 @@ $(function(){
 	$("#modifyBtn").click(function(){
 		
 		var pass = $(this).attr("data-pass");
-		alert("비번 : " + pass);
 		// 일반 로그인의 경우, 비번 유효성 검사 수행
 		if(pass != 'kakao'){
 			if($("#pass").val().trim().length == 0){
@@ -258,7 +257,7 @@ $(function(){
                 <label for="pass">현재 비밀번호</label>
                 <br />
                 <!-- ******** pass ******** -->
-                <input data-pass="${userInfo.pass}" style="margin-bottom: 0px;" class="required inpt" type="password" name="pass" id="pass" value="" placeholder="현재 비밀번호를 입력해주세요."/>
+                <input data-pass="${cur_pass.PASS}" style="margin-bottom: 0px;" class="required inpt" type="password" name="pass" id="pass" value="" placeholder="현재 비밀번호를 입력해주세요."/>
               <!-- ******* 비밀번호 부합 여부 확인 메세지 ******* -->
                 <div style="margin-bottom:15px; color:tomato;" id="passrightcheck">*현재 비밀번호를 입력해주세요.</div>
               </p>
@@ -319,7 +318,7 @@ $(function(){
             
             <div class="align-center">
             	<a id="cancelBtn" class="button red btns" style="margin-right:100px; font-weight: 700;">취  소<span></span></a>
-            	<a id="modifyBtn" class="button red btns" style="font-weight: 700;" data-pass='${userInfo.pass}'>수 정<span></span></a>
+            	<a id="modifyBtn" class="button red btns" style="font-weight: 700;" data-pass='${cur_pass.PASS}'>수 정<span></span></a>
             </div>
             <div class="clear"></div>
             <br>
@@ -329,7 +328,7 @@ $(function(){
             		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" href=""><strong>여기</strong></a>를 눌러주세요.</font>
 </c:if>
 <c:if test="${userInfo.pass != 'kakao'}">
-            		<font color="gray">회원 탈퇴를 원하시면, <a data-pass="${userInfo.pass}" data-toggle="modal" data-target="#deleteModal" href=""><strong>여기</strong></a>를 눌러주세요.</font>
+            		<font color="gray">회원 탈퇴를 원하시면, <a data-pass="${cur_pass.PASS}" data-toggle="modal" data-target="#deleteModal" href=""><strong>여기</strong></a>를 눌러주세요.</font>
 </c:if>
 
             	</span>
@@ -377,7 +376,7 @@ $(function(){
 
                <!-- Modal footer -->
                <div class="modal-footer">
-                  <button type="button" id="DeletePressBtn" class="btn btn-danger" data-pass="${userInfo.pass}">탈퇴</button>
+                  <button type="button" id="DeletePressBtn" class="btn btn-danger" data-pass="${cur_pass.PASS}">탈퇴</button>
                   <button type="button" class="btn btn-normal" data-dismiss="modal">닫기</button>
                </div>
          </div>
