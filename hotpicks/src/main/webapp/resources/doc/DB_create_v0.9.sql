@@ -703,3 +703,13 @@ drop sequence review_seq;
 create sequence review_seq
 	start with 1
 	increment by 1;
+
+-- 관리자 계정 생성
+insert into member
+VALUES('hotpicks','1234','관리자', 25, '여', sysdate, 'user.png', 1);
+
+-- 테스트 사용자 계정 생성
+insert into member
+VALUES('hp123@naver.com','!a1111111','김핫픽', 20, '여', sysdate, 'user.png', 1);
+
+commit;
