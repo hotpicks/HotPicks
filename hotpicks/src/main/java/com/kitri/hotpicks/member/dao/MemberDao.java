@@ -17,5 +17,6 @@ public interface MemberDao {
 	
 	public List<Map<String, String>> getReview(Map<String, String> parameter);
 	public int getReviewCnt(String userId);
+	public Map<String, String> getCurrentMember(String userId);
 	
 }

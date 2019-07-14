@@ -135,11 +135,24 @@ $(function(){
 	// 수정 요청
 	$("#modifyBtn").click(function(){
 		
+		// 확장자 확인
+		var imgOk = 0;
+		if($("#profileBtn").val() != ""){
+		      var ext = $('#profileBtn').val().split('.').pop().toLowerCase();
+		      if($.inArray(ext, ['gif','png','jpg']) == -1) {
+		    	  imgOk = 0;
+		   	   } else{
+		   		   imgOk = 1;
+		   	   }
+		}
+		
 		var pass = $(this).attr("data-pass");
-		alert("비번 : " + pass);
 		// 일반 로그인의 경우, 비번 유효성 검사 수행
 		if(pass != 'kakao'){
-			if($("#pass").val().trim().length == 0){
+			if(imgOk == 0){
+				 alert('프로필 사진의 형식을 확인해주세요. 이미지 파일 (jpg, png, gif)만 등록 가능합니다.');
+		    	  $("#profileBtn").val(""); // input file 파일명을 다시 지워준다
+			} else if($("#pass").val().trim().length == 0){
 				alert("현재 비밀번호를 입력해주세요.");
 			} else if(curpassright != 0){
 				alert("현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
@@ -155,7 +168,10 @@ $(function(){
 			}
 		}else{ // 카톡 로그인의 경우, 비번 검사 안 함.
 			
-			if($("#age").val().trim().length == 0){
+			if(imgOk == 0){
+				 alert('프로필 사진의 형식을 확인해주세요. 이미지 파일 (jpg, png, gif)만 등록 가능합니다.');
+		    	  $("#profileBtn").val(""); // input file 파일명을 다시 지워준다
+			} else if($("#age").val().trim().length == 0){
 				alert("나이를 입력해주세요.");
 			} else {
 			
@@ -234,15 +250,15 @@ $(function(){
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
 <c:if test="${userInfo.pass=='kakao'&&userInfo.profile!='user.png'}">
-              	<img id="profileImg" alt="사용자프로필사진" src="${userInfo.profile}" height="150px" width="150px"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${userInfo.profile}" height="150px" width="150px" style="border: solid 1px #E0E0E0"/>
 </c:if>
 <c:if test="${userInfo.pass=='kakao'&&userInfo.profile=='user.png'}">
-              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px" style="border: solid 1px #E0E0E0"/>
 </c:if>
 <c:if test="${userInfo.pass!='kakao'}">
-              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px" style="border: solid 1px #E0E0E0"/>
 </c:if>
-               	<input type="file" id="profileBtn" name="profile_file" style="width:200px; height:40px; background-color: white"/>
+               	<input type="file" id="profileBtn" name="profile_file" style="width:200px; height:40px; background-color: white" accept="image/*"/>
               	</div>
               </p>
               <br><br>
@@ -258,7 +274,7 @@ $(function(){
                 <label for="pass">현재 비밀번호</label>
                 <br />
                 <!-- ******** pass ******** -->
-                <input data-pass="${userInfo.pass}" style="margin-bottom: 0px;" class="required inpt" type="password" name="pass" id="pass" value="" placeholder="현재 비밀번호를 입력해주세요."/>
+                <input data-pass="${cur_pass.PASS}" style="margin-bottom: 0px;" class="required inpt" type="password" name="pass" id="pass" value="" placeholder="현재 비밀번호를 입력해주세요."/>
               <!-- ******* 비밀번호 부합 여부 확인 메세지 ******* -->
                 <div style="margin-bottom:15px; color:tomato;" id="passrightcheck">*현재 비밀번호를 입력해주세요.</div>
               </p>
@@ -319,7 +335,7 @@ $(function(){
             
             <div class="align-center">
             	<a id="cancelBtn" class="button red btns" style="margin-right:100px; font-weight: 700;">취  소<span></span></a>
-            	<a id="modifyBtn" class="button red btns" style="font-weight: 700;" data-pass='${userInfo.pass}'>수 정<span></span></a>
+            	<a id="modifyBtn" class="button red btns" style="font-weight: 700;" data-pass='${cur_pass.PASS}'>수 정<span></span></a>
             </div>
             <div class="clear"></div>
             <br>
@@ -329,7 +345,7 @@ $(function(){
             		<font color="gray">회원 탈퇴를 원하시면, <a id="exitBtn" href=""><strong>여기</strong></a>를 눌러주세요.</font>
 </c:if>
 <c:if test="${userInfo.pass != 'kakao'}">
-            		<font color="gray">회원 탈퇴를 원하시면, <a data-pass="${userInfo.pass}" data-toggle="modal" data-target="#deleteModal" href=""><strong>여기</strong></a>를 눌러주세요.</font>
+            		<font color="gray">회원 탈퇴를 원하시면, <a data-pass="${cur_pass.PASS}" data-toggle="modal" data-target="#deleteModal" href=""><strong>여기</strong></a>를 눌러주세요.</font>
 </c:if>
 
             	</span>
@@ -377,7 +393,7 @@ $(function(){
 
                <!-- Modal footer -->
                <div class="modal-footer">
-                  <button type="button" id="DeletePressBtn" class="btn btn-danger" data-pass="${userInfo.pass}">탈퇴</button>
+                  <button type="button" id="DeletePressBtn" class="btn btn-danger" data-pass="${cur_pass.PASS}">탈퇴</button>
                   <button type="button" class="btn btn-normal" data-dismiss="modal">닫기</button>
                </div>
          </div>

@@ -26,7 +26,21 @@ $(function(){
 	
 	//가입하기 요청
 	$("#joinBtn").click(function(){
-		if($("#userId").val().trim().length == 0){
+		// 확장자 확인
+		var imgOk = 0;
+		if($("#profileBtn").val() != ""){
+		      var ext = $('#profileBtn').val().split('.').pop().toLowerCase();
+		      if($.inArray(ext, ['gif','png','jpg']) == -1) {
+		    	  imgOk = 0;
+		   	   } else{
+		   		   imgOk = 1;
+		   	   }
+		}
+		
+		if(imgOk == 0){
+			 alert('프로필 사진의 형식을 확인해주세요. 이미지 파일 (jpg, png, gif)만 등록 가능합니다.');
+	    	  $("#profileBtn").val(""); // input file 파일명을 다시 지워준다
+		} else if($("#userId").val().trim().length == 0){
 			alert("id를 입력해주세요.");
 		} else if($("#pass").val().trim().length == 0){
 			alert("비밀번호를 입력해주세요.");
@@ -206,8 +220,8 @@ height: 30px;
                 <!-- ******** profile ******** -->
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
-              	<img id="profileImg" alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px"/>
-              	<input type="file" id="profileBtn" name="profile_file" style="width:200px; height:40px; background-color: white"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${root}/resources/style/images/user.png" height="150px" width="150px" style="border: solid 1px #E0E0E0"/>
+              	<input type="file" id="profileBtn" name="profile_file" style="width:200px; height:40px; background-color: white" accept="image/*"/>
               </div>
               </p>
               <br><br>

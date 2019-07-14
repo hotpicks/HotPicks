@@ -27,7 +27,7 @@
 				
 				<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
 	        	<h4>${list.title}</h4>
-      			<p>조회수 : ${list.hit} 리뷰 수 : </p>
+      			<p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt }</p>
 	       		</a>
 	      		</div>
 			</c:when>
@@ -35,7 +35,7 @@
 				<div class="one-fourth" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
 		    	<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
 	        	<h4>${list.title}</h4>
-	        	<p>조회수 : ${list.hit} 리뷰 수 : </p>
+	        	<p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt }</p>
 	       		</a>
 	      		</div>
 	    	</c:otherwise>
@@ -54,7 +54,7 @@
 		   		<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
 		   		<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
 	        	<h4>${list.title}</h4>
-	        	<p>조회수 : ${list.hit} 리뷰 수 : </p>
+	        	<p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt }</p>
 	       		</a>
 	      		</div>
  			</c:when>
@@ -62,7 +62,7 @@
 				<div class="one-fourth" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
 			    <img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
 	        	<h4>${list.title}</h4>
-	        	<p>조회수 : ${list.hit} 리뷰 수 : </p>
+	        	<p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt }</p>
 	       		</a>
 	      		</div>
 	    	</c:otherwise>
@@ -83,7 +83,7 @@
    				<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
   				<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
 	        	<h4>${list.title}</h4>
-	        	<p>조회수 : ${list.hit} 리뷰 수 : </p>
+	        	<p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt }</p>
 	       		</a>
 	      		</div>
   			</c:when>
@@ -91,7 +91,7 @@
 				<div class="one-fourth" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
 		    	<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
 	        	<h4>${list.title}</h4>
-	        	<p>조회수 : ${list.hit} 리뷰 수 : </p>
+	        	<p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt }</p>
 	       		</a>
 	      		</div>
 	    	</c:otherwise>

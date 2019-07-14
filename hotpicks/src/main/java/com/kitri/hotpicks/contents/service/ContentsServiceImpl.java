@@ -157,7 +157,7 @@ public class ContentsServiceImpl implements ContentsService {
 	@Override
 	public void insertApiContentsDetail(List<Integer> contentsIdList) {
 		List<Integer> existContents = sqlSession.getMapper(ContentsDao.class).existContentsList();
-		System.out.println(existContents.size());
+		//System.out.println(existContents.size());
 		BufferedReader br;
 		ContentsDetailDto cdtDto;
 		URL url;
@@ -170,19 +170,19 @@ public class ContentsServiceImpl implements ContentsService {
 
 		String detailCommonUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "defaultYN=Y&" + "addrinfoYN=Y&"
-				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + pshapikey + "&"; // conid
+				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + shzyapikey + "&"; // conid
 
 		String detailIntroUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ pshapikey + "&"; // "conid,typeid"
+				+ shzyapikey + "&"; // "conid,typeid"
 
 		String detailInfoUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailInfo?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ pshapikey + "&"; // "conid,typeid"
+				+ shzyapikey + "&"; // "conid,typeid"
 
 		String detailImageUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "imageYN=Y&" + "subImageYN=Y&"
-				+ "ServiceKey=" + pshapikey + "&"; // "conid";
+				+ "ServiceKey=" + shzyapikey + "&"; // "conid";
 
 		detailUrlList.add(detailCommonUrlStr);
 		detailUrlList.add(detailIntroUrlStr);
@@ -514,6 +514,8 @@ public class ContentsServiceImpl implements ContentsService {
 		 *  3. api 군구자료 get하고 detailDto에 담기 
 		 * 4. DB에 list.size() 만큼 insert(3,4번을 한 process로 for문)
 		 */
+	
+		
 		List<Integer> sdList = insertSido(locationUrl);
 		if (sdList != null) {
 			insertSigungu(locationUrl, sdList);
