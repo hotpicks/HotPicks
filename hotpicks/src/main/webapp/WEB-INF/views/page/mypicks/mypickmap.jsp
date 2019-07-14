@@ -9,44 +9,28 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
 <style>
+.sh > a{
+	text-decoration: none;
+	font-size:15px;
+	color: black;
+}
+.sh > a:hover{
+	text-decoration: none;
+}
+.selected{
+	font-size : 25px!important;
+}
 #ipadd{
-	display:none;
+	display:none;	
 }
 #addressresult{
 	margin: 20px;
 }
 /*infowindow*/
-#map-canvas {
-	margin: 0;
-	padding: 0;
-	height: 400px;
-	max-width: none;
-}
-#map-canvas img {
-	max-width: none !important;
-}
-.gm-style-iw {
-	width: 350px !important;
-	top: 15px !important;
-	left: 0px !important;
-	background-color: #fff;
-	box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
-	border: 1px solid rgba(72, 181, 233, 0.6);
-	border-radius: 2px 2px 10px 10px;
-}
 #iw-container {
 	margin-bottom: 10px;
-	width: 300px;
-}
-#iw-container .iw-title {
-	font-family: 'Open Sans Condensed', sans-serif;
-	font-size: 22px;
-	font-weight: 400;
-	padding: 10px;
-	background-color: #48b5e9;
-	color: white;
-	margin: 0;
-	border-radius: 2px 2px 0 0;
+	width: 250px;
+	
 }
 #iw-container .iw-content {
 	font-size: 13px;
@@ -55,7 +39,7 @@
 	margin-right: 1px;
 	padding: 15px 5px 20px 15px;
 	max-height: 140px;
-	overflow-y: auto;
+	overflow-y: hidden;
 	overflow-x: hidden;
 }
 .iw-content img {
@@ -193,11 +177,11 @@ getTwitters('twitter', {
   <div id="wrapper"> 
   <div class="content">
 <div align="center" style="margin-bottom: 30px;">
-	<div style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
-		<a>전체	|</a>
-		<a>공연	|</a>
-		<a>전시	|</a>
-		<a>행사</a>
+	<div class="sh" style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
+		<a href="#" class="selected" id="all">전체</a>&nbsp;
+		<a href="#" id="perform">공연	</a>&nbsp;
+		<a href="#" id="exhi">전시</a>&nbsp;
+		<a href="#" id="event">행사</a>
 	</div>
 	<div>
 		<a href="${root}/mypicklist/enter"><img src="${root}/resources/style/images/listpicks.png"></a>
@@ -217,7 +201,7 @@ getTwitters('twitter', {
 							HOTPICKS <i class="fa fa-caret-down"></i>
 						</button>
 						<div class="dropdown-container">
-							<a href="#" id="all">전체</a> <a href="#" id="pick">가고싶은 곳</a> <a href="#" id="done">다녀온 곳</a>
+							<a href="#" id="allpick">전체</a> <a href="#" id="pick">가고싶은 곳</a> <a href="#" id="done">다녀온 곳</a>
 						</div>
 						<button class="dropdown-btn">
 							반경검색 <i class="fa fa-caret-down"></i>
@@ -346,7 +330,7 @@ getTwitters('twitter', {
 	var pickMarkerimage = new daum.maps.MarkerImage(pickMarkerimagesrc, pickMarkerImageSize,
 			imageOption)
 	// 마커를 생성하고 지도위에 표시하는 함수입니다
-	function addMarker(cate, image ,position, subject, contentsid) {
+	function addMarker(cate, image ,position, subject, contentsid, ifsg, img, zc, ad1 , ad2) {
 		
 		// 마커를 생성합니다
 		var mapMarker = new daum.maps.Marker({
@@ -358,37 +342,32 @@ getTwitters('twitter', {
 		mapMarker.setMap(map);
 		// 생성된 마커를 배열에 추가합니다
 		allMarkers.push(mapMarker);
-		if (cate == 1) {
-			doneMarkers.push(mapMarker);
-		}else if(cate == 2){
-			pickMarkers.push(mapMarker);
-		}
-		
-		var iwContent = '<div id="iw-container">' +
-        '<div class="iw-title">'+subject+'</div>' +
-        '<div class="iw-content">' +
-          '<div class="iw-subTitle">History</div>' +
-          '<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg" alt="Porcelain Factory of Vista Alegre" height="115" width="83">' +
-          '<p>국립전주박물관 설 대보름 맞이 문화축전 2019</p>' +
-          '<div class="iw-subTitle">Contacts</div>' +
-          '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
-          '<br>Phone. +351 234 320 600<br>e-mail: geral@vaa.pt<br>www: www.myvistaalegre.com</p>'+
-        '</div>' +
-      '</div>';
+		console.log("add : "+ allMarkers);
+		var iwContent="";
+		iwContent += '<div id="iw-container">';
+		iwContent += '<div class="iw-content">';
+		iwContent +=  '<div class="iw-subTitle">'+subject+'</div>';
+		if (img != '-1' && img !=''  ) {
+			iwContent +=  '<img src="'+img+'" alt="" height="115" width="83">';
+			}
+		iwContent +=   '<p>'+ifsg+'</p>';
+          if (zc !='' || zc != null) {
+			  iwContent +=  '<div>주소</div>';
+        	  iwContent +=  '<p>'+zc+', '+ad1+', ' +ad2 +'</p>';
+			}
+		iwContent += '</div>';
+		iwContent += '</div>';
 		var infowindow = new daum.maps.InfoWindow({
 			position : position,
+			 clickable: true,
 			content : iwContent
 		});
-		daum.maps.event.addListener(mapMarker, 'mouseover', function() {
+		daum.maps.event.addListener(mapMarker, 'click', function() {
+			$('#iw-container').parent().css("border-radius" , 20);
 			infowindow.open(map, mapMarker);
 		});
-		daum.maps.event.addListener(mapMarker, 'mouseout', function() {
+		daum.maps.event.addListener(map, 'click', function() {
 			infowindow.close();
-		});
-		daum.maps.event.addListener(mapMarker, 'click', function() {
-			//page_move("${root}/mainfront?sid=godetail", null ,mapMarker.getTitle());
-			//$.post("${root}/mainfront?sid=godetail", {"loginId" : "test3", "no" : "00000003"},function(data));
-			//location.href = '${root}/mainfront?sid=godetail&no=' + marker2.getTitle()+"&id="+id;
 		});
 	}
 
@@ -416,20 +395,73 @@ getTwitters('twitter', {
 		
 	});
 
-	
-	$(document).ready(function() {		
-		/* $("#go").click(function() {
-			markerSet($("#ipadd").data("y"), $("#ipadd").data("x"));
-			//	map.setCenter(new daum.maps.LatLng($("#ipadd").data("y"), $("#ipadd").data("x")));
-			var moveLatLng = new daum.maps.LatLng($("#ipadd").data("y"), $("#ipadd").data("x"));
-			map.setLevel(6);
-			map.panTo(moveLatLng);
-			}); */
+
+	$(document).ready(function() {
+	var catid = -1;
+	var wanna = -1;
+		/*category*/
+		$('#all').click(function(e) {
+			e.preventDefault();
+			setAllMarkers(null);
+			allMarkers = [];
+			catid = -1;
+			if (!$(this).hasClass("selected")) {
+				$(this).addClass("selected");
+				$('#perform').removeClass("selected");
+				$('#exhi').removeClass("selected");
+				$('#event').removeClass("selected");
+			}
+			getMarkers(wanna, catid);
+		});
+		$('#perform').click(function(e) {
+			e.preventDefault();
+			setAllMarkers(null);
+			allMarkers = [];
+			catid = 1;
+			if (!$(this).hasClass("selected")) {
+				$(this).addClass("selected");
+				$('#all').removeClass("selected");
+				$('#exhi').removeClass("selected");
+				$('#event').removeClass("selected");
+			}
+			getMarkers(wanna, catid);
+		});
+		$('#exhi').click(function(e) {
+			e.preventDefault();
+			setAllMarkers(null);
+			allMarkers = [];
+			catid = 2;
+			if (!$(this).hasClass("selected")) {
+				$(this).addClass("selected");
+				$('#perform').removeClass("selected");
+				$('#all').removeClass("selected");
+				$('#event').removeClass("selected");
+			}
+			getMarkers(wanna, catid);
+		});
+		$('#event').click(function(e) {
+			e.preventDefault();
+			setAllMarkers(null);
+			allMarkers = [];
+			catid = 3;
+			if (!$(this).hasClass("selected")) {
+				$(this).addClass("selected");
+				$('#perform').removeClass("selected");
+				$('#exhi').removeClass("selected");
+				$('#all').removeClass("selected");
+			}
+			getMarkers(wanna, catid);
+			console.log("add2 : "+ allMarkers);
+			
+		});
+		
+		/*wanna 구별*/
+		
+		getMarkers(wanna, catid);
 		/*주소검색*/
 		$('#location').click(function(event) {
 			event.preventDefault();
 			if ($('#ipadd').css('display') === "block") {
-				console.log("2");
 				$('#ipadd').val('');
 				$('#addressresult').empty();
 				$('#ipadd').css('display','none');
@@ -441,20 +473,17 @@ getTwitters('twitter', {
 		var searchadd = $("#ipadd");
 		$(searchadd).keyup(function() {
 			var sid = $(searchadd).val();
-			console.log(sid);
 			if (sid.length != 0) {
 				$.ajax({
 						url : 'https://dapi.kakao.com/v2/local/search/address.json?query='+ sid,
 						headers : {'Authorization' : 'KakaoAK a6462a6cb3e275f85632af19d7ec24cb'},
 						type : 'GET'
 						}).done(function(result) {
-									console.log(result);
 									var list = result.documents;
 									if (list.length != 0) {
 										var html = "<span><a href='#' id='a0' data-y='"+list[0].y+"' data-x='"+list[0].x+"'>"
 												+ list[0].address_name
 												+ "</a></span><br>";
-										console.log($("#addressresult>span>a[id=a0]"));
 										for (var i = 1; i < list.length; i++) {
 											html += "<span><a href='#' id='a"+i+"' data-y='"+list[i].y+"' data-x='"+list[i].x+"'>"
 													+ list[i].address_name + "</a></span><br>";
@@ -467,31 +496,55 @@ getTwitters('twitter', {
 			}
 		});
 		/*DB마커 가져오기*/
-		$.ajax({
-			url : "${root}/mypickmap/getmaplist",
-			dataType : "JSON",
-			success : function(result){
-				for (var i = 0; i < result.length; i++) {
-					var position = new daum.maps.LatLng(result[i].x, result[i].y);
-				    if (result[i].cate == 1) {
-						addMarker(1, doneMarkerimage,position, result[i].subject, result[i].contentsid);
-					} else if(result[i].cate == 2){
-						addMarker(2, pickMarkerimage,position, result[i].subject, result[i].contentsid);
+		function getMarkers(wn , ca){
+			 $.ajax({
+				url : "${root}/mypickmap/getmaplist",
+				data: { 'wanna' : wn,
+						'catid'	: ca},
+				dataType : "JSON",
+				success : function(result){
+					for (var i = 0; i < result.length; i++) {
+						
+						var position = new daum.maps.LatLng(result[i].xpoint, result[i].ypoint);
+					    if (result[i].wanna == 1) {
+							addMarker(1, doneMarkerimage,position, result[i].title, result[i].contentsId, result[i].infosogae, result[i].image1, result[i].addr1, result[i].addr2);
+							console.log("wanna=1")
+							selectDistance(marker);
+							selectedRangeContents(marker.getPosition().getLat(), marker.getPosition().getLng());
+							//cate, image ,position, subject, contentsid, ifsg, img, zc, ad1 , ad2
+						} else if(result[i].wanna == 2){
+							addMarker(2, pickMarkerimage,position, result[i].title, result[i].contentsId, result[i].infosogae, result[i].image1, result[i].addr1, result[i].addr2);
+							console.log("wanna=2")
+							selectDistance(marker);
+							selectedRangeContents(marker.getPosition().getLat(), marker.getPosition().getLng());
+						}
 					}
 				}
-			}
-		});
-		$('#all').click(function(event) {
+			});
+		}
+	
+		$('#allpick').click(function(event) {
 			event.preventDefault();
-			setAllMarkers(map);
+			setAllMarkers(null);
+			allMarkers = [];
+			wanna = -1;
+			getMarkers(wanna, catid);
 		})
 		$('#pick').click(function(event) {
 			event.preventDefault();
-			setPickMarkers(map);
+			setAllMarkers(null);
+			allMarkers = [];
+			wanna = 1;
+			getMarkers(wanna, catid);
+			
 		})
 		$('#done').click(function(event) {
 			event.preventDefault();
-			setDoneMarkers(map);
+			setAllMarkers(null);
+			allMarkers = [];
+			wanna = 2;
+			getMarkers(wanna, catid);
+			
 		})
 		$('input[name=range]').change(function() {
 			var jb = $('input[name=range]').val();
@@ -513,6 +566,7 @@ getTwitters('twitter', {
 					document.getElementById('clickAddrDetail').innerHTML = detailAddr;
 					var x = mouseEvent.latLng.getLat();
 					var y = mouseEvent.latLng.getLng();
+					console.log("click" +x+" " +y);
 					markerSet(x, y);
 					selectDistance(marker);
 					selectedRangeContents(x,y);
@@ -546,18 +600,7 @@ getTwitters('twitter', {
 			}
 		}
 	}
-	function setDoneMarkers(map) {
-		hideMarkers()
-	    for (var i = 0; i < doneMarkers.length; i++) {
-	    	doneMarkers[i].setMap(map);
-	    }            
-	}
-	function setPickMarkers(map) {
-		hideMarkers()
-	    for (var i = 0; i < pickMarkers.length; i++) {
-	    	pickMarkers[i].setMap(map);
-	    }            
-	}
+
 	function setAllMarkers(map) {
 	    for (var i = 0; i < allMarkers.length; i++) {
 	    	allMarkers[i].setMap(map);

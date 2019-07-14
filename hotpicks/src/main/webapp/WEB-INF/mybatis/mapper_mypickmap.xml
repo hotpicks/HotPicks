@@ -3,21 +3,60 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.kitri.hotpicks.mypicks.dao.MypickMapDao">
- 	<select id="getMapList" resultType="mapContentsDto">
- 		select contentsid, subject, x, y, cate
- 		from tpguscontents
+ 
+ 	<select id="getMapList" parameterType="map" resultType="viewPickMapDto">
+ 		select 
+ 			p.contentsid, 
+ 			c.title, 
+ 			d.xpoint, 
+ 			d.ypoint, 
+ 			c.catid, 
+ 			p.wanna,
+ 			nvl(c.image1,'-1') image1,
+      		nvl(c.image2,'-1') image2,
+      		d.infosogae,
+      		d.eventenddate,
+      		d.zipcode,
+      		d.addr1,
+      		d.addr2
+ 			
+	 	from picklist p , contents c, contentsdetail d
+		 where p. contentsid = c.contentsid and p.contentsid = d.contentsid
+		 <if test="wanna != -1">
+		 	and p.wanna = #{wanna}
+		 </if>
+		 <if test="catid != -1">
+		 	and c.catid = #{catid}
+		 </if>
  	</select>
- 	<select id="selectContentsList" parameterType="map" resultType="mapContentsDto">
+ 	
+ 	<select id="selectContentsList" parameterType="map" resultType="viewPickMapDto">
  	<![CDATA[
-      select * from (
-		select contentsid, subject, x, y, cate , to_char(DISTNACE_GRS80(#{x},#{y},x,y),'999,999,999.999') distance
- 		from tpguscontents)
- 		where
+      select * 
+      from (
+      		select 
+      			p.contentsid, 
+      			c.title, 
+      			d.xpoint, 
+      			d.ypoint, 
+      			c.catid, 
+      			p.wanna, 
+      			to_char(DISTNACE_GRS80(#{x},#{y},d.xpoint,d.ypoint),'999,999,999.999') distance,
+      			nvl(c.image1,'-1') image1,
+      			nvl(c.image2,'-1') image2,
+      			d.infosogae,
+      			d.eventenddate,
+      			d.zipcode,
+      			d.addr1,
+      			d.addr2
+ 			from picklist p , contents c, contentsdetail d
+		 	where p.contentsid = c.contentsid and p.contentsid = d.contentsid)
+	  where
 	 ]]>
  	<if test="selectMarkers.size() != 0">
  		contentsid in
  		<foreach collection="selectMarkers" item="selectMarker" open="(" separator="," close=")" >
- 		#{selectMarker} 
+ 		#{selectMarker} 		
  		</foreach>
 		and
  	</if>
