@@ -51,7 +51,7 @@ public class ContentsController {
 		model.addAttribute("contentsList", contentsList);
 		//System.out.println(contentsList.get(0).getRvCnt());
 		logger.info("set----------------------------------");
-
+		
 		// SelectLocation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		List<SidoDto> sidoList = contentsService.selectSido();
 		model.addAttribute("sidoList", sidoList);
