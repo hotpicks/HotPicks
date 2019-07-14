@@ -157,7 +157,7 @@ public class ContentsServiceImpl implements ContentsService {
 	@Override
 	public void insertApiContentsDetail(List<Integer> contentsIdList) {
 		List<Integer> existContents = sqlSession.getMapper(ContentsDao.class).existContentsList();
-		System.out.println(existContents.size());
+		//System.out.println(existContents.size());
 		BufferedReader br;
 		ContentsDetailDto cdtDto;
 		URL url;
@@ -514,6 +514,8 @@ public class ContentsServiceImpl implements ContentsService {
 		 *  3. api 군구자료 get하고 detailDto에 담기 
 		 * 4. DB에 list.size() 만큼 insert(3,4번을 한 process로 for문)
 		 */
+	
+		
 		List<Integer> sdList = insertSido(locationUrl);
 		if (sdList != null) {
 			insertSigungu(locationUrl, sdList);
