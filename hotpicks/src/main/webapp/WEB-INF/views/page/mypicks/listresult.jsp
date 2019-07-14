@@ -2,7 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath }"/>
-
+<c:if test="${article.size() == 0 }">
+<div align="center" style="height: 300px; font-size: 20px; font-weight: 700;">
+	<br><br><br><br><br>
+		<p>게시글이 존재하지 않습니다.&nbsp;<font color="#ff99bb"><i class="fas fa-sad-tear"></i></font></p>
+	</div>
+</c:if>
+<c:if test="${article.size() != 0 }">
     <c:forEach var="article" items="${articleList}" varStatus="status">
     <c:if test="${article.wanna == 0}">
       <div class="one-fourth rounded" style="margin:0 1% 1% 0; width:24%; height: 270px;">
@@ -24,3 +30,5 @@
       </div>
      </c:if>
      </c:forEach>
+     
+     </c:if>
