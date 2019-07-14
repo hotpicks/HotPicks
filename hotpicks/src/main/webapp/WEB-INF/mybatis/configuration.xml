@@ -19,6 +19,7 @@
       <typeAlias alias="reviewDto" type="com.kitri.hotpicks.contents.model.ReviewDto"/>
       <typeAlias alias="commentDto" type="com.kitri.hotpicks.contents.model.CommentDto"/>
       <typeAlias alias="hashTagDto" type="com.kitri.hotpicks.contents.model.HashTagDto"/>
+      <typeAlias alias="commonContentsDto" type="com.kitri.hotpicks.admin.model.CommonContentsDto"/>
 
       <typeAlias alias="visitCountDto" type="com.kitri.hotpicks.admin.model.VisitCountDto"/>
       <typeAlias alias="reportDto" type="com.kitri.hotpicks.admin.model.ReportDto"/>

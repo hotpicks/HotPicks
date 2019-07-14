@@ -110,5 +110,6 @@ public class ContentsDetailController {
 		System.out.println("del : "+ map);
 		int cnt = contentsDetailService.deletePick(map);
 		return cnt;
+
 	}
 }

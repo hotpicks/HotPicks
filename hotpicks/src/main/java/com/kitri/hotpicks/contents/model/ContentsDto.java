@@ -13,7 +13,14 @@ public class ContentsDto {
 	private int hit;
 	private int rvCnt;
 	private String updateDate;
+	private int isEnd;
 	
+	public int getIsEnd() {
+		return isEnd;
+	}
+	public void setIsEnd(int isEnd) {
+		this.isEnd = isEnd;
+	}
 	public String getUpdateDate() {
 		return updateDate;
 	}
