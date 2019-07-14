@@ -152,7 +152,11 @@ $(document).ready(function() {
 			reviewstr += '<div class="toggle">';
 			reviewstr += '	<div class="rehead" style="height:100px;" data-toggle="collapse" data-target="#'+i+'">';
 			reviewstr += '		<div class="user">';
+			if(review.saveFolder != null) {
 			reviewstr += '			<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> ';
+			} else {				
+			reviewstr += '			<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> ';
+			}
 			reviewstr += '		</div>';
 			reviewstr += '		<div class="message">';
 			reviewstr += '			<div class="info">';
