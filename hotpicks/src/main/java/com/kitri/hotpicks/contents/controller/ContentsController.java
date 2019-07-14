@@ -51,7 +51,7 @@ public class ContentsController {
 		model.addAttribute("contentsList", contentsList);
 		//System.out.println(contentsList.get(0).getRvCnt());
 		logger.info("set----------------------------------");
-
+		
 		// SelectLocation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		List<SidoDto> sidoList = contentsService.selectSido();
 		model.addAttribute("sidoList", sidoList);
@@ -65,7 +65,7 @@ public class ContentsController {
 	}
 
 	@RequestMapping(value = "/contentsbysearch", method = RequestMethod.GET)
-	public String selcectContentsBySearh(@RequestParam Map<String, Object> parameter, Model model) {
+	public String selectContentsBySearch(@RequestParam Map<String, Object> parameter, Model model) {
 		List<ContentsDto> contentsList = contentsService.selectContentsList('s', parameter);
 		List<ContentsDto> contentsList1 = new ArrayList<ContentsDto>();
 		List<ContentsDto> contentsList2 = new ArrayList<ContentsDto>();

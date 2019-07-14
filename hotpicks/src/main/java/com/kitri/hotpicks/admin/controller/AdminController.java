@@ -1,6 +1,7 @@
 package com.kitri.hotpicks.admin.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kitri.hotpicks.admin.model.CommonContentsDto;
 import com.kitri.hotpicks.admin.service.AdminService;
 import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
@@ -186,16 +188,26 @@ public class AdminController {
 	// 관리자 페이지 - DB 메뉴 이동
 	@RequestMapping("/db")
 	public String movedb(Model model) {
-		List<ContentsDto> list = adminService.getContents(1);
+		Map<String, Object>	map = new HashMap<String, Object>();
+		map.put("page", 1);
+		CommonContentsDto commonContentsDto = adminService.getCommonContentsDto();
+		List<ContentsDto> list = adminService.getContents(map);
+		model.addAttribute("common", commonContentsDto);
 		model.addAttribute("list", list);
 		return "/admin/dbmenu";
 	}
 	@RequestMapping("/gopage")
 	@ResponseBody
-	public String gopage(@RequestParam("page") int page) {
-		List<ContentsDto> list = adminService.getContents(page);
+	public String gopage(@RequestParam Map<String, Object>	map) {
+		List<ContentsDto> list = adminService.getContents(map);
 		JSONArray array = new JSONArray(list);
 		return array.toString();
 	}
-	
+	@RequestMapping("/isendupdate")
+	public String isendupdate(@RequestParam("endcontents") List<String> list) {
+		Map<String, Object>	map = new HashMap<String, Object>();
+		map.put("endcontents", list);
+		adminService.isendupdate(map);
+		return "redirect:/admin/db";
+	}
 }
