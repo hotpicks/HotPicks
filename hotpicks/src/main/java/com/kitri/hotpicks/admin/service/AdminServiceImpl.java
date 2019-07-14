@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kitri.hotpicks.admin.dao.AdminDao;
+import com.kitri.hotpicks.admin.model.CommonContentsDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
 import com.kitri.hotpicks.member.model.MemberDto;
@@ -133,9 +134,20 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<ContentsDto> getContents(int page) {
-		System.out.println("ser :" + page);
-		return sqlSession.getMapper(AdminDao.class).getContents(page);
+	public List<ContentsDto> getContents(Map<String, Object> map) {
+		return sqlSession.getMapper(AdminDao.class).getContents(map);
+	}
+
+	@Override
+	public void isendupdate(Map<String, Object> map) {
+		sqlSession.getMapper(AdminDao.class).isendupdate(map);
+		
+	}
+
+	@Override
+	public CommonContentsDto getCommonContentsDto() {
+		return sqlSession.getMapper(AdminDao.class).getCommonContentsDto();
+		
 	}
 	
 	
