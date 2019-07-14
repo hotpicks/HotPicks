@@ -11,7 +11,7 @@
 <c:if test="${articles.size() == 0}">
 	<div align="center" style="height: 300px; font-size: 20px; font-weight: 700;">
 	<br><br><br><br><br>
-		<p>게시글이 존재하지 않습니다.&nbsp;<font color="#ff99bb"><i class="fas fa-sad-tear"></i></font>
+		<p>게시글이 존재하지 않습니다.&nbsp;<font color="#ff99bb"><i class="fas fa-sad-tear"></i></font></p>
 	</div>
 </c:if>
 

@@ -170,19 +170,19 @@ public class ContentsServiceImpl implements ContentsService {
 
 		String detailCommonUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "defaultYN=Y&" + "addrinfoYN=Y&"
-				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + pshapikey + "&"; // conid
+				+ "mapinfoYN=Y&" + "contentTypeId=15&" + "ServiceKey=" + shzyapikey + "&"; // conid
 
 		String detailIntroUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ pshapikey + "&"; // "conid,typeid"
+				+ shzyapikey + "&"; // "conid,typeid"
 
 		String detailInfoUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailInfo?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "contentTypeId=15&" + "ServiceKey="
-				+ pshapikey + "&"; // "conid,typeid"
+				+ shzyapikey + "&"; // "conid,typeid"
 
 		String detailImageUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?"
 				+ "MobileOS=ETC&" + "MobileApp=AppTest&" + "_type=json&" + "imageYN=Y&" + "subImageYN=Y&"
-				+ "ServiceKey=" + pshapikey + "&"; // "conid";
+				+ "ServiceKey=" + shzyapikey + "&"; // "conid";
 
 		detailUrlList.add(detailCommonUrlStr);
 		detailUrlList.add(detailIntroUrlStr);
@@ -192,7 +192,7 @@ public class ContentsServiceImpl implements ContentsService {
 		int lenCL = contentsIdList.size();
 		int lenDL = detailUrlList.size();
 
-		for (int i = 0; i < lenCL; i++) {
+		for (int i = 820; i < lenCL; i++) {
 			System.out.println("index : " + i);
 			cdtDto = new ContentsDetailDto();
 			cdtDto.setContentsId(contentsIdList.get(i));
@@ -306,7 +306,7 @@ public class ContentsServiceImpl implements ContentsService {
 											? "-1"
 											: naeyongItem.get("infotext").toString().replace("\\", "")));
 
-							System.out.println("con>1 id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString());
+							//System.out.println("con>1 id : "+cdtDto.getContentsId()+" /c :"+cdtDto.toString());
 							
 							flag = true;
 							for(int k = 0 ; k<existContents.size() ; k++) {
@@ -687,13 +687,13 @@ public class ContentsServiceImpl implements ContentsService {
 				for(int i=0;i<len;i++) {
 					wordList.add(splitedWord[i]);
 				}
-				System.out.println("before clear"+parameter);
+				//System.out.println("before clear"+parameter);
 				parameter.clear();
-				System.out.println("after clear"+parameter);
+				//System.out.println("after clear"+parameter);
 				
 				parameter.put("wordList", wordList);
 					
-				System.out.println("splitparameter"+parameter.get("wordList"));
+				//System.out.println("splitparameter"+parameter.get("wordList"));
 				return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);
 			
 			

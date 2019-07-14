@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
+
 <!-- icon 사용 위함 -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
@@ -19,14 +21,14 @@
 <c:forEach var="review" items="${reviews}">
 	<!-- Begin 리뷰 글 -->
 <c:if test="${review.IMGDIR2 == null}">
-	          <li><img src="/hotpicks/resources/style/images/noImage_list.png" alt="" class="left" style="width : 60px; height: 60px;" />
+	          <li><img src="/hotpicks/resources/style/images/noImage_list.png" alt="${root}/contents/viewdetail?contentsId=${review.CONTENTSID}" class="left" style="width : 60px; height: 60px;" />
 </c:if>
 <c:if test="${review.IMGDIR2 != null}">
-	          <li><img src="/hotpicks/review/${review.IMGDIR1}/${review.IMGDIR2}" alt="" class="left" style="width : 60px; height: 60px;" />
+	          <li><img src="/hotpicks/review/${review.IMGDIR1}/${review.IMGDIR2}" alt="${root}/contents/viewdetail?contentsId=${review.CONTENTSID}" class="left" style="width : 60px; height: 60px;" />
 </c:if>
-	            <h4 class="title"><a href="">[<span class="cate" style="font-style:normal;"></span>] - ${review.TITLE}</a><span>- ${review.LOGTIME}</span></h4>
+	            <h4 class="title"><a href="${root}/contents/viewdetail?contentsId=${review.CONTENTSID}">[<span class="cate" style="font-style:normal;"></span>] - ${review.TITLE}</a><span>- ${review.LOGTIME}</span></h4>
 	            <p>${review.SUBJECT}<br>
-	            <a href="" class="more">내용 보기 &raquo;</a> </p>
+	            <a href="${root}/contents/viewdetail?contentsId=${review.CONTENTSID}" class="more">내용 보기 &raquo;</a> </p>
 	          </li>
 	<!-- End 리뷰 글--> 
 </c:forEach>

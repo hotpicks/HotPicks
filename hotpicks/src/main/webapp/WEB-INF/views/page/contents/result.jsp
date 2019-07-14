@@ -92,7 +92,7 @@ function reSelectcontentsList(sdCode, sggCode, catId){
 					contentsStr += '<img src=' + (contents[i].image1 == '-1' ? (contents[i].image2 == '-1' ? 
 							'noImage_list.png' : contents[i].image2) : contents[i].image1 ) +' width="200" alt=""/>';
 					contentsStr += '<h4>' + contents[i].title + '</h4>';
-					contentsStr += '<p>' + contents[i].title + '</p>';
+					contentsStr += '        <p>조회수 : ' + contents[i].hit + ' 리뷰 수 : </p>';
 					contentsStr += '</a></div>';
 				}
 			}
@@ -197,9 +197,10 @@ function reSelectcontentsList(sdCode, sggCode, catId){
 	    </c:otherwise>
 </c:choose>
 		
-		<img class="viewdetailbtn" src="${list.image1 != '-1' ? list.image1 : (list.image2 != '-1' ? list.image2 : '') }" width="200" alt="" />
+		<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
+		<%-- <img class="viewdetailbtn" src="${list.image1 != '-1' ? list.image1 : (list.image2 != '-1' ? list.image2 : '') }" width="200" alt="" /> --%>
         <h4>${list.title}</h4>
-        <p>${list.title}</p>
+        <p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt}</p>
         </a>
       </div>
       

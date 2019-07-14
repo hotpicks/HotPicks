@@ -11,8 +11,16 @@ public class ContentsDto {
 	private String image1;
 	private String image2;
 	private int hit;
+	private int rvCnt;
+	private String updateDate;
 	
-	
+	public String getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
+
 	public int getContentsId() {
 		return contentsId;
 	}
@@ -67,17 +75,20 @@ public class ContentsDto {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	
-	
-	
+	public int getRvCnt() {
+		return rvCnt;
+	}
+	public void setRvCnt(int rvCnt) {
+		this.rvCnt = rvCnt;
+	}
 	@Override
 	public String toString() {
 		return "ContentsDto [contentsId=" + contentsId + ", title=" + title + ", catId=" + catId + ", catCode="
 				+ catCode + ", sggCode=" + sggCode + ", sdCode=" + sdCode + ", image1=" + image1 + ", image2=" + image2
-				+ ", hit=" + hit + "]";
+				+ ", hit=" + hit + ", rvCnt=" + rvCnt + "]";
 	}
-
-
+	
+	
 
 
 }

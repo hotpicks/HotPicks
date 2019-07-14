@@ -51,8 +51,8 @@ function getHash(selected){
           <div class="clear"></div>
           
           <br>
-          
-          <div align="center" style="float:left; width:50%; height:250px;">
+ <c:if test="${rCateStat.size() != 0 && pCateStat.size() != 0}">
+ 	<div align="center" style="float:left; width:50%; height:250px;">
           	<canvas id="chart1" width="50" height="50" class="chartjs-render-monitor" style="height: 50px; width: 50px;"></canvas>
           	<span style="font-size:15px; font-weight: 700;">&lt;리뷰 수 기준 선호 콘텐츠&gt;</span>
 		  </div>
@@ -153,6 +153,16 @@ var myPieChart = new Chart(ctx, {
 });
 
 </script>
+ </c:if>     
+ 
+  <c:if test="${rCateStat.size() == 0}">
+  	<div align="center" style="height: 200px; font-size: 20px; font-weight: 700;">
+	<br><br>
+		<p>충분한 양의 통계자료가 존재하지 않습니다.&nbsp;<font color="#ff99bb"><i class="fas fa-sad-tear"></i></font></p>
+		<p style="font-size:15px; color:tomato; font-weight: 500"><i class="fas fa-bell"></i> 리뷰와 Pick 개수를 모두 늘려보세요!</p>
+	</div>
+  </c:if>    
+          
          <div class="clear"></div>
          
           <br><br>

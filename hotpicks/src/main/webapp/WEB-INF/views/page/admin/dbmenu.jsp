@@ -1,8 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file = "adminheader.jsp" %>
-
+<style>
+	.tab-content{
+		height: 100%!Important;
+	}
+</style>
 <script>
+var page = 2;
+$(window).scroll(function() {
+	var scrollHeight = $(document).height();
+	var scrollPosition = $(window).height() + $(window).scrollTop();
+	if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+		var str = "";
+		$.ajax({
+			url : '${root}/admin/gopage',
+			type : 'get',
+			data : {"page" : page },
+			dataType : 'json',
+			success : function(result) {
+				for (var i = 0; i < result.length; i++) {
+					var catId = "";
+					if (result[i].catId == 1) {
+						catId = '축제';
+					} else if (result[i].catId == 2) {
+						catId = '공연';
+					}else if (result[i].catId == 3) {
+						catId = '행사';
+					}		
+				
+				str += "			<tr align='center'>";
+				str += "          			<td>";
+				str += "          				<input type='checkbox' class='ch'>";
+				str += "          			</td>";
+				str += "          			<td>"+result[i].contentsId+"</td>";
+				str += "          			<td>"+catId+"</td>";
+				str += "          			<td>"+result[i].title+"</td>";
+				str += "          			<td>"+result[i].hit+"</td>";
+				str += "          			<td>"+result[i].updateDate+"</td>";
+				str += "          			<td>"+result[i].eventEndDate+"</td>";
+				str += "          		</tr>";
+				}
+				$('tr').last().after(str);
+				page = page + 1 ;
+			}
+		});
+	}
+});
 $(function(){
 		
 	/* 전체 선택 및 해제 이벤트 */
@@ -14,9 +58,72 @@ $(function(){
 			$(".ch").attr("checked", false);			
 		}
 	});
+	});
+	/* var page = 2;
+	var didScroll; 
+	var lastScrollTop = 0; 
+	var delta = 5; 
+
+	$(window).scroll(function(event){ 
+		didScroll = true;
+	}); 
+	
+	setInterval(function() { 
+		if (didScroll) { 
+			hasScrolled(); didScroll = false; 
+			} 
+	}, 250); 
+	
+	function hasScrolled() {
+		var st = $(this).scrollTop();
+		if(Math.abs(lastScrollTop - st) <= delta) {
+			return;
+		};
+		
+		if (st > lastScrollTop && st > ($(document).height())-500){
 
 	
-});
+			console.log(st);
+			console.log(lastScrollTop);
+			var str = "";
+			$.ajax({
+				url : '${root}/admin/gopage',
+				type : 'get',
+				data : {"page" : page },
+				dataType : 'json',
+				success : function(result) {
+					for (var i = 0; i < result.length; i++) {
+						var catId = "";
+						if (result[i].catId == 1) {
+							catId = '축제';
+						} else if (result[i].catId == 2) {
+							catId = '공연';
+						}else if (result[i].catId == 3) {
+							catId = '행사';
+						}		
+					
+					str += "			<tr align='center'>";
+					str += "          			<td>";
+					str += "          				<input type='checkbox' class='ch'>";
+					str += "          			</td>";
+					str += "          			<td>"+result[i].contentsId+"</td>";
+					str += "          			<td>"+catId+"</td>";
+					str += "          			<td>"+result[i].title+"</td>";
+					str += "          			<td>"+result[i].hit+"</td>";
+					str += "          			<td>"+result[i].updateDate+"</td>";
+					str += "          			<td>"+result[i].eventEndDate+"</td>";
+					str += "          		</tr>";
+						
+					}
+					$('tr').last().after(str);
+					page = page + 1 ;
+				}
+			});
+			
+		} 
+		lastScrollTop = st; 
+	}
+}); */
 </script>
 
   <!-- Begin Wrapper -->
@@ -50,7 +157,8 @@ $(function(){
           
           <!-- ********** 컨텐츠 관리 테이블 ********** -->
           	<a href="#" class="button red btns" style="margin-right:30px; font-weight: 700;">삭 제<span></span></a>
-          	<a href="#" class="button lime btns" style="margin-right:30px; font-weight: 700;">DB UPDATE<span></span></a>
+          	<a href="#" class="button lime btns" style="margin-right:30px; font-weight: 700;">DBUPT CATEGORY<span></span></a>
+          	<a href="#" class="button lime btns" style="margin-right:30px; font-weight: 700;">DBUPT CONTENTS<span></span></a>
           	<select>
           		<option value="전체">전체 컨텐츠</option>
           		<option value="1">축제</option>
@@ -60,7 +168,7 @@ $(function(){
           	<div class="clear"></div>
 
 
-          <div style="float:none; height: 600px; overflow-y:auto">
+          <div style="float:none; overflow-y:auto">
           
           <p class="list">
           	
@@ -76,73 +184,33 @@ $(function(){
           			<td>갱신일자</td>
           			<td>유효여부</td>
           		</tr>
+          		
+          	<c:forEach var="contents" items="${list}">
+          	
           		<tr align="center">
           			<td>
           				<input type="checkbox" class="ch">
           			</td>
-          			<td>1</td>
-          			<td>공연</td>
-          			<td>쉬어매드니스</td>
-          			<td>1002</td>
-          			<td>2019.07.02</td>
-          			<td>유효</td>
+          			<td>${contents.contentsId}</td>
+          			<c:choose>
+          				<c:when test="${contents.catId == 1}">
+          					<c:set var="catname" value="축제"></c:set>
+          				</c:when>
+          				<c:when test="${contents.catId == 2}">
+          					<c:set var="catname" value="공연"></c:set>
+          				</c:when>
+          				<c:when test="${contents.catId == 3}">
+          					<c:set var="catname" value="행사"></c:set>
+          				</c:when>
+          			</c:choose>
+          			<td>${catname}</td>
+          			<td>${contents.title}</td>
+          			<td>${contents.hit}</td>
+          			<td>${contents.updateDate}</td>
+          			<td>${contents.eventEndDate}</td>
           		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>2</td>
-          			<td>공연</td>
-          			<td>쉬어매드니스</td>
-          			<td>1002</td>
-          			<td>2019.07.02</td>
-          			<td>유효</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>3</td>
-          			<td>공연</td>
-          			<td>쉬어매드니스</td>
-          			<td>1002</td>
-          			<td>2019.07.02</td>
-          			<td>유효</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>4</td>
-          			<td>공연</td>
-          			<td>쉬어매드니스</td>
-          			<td>1002</td>
-          			<td>2019.07.02</td>
-          			<td>유효</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>5</td>
-          			<td>공연</td>
-          			<td>쉬어매드니스</td>
-          			<td>1002</td>
-          			<td>2019.07.02</td>
-          			<td>유효</td>
-          		</tr>
-          		<tr align="center">
-          			<td>
-          				<input type="checkbox" class="ch">
-          			</td>
-          			<td>6</td>
-          			<td>공연</td>
-          			<td>쉬어매드니스</td>
-          			<td>1002</td>
-          			<td>2019.07.02</td>
-          			<td>유효</td>
-          		</tr>
-   
+          		</c:forEach>
+          		
           	</table>
 			          
            </p>
@@ -161,4 +229,4 @@ $(function(){
   </div>
   <!-- End Wrapper -->
 
-<%@ include file = "/WEB-INF/views/page/template/footer.jsp" %>
+<%@ include file = "/WEB-INF/views/page/admin/adminfooter.jsp" %>

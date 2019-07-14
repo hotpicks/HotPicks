@@ -17,4 +17,5 @@ public interface MemberService {
 	
 	public List<Map<String, String>> getReview(Map<String, String> map);
 	public int getReviewCnt(String userId);
+	public Map<String, String> getCurrentMember(String userId);
 }

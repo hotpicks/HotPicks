@@ -8,7 +8,7 @@
 </div>
 
 <!-- Begin Footer -->
-<div id="footer-wrapper">
+<div id="footer-wrapper" class="sh">
   <div id="footer">
     <div id="footer-content"> 
       

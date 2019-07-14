@@ -1,5 +1,6 @@
 package com.kitri.hotpicks.contents.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class ContentsController {
 		List<ContentsDto> contentsList = contentsService.selectContentsList('m', null);
 
 		model.addAttribute("contentsList", contentsList);
-
+		//System.out.println(contentsList.get(0).getRvCnt());
 		logger.info("set----------------------------------");
 
 		// SelectLocation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -64,12 +65,29 @@ public class ContentsController {
 	}
 
 	@RequestMapping(value = "/contentsbysearch", method = RequestMethod.GET)
-	public String selcectContentsBySearh(@RequestParam Map<String, Object> parameter) {
+	public String selcectContentsBySearh(@RequestParam Map<String, Object> parameter, Model model) {
 		List<ContentsDto> contentsList = contentsService.selectContentsList('s', parameter);
-		System.out.println("search : " + contentsList.toString());
-		org.json.JSONArray contentsJson = new org.json.JSONArray(contentsList);
-		System.out.println(contentsJson.toString());
-		return "search/searchresult";
+		List<ContentsDto> contentsList1 = new ArrayList<ContentsDto>();
+		List<ContentsDto> contentsList2 = new ArrayList<ContentsDto>();
+		List<ContentsDto> contentsList3 = new ArrayList<ContentsDto>();
+		for(int i=0;i<contentsList.size();i++) {
+			switch(contentsList.get(i).getCatId()) {
+			
+				case 1:
+					contentsList1.add(contentsList.get(i));
+					break;
+				case 2:
+					contentsList2.add(contentsList.get(i));
+					break;
+				case 3:
+					contentsList3.add(contentsList.get(i));
+					break;
+			}
+		}
+		model.addAttribute("contentsList1", contentsList1);
+		model.addAttribute("contentsList2", contentsList2);
+		model.addAttribute("contentsList3", contentsList3);
+		return "contents/contentssearchresult";
 	}
 	
 	
@@ -105,24 +123,26 @@ public class ContentsController {
 
 		// locationInsertProcess		
 		String locationUrl = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaCode?" + "MobileOS=ETC&"
-				+ "MobileApp=AppTest&" + "numOfRows=50&" + "_type=json&" + "ServiceKey=" + pshapikey;
+				+ "MobileApp=AppTest&" + "numOfRows=50&" + "_type=json&" + "ServiceKey=" + shzyapikey;
 
 		System.out.println(locationUrl);
 		String resultMsg = contentsService.locationProcess(locationUrl);
 		logger.info("insert location process complete");
+		
+		//basic data
+		contentsService.insertContentsCate();
 
 		return resultMsg;
 	}
 
 	@RequestMapping(value = "/contentsinsert", method = RequestMethod.GET)
 	public @ResponseBody String contentsInsertProcess() {
-		// contentscateInsertProcess
-		// contentsService.insertContentsCate();
 		
+		//contentscateInsertProcess
 		// apiInsertProcess
 		String areaUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?"
 				+ "numOfRows=10000&" + "pageNo=1&" + "MobileOS=ETC&" + "MobileApp=AppTest&" + "listYN=Y&" + "arrange=P&"
-				+ "contentTypeId=15&" + "_type=json&" + "ServiceKey=" + pshapikey;
+				+ "contentTypeId=15&" + "_type=json&" + "ServiceKey=" + shzyapikey;
 		// InsertApicontents
 		contentsService.insertApiProcess(areaUrlStr);
 		logger.info("insert api process complete");

@@ -211,7 +211,6 @@
 			ON(contentsid = #{contentsId})
 		WHEN MATCHED THEN
 			UPDATE SET 
-				serialnum = #{serialNum},
 				imgname = #{imgName},
 				originimgurl = #{originImgurl},
 				smallimageurl = #{originImgurl}
@@ -223,11 +222,38 @@
  	</update>
  	
 	<select id="contentslist" parameterType="map" resultType="contentsDto">
-	SELECT c.*
-	FROM contents c inner join contentsdetail d
+	SELECT c.*, nvl(r.count,0) rvcnt
+	FROM contents c INNER JOIN contentsdetail d
 	ON c.contentsid = d.contentsid
-	WHERE c.image2 != 'noImage_list.png' AND c.isend = 1 AND <![CDATA[rownum < 20]]>
-	<if test="catId != null and catId != 0">
+	LEFT OUTER JOIN (SELECT contentsid, count(contentsid) count
+					FROM review
+					GROUP BY contentsid) r
+	ON c.contentsid = r.contentsid
+	WHERE <![CDATA[rownum < 23]]>
+	<choose>
+		<when test="wordList != null">
+			<foreach collection="wordList" open="AND(1!=1" close=")" item="word">
+		OR c.title like '%'|| #{word} || '%'
+		OR d.addr1 like '%'|| #{word} || '%'
+		OR d.infosogae like '%'|| #{word} || '%'
+		OR d.infonaeyong like '%'|| #{word} || '%'
+		OR d.program like '%'|| #{word} || '%'
+		</foreach>
+		</when>
+		<otherwise>
+		AND c.image2 != 'noImage_list.png' AND c.isend = 1
+			<if test="catId != null and catId != 0">
+			AND c.catid = #{catId}
+			</if>
+			<if test="sdCode != null and sdCode != 0">
+			AND c.sdcode = #{sdCode} 
+			</if>
+			<if test="sggCode != null and sggCode != 0">
+			AND c.sggcode = #{sggCode} 
+			</if>
+		</otherwise>
+	</choose>
+	<!-- <if test="catId != null and catId != 0">
 	AND c.catid = #{catId}
 	</if>
 	<if test="sdCode != null and sdCode != 0">
@@ -235,9 +261,10 @@
 	</if>
 	<if test="sggCode != null and sggCode != 0">
 	AND c.sggcode = #{sggCode} 
-	</if>
-	<if test="wordList != null">
-	<!-- addr1, infonaeyong, infosogae , program, title -->
+	</if> -->
+	
+	<!-- <if test="wordList != null">
+	addr1, infonaeyong, infosogae , program, title
 		<foreach collection="wordList" open="AND(1!=1" close=")" item="word">
 		OR c.title like '%'|| #{word} || '%'
 		OR d.addr1 like '%'|| #{word} || '%'
@@ -245,7 +272,7 @@
 		OR d.infonaeyong like '%'|| #{word} || '%'
 		OR d.program like '%'|| #{word} || '%'
 		</foreach>
-	</if>
+	</if> -->
 	
 	</select>
  </mapper>

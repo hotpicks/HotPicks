@@ -5,7 +5,7 @@
  <mapper namespace="com.kitri.hotpicks.member.dao.MemberDao">
  	
  	<select id="login" parameterType="memberDto" resultType="memberDto">
- 		select userId, name, age, gender, pass, profile
+ 		select userId, name, age, gender, joinDate, pass, profile
  		from member
  		where userId = #{userId}
  		and pass = #{pass}
@@ -48,7 +48,7 @@
  	</update>
  
 	<select id="getReview" parameterType="map" resultType="map">
- 		select r.rseq rseq, c.t title, to_char(r.logtime,'yyyy-mm-dd') logtime, r.subject subject, r.savefolder imgdir1, r.savepicture imgdir2
+ 		select r.rseq rseq, c.t title, c.ci contentsid, to_char(r.logtime,'yyyy-mm-dd') logtime, r.subject subject, r.savefolder imgdir1, r.savepicture imgdir2
 		from review r, (select title t, contentsid ci, catname cn
                         from contents c, contentscate ct
                         where c.catcode = ct.catcode) c
@@ -61,6 +61,12 @@
  	<select id="getReviewCnt" parameterType="string" resultType="int">
  		select count(*) reviewcnt
 		from review
+		where userid = #{userId}
+ 	</select>
+
+ 	<select id="getCurrentMember" parameterType="string" resultType="map">
+ 		select userid userid, pass pass, name name, age age, gender gender, joinDate joindate, enable enable, profile profile
+		from member
 		where userid = #{userId}
  	</select>
  
