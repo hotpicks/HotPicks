@@ -135,10 +135,24 @@ $(function(){
 	// 수정 요청
 	$("#modifyBtn").click(function(){
 		
+		// 확장자 확인
+		var imgOk = 0;
+		if($("#profileBtn").val() != ""){
+		      var ext = $('#profileBtn').val().split('.').pop().toLowerCase();
+		      if($.inArray(ext, ['gif','png','jpg']) == -1) {
+		    	  imgOk = 0;
+		   	   } else{
+		   		   imgOk = 1;
+		   	   }
+		}
+		
 		var pass = $(this).attr("data-pass");
 		// 일반 로그인의 경우, 비번 유효성 검사 수행
 		if(pass != 'kakao'){
-			if($("#pass").val().trim().length == 0){
+			if(imgOk == 0){
+				 alert('프로필 사진의 형식을 확인해주세요. 이미지 파일 (jpg, png, gif)만 등록 가능합니다.');
+		    	  $("#profileBtn").val(""); // input file 파일명을 다시 지워준다
+			} else if($("#pass").val().trim().length == 0){
 				alert("현재 비밀번호를 입력해주세요.");
 			} else if(curpassright != 0){
 				alert("현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
@@ -154,7 +168,10 @@ $(function(){
 			}
 		}else{ // 카톡 로그인의 경우, 비번 검사 안 함.
 			
-			if($("#age").val().trim().length == 0){
+			if(imgOk == 0){
+				 alert('프로필 사진의 형식을 확인해주세요. 이미지 파일 (jpg, png, gif)만 등록 가능합니다.');
+		    	  $("#profileBtn").val(""); // input file 파일명을 다시 지워준다
+			} else if($("#age").val().trim().length == 0){
 				alert("나이를 입력해주세요.");
 			} else {
 			
@@ -233,15 +250,15 @@ $(function(){
                 <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
 <c:if test="${userInfo.pass=='kakao'&&userInfo.profile!='user.png'}">
-              	<img id="profileImg" alt="사용자프로필사진" src="${userInfo.profile}" height="150px" width="150px"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${userInfo.profile}" height="150px" width="150px" style="border: solid 1px #E0E0E0"/>
 </c:if>
 <c:if test="${userInfo.pass=='kakao'&&userInfo.profile=='user.png'}">
-              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px" style="border: solid 1px #E0E0E0"/>
 </c:if>
 <c:if test="${userInfo.pass!='kakao'}">
-              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+              	<img id="profileImg" alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px" style="border: solid 1px #E0E0E0"/>
 </c:if>
-               	<input type="file" id="profileBtn" name="profile_file" style="width:200px; height:40px; background-color: white"/>
+               	<input type="file" id="profileBtn" name="profile_file" style="width:200px; height:40px; background-color: white" accept="image/*"/>
               	</div>
               </p>
               <br><br>
