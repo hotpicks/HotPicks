@@ -194,7 +194,7 @@
 				 		from contents c, contentsdetail d
 				 		where c.contentsid = d.contentsid
 				 		order by contentsid desc) total
-				 	where rownum  &lt; #{page}*15) c
-			where c.r  &gt;= #{page}*15 - 14
+				 	where rownum  &lt; #{page}*3+1) c
+			where c.r  &gt;= #{page}*3 - 2
  	</select>
  </mapper>

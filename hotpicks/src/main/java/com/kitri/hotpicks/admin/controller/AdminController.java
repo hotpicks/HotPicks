@@ -192,8 +192,9 @@ public class AdminController {
 	}
 	@RequestMapping("/gopage")
 	@ResponseBody
-	public String gopage(@RequestParam("page") int page) {
-		List<ContentsDto> list = adminService.getContents(page);
+	public String gopage(@RequestParam Map<String, String>	map) {
+		System.out.println(map);
+		List<ContentsDto> list = adminService.getContents(Integer.parseInt(map.get("page")));
 		JSONArray array = new JSONArray(list);
 		return array.toString();
 	}

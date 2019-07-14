@@ -134,6 +134,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public List<ContentsDto> getContents(int page) {
+		System.out.println("ser :" + page);
 		return sqlSession.getMapper(AdminDao.class).getContents(page);
 	}
 	
