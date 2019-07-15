@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/page/template/header.jsp"%>
-
+<!-- icon 사용 위함 -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <c:set var="root" value="${pageContext.request.contextPath}" />
 <style>
 #about .one-fourth img {
@@ -159,22 +160,22 @@ input[type=radio] {
 			style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
 			<!-- <a>전체 |</a> <a>공연 |</a> <a>전시 |</a> <a>행사</a> -->
 		</div>
-		<div style="margin-bottom: 20px;">
-			<a href="${root}/mypicklist/enter"><img src="${root}/resources/style/images/listpicks.png"></a>
-			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
-			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/mypicklist/cal"><img src="${root}/resources/style/images/calendarpicks.png"></a>
-		</div>
-		
 		<div style="margin-bottom: 10px; font-size: 15px; " id="btn_group">
-			<div style="float: right;">
+			<div style="float: right; margin-top:20px;">
 			<label><input type="radio" value="가고싶은곳" name="wanna" checked="checked" disabled="disabled" class="c1" data-w="0">가고싶은곳</label>
 			<label><input type="radio" value="다녀온곳" name="wanna" class="c2 " data-w="1" disabled="disabled">다녀온곳</label>
 				<button class= "save" name="save" id="#test_btn1">저장</button>
 				<button id= "delete" name="delete" id="#test_btn2">삭제</button>
 			</div>
-			<div style="float: left;">
+			<div style="float: right; margin-right: 30px;">
+				<a href="${root}/mypicklist/enter"><i class="fas fa-list" style="font-size: 4em;"></i></a>
+				<img src="${root}/resources/style/images/blank.png">
+				<a href="${root}/mypickmap/mvmypickmap"><i class="fas fa-map-marked-alt" style="font-size: 4em;"></i></a>
+				<img src="${root}/resources/style/images/blank.png">
+				<a href="${root}/mypicklist/cal"><i class="fas fa-calendar-alt" style="font-size: 4em;"></i></a>
+			</div>
+		
+			<div style="float: left; margin-top:20px;">
 				<a href="#none" class="went btn blue" data-a="0" >가고싶은 곳</a><img src="${root}/resources/style/images/blank.png"> 
 				<a href="#none" class="went btn red" data-a="1">다녀온 곳</a>
 			</div>
