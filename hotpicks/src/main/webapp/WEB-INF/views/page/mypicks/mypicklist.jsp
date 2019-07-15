@@ -183,7 +183,7 @@ input[type=radio] {
 		<div style="clear:both;"></div>
 	</div>
 
-    <div id="about" style="height: 850px; overflow-y:auto">
+    <div id="about" style="height: 850px;">
    
     </div>
      </div>
