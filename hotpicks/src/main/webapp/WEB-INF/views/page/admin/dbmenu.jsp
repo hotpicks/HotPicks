@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <jsp:useBean id="toDay" class="java.util.Date" />
 <fmt:formatDate value="${toDay}" pattern="yyyyMMdd" var="today"/>
-${common}
 <style>
 	.tab-content{
 		height: 100%!Important;
