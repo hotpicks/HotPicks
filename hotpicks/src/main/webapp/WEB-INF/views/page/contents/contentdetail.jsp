@@ -206,6 +206,36 @@ $(document).ready(function() {
 				reviewstr += '    </div>';
 				reviewstr += '  </div>';
 				
+			} else if('${userInfo == null}' == 'false'){
+				reviewstr += '	<input type="button" class="blackBtn" value="신고하기" data-toggle="modal" data-target="#blackmodal'+i+'" style="float:right;">';
+				
+				//blackmodal
+				reviewstr += '<div class="modal" id="blackmodal'+i+'">';
+				reviewstr += '    <div class="modal-dialog modal-xl">';
+				reviewstr += '      <div class="modal-content">';
+				      
+				reviewstr += '        <div class="modal-header">';
+				reviewstr += '          <h4 class="modal-title">리뷰 신고하기</h4>';
+				reviewstr += '      	<button type="button" class="close" data-dismiss="modal">&times;</button>';
+				reviewstr += '        </div>';
+				        
+				       
+				reviewstr += '        <div class="modal-body">';
+				//리뷰글번호 회원아이디 신고내용 신고일자 
+				reviewstr += '			<label style="font-size:15px;">신고내용</label>';
+				reviewstr += '			<textarea cols="80" rows="5"></textarea>';  
+				reviewstr += '        </div>';   
+				        
+				       
+				reviewstr += '        <div class="modal-footer" data-seq="'+review.rseq+'" data-user="${userInfo.userId}">';
+				reviewstr += '      	<button type="button" class="btn btn-primary blackreviewbtn" >신고</button>';
+				reviewstr += '      	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>';
+				reviewstr += '        </div>';
+				        
+				reviewstr += '      </div>';
+				reviewstr += '    </div>';
+				reviewstr += '  </div>';
+			
 			}
 			
 			reviewstr += '			</div>';
@@ -237,6 +267,28 @@ $(document).ready(function() {
 	
 		$("#singlecomments").empty();
 		$("#singlecomments").append(reviewstr);
+		
+		
+		//리뷰 신고
+		//리뷰글번호 회원아이디 신고내용 신고일자 
+		var blackArr = $(".blackreviewbtn");
+		$(blackArr).live("click",function() {
+			$.ajax({
+				url : '${root}/review/black/' 
+				+ $(this).parent(".modal-footer").attr("data-seq") + '/' 
+				+ $(this).parent(".modal-footer").attr("data-user") + '/' 
+				+ $(this).parent(".modal-footer").siblings(".modal-body").find("textarea").val(),
+				type : 'PUT',
+				contentType : 'application/json;charset=UTF-8',
+				dataType : 'json',
+				success : function(response) {
+					alert("신고가 완료되었습니다.");
+					window.location.reload();
+				}
+			});
+			
+		});
+		
 		
 		//댓글list 가져오기
 		var rehArr = $(".rehead");
@@ -313,6 +365,7 @@ $(document).ready(function() {
 			});
 			
 		});
+		
 		
 	}
 	

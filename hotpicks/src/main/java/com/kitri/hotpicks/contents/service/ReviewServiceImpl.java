@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kitri.hotpicks.contents.dao.ReviewDao;
+import com.kitri.hotpicks.contents.model.BlackReviewDto;
 import com.kitri.hotpicks.contents.model.CommentDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
@@ -127,6 +128,18 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		sqlSession.getMapper(ReviewDao.class).modifyMemo(commentDto);
 		
+		
+	}
+
+	@Override
+	public void black(int rseq, String userId, String reportContent) {
+		BlackReviewDto blackReviewDto = new BlackReviewDto();
+		
+		blackReviewDto.setRseq(rseq);
+		blackReviewDto.setUserId(userId);
+		blackReviewDto.setReportContent(reportContent);
+		
+		sqlSession.getMapper(ReviewDao.class).black(blackReviewDto);
 		
 	}
 	
