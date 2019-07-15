@@ -105,15 +105,29 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public String deleteMemo(int rceq, String logId, int logTime) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteMemo(int rceq, String logId, String logTime) {
+		System.out.println("댓글삭제하러 서비스 도착");
+		CommentDto commentDto = new CommentDto();
+		commentDto.setRceq(rceq);
+		commentDto.setLogId(logId);
+		commentDto.setLogTime(logTime);
+		
+		sqlSession.getMapper(ReviewDao.class).deleteMemo(commentDto);
+		
 	}
 
 	@Override
-	public String modifyMemo(int rceq, String logId, int logTime, String content) {
-		// TODO Auto-generated method stub
-		return null;
+	public void modifyMemo(int rceq, String logId, String logTime, String content) {
+		System.out.println("댓글수정하러 서비스 도착");
+		CommentDto commentDto = new CommentDto();
+		commentDto.setRceq(rceq);
+		commentDto.setLogId(logId);
+		commentDto.setLogTime(logTime);
+		commentDto.setContent(content);
+		
+		sqlSession.getMapper(ReviewDao.class).modifyMemo(commentDto);
+		
+		
 	}
 	
 	
