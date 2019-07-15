@@ -162,8 +162,8 @@ function getContents(pg , ca, av, gn) {
 			
 			str += "			<tr align='center'>";
 			str += "          			<td>";
-			if (today > result[i].eventEndDate && result[i].isEnd==0) {
-			str += "          				<input type='checkbox' class='ch' name='endcontents'>";
+			if (today > result[i].eventEndDate && result[i].isEnd==1) {
+			str += "          				<input type='checkbox' value='"+result[i].contentsId+"' class='ch' name='endcontents'>";
 			}
 			str += "          			</td>";
 			str += "          			<td>"+result[i].contentsId+"</td>";
@@ -267,7 +267,7 @@ function getContents(pg , ca, av, gn) {
           	
           		<tr align="center">
           			<td>
-          			<c:if test="${today > contents.eventEndDate and contents.isEnd==0}">
+          			<c:if test="${today > contents.eventEndDate and contents.isEnd==1}">
           				<input type="checkbox" class="ch" value="${contents.contentsId}" name="endcontents">
           			</c:if>
           			</td>
