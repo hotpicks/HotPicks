@@ -3,7 +3,8 @@
 <%@ include file = "/WEB-INF/views/page/template/header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
-
+<!-- icon 사용 위함 -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <link href='${root}/resources/packages/core/main.css' rel='stylesheet' />
 <link href='${root}/resources/packages/daygrid/main.css' rel='stylesheet' />
 <link href='${root}/resources/packages/timegrid/main.css' rel='stylesheet' />
@@ -14,13 +15,23 @@
 <script>
 
 	var eventList = [];
-	
 	<c:forEach var="article" items="${articleCal}">
 		var events = {};
+		var eventdate = "${article.sysdate}"
+		<c:if test="${article.wanna ==0}">
+		events.backgroundColor ="#79bd9a";
 		events.title = "${article.title}";
 		events.start = "${article.eventStartDate}";
 		events.end = "${article.eventEndDate}";
-		
+		events.url= '${root}/contents/viewdetail?contentsId=${article.contentsId}';
+		</c:if>
+		<c:if test="${article.wanna ==1}">
+		events.backgroundColor ="#3b8686";
+		events.title = "${article.title}";
+		events.start = "${article.eventStartDate}";
+		events.end = "${article.eventEndDate}";
+		events.url= '${root}/contents/viewdetail?contentsId=${article.contentsId}';
+		</c:if>
 		eventList.push(events);
 
 	</c:forEach>
@@ -38,7 +49,7 @@
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      defaultDate: '2019-06-12',
+      defaultDate: eventdate,
       navLinks: true, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,
@@ -69,18 +80,12 @@
 <div id="wrapper"> 
 <div class="content">
 <div align="center" style="margin-bottom: 30px;">
-	<div style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
-		<a href="">전체	|</a>
-		<a>공연	|</a>
-		<a>전시	|</a>
-		<a>행사</a>
-	</div>
 	<div>
-			<a href="${root}/mypicklist/enter"><img src="${root}/resources/style/images/listpicks.png"></a>
-			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
-			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/mypicklist/cal"><img src="${root}/resources/style/images/calendarpicks.png"></a>
+			<a href="${root}/mypicklist/enter"><i class="fas fa-list" style="font-size: 4em;"></i></a>
+				<img src="${root}/resources/style/images/blank.png">
+				<a href="${root}/mypickmap/mvmypickmap"><i class="fas fa-map-marked-alt" style="font-size: 4em;"></i></a>
+				<img src="${root}/resources/style/images/blank.png">
+				<a href="${root}/mypicklist/cal"><i class="fas fa-calendar-alt" style="font-size: 4em;"></i></a>
 		</div>
 </div>
 

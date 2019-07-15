@@ -3,8 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.kitri.hotpicks.contents.dao.ContentsDao">
- 
- 
+
  	<insert id="insertSido" parameterType="java.util.List">
 	<foreach collection="list" item="sido" open="INSERT ALL">
 	INTO sido(sdcode, sdname) VALUES(#{sido.sdCode}, #{sido.sdName})
@@ -221,39 +220,97 @@
  			VALUES(#{contentsId}, #{serialNum}, #{imgName}, #{originImgurl}, #{originImgurl})
  	]]>
  	</update>
+ 	<select id="selectMyHashTag" parameterType="map" resultType="String">
+ 	 SELECT h.hashtag
+		FROM hashtag h INNER JOIN review r
+		ON h.rseq = r.rseq
+		WHERE r.userid = #{userId}
+		AND rownum = 1
+		AND h.hashtag in (SELECT c.tag
+                            FROM(SELECT h.hashtag tag, count(h.hashtag) cnt
+                                    FROM hashtag h INNER JOIN review r
+                                    ON h.rseq = r.rseq
+                                    WHERE r.userid = #{userId}
+                                    GROUP BY h.hashtag
+                                    ORDER by cnt desc)c
+                            WHERE rownum &lt;= 5)
+		ORDER BY r.logtime desc
+ 	</select>
  	
+	<select id="rContentslistTrend" parameterType="map" resultType="String">
+	  select hh.hashtag hashtag
+            from(select rownum rank, h.hashtag hashtag, h.cnt cnt
+                    from (select hashtag, count(*) cnt
+                            from hashtag
+                            where logTime &gt; sysdate - 30
+                            group by hashtag
+                            order by count(*) desc) h) hh
+            where rownum = 1
+	</select>
+
+	<select id="rContentslistByTag" parameterType="String" resultType="contentsDto">
+	SELECT s.*
+                    FROM(SELECT c.*, nvl(r.count,0) rvcnt
+							FROM contents c INNER JOIN contentsdetail d
+							ON c.contentsid = d.contentsid
+							LEFT OUTER JOIN (SELECT contentsid, count(contentsid) count
+											FROM review
+											GROUP BY contentsid) r
+							ON c.contentsid = r.contentsid
+							WHERE (1!=1
+								OR c.title like '%'|| #{tag} || '%'
+								OR d.addr1 like '%'|| #{tag} || '%'
+								OR d.infosogae like '%'|| #{tag} || '%'
+								OR d.infonaeyong like '%'|| #{tag} || '%'
+								OR d.program like '%'|| #{tag} || '%')
+                                ORDER BY hit DESC, rvCnt DESC)s
+                    WHERE ROWNUM &lt;=4
+	</select>
+	
 	<select id="contentslist" parameterType="map" resultType="contentsDto">
-	SELECT c.*, nvl(r.count,0) rvcnt
-	FROM contents c INNER JOIN contentsdetail d
-	ON c.contentsid = d.contentsid
-	LEFT OUTER JOIN (SELECT contentsid, count(contentsid) count
-					FROM review
-					GROUP BY contentsid) r
-	ON c.contentsid = r.contentsid
-	WHERE <![CDATA[rownum < 23]]>
-	<choose>
-		<when test="wordList != null">
-			<foreach collection="wordList" open="AND(1!=1" close=")" item="word">
-		OR c.title like '%'|| #{word} || '%'
-		OR d.addr1 like '%'|| #{word} || '%'
-		OR d.infosogae like '%'|| #{word} || '%'
-		OR d.infonaeyong like '%'|| #{word} || '%'
-		OR d.program like '%'|| #{word} || '%'
-		</foreach>
-		</when>
-		<otherwise>
-		AND c.image2 != 'noImage_list.png' AND c.isend = 1
-			<if test="catId != null and catId != 0">
-			AND c.catid = #{catId}
-			</if>
-			<if test="sdCode != null and sdCode != 0">
-			AND c.sdcode = #{sdCode} 
-			</if>
-			<if test="sggCode != null and sggCode != 0">
-			AND c.sggcode = #{sggCode} 
-			</if>
-		</otherwise>
-	</choose>
+		<if test="startSeq != null || endSeq != null">
+			SELECT t.*		
+			FROM	(SELECT rownum rang, s.*		
+					FROM	(
+					</if>
+							SELECT c.*, nvl(r.count,0) rvcnt
+							FROM contents c INNER JOIN contentsdetail d
+							ON c.contentsid = d.contentsid
+							LEFT OUTER JOIN (SELECT contentsid, count(contentsid) count
+											FROM review
+											GROUP BY contentsid) r
+							ON c.contentsid = r.contentsid
+							WHERE 1=1
+							<choose>
+								<when test="wordList != null">
+									<foreach collection="wordList" open="AND(1!=1" close=")" item="word">
+								OR c.title like '%'|| #{word} || '%'
+								OR d.addr1 like '%'|| #{word} || '%'
+								OR d.infosogae like '%'|| #{word} || '%'
+								OR d.infonaeyong like '%'|| #{word} || '%'
+								OR d.program like '%'|| #{word} || '%'
+								</foreach>
+								</when>
+								<otherwise>
+								AND c.image2 != 'noImage_list.png' AND c.isend = 1
+									<if test="catId != null and catId != 0">
+									AND c.catid = #{catId}
+									</if>
+									<if test="sdCode != null and sdCode != 0">
+									AND c.sdcode = #{sdCode} 
+									</if>
+									<if test="sggCode != null and sggCode != 0">
+									AND c.sggcode = #{sggCode} 
+									</if>
+								</otherwise>
+							</choose>
+							ORDER BY hit DESC, rvCnt DESC
+		<if test="startSeq != null || endSeq != null">
+							)s
+					WHERE rownum &lt; = #{endSeq})t
+			WHERE 	t.rang &gt; #{startSeq}		
+		</if>
+							
 	<!-- <if test="catId != null and catId != 0">
 	AND c.catid = #{catId}
 	</if>
@@ -262,9 +319,9 @@
 	</if>
 	<if test="sggCode != null and sggCode != 0">
 	AND c.sggcode = #{sggCode} 
-	</if> -->
+	</if>
 	
-	<!-- <if test="wordList != null">
+	<if test="wordList != null">
 	addr1, infonaeyong, infosogae , program, title
 		<foreach collection="wordList" open="AND(1!=1" close=")" item="word">
 		OR c.title like '%'|| #{word} || '%'
@@ -273,7 +330,8 @@
 		OR d.infonaeyong like '%'|| #{word} || '%'
 		OR d.program like '%'|| #{word} || '%'
 		</foreach>
-	</if> -->
+	</if>
+	 -->
+	</select>  
 	
-	</select>
  </mapper>

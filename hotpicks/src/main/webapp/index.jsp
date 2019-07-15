@@ -15,6 +15,7 @@
 
 <script type="text/javascript">
 $(function() {
+	
 			if ($('#sliderholder-cycle').length) {
 			// timeouts per slide (in seconds) 
 			var timeouts = [150,390,25]; 

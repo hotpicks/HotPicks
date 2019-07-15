@@ -45,6 +45,10 @@ height: 30px;
 }
 </style>
 <script>
+$('#selid').live('click', function(){
+	var  cid = $(this).data('cid');
+	$(location).attr("href", "${root}/contents/viewdetail?contentsId="+cid);
+	});
 var len = '${fn:length(list)}';
 if(len > 3){
 	len = 3;
@@ -90,11 +94,11 @@ new Swiper('.swiper-container', {
 			</c:choose>
 			   </div>
 			  <c:choose>
-				<c:when test="${selectcontents.image1 == -1}">
-					<img style="width: 220px; height: 150px;" src="${root}/resources/style/images/noImage_list.png" alt="" />
+				<c:when test="${selectcontents.image2 == 'noImage_list.png'}">
+					<img id="selid" data-cid="${selectcontents.contentsId}" style="width: 220px; height: 150px;" src="${root}/resources/style/images/noImage_list.png" alt="" />
 				</c:when>
 				<c:otherwise>
-				   <img src="${selectcontents.image1}" alt="" />
+				    <img id="selid" data-cid="${selectcontents.contentsId}" style="width: 220px; height: 150px;" src="${selectcontents.image2}" alt="" />
 				</c:otherwise>
 			   </c:choose>
 			        <h5>${selectcontents.title}</h5>
@@ -104,7 +108,7 @@ new Swiper('.swiper-container', {
 				    	<div style="color :red;">기간이 지난 컨텐츠 입니다.</div>
 				    </c:when>
 				    <c:otherwise>
-				    	<p>${fn:substring(selectcontents.eventenddate,0,4)}년 ${fn:substring(selectcontents.eventenddate,5,6)}월 ${fn:substring(selectcontents.eventenddate,7,8)}일 까지</p>
+				    	<p>${fn:substring(selectcontents.eventenddate,0,4)}년 ${fn:substring(selectcontents.eventenddate,4,6)}월 ${fn:substring(selectcontents.eventenddate,6,8)}일 까지</p>
 				    </c:otherwise>
 			    </c:choose>
 			   

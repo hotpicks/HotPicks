@@ -1,30 +1,34 @@
 package com.kitri.hotpicks.contents.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.SidoDto;
 import com.kitri.hotpicks.contents.model.SigunguDto;
 import com.kitri.hotpicks.contents.service.ContentsService;
+import com.kitri.hotpicks.member.model.MemberDto;
 
 @Controller
 @RequestMapping("/contents")
 public class ContentsController {
+//	@SessionAttributes("userInfo")
 
 	private static final Logger logger = LoggerFactory.getLogger(ContentsController.class);
 	
@@ -38,19 +42,32 @@ public class ContentsController {
 	String lsdapikey = "W%2BjXnjTFTna8E3xfLQFWfoM5qwBKjUVr8lOiM5snThqHGHwxJas1l1hoZXADRDRD4smrfWhiBtFxfORMgAyYxg%3D%3D";
 
 	@RequestMapping(value = "/enter", method = RequestMethod.GET)
-	public String enter(Model model) {
-		System.out.println("entered");
-
+	public String enter(Model model, HttpSession session) {
+		// @ModelAttribute("userInfo") MemberDto memberDto
 		String areaUrlStr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?"
 				+ "numOfRows=10000&" + "pageNo=1&" + "MobileOS=ETC&" + "MobileApp=AppTest&" + "listYN=Y&" + "arrange=P&"
 				+ "contentTypeId=15&" + "_type=json&" + "ServiceKey=" + shzyapikey;
-
-		// SelectLocation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		List<ContentsDto> contentsList = contentsService.selectContentsList('m', null);
-
+		
+		// SelectContents@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		Map<String,Object> parameter = new HashMap<String, Object>();
+		List<ContentsDto> contentsList = new ArrayList<ContentsDto>();
+		List<ContentsDto> rContentsList = null;
+		MemberDto memberDto = (MemberDto)session.getAttribute("userInfo");
+		  if(memberDto != null) { 
+		  String userid = memberDto.getUserId();
+		  System.out.println("userid : " + userid); parameter.put("userId", userid);
+		  rContentsList = contentsService.selectRContentsList(parameter);
+		  System.out.println(rContentsList); 
+		  model.addAttribute("rContentsList", rContentsList);
+		  }
+		 
+		
+		contentsList = contentsService.selectContentsList('m', null);
 		model.addAttribute("contentsList", contentsList);
 		//System.out.println(contentsList.get(0).getRvCnt());
 		logger.info("set----------------------------------");
+		
+	
 		
 		// SelectLocation@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		List<SidoDto> sidoList = contentsService.selectSido();
