@@ -124,7 +124,7 @@
  	</select>
  	
  	<select id="getStatDate" resultType="map">
- 		select to_char(sysdate, 'yyyy.mm.dd') today, to_char((sysdate-6), 'yyyy.mm.dd') weekDate, to_char((sysdate-30), 'yyyy.mm.dd') monthDate,
+ 		select to_char(sysdate, 'yyyy.mm.dd') today, to_char((sysdate-6), 'yyyy.mm.dd') weekDate, to_char((sysdate-29), 'yyyy.mm.dd') monthDate,
 				to_char((sysdate-(select 
 				                        case when (mod(to_number((to_char(sysdate, 'yyyy'))), 4) = 0 and mod(to_number((to_char(sysdate, 'yyyy'))), 100) &lt;&gt; 0) then 366
 				                        else 365
@@ -172,7 +172,7 @@
  			<when test="_parameter.equals('한달')">
  				select to_char(statdate, 'yy-mm-dd') statdate, visitcount visitcnt , visitorcount visitorcnt
 				from visitcount
-				where statdate &gt; sysdate - 29
+				where statdate &gt; sysdate - 30
 				order by statdate
  			</when>
  			<otherwise>
@@ -182,7 +182,7 @@
 				                                        else 365
 				                                   end
 				                            from dual)
-				group by statdate
+				group by to_char(statdate, 'yy-mm')
 				order by statdate
  			</otherwise>
  		</choose>

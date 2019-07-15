@@ -63,8 +63,7 @@ var options
 		yAxes: [{
 			ticks: {
 				beginAtZero : true,
-				showLabelBackdrop : true,
-				max : 100
+				showLabelBackdrop : true
 			}
 		}]
 	}
