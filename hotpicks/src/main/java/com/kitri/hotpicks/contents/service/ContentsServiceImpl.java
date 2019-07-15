@@ -31,6 +31,7 @@ import com.kitri.hotpicks.contents.model.ContentsImageDto;
 import com.kitri.hotpicks.contents.model.ContentsTypeDto;
 import com.kitri.hotpicks.contents.model.SidoDto;
 import com.kitri.hotpicks.contents.model.SigunguDto;
+import com.kitri.hotpicks.util.CafeConstance;
 
 @Service
 public class ContentsServiceImpl implements ContentsService {
@@ -702,6 +703,17 @@ public class ContentsServiceImpl implements ContentsService {
 			
 			case 'l':
 				System.out.println("location검색");
+				System.out.println(parameter.get("cPage"));
+//				cpage+1
+				int	bePage = Integer.valueOf(parameter.get("cPage").toString())+1;
+				
+//				21 ~ 40
+				int startSeq = bePage*10;
+				int endSeq = startSeq+CafeConstance.ARTICLE_SIZE;
+				System.out.println(startSeq + "///" + endSeq);
+				parameter.put("startSeq", startSeq);
+				parameter.put("endSeq", endSeq);
+				System.out.println("parameter : " + parameter);
 				return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);
 			
 				

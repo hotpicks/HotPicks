@@ -49,6 +49,8 @@ $(function() {
 		});
 		
 		
+		
+		
 
 	
  		$("#locationInsert").click(function() {
@@ -74,6 +76,7 @@ $(function() {
 			return false;
 		});
 		
+ 		
 }); 
 </script>
 <div id="main">

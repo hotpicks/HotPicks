@@ -9,6 +9,18 @@ $(function() {
 	var sggCode;
 	var catId;
 	
+	$(this).scroll(function(){
+		var maxHeight = $(this).height();
+		var currentScroll = $(window).scrollTop() + $(window).height();
+		
+		if(maxHeight <= currentScroll + 100){
+			var cPage = $("#cPage").val();
+			reSelectcontentsList(sdCode, sggCode, catId, cPage);
+		}
+		
+	});
+	
+	
 	 $("#sido").change(function(){
 		 setSigungu();
 		//selectcontents
@@ -16,7 +28,7 @@ $(function() {
 			sggCode = $('#sigungu').val();
 			catId = $("#curruntcat").attr("value");
 			//console.log(catId + '/' + sdCode + '/' + sggCode);
-			reSelectcontentsList(sdCode, sggCode, catId);
+			reSelectcontentsList(sdCode, sggCode, catId, -1);
 		});
 	 
 	 $("#sigungu").change(function(){
@@ -25,7 +37,7 @@ $(function() {
 			sggCode = $('#sigungu').val();
 			catId = $("#curruntcat").attr("value");
 			//console.log(catId + '/' + sdCode + '/' + sggCode);
-			reSelectcontentsList(sdCode, sggCode, catId); 
+			reSelectcontentsList(sdCode, sggCode, catId, -1); 
 	 });
 	 
 			
@@ -39,7 +51,7 @@ $(function() {
 		$("#curruntcat").attr("value", $(this).attr("data-catid"));
 		catId = $("#curruntcat").attr("value");
 		//console.log(catId + '/' + sdCode + '/' + sggCode);
-		reSelectcontentsList(sdCode, sggCode, catId);
+		reSelectcontentsList(sdCode, sggCode, catId, -1);
 	 });
 	 
 
@@ -68,26 +80,28 @@ function setSigungu(){
 }
 
 //call contents to using a type
-function reSelectcontentsList(sdCode, sggCode, catId){
+function reSelectcontentsList(sdCode, sggCode, catId, cPage){
  	$.ajax({
 		url: '${root}/contents/contentsbylocation',
 		type: 'GET',
 		dataType: 'json',
-		data: {"sdCode" : sdCode, "sggCode" : sggCode , "catId" : catId},
+		data: {"sdCode" : sdCode, "sggCode" : sggCode , "catId" : catId, "cPage" : cPage},
 		success: function(result){
 			var contentsStr = "";
 			var contents = result;
 			var len = contents.length;
 			//console.log(contents);
+			
+			contentsStr += '<input type="hidden" id="cPage" value="1">';
 			if(len == 0){
-				contentsStr += '<div align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>'
+				contentsStr += '<div align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>';
 			}else{
 			for(var i = 0 ; i<len ;i++){
 				
-				if((i+1)%4 == 0 || len-1 == 1){
-					contentsStr += '<div class="one-fourth last"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
+				if((i+1)%4 == 0 || i == len-1){
+					contentsStr += '<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}else{
-					contentsStr += '<div class="one-fourth"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
+					contentsStr += '<div class="one-fourth" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}
 					contentsStr += '<img src=' + (contents[i].image1 == '-1' ? (contents[i].image2 == '-1' ? 
 							'noImage_list.png' : contents[i].image2) : contents[i].image1 ) +' width="200" alt=""/>';
@@ -187,6 +201,7 @@ function reSelectcontentsList(sdCode, sggCode, catId){
     
     <!-- favorite -->
     <div id="about">
+    <input type="hidden" id="cPage" value="1">
  <c:forEach var="list" items="${contentsList}" varStatus="status" end="13">
 <c:choose>
 		<c:when test="${status.last == true || status.count % 4 == 0}">
