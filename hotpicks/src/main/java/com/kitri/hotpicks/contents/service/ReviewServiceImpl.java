@@ -76,6 +76,46 @@ public class ReviewServiceImpl implements ReviewService {
 		
 	}
 	
+	//review 수정
+	@Override
+	public void modify(int rseq, String subject, int starPoint, String content) {
+		System.out.println("modify service 들어왔니");
+		ReviewDto reviewDto = new ReviewDto();
+		reviewDto.setRseq(rseq);
+		reviewDto.setSubject(subject);
+		reviewDto.setStarPoint(starPoint);
+		reviewDto.setContent(content);
+		
+		sqlSession.getMapper(ReviewDao.class).modify(reviewDto);
+	}
+	
+	//review 삭제
+	@Override
+	public void delete(int rseq) {
+		System.out.println("delete service 들어왔니");
+		sqlSession.getMapper(ReviewDao.class).delete(rseq);
+		
+	}
+	
+	//comment 삭제
+	@Override
+	public void deleteMemoAll(int rceq) {
+		sqlSession.getMapper(ReviewDao.class).deleteMemoAll(rceq);
+		
+	}
+
+	@Override
+	public String deleteMemo(int rceq, String logId, int logTime) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String modifyMemo(int rceq, String logId, int logTime, String content) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 
 }
