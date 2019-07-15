@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kitri.hotpicks.mypicks.model.MapContentsDto;
+import com.kitri.hotpicks.mypicks.model.PickListDto;
 import com.kitri.hotpicks.mypicks.model.SelectMapContentsDto;
+import com.kitri.hotpicks.mypicks.model.ViewPickMapDto;
 import com.kitri.hotpicks.mypicks.service.MypickMapService;
 
 @Controller
@@ -25,28 +27,27 @@ public class MypickMapController {
 	
 	@RequestMapping("/mvmypickmap")
 	public String mvMap() {
-		System.out.println("1");
 		return "mypicks/mypickmap";
 	}
 	
 	@RequestMapping("/getmaplist")
 	@ResponseBody
-	public String mypicksMap() {
-		System.out.println("controller");
-		List<MapContentsDto> list = mypickMapService.getContent();
+	public String mypicksMap(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		List<ViewPickMapDto> list = mypickMapService.getContent(map);
 		JSONArray array = new JSONArray(list);
+		System.out.println(list);
 		return array.toString();
 		
 	}
-	//@RequestParam(value = "selectMarkers") List<String> selectMarkers,@RequestParam("x") double x, @RequestParam("y") double y,@RequestParam("distance") int distance
 	@RequestMapping("/getcontentslist")
 	public String selectContentsList(@RequestParam(value = "selectMarkers") List<String> selectMarkers,@RequestParam("x") double x, @RequestParam("y") double y,@RequestParam("selectDistance") int distance, Model model) {
 		
 		System.out.println(selectMarkers);
-//		if (selectMarkers.size() != 0) {
-			List<MapContentsDto> list = mypickMapService.selectContentsList(x, y, selectMarkers, distance);
+		if (selectMarkers.size() != 0) {
+			List<ViewPickMapDto> list = mypickMapService.selectContentsList(x, y, selectMarkers, distance);
 			model.addAttribute("list",list);
-//		}
+		}		
 		String path = "mypicks/selectcontents";
 		return path;
 	}

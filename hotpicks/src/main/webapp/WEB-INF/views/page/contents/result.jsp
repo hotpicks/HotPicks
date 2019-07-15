@@ -84,10 +84,10 @@ function reSelectcontentsList(sdCode, sggCode, catId){
 			}else{
 			for(var i = 0 ; i<len ;i++){
 				
-				if((i+1)%4 == 0 || len-1 == 1){
-					contentsStr += '<div class="one-fourth last"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
+				if((i+1)%4 == 0 || len-1 == 0){
+					contentsStr += '<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}else{
-					contentsStr += '<div class="one-fourth"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
+					contentsStr += '<div class="one-fourth" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}
 					contentsStr += '<img src=' + (contents[i].image1 == '-1' ? (contents[i].image2 == '-1' ? 
 							'noImage_list.png' : contents[i].image2) : contents[i].image1 ) +' width="200" alt=""/>';

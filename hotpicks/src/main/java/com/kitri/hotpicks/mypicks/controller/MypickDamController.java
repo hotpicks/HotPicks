@@ -83,7 +83,7 @@ public class MypickDamController {
 
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
 	public String modifyArticle(@RequestParam("contentsId") List<Integer> list, @RequestParam("wanna") int wanna) {
-		System.out.println("리스트수정 메소드");
+		System.out.println("리스트저장 메소드");
 		System.out.println(list);
 		System.out.println(wanna);
 		Map<String, Object> map = new HashMap<String, Object>();

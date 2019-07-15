@@ -187,14 +187,40 @@
  			</otherwise>
  		</choose>
 	</select>
- 	<select id="getContents" parameterType="int" resultType="contentsDetailDto">
+ 	<select id="getContents" parameterType="map" resultType="contentsDetailDto">
 	 		select c.* 
 	 		from (select rownum r, total.*
-			 		from (select c.contentsid , c.catid , c.title, c.hit, c.updatedate, d.eventenddate, c.isend
+			 		from (select c.contentsid , c.catid , c.title, c.hit, to_char(c.updatedate,'yyyyMMdd') updatedate, d.eventenddate, c.isend
 				 		from contents c, contentsdetail d
 				 		where c.contentsid = d.contentsid
+				 		<if test="cate != null and cate != '' and cate != -1">
+				 			and c.catid = #{cate}
+				 		</if>
+				 		<if test='aval != null and aval != "" and aval != -1'>
+				 			and c.isend = #{aval}
+				 		</if>
+				 		<if test='gone != null and gone != "" and gone != -1'>
+				 			and to_char(sysdate ,'yyyyMMdd') > d.eventenddate
+				 		</if>
 				 		order by contentsid desc) total
-				 	where rownum  &lt; #{page}*15) c
-			where c.r  &gt;= #{page}*15 - 14
+				 	where rownum  &lt; #{page}*3+1) c
+			where c.r  &gt;= #{page}*3 - 2
  	</select>
+ 	<update id="isendupdate" parameterType="map" >
+ 		update contents
+ 		set isend = 1
+ 		where contentsid in 
+ 		<foreach collection="endcontents" item="item" open="(" separator="," close=")">
+ 			#{item}
+ 		</foreach>
+ 	</update>
+ 	<select id="getCommonContentsDto" resultType="commonContentsDto">
+ 	select (select count(*) from contents) countallcontents,
+            (select count(*) from contents where isend = 0) countnotendcontents,
+            (select count(*) from contents where isend = 1) countendcontents,
+            (select count(*) from contents c, contentsdetail d where c.contentsid = d.contentsid and to_char(sysdate ,'yyyyMMdd') > eventenddate and c.isend = 0) countoverdatecontents,
+            (select total.* from (select updatedate from contents where rownum = 1 order by updatedate) total) getCurrentUpdate
+	from dual
+ 	</select>
+ 	
  </mapper>

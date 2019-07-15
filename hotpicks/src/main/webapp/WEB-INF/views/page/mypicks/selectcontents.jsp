@@ -3,9 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<jsp:useBean id="toDay" class="java.util.Date" />
+<fmt:formatDate value="${toDay}" pattern="yyyyMMdd" var="today"/>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 <!-- 이 예제에서는 필요한 js, css 를 링크걸어 사용 -->
 <style>
+h5{
+	margin-top: 10px;
+}
 .sh{
     margin-right: 3% !important;
     clear: right;
@@ -65,6 +70,7 @@ new Swiper('.swiper-container', {
 	},
 });
 </script>
+<c:if test="${!empty list}">
 <div class="swiper-container">
 	<div class="swiper-wrapper">
 		<c:forEach var="selectcontents" items="${list}" >
@@ -82,11 +88,29 @@ new Swiper('.swiper-container', {
 				${test}km이내
 				</c:otherwise>
 			</c:choose>
-			   </div> <img src="${root}/resources/style/images/art/home-1.jpg" alt="" />
-			        <h4>${selectcontents.subject}</h4>
-			        <p>contentsid = ${selectcontents.contentsid}</p>
+			   </div>
+			  <c:choose>
+				<c:when test="${selectcontents.image1 == -1}">
+					<img style="width: 220px; height: 150px;" src="${root}/resources/style/images/noImage_list.png" alt="" />
+				</c:when>
+				<c:otherwise>
+				   <img src="${selectcontents.image1}" alt="" />
+				</c:otherwise>
+			   </c:choose>
+			        <h5>${selectcontents.title}</h5>
+			        
+			    <c:choose>
+				    <c:when test="${today > selectcontents.eventenddate}">
+				    	<div style="color :red;">기간이 지난 컨텐츠 입니다.</div>
+				    </c:when>
+				    <c:otherwise>
+				    	<p>${fn:substring(selectcontents.eventenddate,0,4)}년 ${fn:substring(selectcontents.eventenddate,5,6)}월 ${fn:substring(selectcontents.eventenddate,7,8)}일 까지</p>
+				    </c:otherwise>
+			    </c:choose>
+			   
+			        
 			      </div>
-			      </div>
+			  	</div>
 			</c:forEach>
 	</div>
 
@@ -97,5 +121,4 @@ new Swiper('.swiper-container', {
 	<!-- 페이징 -->
 	<!-- <div class="swiper-pagination"></div> -->
 </div>
-</div>
-
+</c:if>
