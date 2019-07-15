@@ -108,7 +108,7 @@ new Swiper('.swiper-container', {
 				    	<div style="color :red;">기간이 지난 컨텐츠 입니다.</div>
 				    </c:when>
 				    <c:otherwise>
-				    	<p>${fn:substring(selectcontents.eventenddate,0,4)}년 ${fn:substring(selectcontents.eventenddate,5,6)}월 ${fn:substring(selectcontents.eventenddate,7,8)}일 까지</p>
+				    	<p>${fn:substring(selectcontents.eventenddate,0,4)}년 ${fn:substring(selectcontents.eventenddate,4,6)}월 ${fn:substring(selectcontents.eventenddate,6,8)}일 까지</p>
 				    </c:otherwise>
 			    </c:choose>
 			   
