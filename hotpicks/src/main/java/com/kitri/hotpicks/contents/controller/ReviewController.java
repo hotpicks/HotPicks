@@ -189,26 +189,28 @@ public class ReviewController {
 	}
 	//리뷰글번호,작성자id,작성시간
 	// 댓글 삭제하기
-	@RequestMapping(value = "deleteMemo/{rceq}/{logId}/{logTime}", method = RequestMethod.DELETE, consumes = "application/json", headers = {
+	@RequestMapping(value = "/deleteMemo/{rceq}/{logId}/{logTime}", method = RequestMethod.DELETE, consumes = "application/json", headers = {
 			"Content-type=application/json" })
+	@ResponseBody
 	public String deleteMemo(@PathVariable(name = "rceq") int rceq, 
 							@PathVariable(name = "logId") String logId, 
-							@PathVariable(name = "logTime") int logTime) {
-
-		String json = reviewService.deleteMemo(rceq, logId,logTime);
-		return json;
+							@PathVariable(name = "logTime") String logTime) {
+		System.out.println("댓글삭제하러 컨트롤러 도착");
+		reviewService.deleteMemo(rceq, logId,logTime);
+		return "";
 	}
 	//리뷰글번호,작성자id,작성시간,글내용
 	// 댓글 수정하기
-	@RequestMapping(value = "modifyMemo/{rceq}/{logId}/{logTime}/{content}", method = RequestMethod.PUT, consumes = "application/json", headers = {
+	@RequestMapping(value = "/modifyMemo/{rceq}/{logId}/{logTime}/{content}", method = RequestMethod.PUT, consumes = "application/json", headers = {
 			"Content-type=application/json" })
+	@ResponseBody
 	public String modifyMemo(@PathVariable(name = "rceq") int rceq, 
 								@PathVariable(name = "logId") String logId, 
-								@PathVariable(name = "logTime") int logTime,
+								@PathVariable(name = "logTime") String logTime,
 								@PathVariable(name = "content") String content) {
-
-		String json = reviewService.modifyMemo(rceq, logId, logTime,content);
-		return json;
+		System.out.println("댓글수정하러 컨트롤러 도착!!" + logTime);
+		reviewService.modifyMemo(rceq, logId, logTime,content);
+		return "";
 	}
 
 }

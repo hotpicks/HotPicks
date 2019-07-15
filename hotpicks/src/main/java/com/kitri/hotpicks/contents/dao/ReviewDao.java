@@ -19,4 +19,6 @@ public interface ReviewDao {
 	void delete(int rseq);
 	
 	void deleteMemoAll(int rceq);
+	void modifyMemo(CommentDto commentDto);
+	void deleteMemo(CommentDto commentDto);
 }

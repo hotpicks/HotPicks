@@ -25,7 +25,7 @@ public interface ReviewService {
 	//comment all 삭제
 	void deleteMemoAll(int rceq);
 	
-	String deleteMemo(int rceq, String logId, int logTime);
+	void deleteMemo(int rceq, String logId, String logTime);
 	
-	String modifyMemo(int rceq, String logId, int logTime, String content);
+	void modifyMemo(int rceq, String logId, String logTime, String content);
 }

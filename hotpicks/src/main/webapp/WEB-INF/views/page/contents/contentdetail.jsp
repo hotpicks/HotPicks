@@ -353,9 +353,9 @@ $(document).ready(function() {
 				memostr += '	</td>';
 			}
 			memostr += '</tr>';
-			memostr += '<tr style="display: none;">';
-			memostr += '	<td colspan="3" style="padding: 10px">';
-			memostr += '	<textarea class="mcontent" cols="160" rows="5">' + memo.content + '</textarea>';
+			memostr += '<tr style="display: none; border: solid thick black;">';
+			memostr += '	<td colspan="3">';
+			memostr += '	<textarea class="mcontent" cols="160" rows="3">' + memo.content + '</textarea>';
 			memostr += '	</td>';
 			memostr += '	<td width="100" style="padding: 10px" data-seq="'+memo.rceq+'" data-id="'+memo.logId+'" data-time="'+memo.logTime+'">';
 			memostr += '	<input type="button" class="memoModifyBtn" value="완료">';
@@ -390,7 +390,7 @@ $(document).ready(function() {
 		// 댓글 수정 이벤트
 		var memomodify = $(".memoModifyBtn");
 		$(memomodify).live("click",function() {
-			
+			console.log("댓글수정!"+$(this).parent("td").attr("data-time"));
 			$(this).parent().parent().prev("tr").css("display", "");
 			
 			//리뷰글번호,작성자id,작성시간,글내용
@@ -398,12 +398,12 @@ $(document).ready(function() {
 			var newMcontent = $(this).parent().prev("td").children().val();
 			
 			$.ajax({
-				url : '${root}/review/modifyMemo' + $(this).parent("td").attr("data-seq") + '/' + $(this).parent("td").attr("data-id") +'/'+ $(this).parent("td").attr("data-time") +'/' + newMcontent,
+				url : '${root}/review/modifyMemo/' + $(this).parent("td").attr("data-seq") + '/' + $(this).parent("td").attr("data-id") +'/'+ $(this).parent("td").attr("data-time") +'/' + newMcontent,
 				type : 'PUT',
 				contentType : 'application/json;charset=UTF-8',
 				dataType : 'json',
 				success : function(response) {
-					makeMemoList(response);
+					window.location.reload();
 				}
 			});
 			
@@ -413,15 +413,16 @@ $(document).ready(function() {
 		// 댓글 삭제 이벤트
 		var memodelete = $(".mdeleteBtn");
 		$(memodelete).live("click",function() {
+			console.log("댓글삭제!");
 			//리뷰글번호,작성자id,작성시간
 			$.ajax({
-				url : '${root}/review/deleteMemo' + $(this).parent("td").attr("data-seq") + '/' + $(this).parent("td").attr("data-id") +'/'+ $(this).parent("td").attr("data-time"),
+				url : '${root}/review/deleteMemo/' + $(this).parent("td").attr("data-seq") + '/' + $(this).parent("td").attr("data-id") +'/'+ $(this).parent("td").attr("data-time"),
 				type : 'DELETE',
 				contentType : 'application/json;charset=UTF-8',
 				dataType : 'json',
 				success : function(response) {
-					makeMemoList(response);
-					$("mcontent").val('');  // 댓글 작성창 지우기
+					alert("삭제가 완료되었습니다.");
+					window.location.reload();
 				}
 			});
 			
