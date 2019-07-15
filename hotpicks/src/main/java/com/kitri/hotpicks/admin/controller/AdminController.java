@@ -207,6 +207,7 @@ public class AdminController {
 	public String isendupdate(@RequestParam("endcontents") List<String> list) {
 		Map<String, Object>	map = new HashMap<String, Object>();
 		map.put("endcontents", list);
+		System.out.println(map);
 		adminService.isendupdate(map);
 		return "redirect:/admin/db";
 	}
