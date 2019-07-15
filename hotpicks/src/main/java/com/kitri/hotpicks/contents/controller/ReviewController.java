@@ -119,6 +119,7 @@ public class ReviewController {
 			}
 			if (rseq != 0) {
 				model.addAttribute("rseq", rseq);
+				model.addAttribute("contentsid",contentsid);
 				path = "contents/writeok";
 			} else {
 				path = "contents/writefail";
