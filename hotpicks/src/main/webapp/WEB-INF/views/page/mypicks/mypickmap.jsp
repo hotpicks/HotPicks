@@ -539,7 +539,7 @@ getTwitters('twitter', {
 			event.preventDefault();
 			setAllMarkers(null);
 			allMarkers = [];
-			wanna = 1;
+			wanna = 0;
 			getMarkers(wanna, catid);
 			
 		})
@@ -547,7 +547,7 @@ getTwitters('twitter', {
 			event.preventDefault();
 			setAllMarkers(null);
 			allMarkers = [];
-			wanna = 2;
+			wanna = 1;
 			getMarkers(wanna, catid);
 			
 		})
