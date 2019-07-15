@@ -7,8 +7,13 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+<!-- icon 사용 위함 -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
 <style>
+i{
+color :black;
+}
 .sh > a{
 	text-decoration: none;
 	font-size:15px;
@@ -36,10 +41,10 @@
 	font-size: 13px;
 	line-height: 18px;
 	font-weight: 400;
-	margin-right: 1px;
+	margin: 5px;
 	padding: 15px 5px 20px 15px;
 	max-height: 140px;
-	overflow-y: hidden;
+	overflow-y: auto;
 	overflow-x: hidden;
 }
 .iw-content img {
@@ -184,11 +189,11 @@ getTwitters('twitter', {
 		<a href="#" id="event">행사</a>
 	</div>
 	<div>
-		<a href="${root}/mypicklist/enter"><img src="${root}/resources/style/images/listpicks.png"></a>
-			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/mypickmap/mvmypickmap"><img src="${root}/resources/style/images/mappicks.png"></a>
-			<img src="${root}/resources/style/images/blank.png">
-			<a href="${root}/mypicklist/cal"><img src="${root}/resources/style/images/calendarpicks.png"></a>
+		<a href="${root}/mypicklist/enter"><i class="fas fa-list" style="font-size: 4em;"></i></a>
+				<img src="${root}/resources/style/images/blank.png">
+				<a href="${root}/mypickmap/mvmypickmap"><i class="fas fa-map-marked-alt" style="font-size: 4em;"></i></a>
+				<img src="${root}/resources/style/images/blank.png">
+				<a href="${root}/mypicklist/cal"><i class="fas fa-calendar-alt" style="font-size: 4em;"></i></a>
 	</div>
 </div>
       
@@ -232,7 +237,8 @@ getTwitters('twitter', {
 	</div>
 	  </div>
 	  <hr>
-	  <div id="selectcontents"></div>
+	  <div id="selectcontents">
+	  </div>
 </div>
     </div>
     <!-- End Content --> 
@@ -243,7 +249,11 @@ getTwitters('twitter', {
   <!-- daum map api -->
   <!-- End Wrapper -->
   <script type="text/javascript">
-  <!-- GeoLocation Api -->
+  
+	var userInfo = "${userInfo.userId}";
+	
+	//  GeoLocation Api
+  
 	var user_x = 37.5028273473234;
 	var user_y = 126.9871525346085;
 	if ("geolocation" in navigator) {
@@ -267,7 +277,6 @@ getTwitters('twitter', {
 		//markerSet(user_x, user_y);
 		/* selectDistance(user_x,user_y); */
 		//selectedRangeContents(user_x, user_y); 
-		console.log(user_x + " "+ user_y);
 		/* searchDetailAddrFromCoords(new daum.maps.LatLng(user_x, user_y), function(result, status) {
 			if (status === daum.maps.services.Status.OK) {
 				var detailAddr = !!result[0].road_address ? '<div style="font-size:12px; color:gray;">'
@@ -342,12 +351,11 @@ getTwitters('twitter', {
 		mapMarker.setMap(map);
 		// 생성된 마커를 배열에 추가합니다
 		allMarkers.push(mapMarker);
-		console.log("add : "+ allMarkers);
 		var iwContent="";
 		iwContent += '<div id="iw-container">';
 		iwContent += '<div class="iw-content">';
-		iwContent +=  '<div class="iw-subTitle">'+subject+'</div>';
-		if (img != '-1' && img !=''  ) {
+		iwContent +=  '<div class="iw-subTitle">'+subject+'</div><br><br>';
+		if (img != '-1' && img !='' ) {
 			iwContent +=  '<img src="'+img+'" alt="" height="115" width="83">';
 			}
 		iwContent +=   '<p>'+ifsg+'</p>';
@@ -399,6 +407,7 @@ getTwitters('twitter', {
 	$(document).ready(function() {
 	var catid = -1;
 	var wanna = -1;
+	getMarkers(wanna, catid);
 		/*category*/
 		$('#all').click(function(e) {
 			e.preventDefault();
@@ -451,13 +460,12 @@ getTwitters('twitter', {
 				$('#all').removeClass("selected");
 			}
 			getMarkers(wanna, catid);
-			console.log("add2 : "+ allMarkers);
 			
 		});
 		
 		/*wanna 구별*/
 		
-		getMarkers(wanna, catid);
+		
 		/*주소검색*/
 		$('#location').click(function(event) {
 			event.preventDefault();
@@ -497,28 +505,28 @@ getTwitters('twitter', {
 		});
 		/*DB마커 가져오기*/
 		function getMarkers(wn , ca){
+			console.log(wn + " "+ca);
 			 $.ajax({
 				url : "${root}/mypickmap/getmaplist",
 				data: { 'wanna' : wn,
-						'catid'	: ca},
+						'catid'	: ca,
+						'userid': userInfo},
 				dataType : "JSON",
 				success : function(result){
 					for (var i = 0; i < result.length; i++) {
-						
-						var position = new daum.maps.LatLng(result[i].xpoint, result[i].ypoint);
-					    if (result[i].wanna == 1) {
-							addMarker(1, doneMarkerimage,position, result[i].title, result[i].contentsId, result[i].infosogae, result[i].image1, result[i].addr1, result[i].addr2);
-							console.log("wanna=1")
-							selectDistance(marker);
-							selectedRangeContents(marker.getPosition().getLat(), marker.getPosition().getLng());
+						var position = new daum.maps.LatLng(result[i].ypoint, result[i].xpoint);
+					    if (result[i].wanna == 0) {
+					    	console.log(result[i].contentsId)
+							addMarker(1, doneMarkerimage, position, result[i].title, result[i].contentsId, result[i].infosogae, result[i].image1, result[i].addr1, result[i].addr2);
+							
 							//cate, image ,position, subject, contentsid, ifsg, img, zc, ad1 , ad2
-						} else if(result[i].wanna == 2){
-							addMarker(2, pickMarkerimage,position, result[i].title, result[i].contentsId, result[i].infosogae, result[i].image1, result[i].addr1, result[i].addr2);
-							console.log("wanna=2")
-							selectDistance(marker);
-							selectedRangeContents(marker.getPosition().getLat(), marker.getPosition().getLng());
+						} else if(result[i].wanna == 1){
+							console.log("1")
+							addMarker(2, pickMarkerimage, position, result[i].title, result[i].contentsId, result[i].infosogae, result[i].image1, result[i].addr1, result[i].addr2);
 						}
 					}
+					selectDistance(marker);
+					selectedRangeContents(marker.getPosition().getLat(), marker.getPosition().getLng());
 				}
 			});
 		}
@@ -534,7 +542,7 @@ getTwitters('twitter', {
 			event.preventDefault();
 			setAllMarkers(null);
 			allMarkers = [];
-			wanna = 1;
+			wanna = 0;
 			getMarkers(wanna, catid);
 			
 		})
@@ -542,7 +550,7 @@ getTwitters('twitter', {
 			event.preventDefault();
 			setAllMarkers(null);
 			allMarkers = [];
-			wanna = 2;
+			wanna = 1;
 			getMarkers(wanna, catid);
 			
 		})
@@ -566,7 +574,6 @@ getTwitters('twitter', {
 					document.getElementById('clickAddrDetail').innerHTML = detailAddr;
 					var x = mouseEvent.latLng.getLat();
 					var y = mouseEvent.latLng.getLng();
-					console.log("click" +x+" " +y);
 					markerSet(x, y);
 					selectDistance(marker);
 					selectedRangeContents(x,y);
@@ -635,7 +642,8 @@ getTwitters('twitter', {
 				"selectMarkers" : selectMarkers,
 				"x" : lat,
 				"y" : lng,
-				"selectDistance" :  $('input[name=range]').val() * 1000
+				"selectDistance" :  $('input[name=range]').val() * 1000,
+				"userid" : userInfo
 			}
 		$.ajax({
 			url : '${root}/mypickmap/getcontentslist',
@@ -645,7 +653,7 @@ getTwitters('twitter', {
 			//dataType : "JSON",
 			dataType : "html",
 			success : function(result) {
-				
+				$('#selectcontents').empty();
 				$('#selectcontents').html(result);
 			}
 		});

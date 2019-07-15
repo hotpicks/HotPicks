@@ -8,6 +8,6 @@ import com.kitri.hotpicks.mypicks.model.ViewPickMapDto;
 
 public interface MypickMapService {
 	List<ViewPickMapDto> getContent(Map<String, Object> map);
-	List<ViewPickMapDto> selectContentsList(double x,double y,List<String> selectMarkers, int distance);
+	List<ViewPickMapDto> selectContentsList(double x,double y,List<String> selectMarkers, int distance,String userid);
 	
 }

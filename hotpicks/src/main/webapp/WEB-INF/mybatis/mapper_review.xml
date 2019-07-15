@@ -42,6 +42,41 @@
 	   select * from dual
 	   </if>
    	</insert>
-
+   	
+   	<update id="modify" parameterType="reviewDto">
+   	update review
+   	set subject = #{subject}, starPoint = #{starPoint}, content = #{content}
+   	where rseq = #{rseq}
+   	</update>
+   	
+   	<delete id="delete" parameterType="int">
+   	delete from review
+   	where rseq = #{rseq}
+   	</delete>
+   	
+   	<delete id="deleteMemoAll" parameterType="int">
+   	delete from comments
+   	where rceq = #{rceq}
+   	</delete>
+   	
+   	<delete id="deleteMemo" parameterType="commentDto">
+   	delete from comments
+   	where rceq = #{rceq}
+   	and logId = #{logId}
+   	and TO_CHAR(logTime,'YYYY-MM-DD HH24:MI:SS') = #{logTime}   
+   	</delete>
+   	
+   	<update id="modifyMemo" parameterType="commentDto">
+   	update comments
+   	set content = #{content}, logTime = sysdate
+   	where rceq = #{rceq}
+   	and logId = #{logId}
+   	and TO_CHAR(logTime,'YYYY-MM-DD HH24:MI:SS') = #{logTime}   	
+   	</update>
+   	
+   	<insert id="black" parameterType="blackReviewDto">
+   	insert into blackreview (rseq,userId,reportContent,reportDate)
+	values (#{rseq}, #{userId}, #{reportContent}, sysdate)
+   	</insert>
 
  </mapper>

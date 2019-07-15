@@ -15,4 +15,19 @@ public interface ReviewService {
 	
 	
 	void insHashList(List<String> nonHashList, int rseq, int contentsid);
+
+	//review 수정
+	void modify(int rseq, String subject, int starPoint, String content);
+	
+	//review 삭제
+	void delete(int rseq);
+	
+	//comment all 삭제
+	void deleteMemoAll(int rceq);
+	
+	void deleteMemo(int rceq, String logId, String logTime);
+	
+	void modifyMemo(int rceq, String logId, String logTime, String content);
+	
+	void black(int rseq, String userId, String reportContent);
 }
