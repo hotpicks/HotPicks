@@ -14,4 +14,9 @@ public interface ReviewDao {
 	List<CommentDto> listMemo(int rceq); 
 	
 	void insHashList(Map<String, Object> map);
+
+	void modify(ReviewDto reviewDto);
+	void delete(int rseq);
+	
+	void deleteMemoAll(int rceq);
 }

@@ -42,6 +42,21 @@
 	   select * from dual
 	   </if>
    	</insert>
-
+   	
+   	<update id="modify" parameterType="reviewDto">
+   	update review
+   	set subject = #{subject}, starPoint = #{starPoint}, content = #{content}
+   	where rseq = #{rseq}
+   	</update>
+   	
+   	<delete id="delete" parameterType="int">
+   	delete from review
+   	where rseq = #{rseq}
+   	</delete>
+   	
+   	<delete id="deleteMemoAll" parameterType="int">
+   	delete from comments
+   	where rceq = #{rceq}
+   	</delete>
 
  </mapper>
