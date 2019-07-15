@@ -77,8 +77,8 @@ new Swiper('.swiper-container', {
 <c:if test="${!empty list}">
 <div class="swiper-container">
 	<div class="swiper-wrapper">
-		<div class="swiper-slide">
 		<c:forEach var="selectcontents" items="${list}" >
+		<div class="swiper-slide">
 			 <div class="sh"><div style="font-size:12px; color:gray;"> 
 			<c:set var="distance" value="${selectcontents.distance}"></c:set>
 			<c:choose>
@@ -114,8 +114,8 @@ new Swiper('.swiper-container', {
 			   
 			        
 			      </div>
-			</c:forEach>
 			  	</div>
+			</c:forEach>
 	</div>
 
 	<!-- 네비게이션 -->
