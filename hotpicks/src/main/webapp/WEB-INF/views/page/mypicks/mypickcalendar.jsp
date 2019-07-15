@@ -15,13 +15,23 @@
 <script>
 
 	var eventList = [];
-	
 	<c:forEach var="article" items="${articleCal}">
 		var events = {};
+		var eventdate = "${article.sysdate}"
+		<c:if test="${article.wanna ==0}">
+		events.backgroundColor ="#79bd9a";
 		events.title = "${article.title}";
 		events.start = "${article.eventStartDate}";
 		events.end = "${article.eventEndDate}";
-		
+		events.url= '${root}/contents/viewdetail?contentsId=${article.contentsId}';
+		</c:if>
+		<c:if test="${article.wanna ==1}">
+		events.backgroundColor ="#3b8686";
+		events.title = "${article.title}";
+		events.start = "${article.eventStartDate}";
+		events.end = "${article.eventEndDate}";
+		events.url= '${root}/contents/viewdetail?contentsId=${article.contentsId}';
+		</c:if>
 		eventList.push(events);
 
 	</c:forEach>
@@ -39,7 +49,7 @@
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      defaultDate: '2019-06-12',
+      defaultDate: eventdate,
       navLinks: true, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,

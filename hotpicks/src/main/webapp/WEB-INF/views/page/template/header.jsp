@@ -126,23 +126,22 @@ function setCookie(cname, cvalue, exdays) {
       transform: translateY(3px);
     }
     .btn.blue{
-      background-color: #1f75d9;
-      border-bottom:5px solid #165195;
+      background-color: #79bd9a;
     }
     .btn.blue:active{
       border-bottom:2px solid #165195;
     }
     .btn.red{
-      background-color: #ff521e;
-      border-bottom:5px solid #c1370e;
+      background-color: #3b8686;
+      
     }
     .btn.red:active{
       border-bottom:2px solid #c1370e;
     }
 .rounded {
   width: 200px;
-  background-color: #d8c2cb;
-  border:2px solid #5c5b5f;
+  background-color: #79bd9a;
+  border:2px solid #3b8686;
   line-height: 1em;
   border-radius:0.5em;
   -moz-border-radius: 0.5em;
