@@ -152,7 +152,12 @@ $(document).ready(function() {
 			reviewstr += '<div class="toggle">';
 			reviewstr += '	<div class="rehead" style="height:100px;" data-toggle="collapse" data-target="#'+i+'">';
 			reviewstr += '		<div class="user">';
+			if(review.saveFolder != null) {
+			reviewstr += '			<img src="${root}/review/'+review.saveFolder+'/'+review.savePicture+'" class="avatar" /> ';
+			//${root}/review/파일폴더/파일명
+			} else {				
 			reviewstr += '			<img src="${root}/resources/style/images/art/blog-th1.jpg" class="avatar" /> ';
+			}
 			reviewstr += '		</div>';
 			reviewstr += '		<div class="message">';
 			reviewstr += '			<div class="info">';
@@ -168,7 +173,7 @@ $(document).ready(function() {
 				
 				//modifymodal
 				reviewstr += '<div class="modal" id="modifymodal'+i+'">';
-				reviewstr += '    <div class="modal-dialog">';
+				reviewstr += '    <div class="modal-dialog modal-xl">';
 				reviewstr += '      <div class="modal-content">';
 				      
 				reviewstr += '        <div class="modal-header">';
@@ -187,15 +192,14 @@ $(document).ready(function() {
 				reviewstr += '				<option value="2">★★</option>';
 				reviewstr += '				<option value="1">★</option>';
 				reviewstr += '			</select><br>';
-				//reviewstr += '			<label style="font-size:15px;">해쉬태그</label><br><div class="hsgroup"></div>';
-				//reviewstr += '			<input type="text" id="hashTag"><br><br>';
+				//해쉬태그 수정도 해야함!!
 				reviewstr += '			<textarea cols="80" rows="5">'+review.content+'</textarea>';       
 				reviewstr += '        </div>';   
 				        
 				       
-				reviewstr += '        <div class="modal-footer">';
-				reviewstr += '          <input type="button" class="modifyokbtn" value="완료">';
-				reviewstr += '          <input type="button" class="modifycancelbtn" value="취소">';
+				reviewstr += '        <div class="modal-footer" data-seq="'+review.rseq+'">';
+				reviewstr += '      	<button type="button" class="btn btn-primary modifyokbtn" >완료</button>';
+				reviewstr += '      	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>';
 				reviewstr += '        </div>';
 				        
 				reviewstr += '      </div>';
@@ -272,20 +276,45 @@ $(document).ready(function() {
 		});
 		
 		//리뷰 수정하기
-		/* var modifyArr = $(".modifyBtn");
+		var modifyArr = $(".modifyokbtn");
 		$(modifyArr).live("click",function() {
-			alert("눌렸다!");
-			$(this).siblings(".modifything").css("display", "");
+			//alert("modify review");
+	
+			$.ajax({
+				url : '${root}/review/modify/' 
+					+ $(this).parent(".modal-footer").attr("data-seq") + '/' 
+					+ $(this).parent(".modal-footer").siblings(".modal-body").find("input").val() + '/' 
+					+ $(this).parent(".modal-footer").siblings(".modal-body").find("select").val() +'/' 
+					+ $(this).parent(".modal-footer").siblings(".modal-body").find("textarea").val(),
+				type : 'PUT',
+				contentType : 'application/json;charset=UTF-8',
+				dataType : 'json',
+				success : function(response) {
+					alert("수정이 완료되었습니다.");
+					window.location.reload();
+				}
+			});
 		}); 
+			
+		
 		
 		//리뷰 삭제
 		var deleteArr = $(".deleteBtn");
 		$(deleteArr).live("click",function() {
+			$.ajax({
+				url : '${root}/review/delete/' + $(this).siblings(".reviewseq").text(),
+				type : 'DELETE',
+				contentType : 'application/json;charset=UTF-8',
+				dataType : 'json',
+				success : function(response) {
+					alert("삭제가 완료되었습니다.");
+					window.location.reload();
+				}
+			});
 			
 		});
-		*/
+		
 	}
-	
 	
 	
 	function getMemoList(index) {
@@ -318,7 +347,7 @@ $(document).ready(function() {
 			memostr += '	</td>';
 			
 			if('${userInfo.userId}' == memo.logId) {
-				memostr += '	<td width="100" style="padding: 10px" data-seq="'+memo.rceq+'">';
+				memostr += '	<td width="100" style="padding: 10px" data-seq="'+memo.rceq+'" data-id="'+memo.logId+'" data-time="'+memo.logTime+'">';
 				memostr += '		<input type="button" class="mmodifyBtn" value="수정">';
 				memostr += '		<input type="button" class="mdeleteBtn" value="삭제">';
 				memostr += '	</td>';
@@ -328,8 +357,8 @@ $(document).ready(function() {
 			memostr += '	<td colspan="3" style="padding: 10px">';
 			memostr += '	<textarea class="mcontent" cols="160" rows="5">' + memo.content + '</textarea>';
 			memostr += '	</td>';
-			memostr += '	<td width="100" style="padding: 10px">';
-			memostr += '	<input type="button" class="memoModifyBtn" value="글수정">';
+			memostr += '	<td width="100" style="padding: 10px" data-seq="'+memo.rceq+'" data-id="'+memo.logId+'" data-time="'+memo.logTime+'">';
+			memostr += '	<input type="button" class="memoModifyBtn" value="완료">';
 			memostr += '	<input type="button" class="memoModifyCancelBtn" value="취소">';
 			memostr += '	</td>';
 			memostr += '</tr>';
@@ -341,6 +370,65 @@ $(document).ready(function() {
 		$(".mlist").empty();
 		console.log($(".mlist").text());
 		$(".mlist").append(memostr);
+		
+		///////////////////////////////////////////
+		// 댓글 수정 작성란 보이기
+		var viewmodify = $(".mmodifyBtn");
+		$(viewmodify).live("click",function() {
+			$(this).parent().parent().next("tr").css("display", "");
+			$(this).parent().parent("tr").css("display", "none");
+		});
+		
+		// 댓글 수정 취소 이벤트
+		var modifycancel = $(".memoModifyCancelBtn");
+		$(modifycancel).live("click",function() {
+			$(this).parent().parent("tr").css("display", "none");
+			$(this).parent().parent().prev("tr").css("display", "");
+		});
+
+		
+		// 댓글 수정 이벤트
+		var memomodify = $(".memoModifyBtn");
+		$(memomodify).live("click",function() {
+			
+			$(this).parent().parent().prev("tr").css("display", "");
+			
+			//리뷰글번호,작성자id,작성시간,글내용
+			
+			var newMcontent = $(this).parent().prev("td").children().val();
+			
+			$.ajax({
+				url : '${root}/review/modifyMemo' + $(this).parent("td").attr("data-seq") + '/' + $(this).parent("td").attr("data-id") +'/'+ $(this).parent("td").attr("data-time") +'/' + newMcontent,
+				type : 'PUT',
+				contentType : 'application/json;charset=UTF-8',
+				dataType : 'json',
+				success : function(response) {
+					makeMemoList(response);
+				}
+			});
+			
+		
+		});
+
+		// 댓글 삭제 이벤트
+		var memodelete = $(".mdeleteBtn");
+		$(memodelete).live("click",function() {
+			//리뷰글번호,작성자id,작성시간
+			$.ajax({
+				url : '${root}/review/deleteMemo' + $(this).parent("td").attr("data-seq") + '/' + $(this).parent("td").attr("data-id") +'/'+ $(this).parent("td").attr("data-time"),
+				type : 'DELETE',
+				contentType : 'application/json;charset=UTF-8',
+				dataType : 'json',
+				success : function(response) {
+					makeMemoList(response);
+					$("mcontent").val('');  // 댓글 작성창 지우기
+				}
+			});
+			
+		});
+		
+		
+	
 	}
 	//>>end : 리뷰작성
 	
@@ -535,7 +623,7 @@ li.clearfix {
 				<span class="reviewCount">${reviewNum}</span> Reviews to "<span>${contentsDto.title}</span>"
 				<!-- Begin 후기 작성 -->	
 				<div class="toggle">
-					<div class="trigger"><button class="writeReview">리뷰 작성</button></div>
+					<div class="trigger"><button type="button" class="btn btn-primary writeReview">리뷰 작성</button></div>
 					<div class="togglebox">
           				<div>
           				<form id="writeForm" name="writeForm" method="post" action="" enctype="multipart/form-data">
