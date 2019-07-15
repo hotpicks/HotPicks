@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kitri.hotpicks.contents.dao.ReviewDao;
+import com.kitri.hotpicks.contents.model.BlackReviewDto;
 import com.kitri.hotpicks.contents.model.CommentDto;
 import com.kitri.hotpicks.contents.model.ContentsDto;
 import com.kitri.hotpicks.contents.model.ReviewDto;
@@ -105,15 +106,41 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public String deleteMemo(int rceq, String logId, int logTime) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteMemo(int rceq, String logId, String logTime) {
+		System.out.println("댓글삭제하러 서비스 도착");
+		CommentDto commentDto = new CommentDto();
+		commentDto.setRceq(rceq);
+		commentDto.setLogId(logId);
+		commentDto.setLogTime(logTime);
+		
+		sqlSession.getMapper(ReviewDao.class).deleteMemo(commentDto);
+		
 	}
 
 	@Override
-	public String modifyMemo(int rceq, String logId, int logTime, String content) {
-		// TODO Auto-generated method stub
-		return null;
+	public void modifyMemo(int rceq, String logId, String logTime, String content) {
+		System.out.println("댓글수정하러 서비스 도착");
+		CommentDto commentDto = new CommentDto();
+		commentDto.setRceq(rceq);
+		commentDto.setLogId(logId);
+		commentDto.setLogTime(logTime);
+		commentDto.setContent(content);
+		
+		sqlSession.getMapper(ReviewDao.class).modifyMemo(commentDto);
+		
+		
+	}
+
+	@Override
+	public void black(int rseq, String userId, String reportContent) {
+		BlackReviewDto blackReviewDto = new BlackReviewDto();
+		
+		blackReviewDto.setRseq(rseq);
+		blackReviewDto.setUserId(userId);
+		blackReviewDto.setReportContent(reportContent);
+		
+		sqlSession.getMapper(ReviewDao.class).black(blackReviewDto);
+		
 	}
 	
 	
