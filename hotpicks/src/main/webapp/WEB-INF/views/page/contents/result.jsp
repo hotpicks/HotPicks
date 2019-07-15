@@ -8,17 +8,25 @@ $(function() {
 	var sdCode;
 	var sggCode;
 	var catId;
+	var cPage;
+	var isScroll = true;
+	
 	
 	$(this).scroll(function(){
+		if(isScroll){
 		var maxHeight = $(this).height();
 		var currentScroll = $(window).scrollTop() + $(window).height();
-		
-		if(maxHeight <= currentScroll + 100){
-			var cPage = $("#cPage").val();
-			reSelectcontentsList(sdCode, sggCode, catId, cPage);
+			
+			if((maxHeight - currentScroll) / maxHeight === 0){
+				cPage = parseInt($("#cPage").val()) + 1;
+				console.log(cPage);
+				
+				checkIsScroll(sdCode, sggCode, catId, cPage);
+				
+			}
 		}
-		
-	});
+		});
+	
 	
 	
 	 $("#sido").change(function(){
@@ -28,7 +36,7 @@ $(function() {
 			sggCode = $('#sigungu').val();
 			catId = $("#curruntcat").attr("value");
 			//console.log(catId + '/' + sdCode + '/' + sggCode);
-			reSelectcontentsList(sdCode, sggCode, catId, -1);
+			reSelectcontentsList(sdCode, sggCode, catId, 1);
 		});
 	 
 	 $("#sigungu").change(function(){
@@ -37,7 +45,7 @@ $(function() {
 			sggCode = $('#sigungu').val();
 			catId = $("#curruntcat").attr("value");
 			//console.log(catId + '/' + sdCode + '/' + sggCode);
-			reSelectcontentsList(sdCode, sggCode, catId, -1); 
+			reSelectcontentsList(sdCode, sggCode, catId, 1); 
 	 });
 	 
 			
@@ -51,12 +59,19 @@ $(function() {
 		$("#curruntcat").attr("value", $(this).attr("data-catid"));
 		catId = $("#curruntcat").attr("value");
 		//console.log(catId + '/' + sdCode + '/' + sggCode);
-		reSelectcontentsList(sdCode, sggCode, catId, -1);
+		reSelectcontentsList(sdCode, sggCode, catId, 1);
 	 });
 	 
 
  	
 });
+
+function checkIsScroll(sdCode, sggCode, catId, cPage){
+	isScroll = false;
+	reSelectcontentsList(sdCode, sggCode, catId, cPage);
+	setTimeout(function(){isScroll = true},500);
+}
+
 
 function setSigungu(){
 	var sdCode = $('#sido').val();
@@ -90,27 +105,46 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 			var contentsStr = "";
 			var contents = result;
 			var len = contents.length;
-			//console.log(contents);
 			
-			contentsStr += '<input type="hidden" id="cPage" value="1">';
+			
+			
+			var index = $('.one-fourth').length;
+			var d;
+			if(index%4 == 0){
+				d = 0;
+			}else{
+				d = index%4;
+				//var lastCnt = $('.last').length;
+				//$('.last').index(lastCnt).removeClass('last');
+			}
+		
 			if(len == 0){
 				contentsStr += '<div align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>';
 			}else{
-			for(var i = 0 ; i<len ;i++){
-				
-				if((i+1)%4 == 0 || i == len-1){
+			for(var i = 0 ; i<len ;i++){				
+
+				if((i+1+d)%4 == 0 || i == len-1){
+
 					contentsStr += '<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}else{
 					contentsStr += '<div class="one-fourth" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}
-					contentsStr += '<img src=' + (contents[i].image1 == '-1' ? (contents[i].image2 == '-1' ? 
-							'noImage_list.png' : contents[i].image2) : contents[i].image1 ) +' width="200" alt=""/>';
+					contentsStr += '<img src=' + (contents[i].image2 == 'noImage_list.png' ? 
+							'/hotpicks/resources/style/images/noImage_list.png' : contents[i].image2)+' width="200" alt=""/>';
 					contentsStr += '<h4>' + contents[i].title + '</h4>';
 					contentsStr += '        <p>조회수 : ' + contents[i].hit + ' 리뷰 수 : </p>';
 					contentsStr += '</a></div>';
 				}
 			}
+			if( cPage == 1){
+				contentsStr += '<input type="hidden" id="cPage" value="' + cPage + '">';
 					$("#about").html(contentsStr); 
+			}else{
+				$("#cPage").attr("value",cPage+1);
+				
+					$("#about").append(contentsStr); 
+			}
+			
 		},
 		error:function(request,status,error){
 	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -131,8 +165,9 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 }
 </script>
 
+<c:if test="${rContentsList != null}">
 
- <%--   <!-- Begin Wrapper -->
+ <!-- Begin Wrapper -->
  <div id="wrapper" style="margin-bottom: 20px;"> 
     <!-- Begin Intro -->
     <div class="intro">
@@ -141,35 +176,30 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
     <!-- End Intro --> 
     
     <!-- favorite -->
-    <div id="about">
-<c:forEach var="list" items="${json}" varStatus="status"  end="3">
+    <div id="Rabout">
+<c:forEach var="list" items="${rContentsList}" varStatus="status">
 <c:choose>
-	<c:when test="${ status.count%4 != 0 || status.last != false}">
-	<div class="one-fourth"> 
-	<a href="${root}/page/contents/sohyun_contentdetail.jsp">
-	<img src="${list.firstimage1 != 'x' ? list.firstimage1 : (list.firstimage2 != 'x' ? list.firstimage2 : '') }" width="200" alt="" />
-	</a>
-        <h4>${list.title}</h4>
-        <p>${list.title}</p>
-      </div>
-    </c:when>
-    <c:otherwise>
-      <div class="one-fourth last"> 
-      <a href="${root}/page/contents/sohyun_contentdetail.jsp">
-      <img src="${list.firstimage1 != 'x' ? list.firstimage1 : (list.firstimage2 != 'x' ? list.firstimage2 : '') }" width="200" alt="" />
-      </a>
-        <h4>${list.title}</h4>
- 		 <p>${list.title}</p>
-      </div>
-    </c:otherwise>
+		<c:when test="${status.last == true || status.count % 4 == 0}">
+	    	<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
+	    </c:when>
+	    <c:otherwise>
+			<div class="one-fourth" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
+	    </c:otherwise>
 </c:choose>
+		
+		<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
+        <h4>${list.title}</h4>
+        <p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt}</p>
+        </a>
+      </div>
+      
 </c:forEach>
     </div>
+   </div>  
  <!-- End About --> 
+</c:if>
 
-   </div>  --%>
 
-	
 
 
   <div id="wrapper" style="margin-bottom: 20px;">
@@ -202,7 +232,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
     <!-- favorite -->
     <div id="about">
     <input type="hidden" id="cPage" value="1">
- <c:forEach var="list" items="${contentsList}" varStatus="status" end="13">
+ <c:forEach var="list" items="${contentsList}" varStatus="status">
 <c:choose>
 		<c:when test="${status.last == true || status.count % 4 == 0}">
 	    	<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
@@ -213,7 +243,6 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 </c:choose>
 		
 		<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
-		<%-- <img class="viewdetailbtn" src="${list.image1 != '-1' ? list.image1 : (list.image2 != '-1' ? list.image2 : '') }" width="200" alt="" /> --%>
         <h4>${list.title}</h4>
         <p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt}</p>
         </a>

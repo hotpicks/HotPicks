@@ -38,6 +38,8 @@ $(function() {
 			}
 			
 			
+			
+			
 		$.ajax({
 			url : "${root}/contents/enter",
 			type : "get",
