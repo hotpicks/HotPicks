@@ -16,6 +16,7 @@ public interface ContentsService {
 	//api select
 	List<ContentsDto> selectContentsList(char keyword, Map<String,Object> parameter);
 	
+	List<ContentsDto> selectRContentsList(Map<String,Object> parameter);
 	
 	
 	

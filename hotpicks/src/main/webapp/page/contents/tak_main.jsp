@@ -38,6 +38,8 @@ $(function() {
 			}
 			
 			
+			
+			
 		$.ajax({
 			url : "${root}/contents/enter",
 			type : "get",
@@ -47,6 +49,8 @@ $(function() {
 				
 				}
 		});
+		
+		
 		
 		
 
@@ -74,6 +78,7 @@ $(function() {
 			return false;
 		});
 		
+ 		
 }); 
 </script>
 <div id="main">
