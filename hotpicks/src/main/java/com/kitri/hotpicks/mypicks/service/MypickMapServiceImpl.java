@@ -26,12 +26,13 @@ public class MypickMapServiceImpl implements MypickMapService {
 	}
 
 	@Override
-	public List<ViewPickMapDto> selectContentsList(double x,double y,List<String> selectMarkers, int distance) {
+	public List<ViewPickMapDto> selectContentsList(double x,double y,List<String> selectMarkers, int distance,String userid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("selectMarkers", selectMarkers);
 		map.put("x", x);
 		map.put("y", y);
 		map.put("distance", distance);
+		map.put("userid", userid);
 		System.out.println("service" + map);
 		return sqlSession.getMapper(MypickMapDao.class).selectContentsList(map);
 	}
