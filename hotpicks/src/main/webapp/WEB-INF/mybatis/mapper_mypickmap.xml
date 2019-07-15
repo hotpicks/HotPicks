@@ -28,6 +28,7 @@
 		 <if test="catid != -1">
 		 	and c.catid = #{catid}
 		 </if>
+		 and userid = #{userid}
  	</select>
  	
  	<select id="selectContentsList" parameterType="map" resultType="viewPickMapDto">
@@ -41,7 +42,7 @@
       			d.ypoint, 
       			c.catid, 
       			p.wanna, 
-      			to_char(DISTNACE_GRS80(#{x},#{y},d.xpoint,d.ypoint),'999,999,999.999') distance,
+      			to_char(DISTNACE_GRS80(#{x},#{y},d.ypoint,d.xpoint),'999,999,999.999') distance,
       			nvl(c.image1,'-1') image1,
       			nvl(c.image2,'-1') image2,
       			d.infosogae,
@@ -50,7 +51,8 @@
       			d.addr1,
       			d.addr2
  			from picklist p , contents c, contentsdetail d
-		 	where p.contentsid = c.contentsid and p.contentsid = d.contentsid)
+		 	where p.contentsid = c.contentsid and p.contentsid = d.contentsid
+		 	and p.userid = #{userid})
 	  where
 	 ]]>
  	<if test="selectMarkers.size() != 0">

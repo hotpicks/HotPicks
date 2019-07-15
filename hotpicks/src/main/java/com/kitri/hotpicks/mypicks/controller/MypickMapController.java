@@ -33,20 +33,22 @@ public class MypickMapController {
 	@RequestMapping("/getmaplist")
 	@ResponseBody
 	public String mypicksMap(@RequestParam Map<String, Object> map) {
-		System.out.println(map);
 		List<ViewPickMapDto> list = mypickMapService.getContent(map);
 		JSONArray array = new JSONArray(list);
-		System.out.println(list);
 		return array.toString();
 		
 	}
 	@RequestMapping("/getcontentslist")
-	public String selectContentsList(@RequestParam(value = "selectMarkers") List<String> selectMarkers,@RequestParam("x") double x, @RequestParam("y") double y,@RequestParam("selectDistance") int distance, Model model) {
+	public String selectContentsList(@RequestParam(value = "selectMarkers") List<String> selectMarkers,
+									 @RequestParam("x") double x, 
+									 @RequestParam("y") double y,
+									 @RequestParam("selectDistance") int distance,
+									 @RequestParam("userid") String userid, Model model) {
 		
-		System.out.println(selectMarkers);
 		if (selectMarkers.size() != 0) {
-			List<ViewPickMapDto> list = mypickMapService.selectContentsList(x, y, selectMarkers, distance);
+			List<ViewPickMapDto> list = mypickMapService.selectContentsList(x, y, selectMarkers, distance, userid);
 			model.addAttribute("list",list);
+			
 		}		
 		String path = "mypicks/selectcontents";
 		return path;
