@@ -28,4 +28,6 @@ public interface ReviewService {
 	void deleteMemo(int rceq, String logId, String logTime);
 	
 	void modifyMemo(int rceq, String logId, String logTime, String content);
+	
+	void black(int rseq, String userId, String reportContent);
 }

@@ -187,29 +187,39 @@ public class ReviewController {
 		reviewService.delete(rseq);
 		return "";
 	}
-	//리뷰글번호,작성자id,작성시간
+
+	// 리뷰글번호,작성자id,작성시간
 	// 댓글 삭제하기
 	@RequestMapping(value = "/deleteMemo/{rceq}/{logId}/{logTime}", method = RequestMethod.DELETE, consumes = "application/json", headers = {
 			"Content-type=application/json" })
 	@ResponseBody
-	public String deleteMemo(@PathVariable(name = "rceq") int rceq, 
-							@PathVariable(name = "logId") String logId, 
-							@PathVariable(name = "logTime") String logTime) {
+	public String deleteMemo(@PathVariable(name = "rceq") int rceq, @PathVariable(name = "logId") String logId,
+			@PathVariable(name = "logTime") String logTime) {
 		System.out.println("댓글삭제하러 컨트롤러 도착");
-		reviewService.deleteMemo(rceq, logId,logTime);
+		reviewService.deleteMemo(rceq, logId, logTime);
 		return "";
 	}
-	//리뷰글번호,작성자id,작성시간,글내용
+
+	// 리뷰글번호,작성자id,작성시간,글내용
 	// 댓글 수정하기
 	@RequestMapping(value = "/modifyMemo/{rceq}/{logId}/{logTime}/{content}", method = RequestMethod.PUT, consumes = "application/json", headers = {
 			"Content-type=application/json" })
 	@ResponseBody
-	public String modifyMemo(@PathVariable(name = "rceq") int rceq, 
-								@PathVariable(name = "logId") String logId, 
-								@PathVariable(name = "logTime") String logTime,
-								@PathVariable(name = "content") String content) {
+	public String modifyMemo(@PathVariable(name = "rceq") int rceq, @PathVariable(name = "logId") String logId,
+			@PathVariable(name = "logTime") String logTime, @PathVariable(name = "content") String content) {
 		System.out.println("댓글수정하러 컨트롤러 도착!!" + logTime);
-		reviewService.modifyMemo(rceq, logId, logTime,content);
+		reviewService.modifyMemo(rceq, logId, logTime, content);
+		return "";
+	}
+
+	// 리뷰 신고
+	@RequestMapping(value = "/black/{rseq}/{userId}/{reportContent}", method = RequestMethod.PUT, consumes = "application/json", headers = {
+			"Content-type=application/json" })
+	@ResponseBody
+	public String black(@PathVariable(name = "rseq") int rseq, @PathVariable(name = "userId") String userId,
+			@PathVariable(name = "reportContent") String reportContent) {
+		System.out.println("댓글수정하러 컨트롤러 도착!!" + rseq + userId + reportContent);
+		reviewService.black(rseq, userId, reportContent);
 		return "";
 	}
 
