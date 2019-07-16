@@ -10,22 +10,58 @@ $(function() {
 	var catId;
 	var cPage;
 	var isScroll = true;
-	
-	
-	 $(this).scroll(function(){
+
+	/* var didScroll; 
+	var lastScrollTop = 0; 
+	var delta = lastScrollTop+500;
+	var navbarHeight = $('header').outerHeight();
+	 
+	$(window).scroll(function(event){ 
+		didScroll = true; 
+	}); 
+	setInterval(function() { 
+		if (didScroll) { 
+			hasScrolled(); 
+			didScroll = false; } }, 250); 
+	function hasScrolled() { var st = $(this).scrollTop(); 
+	// Make sure they scroll more than delta 
+	if(Math.abs(lastScrollTop - st) <= delta) return; 
+	// If they scrolled down and are past the navbar, add class .nav-up. 
+	// This is necessary so you never see what is "behind" the navbar. 
+	if (st > lastScrollTop){ 
+	// Scroll Down 
+		console.log("st : "+ st);
+		console.log("lastScrollTop : "+ lastScrollTop);
+		console.log("delta : "+ delta);
+		cPage = parseInt($("#cPage").val()) + 1;
+		console.log(cPage);
+		
+		checkIsScroll(sdCode, sggCode, catId, cPage);
+		
+	} else { 
+		// Scroll Up 
+		if(st + $(window).height() < $(document).height()) {
+			} 
+		} 
+		lastScrollTop = st; 
+	} 
+	 */
+ $(this).scroll(function(){
 		if(isScroll){
 		var maxHeight = $(this).height();
 		var currentScroll = $(window).scrollTop() + $(window).height();
 			
 			if((maxHeight - currentScroll) / maxHeight === 0){
-				cPage = parseInt($("#cPage").val()) + 1;
-				console.log(cPage);
 				
-				checkIsScroll(sdCode, sggCode, catId, cPage);
-				
+				setTimeout(function() {
+					cPage = parseInt($("#cPage").val()) + 1;
+					console.log(cPage);
+					
+					checkIsScroll(sdCode, sggCode, catId, cPage);
+				}, 250);
 			}
 		}
-		}); 
+		});
 	
 	
 	
@@ -108,7 +144,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 			
 			
 			
-			var index = $('.one-fourth').length;
+			var index = $('.one-fourth').length + $('.one-fourth last').length;
 			var d;
 			if(index%4 == 0){
 				d = 0;
@@ -119,11 +155,11 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 			}
 		
 			if(len == 0){
-				contentsStr += '<div align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>';
+				contentsStr += '<div style="clear:both;" align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>';
 			}else{
 			for(var i = 0 ; i<len ;i++){				
 
-				if((i+1+d)%4 == 0 || i == len-1){
+				if((i+d+1)%4 == 0 || i == len-1){
 
 					contentsStr += '<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}else{
@@ -140,7 +176,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 				contentsStr += '<input type="hidden" id="cPage" value="' + cPage + '">';
 					$("#about").html(contentsStr); 
 			}else{
-				$("#cPage").attr("value",cPage+1);
+				$("#cPage").attr("value",cPage);
 				
 					$("#about").append(contentsStr); 
 			}
@@ -166,7 +202,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 </script>
 
 <c:if test="${rContents != null}">
-<div style="clear:both;">
+
  <!-- Begin Wrapper -->
  <div id="wrapper" style="margin-bottom: 20px;"> 
     <!-- Begin Intro -->
@@ -176,7 +212,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
     <!-- End Intro --> 
     
     <!-- favorite -->
-    <div id="Rabout">
+    <div id="rAbout">
 <c:forEach var="list" items="${rContents.rContentsList}" varStatus="status">
 <c:choose>
 		<c:when test="${status.last == true || status.count % 4 == 0}">
@@ -197,6 +233,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
     </div>
    </div>  
  <!-- End About --> 
+ <div style="clear:both;">
  </div>
 </c:if>
 
@@ -207,7 +244,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
    
     <!-- Begin Intro -->
     <div class="intro" align="center">
-      <h1 >
+      <h1>
       	<label class="catsearch" data-catid="0" style="color: purple;font-style: bold;">전체</label> |
       	<label class="catsearch" data-catid="1" style="color: purple;">축제</label> |
       	<label class="catsearch" data-catid="2" style="color: purple;">공연</label> |

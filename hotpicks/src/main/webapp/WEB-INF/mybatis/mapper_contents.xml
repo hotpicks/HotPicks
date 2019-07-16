@@ -308,7 +308,7 @@
 							ORDER BY hit DESC, rvCnt DESC
 		<if test="startSeq != null || endSeq != null">
 							)s
-					WHERE rownum &lt; = #{endSeq})t
+					WHERE rownum &lt; = #{endSeq}) t
 			WHERE 	t.rang &gt; #{startSeq}		
 		</if>
 							

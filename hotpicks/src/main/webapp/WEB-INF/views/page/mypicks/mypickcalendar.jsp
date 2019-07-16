@@ -77,7 +77,7 @@
   });
 
 </script>
-<div id="wrapper"> 
+<div id="wrapper" style="width:1160px;"> 
 <div class="content">
 <div align="center" style="margin-bottom: 30px;">
 	<div>

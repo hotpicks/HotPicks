@@ -147,11 +147,11 @@ $(document).ready(function() {
 		var reviewstr = '';
 		for(var i=0; i<reviewcnt; i++) {
 			var review = reviews.reviewlist[i];
-			
+			reviewstr = reviewstr.replace(/(?:\r\n|\r|\n)/g, '&lt;br /&gt;')
 			reviewstr += '<li class="clearfix">';
 			reviewstr += '<div class="toggle">';
-			reviewstr += '	<div class="rehead" style="height:100px;" data-toggle="collapse" data-target="#'+i+'">';
-			reviewstr += '		<div class="user">';
+			reviewstr += '	<div class="rehead" style="height:100px; margin-bottom:2%;" data-toggle="collapse" data-target="#'+i+'">';
+			reviewstr += '		<div class="user" style="width:110px;height:110px; padding:1%; float:left; text-align:center;">';
 			if(review.saveFolder != null) {
 			reviewstr += '			<img src="${root}/review/'+review.saveFolder+'/'+review.savePicture+'" class="avatar" /> ';
 			//${root}/review/파일폴더/파일명
@@ -408,7 +408,7 @@ $(document).ready(function() {
 			memostr += '</tr>';
 			memostr += '<tr style="display: none; border: solid thick black;">';
 			memostr += '	<td colspan="3">';
-			memostr += '	<textarea class="mcontent" cols="160" rows="3">' + memo.content + '</textarea>';
+			memostr += '	<textarea class="mcontent" cols="160" rows="3">'+memo.content+'</textarea>';
 			memostr += '	</td>';
 			memostr += '	<td width="100" style="padding: 10px" data-seq="'+memo.rceq+'" data-id="'+memo.logId+'" data-time="'+memo.logTime+'">';
 			memostr += '	<input type="button" class="memoModifyBtn" value="완료">';
@@ -568,8 +568,8 @@ li.clearfix {
 	padding-top: 10px !important;
 }
 .avatar{
-	height: 60px;
-	width: 90px;
+	height: 100px;
+	width: 100px;
 }
 .commReply{
 	float: right;
