@@ -22,6 +22,13 @@ public interface ContentsDao {
 	
 	//select detail	
 	//ContentsDetailDto contentsdetail();
+	//1)사용자가 많이 사용한 최근 가장많이사용한 해쉬태그 검색
+	String selectMyHashTag(Map<String,Object> parameter);
+	//2)작성했던 리뷰, 해쉬태그가 없을때 (최근 hot한 hashtag 검색)
+	String rContentslistTrend(Map<String,Object> parameter);
+	//1,2의 결과에 따라 검색
+	List<ContentsDto>rContentslistByTag(String tag);
+	
 	
 //Select location process
 	List<SidoDto> selectSido();

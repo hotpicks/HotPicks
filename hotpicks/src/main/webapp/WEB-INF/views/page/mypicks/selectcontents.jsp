@@ -77,8 +77,8 @@ new Swiper('.swiper-container', {
 <c:if test="${!empty list}">
 <div class="swiper-container">
 	<div class="swiper-wrapper">
-		<div class="swiper-slide">
 		<c:forEach var="selectcontents" items="${list}" >
+		<div class="swiper-slide">
 			 <div class="sh"><div style="font-size:12px; color:gray;"> 
 			<c:set var="distance" value="${selectcontents.distance}"></c:set>
 			<c:choose>
@@ -108,14 +108,14 @@ new Swiper('.swiper-container', {
 				    	<div style="color :red;">기간이 지난 컨텐츠 입니다.</div>
 				    </c:when>
 				    <c:otherwise>
-				    	<p>${fn:substring(selectcontents.eventenddate,0,4)}년 ${fn:substring(selectcontents.eventenddate,5,6)}월 ${fn:substring(selectcontents.eventenddate,7,8)}일 까지</p>
+				    	<p>${fn:substring(selectcontents.eventenddate,0,4)}년 ${fn:substring(selectcontents.eventenddate,4,6)}월 ${fn:substring(selectcontents.eventenddate,6,8)}일 까지</p>
 				    </c:otherwise>
 			    </c:choose>
 			   
 			        
 			      </div>
-			</c:forEach>
 			  	</div>
+			</c:forEach>
 	</div>
 
 	<!-- 네비게이션 -->

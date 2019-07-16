@@ -31,6 +31,7 @@ import com.kitri.hotpicks.contents.model.ContentsImageDto;
 import com.kitri.hotpicks.contents.model.ContentsTypeDto;
 import com.kitri.hotpicks.contents.model.SidoDto;
 import com.kitri.hotpicks.contents.model.SigunguDto;
+import com.kitri.hotpicks.util.CafeConstance;
 
 @Service
 public class ContentsServiceImpl implements ContentsService {
@@ -702,23 +703,55 @@ public class ContentsServiceImpl implements ContentsService {
 			
 			case 'l':
 				System.out.println("location검색");
+				System.out.println(parameter.get("cPage"));
+//				cpage
+				
+				int	bePage = Integer.valueOf(parameter.get("cPage").toString());
+//				21 ~ 40
+				int endSeq = bePage*CafeConstance.ARTICLE_SIZE;
+				int startSeq = endSeq-CafeConstance.ARTICLE_SIZE;
+				System.out.println(startSeq + "///" + endSeq);
+				parameter.put("startSeq", startSeq);
+				parameter.put("endSeq", endSeq);
+				System.out.println("parameter : " + parameter);
 				return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);
 			
 				
 				//'m' :main첫화면(parameter가 null)
 			default : 
-				System.out.println("nomal검색");
-				return sqlSession.getMapper(ContentsDao.class).contentslist(null);
+				System.out.println("paramnotnullnomal검색");
+				
+				parameter.put("startSeq", 0);
+				parameter.put("endSeq", CafeConstance.ARTICLE_SIZE);
+				return sqlSession.getMapper(ContentsDao.class).contentslist(parameter);
 			}
 		}else {
-			System.out.println("nomal검색");
-			return sqlSession.getMapper(ContentsDao.class).contentslist(null);			
+			//parameter가 null일 예외상황
+			System.out.println("paramnullnomal검색");
+			Map<String,Object> param = new HashMap<String, Object>();
+			param.put("startSeq", 0);
+			param.put("endSeq", CafeConstance.ARTICLE_SIZE);
+			return sqlSession.getMapper(ContentsDao.class).contentslist(param);			
 		}
 	}
 
 	@Override
 	public void insertContentsCate() {
 		sqlSession.getMapper(ContentsDao.class).insertContentsCate();
+	}
+
+
+	@Override
+	public List<ContentsDto> selectRContentsList(Map<String, Object> parameter) {
+		String tag = sqlSession.getMapper(ContentsDao.class).selectMyHashTag(parameter);
+		System.out.println("1) : " + tag);
+		if(tag == null) {
+			tag =  sqlSession.getMapper(ContentsDao.class).rContentslistTrend(parameter);
+			System.out.println("2) : " + tag);
+		}		
+		System.out.println("3) : " + tag);
+		return sqlSession.getMapper(ContentsDao.class).rContentslistByTag(tag);
+		
 	}
 
 }

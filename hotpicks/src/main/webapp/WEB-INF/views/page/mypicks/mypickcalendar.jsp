@@ -80,12 +80,6 @@
 <div id="wrapper"> 
 <div class="content">
 <div align="center" style="margin-bottom: 30px;">
-	<div style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
-		<a href="">전체	|</a>
-		<a>공연	|</a>
-		<a>전시	|</a>
-		<a>행사</a>
-	</div>
 	<div>
 			<a href="${root}/mypicklist/enter"><i class="fas fa-list" style="font-size: 4em;"></i></a>
 				<img src="${root}/resources/style/images/blank.png">

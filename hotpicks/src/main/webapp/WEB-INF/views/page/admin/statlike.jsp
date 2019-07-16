@@ -155,7 +155,7 @@ var myPieChart = new Chart(ctx, {
 </script>
  </c:if>     
  
-  <c:if test="${rCateStat.size() == 0}">
+  <c:if test="${rCateStat.size() == 0 || pCateStat.size() == 0}">
   	<div align="center" style="height: 200px; font-size: 20px; font-weight: 700;">
 	<br><br>
 		<p>충분한 양의 통계자료가 존재하지 않습니다.&nbsp;<font color="#ff99bb"><i class="fas fa-sad-tear"></i></font></p>

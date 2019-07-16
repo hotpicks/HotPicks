@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
 <style>
+i{
+color :black;
+}
 .sh > a{
 	text-decoration: none;
 	font-size:15px;
@@ -539,7 +542,7 @@ getTwitters('twitter', {
 			event.preventDefault();
 			setAllMarkers(null);
 			allMarkers = [];
-			wanna = 1;
+			wanna = 0;
 			getMarkers(wanna, catid);
 			
 		})
@@ -547,7 +550,7 @@ getTwitters('twitter', {
 			event.preventDefault();
 			setAllMarkers(null);
 			allMarkers = [];
-			wanna = 2;
+			wanna = 1;
 			getMarkers(wanna, catid);
 			
 		})
