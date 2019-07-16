@@ -152,7 +152,7 @@ function getMember(selected){
           	</select>
           	<div class="clear"></div>
  
-          <div id="memberList" style="float:none; height: 600px; overflow-y:auto">
+          <div id="memberList" style="float:none; height: 900px; overflow-y:auto">
           
           	
           	<!-- 동적 페이지 구성 부분 -->
