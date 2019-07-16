@@ -78,7 +78,7 @@ $(function(){
 		$( '#list > tbody').empty();
 		page = 1;
 		cate = -1;
-		aval = 1;	
+		aval = 0;	
 		gone = -1;
 		getContents(1, cate, aval, gone);
 	});
@@ -88,7 +88,7 @@ $(function(){
 		$( '#list > tbody').empty();
 		page = 1;
 		cate = -1;
-		aval = 0;
+		aval = 1;
 		gone = -1;
 		getContents(1, cate, aval, gone);
 	});
@@ -232,7 +232,7 @@ function getContents(pg , ca, av, gn) {
           	<a href="#" id="delete" class="button red btns" style="margin-right:30px; font-weight: 700;">무 효<span></span></a>
           	<a href="#" id="fullContents" class="button lime btns" style="margin-right:30px; font-weight: 700;">전체<span></span></a>
           	<a href="#" id="goneContents" class="button lime btns" style="margin-right:30px; font-weight: 700;">기간 지난 컨텐츠<span></span></a>
-          	<a href="#" id="endContents" class="button lime btns" style="margin-right:30px; font-weight: 700;">만료된 컨텐츠<span></span></a>
+          	<a href="#" id="endContents" class="button lime btns" style="margin-right:30px; font-weight: 700;">무효 컨텐츠<span></span></a>
           	<a href="#" id="notEndContents" class="button lime btns" style="margin-right:30px; font-weight: 700;">유효 컨텐츠<span></span></a>
           	<select>
           		<option value="-1">전체 컨텐츠</option>

@@ -10,22 +10,58 @@ $(function() {
 	var catId;
 	var cPage;
 	var isScroll = true;
-	
-	
-	/* $(this).scroll(function(){
+
+	/* var didScroll; 
+	var lastScrollTop = 0; 
+	var delta = lastScrollTop+500;
+	var navbarHeight = $('header').outerHeight();
+	 
+	$(window).scroll(function(event){ 
+		didScroll = true; 
+	}); 
+	setInterval(function() { 
+		if (didScroll) { 
+			hasScrolled(); 
+			didScroll = false; } }, 250); 
+	function hasScrolled() { var st = $(this).scrollTop(); 
+	// Make sure they scroll more than delta 
+	if(Math.abs(lastScrollTop - st) <= delta) return; 
+	// If they scrolled down and are past the navbar, add class .nav-up. 
+	// This is necessary so you never see what is "behind" the navbar. 
+	if (st > lastScrollTop){ 
+	// Scroll Down 
+		console.log("st : "+ st);
+		console.log("lastScrollTop : "+ lastScrollTop);
+		console.log("delta : "+ delta);
+		cPage = parseInt($("#cPage").val()) + 1;
+		console.log(cPage);
+		
+		checkIsScroll(sdCode, sggCode, catId, cPage);
+		
+	} else { 
+		// Scroll Up 
+		if(st + $(window).height() < $(document).height()) {
+			} 
+		} 
+		lastScrollTop = st; 
+	} 
+	 */
+ $(this).scroll(function(){
 		if(isScroll){
 		var maxHeight = $(this).height();
 		var currentScroll = $(window).scrollTop() + $(window).height();
 			
 			if((maxHeight - currentScroll) / maxHeight === 0){
-				cPage = parseInt($("#cPage").val()) + 1;
-				console.log(cPage);
 				
-				checkIsScroll(sdCode, sggCode, catId, cPage);
-				
+				setTimeout(() => {
+					cPage = parseInt($("#cPage").val()) + 1;
+					console.log(cPage);
+					
+					checkIsScroll(sdCode, sggCode, catId, cPage);
+				}, 250);
 			}
 		}
-		}); */
+		});
 	
 	
 	
@@ -166,7 +202,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 </script>
 
 <c:if test="${rContents != null}">
-
+<div style="clear:both;">
  <!-- Begin Wrapper -->
  <div id="wrapper" style="margin-bottom: 20px;"> 
     <!-- Begin Intro -->
@@ -197,6 +233,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
     </div>
    </div>  
  <!-- End About --> 
+ </div>
 </c:if>
 
 
