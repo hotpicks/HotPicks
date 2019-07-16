@@ -179,7 +179,7 @@ getTwitters('twitter', {
 </script>
 
   <!-- Begin Wrapper -->
-  <div id="wrapper"> 
+  <div id="wrapper" style="width:1160px;"> 
   <div class="content">
 <div align="center" style="margin-bottom: 30px;">
 	<div class="sh" style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
