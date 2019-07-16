@@ -15,7 +15,7 @@ $(function() {
 	var lastScrollTop = 0; 
 	var delta = lastScrollTop+500;
 	var navbarHeight = $('header').outerHeight(); 
-	
+	/* 
 	$(window).scroll(function(event){ didScroll = true; }); 
 	setInterval(function() { if (didScroll) { hasScrolled(); didScroll = false; } }, 250); 
 	function hasScrolled() { var st = $(this).scrollTop(); 
@@ -40,7 +40,7 @@ $(function() {
 			} 
 		} 
 		lastScrollTop = st; 
-	}
+	} */
 
 	
 	/* $(this).scroll(function(){
