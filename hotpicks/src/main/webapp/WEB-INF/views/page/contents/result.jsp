@@ -12,7 +12,7 @@ $(function() {
 	var isScroll = true;
 	
 	
-	/* $(this).scroll(function(){
+	 $(this).scroll(function(){
 		if(isScroll){
 		var maxHeight = $(this).height();
 		var currentScroll = $(window).scrollTop() + $(window).height();
@@ -25,7 +25,7 @@ $(function() {
 				
 			}
 		}
-		}); */
+		}); 
 	
 	
 	

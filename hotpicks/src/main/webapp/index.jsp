@@ -53,7 +53,7 @@ $(function() {
 		
 
 	
- 		$("#locationInsert").click(function() {
+ 		/* $("#locationInsert").click(function() {
 			$.ajax({
 				url : "${root}/contents/locationinsert",
 				type : "get",
@@ -75,7 +75,7 @@ $(function() {
 				}
 			});
 			return false;
-		});
+		}); */
 		
 }); 
 </script>
