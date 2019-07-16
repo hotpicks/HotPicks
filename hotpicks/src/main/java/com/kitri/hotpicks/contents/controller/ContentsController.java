@@ -51,14 +51,13 @@ public class ContentsController {
 		// SelectContents@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		Map<String,Object> parameter = new HashMap<String, Object>();
 		List<ContentsDto> contentsList = new ArrayList<ContentsDto>();
-		List<ContentsDto> rContentsList = null;
 		MemberDto memberDto = (MemberDto)session.getAttribute("userInfo");
 		  if(memberDto != null) { 
 		  String userid = memberDto.getUserId();
 		  System.out.println("userid : " + userid); parameter.put("userId", userid);
-		  rContentsList = contentsService.selectRContentsList(parameter);
-		  System.out.println(rContentsList); 
-		  model.addAttribute("rContentsList", rContentsList);
+		 Map<String,Object> rContents = contentsService.selectRContentsList(parameter);
+		  System.out.println(rContents); 
+		  model.addAttribute("rContents", rContents);
 		  }
 		 
 		

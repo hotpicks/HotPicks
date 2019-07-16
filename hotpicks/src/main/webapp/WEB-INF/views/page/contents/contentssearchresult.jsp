@@ -20,6 +20,9 @@
 	<h2>축제</h2>
 	<hr style="height:5px; background: #000;">
 	<div id="about">
+		<c:if test="${contentsList1 == null }">
+		<div align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>
+		</c:if>
    		<c:forEach var="list" items="${contentsList1}" varStatus="status" end="13">
 		<c:choose>
 			<c:when test="${status.last == true || status.count % 4 == 0}">
@@ -44,10 +47,13 @@
     </div>
 	</div>
 
-	<div>
+	<div style="clear:none;">
 	<h2>공연</h2>
 	<hr style="height:5px; background: #000;">
 	<div id="about">
+	<c:if test="${contentsList2 == null }">
+		<div align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>
+	</c:if>
  		<c:forEach var="list" items="${contentsList2}" varStatus="status" end="13">
 		<c:choose>
 			<c:when test="${status.last == true || status.count % 4 == 0}">
@@ -73,10 +79,13 @@
 
 	
 
-	<div>
+	<div style="clear:none;">
 	<h2>행사</h2>
 	<hr style="height:5px; background: #000;">
 	<div id="about">
+	<c:if test="${contentsList3 == null }">
+		<div align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>
+	</c:if>
  		<c:forEach var="list" items="${contentsList3}" varStatus="status" end="13">
 		<c:choose>
 			<c:when test="${status.last == true || status.count % 4 == 0}">

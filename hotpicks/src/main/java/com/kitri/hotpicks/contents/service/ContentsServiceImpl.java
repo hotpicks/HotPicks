@@ -61,10 +61,10 @@ public class ContentsServiceImpl implements ContentsService {
 		// Insert Contents process
 		List<ContentsTypeDto> typeList = new ArrayList<ContentsTypeDto>();
 		typeList = sqlSession.getMapper(ContentsDao.class).selectContentsType();
-		System.out.println("typeListSize : " + typeList.size());
+		//System.out.println("typeListSize : " + typeList.size());
 
 		List<Integer> contentsIdList = insertApiContents(urlStr, typeList);
-		System.out.println("contentsIdListSize : " + contentsIdList.size());
+		//System.out.println("contentsIdListSize : " + contentsIdList.size());
 		logger.info("insert contents complete");
 		insertApiContentsDetail(contentsIdList);
 		logger.info("insert contentsdetail complete");
@@ -193,7 +193,7 @@ public class ContentsServiceImpl implements ContentsService {
 		int lenCL = contentsIdList.size();
 		int lenDL = detailUrlList.size();
 
-		for (int i = 820; i < lenCL; i++) {
+		for (int i = 0; i < lenCL; i++) {
 			System.out.println("index : " + i);
 			cdtDto = new ContentsDetailDto();
 			cdtDto.setContentsId(contentsIdList.get(i));
@@ -223,11 +223,11 @@ public class ContentsServiceImpl implements ContentsService {
 					// System.out.println("obj : " + obj);
 					// top레벨의 response 키로 데이터 파싱
 					JSONObject parse_response = (JSONObject) obj.get("response");
-					System.out.println(j +"/" + contentsIdList.get(i) + "/detailresponse : " + parse_response);
+					//System.out.println(j +"/" + contentsIdList.get(i) + "/detailresponse : " + parse_response);
 					JSONObject parse_body = (JSONObject) parse_response.get("body");
 					//System.out.println(j +"/" + contentsIdList.get(i) + "/detailbody : " + parse_body);
 					if (Integer.valueOf(parse_body.get("totalCount").toString()) == 0) {
-						System.out.println("break");
+						//System.out.println("break");
 						break;
 					}
 					JSONObject parse_items = (JSONObject) parse_body.get("items");
@@ -313,7 +313,7 @@ public class ContentsServiceImpl implements ContentsService {
 							for(int k = 0 ; k<existContents.size() ; k++) {
 								if(existContents.get(k) == cdtDto.getContentsId()) {
 									// update
-									System.out.println("update detail");
+									//System.out.println("update detail");
 									sqlSession.getMapper(ContentsDao.class).updateApiContentsDetail(cdtDto);
 									flag = false;
 									break;
@@ -321,10 +321,10 @@ public class ContentsServiceImpl implements ContentsService {
 									
 								}
 							}
-							System.out.println(flag);
+							//System.out.println(flag);
 							if(flag == true) {
 								// insert
-								System.out.println("insert detail");
+								//System.out.println("insert detail");
 								sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
 							}
 						} else {
@@ -336,22 +336,22 @@ public class ContentsServiceImpl implements ContentsService {
 											: infoItem.get("infotext").toString().replace("\\", "")));
 							cdtDto.setInfoNaeyong("-1");
 
-							System.out.println("con < 1 id : " + cdtDto.getContentsId() + " /c :" + cdtDto.toString());
+							//System.out.println("con < 1 id : " + cdtDto.getContentsId() + " /c :" + cdtDto.toString());
 							flag = true;
 							for(int k = 0 ; k<existContents.size() ; k++) {
 								if(existContents.get(k) == cdtDto.getContentsId()) {
 									// update
-									System.out.println("update detail");
+									//System.out.println("update detail");
 									sqlSession.getMapper(ContentsDao.class).updateApiContentsDetail(cdtDto);
 									flag = false;
 									break;
 								}else {
 								}
 							}
-							System.out.println(flag);
+							//System.out.println(flag);
 							if(flag == true) {
 								// insert
-								System.out.println("insert detail");
+								//System.out.println("insert detail");
 								sqlSession.getMapper(ContentsDao.class).insertApiContentsDetail(cdtDto);
 							}
 						}
@@ -742,7 +742,7 @@ public class ContentsServiceImpl implements ContentsService {
 
 
 	@Override
-	public List<ContentsDto> selectRContentsList(Map<String, Object> parameter) {
+	public Map<String,Object> selectRContentsList(Map<String, Object> parameter) {
 		String tag = sqlSession.getMapper(ContentsDao.class).selectMyHashTag(parameter);
 		System.out.println("1) : " + tag);
 		if(tag == null) {
@@ -750,7 +750,12 @@ public class ContentsServiceImpl implements ContentsService {
 			System.out.println("2) : " + tag);
 		}		
 		System.out.println("3) : " + tag);
-		return sqlSession.getMapper(ContentsDao.class).rContentslistByTag(tag);
+		List<ContentsDto> contentsList =  
+				sqlSession.getMapper(ContentsDao.class).rContentslistByTag(tag);
+		Map<String, Object> rContents = new HashMap<String, Object>();
+		rContents.put("rTag", tag);
+		rContents.put("rContentsList", contentsList);
+		return rContents;
 		
 	}
 

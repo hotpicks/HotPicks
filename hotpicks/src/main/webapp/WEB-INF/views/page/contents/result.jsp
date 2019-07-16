@@ -12,7 +12,7 @@ $(function() {
 	var isScroll = true;
 	
 	
-	$(this).scroll(function(){
+	/* $(this).scroll(function(){
 		if(isScroll){
 		var maxHeight = $(this).height();
 		var currentScroll = $(window).scrollTop() + $(window).height();
@@ -25,7 +25,7 @@ $(function() {
 				
 			}
 		}
-		});
+		}); */
 	
 	
 	
@@ -165,19 +165,19 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 }
 </script>
 
-<c:if test="${rContentsList != null}">
+<c:if test="${rContents != null}">
 
  <!-- Begin Wrapper -->
  <div id="wrapper" style="margin-bottom: 20px;"> 
     <!-- Begin Intro -->
     <div class="intro">
-      <h1>이런 곳은 어떠세요?<br><a style="color: red;">#서울</a>의 HOT한<a style="color: steelblue;">#공연</a></h1>
+      <h1>이런 곳은 어떠세요?<br>요즘 뜨고있는 <a style="color: red;">HOT</a>한 <a style="color: steelblue;">#${rContents.rTag }</a></h1>
     </div>
     <!-- End Intro --> 
     
     <!-- favorite -->
     <div id="Rabout">
-<c:forEach var="list" items="${rContentsList}" varStatus="status">
+<c:forEach var="list" items="${rContents.rContentsList}" varStatus="status">
 <c:choose>
 		<c:when test="${status.last == true || status.count % 4 == 0}">
 	    	<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
