@@ -10,14 +10,19 @@ $(function() {
 	var catId;
 	var cPage;
 	var isScroll = true;
-/* 	
-	var didScroll; 
+
+	/* var didScroll; 
 	var lastScrollTop = 0; 
 	var delta = lastScrollTop+500;
-	var navbarHeight = $('header').outerHeight();  */
-	/* 
-	$(window).scroll(function(event){ didScroll = true; }); 
-	setInterval(function() { if (didScroll) { hasScrolled(); didScroll = false; } }, 250); 
+	var navbarHeight = $('header').outerHeight();
+	 
+	$(window).scroll(function(event){ 
+		didScroll = true; 
+	}); 
+	setInterval(function() { 
+		if (didScroll) { 
+			hasScrolled(); 
+			didScroll = false; } }, 250); 
 	function hasScrolled() { var st = $(this).scrollTop(); 
 	// Make sure they scroll more than delta 
 	if(Math.abs(lastScrollTop - st) <= delta) return; 
@@ -36,27 +41,27 @@ $(function() {
 	} else { 
 		// Scroll Up 
 		if(st + $(window).height() < $(document).height()) {
-			$('header').removeClass('nav-up').addClass('nav-down'); 
 			} 
 		} 
 		lastScrollTop = st; 
-	} */
-
-	
-	/* $(this).scroll(function(){
+	} 
+	 */
+ $(this).scroll(function(){
 		if(isScroll){
 		var maxHeight = $(this).height();
 		var currentScroll = $(window).scrollTop() + $(window).height();
 			
 			if((maxHeight - currentScroll) / maxHeight === 0){
-				cPage = parseInt($("#cPage").val()) + 1;
-				console.log(cPage);
 				
-				checkIsScroll(sdCode, sggCode, catId, cPage);
-				
+				setTimeout(() => {
+					cPage = parseInt($("#cPage").val()) + 1;
+					console.log(cPage);
+					
+					checkIsScroll(sdCode, sggCode, catId, cPage);
+				}, 250);
 			}
 		}
-		}); */
+		});
 	
 	
 	
