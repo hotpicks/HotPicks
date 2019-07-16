@@ -20,9 +20,9 @@ margin-bottom: 20px;
 
 /* 프로필 사진 */
 #comments .user {
-    width: 150px;
+    width: 8%px;
     height: auto;
-    margin-left: 260px;
+    margin-left: 13%;
 }
 /* 아이디 */
 #comments .message {
@@ -78,8 +78,9 @@ function getReview(selected){
 <c:if test="${userInfo.pass=='kakao'&&userInfo.profile=='user.png'}">
               	<img alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
 </c:if>
+
 <c:if test="${userInfo.pass!='kakao'}">
-              	<img alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+              	<img alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px;" width="150px;"/>
 </c:if>
               </div>
               <div class="message">
