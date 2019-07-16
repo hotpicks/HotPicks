@@ -77,7 +77,7 @@ $(function(){
 		$('#nohave').remove();
 		$( '#list > tbody').empty();
 		page = 1;
-		cate = -1;
+		
 		aval = 0;	
 		gone = -1;
 		getContents(1, cate, aval, gone);
@@ -87,7 +87,7 @@ $(function(){
 		$('#nohave').remove();
 		$( '#list > tbody').empty();
 		page = 1;
-		cate = -1;
+		
 		aval = 1;
 		gone = -1;
 		getContents(1, cate, aval, gone);
@@ -106,7 +106,7 @@ $(function(){
 		$('#nohave').remove();
 		$( '#list > tbody').empty();
 		page = 1;
-		cate = -1;
+		
 		aval = -1;
 		gone = 1;
 		getContents(1, cate, aval, gone);
@@ -255,7 +255,7 @@ function getContents(pg , ca, av, gn) {
           			</td>
           			<td>no</td>
           			<td>카테고리</td>
-          			<td>컨텐츠명</td>
+          			<td style="width: 500px;">컨텐츠명</td>
           			<td>조회수</td>
           			<td>갱신일자</td>
           			<td>컨텐츠만료날짜</td>
