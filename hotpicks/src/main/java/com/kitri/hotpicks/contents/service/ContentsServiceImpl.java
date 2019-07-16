@@ -742,7 +742,7 @@ public class ContentsServiceImpl implements ContentsService {
 
 
 	@Override
-	public List<ContentsDto> selectRContentsList(Map<String, Object> parameter) {
+	public Map<String,Object> selectRContentsList(Map<String, Object> parameter) {
 		String tag = sqlSession.getMapper(ContentsDao.class).selectMyHashTag(parameter);
 		System.out.println("1) : " + tag);
 		if(tag == null) {
@@ -750,7 +750,12 @@ public class ContentsServiceImpl implements ContentsService {
 			System.out.println("2) : " + tag);
 		}		
 		System.out.println("3) : " + tag);
-		return sqlSession.getMapper(ContentsDao.class).rContentslistByTag(tag);
+		List<ContentsDto> contentsList =  
+				sqlSession.getMapper(ContentsDao.class).rContentslistByTag(tag);
+		Map<String, Object> rContents = new HashMap<String, Object>();
+		rContents.put("rTag", tag);
+		rContents.put("rContentsList", contentsList);
+		return rContents;
 		
 	}
 
