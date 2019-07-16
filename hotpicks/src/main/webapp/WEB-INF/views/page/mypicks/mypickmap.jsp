@@ -333,10 +333,10 @@ getTwitters('twitter', {
 	// 채우기 불투명도 입니다   
 	});
 	var doneMarkerimagesrc = '${root}/resources/style/images/marker/pick_basic_mark.png';
-	var doneMarkerimage = new daum.maps.MarkerImage(doneMarkerimagesrc, imageSize,
+	var doneMarkerimage = new daum.maps.MarkerImage(doneMarkerimagesrc, pickMarkerImageSize,
 			imageOption)
 	var pickMarkerimagesrc = '${root}/resources/style/images/marker/done_mark1.png';
-	var pickMarkerimage = new daum.maps.MarkerImage(pickMarkerimagesrc, pickMarkerImageSize,
+	var pickMarkerimage = new daum.maps.MarkerImage(pickMarkerimagesrc, imageSize,
 			imageOption)
 	// 마커를 생성하고 지도위에 표시하는 함수입니다
 	function addMarker(cate, image ,position, subject, contentsid, ifsg, img, zc, ad1 , ad2) {
