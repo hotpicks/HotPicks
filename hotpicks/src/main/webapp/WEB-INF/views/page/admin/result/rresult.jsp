@@ -26,7 +26,6 @@
           			<td>제목</td>
           			<td>작성자 id</td>
           			<td>작성일</td>
-          			<td>내용</td>
           			<td>신고내용</td>
           			<td>신고일자</td>
           		</tr>
@@ -42,7 +41,6 @@
          			<td>${article.SUBJECT}</td>
           			<td>${article.USERID}</td>
           			<td>${article.LOGTIME}</td>
-          			<td width="140px;">${article.CONTENT}</td>
           			<td>${article.REPORTCONTENT}</td>
           			<td>${article.REPORTDATE}</td>
           		</tr>
