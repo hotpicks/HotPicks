@@ -11,6 +11,16 @@
 	height: 160px;
 	width: 100%;
 }
+
+#rAbout .one-fourth img {
+	-moz-box-shadow: 0px 1px 2px #656565;
+	-webkit-box-shadow: 0px 1px 2px #656565;
+	box-shadow: 0px 1px 2px #656565;
+	display: block;
+	margin-bottom: 20px;
+	height: 160px;
+	width: 100%;
+}
 </style>
 
 <script type="text/javascript">

@@ -15,8 +15,8 @@
       <!-- Begin Copyright -->
       <div id="copyright">
         <p style="float:left;">© Copyright 2011 Delphic | Team3 - Web Application Project 'Hot Picks'</p>
-         <button id="locationInsert">LoactionInsert</button>
-         <button id="contentsInsert">ContentsInsert</button>
+        <!--  <button id="locationInsert">LoactionInsert</button>
+         <button id="contentsInsert">ContentsInsert</button> -->
       </div>
       <!-- End Copyright --> 
       
