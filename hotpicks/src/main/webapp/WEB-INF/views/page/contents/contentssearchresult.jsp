@@ -47,7 +47,7 @@
     </div>
 	</div>
 
-	<div style="clear:none;">
+	<div style="clear:both;">
 	<h2>공연</h2>
 	<hr style="height:5px; background: #000;">
 	<div id="about">
@@ -79,7 +79,7 @@
 
 	
 
-	<div style="clear:none;">
+	<div style="clear:both;">
 	<h2>행사</h2>
 	<hr style="height:5px; background: #000;">
 	<div id="about">

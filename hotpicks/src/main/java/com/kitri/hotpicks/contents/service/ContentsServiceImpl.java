@@ -193,7 +193,7 @@ public class ContentsServiceImpl implements ContentsService {
 		int lenCL = contentsIdList.size();
 		int lenDL = detailUrlList.size();
 
-		for (int i = 0; i < lenCL; i++) {
+		for (int i = 790; i < lenCL; i++) {
 			System.out.println("index : " + i);
 			cdtDto = new ContentsDetailDto();
 			cdtDto.setContentsId(contentsIdList.get(i));

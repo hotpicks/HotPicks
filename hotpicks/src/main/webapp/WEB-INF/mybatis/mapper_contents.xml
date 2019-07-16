@@ -280,7 +280,7 @@
 											FROM review
 											GROUP BY contentsid) r
 							ON c.contentsid = r.contentsid
-							WHERE 1=1
+							WHERE 1=1 
 							<choose>
 								<when test="wordList != null">
 									<foreach collection="wordList" open="AND(1!=1" close=")" item="word">
@@ -292,6 +292,7 @@
 								</foreach>
 								</when>
 								<otherwise>
+								AND eventenddate > to_char(sysdate,'yyyymmdd')
 								AND c.image2 != 'noImage_list.png' AND c.isend = 1
 									<if test="catId != null and catId != 0">
 									AND c.catid = #{catId}
