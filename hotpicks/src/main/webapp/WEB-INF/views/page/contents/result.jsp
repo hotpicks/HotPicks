@@ -202,7 +202,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 </script>
 
 <c:if test="${rContents != null}">
-
+<div style="clear:both;">
  <!-- Begin Wrapper -->
  <div id="wrapper" style="margin-bottom: 20px;"> 
     <!-- Begin Intro -->
@@ -233,6 +233,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
     </div>
    </div>  
  <!-- End About --> 
+ </div>
 </c:if>
 
 
