@@ -10,11 +10,11 @@ $(function() {
 	var catId;
 	var cPage;
 	var isScroll = true;
-	
+/* 	
 	var didScroll; 
 	var lastScrollTop = 0; 
 	var delta = lastScrollTop+500;
-	var navbarHeight = $('header').outerHeight(); 
+	var navbarHeight = $('header').outerHeight();  */
 	/* 
 	$(window).scroll(function(event){ didScroll = true; }); 
 	setInterval(function() { if (didScroll) { hasScrolled(); didScroll = false; } }, 250); 
