@@ -22,7 +22,7 @@ color :black;
 .sh > a:hover{
 	text-decoration: none;
 }
-.selected{
+.sselected{
 	font-size : 25px!important;
 }
 #ipadd{
@@ -183,7 +183,7 @@ getTwitters('twitter', {
   <div class="content">
 <div align="center" style="margin-bottom: 30px;">
 	<div class="sh" style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
-		<a href="#" class="selected" id="all">전체</a>&nbsp;
+		<a href="#" class="sselected" id="all">전체</a>&nbsp;
 		<a href="#" id="perform">공연	</a>&nbsp;
 		<a href="#" id="exhi">전시</a>&nbsp;
 		<a href="#" id="event">행사</a>
@@ -414,11 +414,11 @@ getTwitters('twitter', {
 			setAllMarkers(null);
 			allMarkers = [];
 			catid = -1;
-			if (!$(this).hasClass("selected")) {
-				$(this).addClass("selected");
-				$('#perform').removeClass("selected");
-				$('#exhi').removeClass("selected");
-				$('#event').removeClass("selected");
+			if (!$(this).hasClass("sselected")) {
+				$(this).addClass("sselected");
+				$('#perform').removeClass("sselected");
+				$('#exhi').removeClass("sselected");
+				$('#event').removeClass("sselected");
 			}
 			getMarkers(wanna, catid);
 		});
@@ -427,11 +427,11 @@ getTwitters('twitter', {
 			setAllMarkers(null);
 			allMarkers = [];
 			catid = 1;
-			if (!$(this).hasClass("selected")) {
-				$(this).addClass("selected");
-				$('#all').removeClass("selected");
-				$('#exhi').removeClass("selected");
-				$('#event').removeClass("selected");
+			if (!$(this).hasClass("sselected")) {
+				$(this).addClass("sselected");
+				$('#all').removeClass("sselected");
+				$('#exhi').removeClass("sselected");
+				$('#event').removeClass("sselected");
 			}
 			getMarkers(wanna, catid);
 		});
@@ -440,11 +440,11 @@ getTwitters('twitter', {
 			setAllMarkers(null);
 			allMarkers = [];
 			catid = 2;
-			if (!$(this).hasClass("selected")) {
-				$(this).addClass("selected");
-				$('#perform').removeClass("selected");
-				$('#all').removeClass("selected");
-				$('#event').removeClass("selected");
+			if (!$(this).hasClass("sselected")) {
+				$(this).addClass("sselected");
+				$('#perform').removeClass("sselected");
+				$('#all').removeClass("sselected");
+				$('#event').removeClass("sselected");
 			}
 			getMarkers(wanna, catid);
 		});
@@ -453,11 +453,11 @@ getTwitters('twitter', {
 			setAllMarkers(null);
 			allMarkers = [];
 			catid = 3;
-			if (!$(this).hasClass("selected")) {
-				$(this).addClass("selected");
-				$('#perform').removeClass("selected");
-				$('#exhi').removeClass("selected");
-				$('#all').removeClass("selected");
+			if (!$(this).hasClass("sselected")) {
+				$(this).addClass("sselected");
+				$('#perform').removeClass("sselected");
+				$('#exhi').removeClass("sselected");
+				$('#all').removeClass("sselected");
 			}
 			getMarkers(wanna, catid);
 			

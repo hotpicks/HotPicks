@@ -229,7 +229,7 @@ function getContents(pg , ca, av, gn) {
           
           
           <!-- ********** 컨텐츠 관리 테이블 ********** -->
-          	<a href="#" id="delete" class="button red btns" style="margin-right:30px; font-weight: 700;">삭 제<span></span></a>
+          	<a href="#" id="delete" class="button red btns" style="margin-right:30px; font-weight: 700;">무 효<span></span></a>
           	<a href="#" id="fullContents" class="button lime btns" style="margin-right:30px; font-weight: 700;">전체<span></span></a>
           	<a href="#" id="goneContents" class="button lime btns" style="margin-right:30px; font-weight: 700;">기간 지난 컨텐츠<span></span></a>
           	<a href="#" id="endContents" class="button lime btns" style="margin-right:30px; font-weight: 700;">만료된 컨텐츠<span></span></a>

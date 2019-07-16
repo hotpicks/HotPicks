@@ -13,6 +13,7 @@
 	select *
 	from review
 	where contentsId=#{contentsId}
+	order by rseq DESC
 	</select>
 	
 	<select id="getHashTag" parameterType="map" resultType="hashTagDto">
@@ -29,6 +30,7 @@
 	select *
 	from comments
 	where rceq = #{rceq}
+	order by rceq DESC
 	</select>
 	
 	<insert id="insHashList" parameterType="map">
