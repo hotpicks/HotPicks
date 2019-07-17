@@ -22,7 +22,7 @@ margin-bottom: 20px;
 #comments .user {
     width: 8%px;
     height: auto;
-    margin-left: 13%;
+    margin-left: 21%;
 }
 /* 아이디 */
 #comments .message {
@@ -72,16 +72,21 @@ function getReview(selected){
             <li class= "clearfix">
               <div class="user">
                  <!-- ***************** 프로필 사진 **************** -->
-<c:if test="${userInfo.pass=='kakao'&&userInfo.profile!='user.png'}">
-              	<img alt="사용자프로필사진" src="${userInfo.profile}" height="150px" width="150px"/>
-</c:if>
-<c:if test="${userInfo.pass=='kakao'&&userInfo.profile=='user.png'}">
-              	<img alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
-</c:if>
+<c:choose>
+	<c:when test="${userInfo.pass!='kakao'}">
+		<img alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px;" width="150px;"/>
+	</c:when>
+	
+	<c:when test="${userInfo.pass=='kakao'&&userInfo.profile.substring(0,4)=='http'}">
+		<img alt="사용자프로필사진" src="${userInfo.profile}" height="150px" width="150px"/>		
+	</c:when>
+	
+	<c:otherwise>
+		<img alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px" width="150px"/>
+	</c:otherwise>
 
-<c:if test="${userInfo.pass!='kakao'}">
-              	<img alt="사용자프로필사진" src="${root}/profile/${userInfo.profile}" height="150px;" width="150px;"/>
-</c:if>
+</c:choose>
+
               </div>
               <div class="message">
                 <div class="info">
