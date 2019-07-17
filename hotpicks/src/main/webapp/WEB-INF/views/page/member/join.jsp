@@ -37,7 +37,7 @@ $(function(){
 		   	   }
 		}
 		
-		if(imgOk == 0){
+		if($("#profileBtn").val() != "" && imgOk == 0){
 			 alert('프로필 사진의 형식을 확인해주세요. 이미지 파일 (jpg, png, gif)만 등록 가능합니다.');
 	    	  $("#profileBtn").val(""); // input file 파일명을 다시 지워준다
 		} else if($("#userId").val().trim().length == 0){
