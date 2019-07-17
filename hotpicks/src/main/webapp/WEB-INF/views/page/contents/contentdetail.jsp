@@ -147,7 +147,6 @@ $(document).ready(function() {
 		var reviewstr = '';
 		for(var i=0; i<reviewcnt; i++) {
 			var review = reviews.reviewlist[i];
-			reviewstr = reviewstr.replace(/(?:\r\n|\r|\n)/g, '&lt;br /&gt;')
 			reviewstr += '<li class="clearfix">';
 			reviewstr += '<div class="toggle">';
 			reviewstr += '	<div class="rehead" style="height:100px; margin-bottom:2%;" data-toggle="collapse" data-target="#'+i+'">';
@@ -193,7 +192,7 @@ $(document).ready(function() {
 				reviewstr += '				<option value="1">★</option>';
 				reviewstr += '			</select><br>';
 				//해쉬태그 수정도 해야함!!
-				reviewstr += '			<textarea cols="80" rows="5">'+review.content+'</textarea>';       
+				reviewstr += '			<textarea cols="80" rows="5">'+review.content.replace('<', '&lt;')+'</textarea>';       
 				reviewstr += '        </div>';   
 				        
 				       
