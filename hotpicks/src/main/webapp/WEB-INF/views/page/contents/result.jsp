@@ -280,7 +280,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 		
 		<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
         <h4>${list.title}</h4>
-        <p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt} index : ${status.count}</p>
+        <p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt} <%-- index : ${status.count} --%></p>
         </a>
       </div>
       
