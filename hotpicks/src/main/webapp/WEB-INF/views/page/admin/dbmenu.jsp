@@ -77,7 +77,7 @@ $(function(){
 		$('#nohave').remove();
 		$( '#list > tbody').empty();
 		page = 1;
-		cate = -1;
+		
 		aval = 0;	
 		gone = -1;
 		getContents(1, cate, aval, gone);
@@ -87,7 +87,7 @@ $(function(){
 		$('#nohave').remove();
 		$( '#list > tbody').empty();
 		page = 1;
-		cate = -1;
+		
 		aval = 1;
 		gone = -1;
 		getContents(1, cate, aval, gone);
@@ -106,7 +106,7 @@ $(function(){
 		$('#nohave').remove();
 		$( '#list > tbody').empty();
 		page = 1;
-		cate = -1;
+		
 		aval = -1;
 		gone = 1;
 		getContents(1, cate, aval, gone);
