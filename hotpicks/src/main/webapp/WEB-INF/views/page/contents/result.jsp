@@ -53,7 +53,7 @@ $(function() {
 			
 			if((maxHeight - currentScroll) / maxHeight === 0){
 				
-				setTimeout(() => {
+				setTimeout(function() {
 					cPage = parseInt($("#cPage").val()) + 1;
 					console.log(cPage);
 					
@@ -144,22 +144,20 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 			
 			
 			
-			var index = $('.one-fourth').length;
-			var d;
-			if(index%4 == 0){
-				d = 0;
-			}else{
-				d = index%4;
+			var count = $('.one-fourth').length + $('.one-fourth last').length;
+			var d = 0;
+			if(count%4 != 0){
+				d = count%4;
 				//var lastCnt = $('.last').length;
 				//$('.last').index(lastCnt).removeClass('last');
 			}
 		
 			if(len == 0){
-				contentsStr += '<div align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>';
+				contentsStr += '<div style="clear:both;" align="center"><p style="text-align:center;">검색 결과가 없습니다.</p></div>';
 			}else{
-			for(var i = 0 ; i<len ;i++){				
+			for(var i=0 ; i<len ; i++){				
 
-				if((i+1+d)%4 == 0 || i == len-1){
+				if((i+d+1)%4 == 0 || i == len-1){
 
 					contentsStr += '<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId='+contents[i].contentsId+'">';
 				}else{
@@ -168,7 +166,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 					contentsStr += '<img src=' + (contents[i].image2 == 'noImage_list.png' ? 
 							'/hotpicks/resources/style/images/noImage_list.png' : contents[i].image2)+' width="200" alt=""/>';
 					contentsStr += '<h4>' + contents[i].title + '</h4>';
-					contentsStr += '        <p>조회수 : ' + contents[i].hit + ' 리뷰 수 : </p>';
+					contentsStr += '        <p>조회수 : ' + contents[i].hit + ' 리뷰 수 : '+ contents[i].rvCnt+'count : '+ i +'</p>';
 					contentsStr += '</a></div>';
 				}
 			}
@@ -176,7 +174,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 				contentsStr += '<input type="hidden" id="cPage" value="' + cPage + '">';
 					$("#about").html(contentsStr); 
 			}else{
-				$("#cPage").attr("value",cPage+1);
+				$("#cPage").attr("value",cPage);
 				
 					$("#about").append(contentsStr); 
 			}
@@ -202,7 +200,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 </script>
 
 <c:if test="${rContents != null}">
-<div style="clear:both;">
+
  <!-- Begin Wrapper -->
  <div id="wrapper" style="margin-bottom: 20px;"> 
     <!-- Begin Intro -->
@@ -212,7 +210,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
     <!-- End Intro --> 
     
     <!-- favorite -->
-    <div id="Rabout">
+    <div id="rAbout">
 <c:forEach var="list" items="${rContents.rContentsList}" varStatus="status">
 <c:choose>
 		<c:when test="${status.last == true || status.count % 4 == 0}">
@@ -233,6 +231,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
     </div>
    </div>  
  <!-- End About --> 
+ <div style="clear:both;">
  </div>
 </c:if>
 
@@ -242,8 +241,8 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
   <div id="wrapper" style="margin-bottom: 20px;">
    
     <!-- Begin Intro -->
-    <div class="intro" align="center">
-      <h1 >
+    <div class="intro">
+      <h1>
       	<label class="catsearch" data-catid="0" style="color: purple;font-style: bold;">전체</label> |
       	<label class="catsearch" data-catid="1" style="color: purple;">축제</label> |
       	<label class="catsearch" data-catid="2" style="color: purple;">공연</label> |
@@ -270,18 +269,18 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
     <div id="about">
     <input type="hidden" id="cPage" value="1">
  <c:forEach var="list" items="${contentsList}" varStatus="status">
-<c:choose>
+	<c:choose>
 		<c:when test="${status.last == true || status.count % 4 == 0}">
 	    	<div class="one-fourth last" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
 	    </c:when>
 	    <c:otherwise>
 			<div class="one-fourth" style="height: 300px;"> <a href="${root}/contents/viewdetail?contentsId=${list.contentsId}">
 	    </c:otherwise>
-</c:choose>
+	</c:choose>
 		
 		<img class="viewdetailbtn" src="${(list.image2 == 'noImage_list.png' ? '/hotpicks/resources/style/images/noImage_list.png' : list.image2)}" width="200" alt="" />
         <h4>${list.title}</h4>
-        <p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt}</p>
+        <p>조회수 : ${list.hit} 리뷰 수 : ${list.rvCnt} <%-- index : ${status.count} --%></p>
         </a>
       </div>
       

@@ -257,8 +257,8 @@
 											FROM review
 											GROUP BY contentsid) r
 							ON c.contentsid = r.contentsid
-							WHERE (1!=1
-								OR c.title like '%'|| #{tag} || '%'
+							WHERE eventenddate > to_char(sysdate,'yyyymmdd')
+							AND (c.title like '%'|| #{tag} || '%'
 								OR d.addr1 like '%'|| #{tag} || '%'
 								OR d.infosogae like '%'|| #{tag} || '%'
 								OR d.infonaeyong like '%'|| #{tag} || '%'
@@ -308,7 +308,7 @@
 							ORDER BY hit DESC, rvCnt DESC
 		<if test="startSeq != null || endSeq != null">
 							)s
-					WHERE rownum &lt; = #{endSeq})t
+					WHERE rownum &lt; = #{endSeq}) t
 			WHERE 	t.rang &gt; #{startSeq}		
 		</if>
 							

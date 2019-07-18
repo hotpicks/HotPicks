@@ -152,7 +152,7 @@ input[type=radio] {
         }
 
 </style>
-<div id="wrapper"> 
+<div id="wrapper" style="width:1160px;"> 
 <div class="content">
 <div>
 	<div align="center" style="margin-bottom: 20px;">
@@ -167,7 +167,7 @@ input[type=radio] {
 				<button class= "save" name="save" id="#test_btn1">저장</button>
 				<button id= "delete" name="delete" id="#test_btn2">삭제</button>
 			</div>
-			<div style="float: right; margin-right: 30px;">
+			<div style="float: right; margin-right: 15%;">
 				<a href="${root}/mypicklist/enter"><i class="fas fa-list" style="font-size: 4em;"></i></a>
 				<img src="${root}/resources/style/images/blank.png">
 				<a href="${root}/mypickmap/mvmypickmap"><i class="fas fa-map-marked-alt" style="font-size: 4em;"></i></a>

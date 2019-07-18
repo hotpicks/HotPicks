@@ -179,21 +179,23 @@ getTwitters('twitter', {
 </script>
 
   <!-- Begin Wrapper -->
-  <div id="wrapper"> 
+  <div id="wrapper" style="width:1160px;"> 
   <div class="content">
 <div align="center" style="margin-bottom: 30px;">
-	<div class="sh" style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
-		<a href="#" class="sselected" id="all">전체</a>&nbsp;
-		<a href="#" id="perform">공연	</a>&nbsp;
-		<a href="#" id="exhi">전시</a>&nbsp;
-		<a href="#" id="event">행사</a>
-	</div>
 	<div>
 		<a href="${root}/mypicklist/enter"><i class="fas fa-list" style="font-size: 4em;"></i></a>
 				<img src="${root}/resources/style/images/blank.png">
 				<a href="${root}/mypickmap/mvmypickmap"><i class="fas fa-map-marked-alt" style="font-size: 4em;"></i></a>
 				<img src="${root}/resources/style/images/blank.png">
 				<a href="${root}/mypicklist/cal"><i class="fas fa-calendar-alt" style="font-size: 4em;"></i></a>
+	</div>
+	<br>
+	<br>
+	<div class="sh" style="margin-bottom: 20px; font-size: 25px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
+		<a href="#" class="sselected" id="all">전체</a>&nbsp;
+		<a href="#" id="perform">공연	</a>&nbsp;
+		<a href="#" id="exhi">전시</a>&nbsp;
+		<a href="#" id="event">행사</a>
 	</div>
 </div>
       

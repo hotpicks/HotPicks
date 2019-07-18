@@ -121,6 +121,30 @@ $(function(){
 		getContents(page, cate , aval, gone);
 	});
 	
+		//api insert(location, contents)
+	$("#locationInsert").click(function() {
+		$.ajax({
+			url : "${root}/contents/locationinsert",
+			type : "get",
+			success :function(result){
+				alert("location insert complete");
+				alert(result);
+			}
+		});
+		return false;
+	});
+		$("#contentsInsert").click(function() {
+		$.ajax({
+			url : "${root}/contents/contentsinsert",
+			type : "get",
+			success :function(result){
+				alert("contents insert complete");
+				alert(result);
+			}
+		});
+		return false;
+	});
+	
 });
 
 function getContents(pg , ca, av, gn) {
@@ -200,8 +224,8 @@ function getContents(pg , ca, av, gn) {
         <div class="tab show" style="display: block;">
           <span style="font-size:22px; line-height: 26px; font-weight: 900;">Contents DB 관리</span>
           	<div style = "float:right;">
-	          	<a href="#" class="button lime btns" style="margin-right:30px; font-weight: 700;">DBUPT CATEGORY<span></span></a>
-	          	<a href="#" class="button lime btns" style="margin-right:30px; font-weight: 700;">DBUPT CONTENTS<span></span></a>
+	          	<a id="locationInsert" href="#" class="button lime btns" style="margin-right:30px; font-weight: 700;">DBUPT CATEGORY<span></span></a>
+	          	<a id="contentsInsert" href="#" class="button lime btns" style="margin-right:30px; font-weight: 700;">DBUPT CONTENTS<span></span></a>
           	</div>
           <div class="divider"></div>
           <div class="clear"></div>
@@ -255,7 +279,7 @@ function getContents(pg , ca, av, gn) {
           			</td>
           			<td>no</td>
           			<td>카테고리</td>
-          			<td>컨텐츠명</td>
+          			<td style="width: 500px;">컨텐츠명</td>
           			<td>조회수</td>
           			<td>갱신일자</td>
           			<td>컨텐츠만료날짜</td>
