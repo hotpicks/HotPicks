@@ -206,8 +206,8 @@
 				 			and to_char(sysdate ,'yyyyMMdd') > d.eventenddate
 				 		</if>
 				 		order by contentsid desc) total
-				 	where rownum  &lt; #{page}*3+1) c
-			where c.r  &gt;= #{page}*3 - 2
+				 	where rownum  &lt; #{page}*15+1) c
+			where c.r  &gt;= #{page}*15 - 14
  	</select>
  	<update id="isendupdate" parameterType="map" >
  		update contents
