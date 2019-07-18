@@ -166,7 +166,7 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
 					contentsStr += '<img src=' + (contents[i].image2 == 'noImage_list.png' ? 
 							'/hotpicks/resources/style/images/noImage_list.png' : contents[i].image2)+' width="200" alt=""/>';
 					contentsStr += '<h4>' + contents[i].title + '</h4>';
-					contentsStr += '        <p>조회수 : ' + contents[i].hit + ' 리뷰 수 : '+ contents[i].rvCnt+'count : '+ i +'</p>';
+					contentsStr += '        <p>조회수 : ' + contents[i].hit + ' 리뷰 수 : '+ contents[i].rvCnt+'</p>';
 					contentsStr += '</a></div>';
 				}
 			}
@@ -250,18 +250,19 @@ function reSelectcontentsList(sdCode, sggCode, catId, cPage){
       	<input id="curruntcat" type="hidden" value="">
       </h1>
       
-     	<select id="sido">
-			 <c:forEach var="sido" items="${sidoList}">
-     			<option value="${sido.sdCode}">${sido.sdName}</option>
-   			</c:forEach> 
-     	</select>
-     	
-     	<select id="sigungu">
+     	<select id="sigungu" style="float: right;">
      	<%-- <c:forEach var="sigungu" items="${sigunguList}">
      			<option value="${sigungu.sggCode}">${sigungu.sggName}</option>
      			
 		</c:forEach> --%>
      	</select>
+     	<select id="sido" style="float: right;">
+			 <c:forEach var="sido" items="${sidoList}">
+     			<option value="${sido.sdCode}">${sido.sdName}</option>
+   			</c:forEach> 
+     	</select>
+     	
+     	<div style="clear: both;"></div>
 	</div>
     <!-- End Intro --> 
     
